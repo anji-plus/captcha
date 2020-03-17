@@ -25,9 +25,9 @@
 ③	用户提交表单
 ④	验证数据随表单提交到产品后台后，产品后台需要将验证数据发送到集成jar包的/captcha/verify接口做二次校验，目的是核实验证数据的有效性。
 ⑤	集成jar包返回校验通过/失败到产品应用后端，再返回到前端。
-如图2-3所示。
+如图1-3所示。
 ![时序图](https://github.com/raodeming/captcha/blob/master/images/shixu.png "点选文字")
-###### 图 2-3 流程时序图
+###### 图 1-3 流程时序图
 
 # 目录结构
 
@@ -52,4 +52,5 @@ npm start
 访问地址
 http://127.0.0.1:8080
 
-#更详细的接入文档，请查看[链接](https://github.com/raodeming/captcha/blob/master/core/captcha/README.md "链接")
+###更详细的接入文档，请查看
+[链接](https://github.com/raodeming/captcha/blob/master/core/captcha/README.md "链接")
