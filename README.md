@@ -52,5 +52,7 @@ npm start
 访问地址
 http://127.0.0.1:8080
 
+若访问报跨域问题，将com.anji.captcha.config.CorsFilter注释打开。
+
 ###更详细的接入文档，请查看
 [链接](https://github.com/raodeming/captcha/blob/master/core/captcha/README.md "链接")
