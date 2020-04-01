@@ -52,6 +52,29 @@ npm start
 访问地址
 http://127.0.0.1:8080
 
+## -view-uni-app 微信小程序
+进去当前文件夹，npm install
+vue源码
+
+启动前请确认:<br>
+\view\uni-app\src\pages\verify\verifySlider\verifySlider.vue 115行<br>
+\view\uni-app\src\pages\verify\verifyPoint\verifyPoint.vue 111行
+```javascript
+baseUrl:'http://127.0.0.1:8086'
+```
+地址是否正确
+
+打包命令：
+```javascript
+npm run  dev:mp-weixin
+```
+打包成功，会在当前目录生成dist/dev/mp-weixin文件夹
+
+将mp-weixin添加到微信开发者工具小程序启动
+
+appId请在微信公众平台自行申请
+
+
 若访问报跨域问题，将com.anji.captcha.config.CorsFilter注释打开。
 
 ###更详细的接入文档，请查看
