@@ -185,7 +185,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
                 x = RandomUtils.getRandomInt(avgWidth * wordSortIndex, avgWidth * (wordSortIndex+1) );
             }
         }
-        y = RandomUtils.getRandomInt(1+HAN_ZI_SIZE_HALF, imageHeight - HAN_ZI_SIZE_HALF);
+        y = RandomUtils.getRandomInt(HAN_ZI_SIZE, imageHeight - HAN_ZI_SIZE);
         return new Point(x, y);
     }
 
