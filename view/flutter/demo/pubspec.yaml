@@ -25,7 +25,8 @@ dependencies:
   cupertino_icons: ^0.1.2
 
   dio: ^3.0.9
-  steel_crypt: ^1.7.1+1
+  steel_crypt: ^1.5.3
+  encrypt: ^4.0.0
 
 dev_dependencies:
   flutter_test:
