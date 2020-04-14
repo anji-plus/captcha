@@ -77,5 +77,7 @@ appId请在微信公众平台自行申请
 
 若访问报跨域问题，将com.anji.captcha.config.CorsFilter注释打开。
 
-#更详细的前后端接入文档，请查看
+# 更详细的前后端接入文档，请查看
+
+
 [链接](https://github.com/raodeming/captcha/blob/master/core/captcha/README.md "链接")
