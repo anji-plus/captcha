@@ -24,12 +24,11 @@
           <Verify
             :mode="'pop'"
             :captchaType="'blockPuzzle'"
-            :captchaId="'9ca07a9c-c260-50ae-2c13-89cde2f34cb9'"
-            :containerId="'#sliderFixed_btn'"
             :imgSize="{ width: '330px', height: '155px' }"
+             ref="verify"
           ></Verify>
           <!-- 组件 -->
-          <button class="result_btn" id="sliderFixed_btn">登录</button>
+          <button class="result_btn" @click="$refs.verify.show()">登录</button>
         </form>
       </el-col>
       <el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11" class="demo-code">
@@ -42,10 +41,9 @@
            <pre >  <i>&lt;</i>Verify
      @success<i>=</i>"success"          //验证成功的回调函数
      :mode<i>=</i>"'pop'"               //调用的模式
-     :captchaType="'blockPuzzle'"    // //调用的类型 点选或者滑动  
-     :captchaId<i>=</i>"'9ca07a9c-c260-50ae-2c13-89cde2f34cb9'"//申请的使用的 id
-     :containerId<i>=</i>"'#sliderFixed_btn'"     //绑定成功回调函数的dom元素Id
+     :captchaType="'blockPuzzle'"       //调用的类型 点选或者滑动  
      :imgSize<i>=</i>"{ width: '330px', height: '155px' }" //图片的大小
+     ref<i>=</i>"verify"
   <i>></i><i>&lt;</i>/Verify
 <i>&lt;</i>/template<i>></i>
 
@@ -58,6 +56,10 @@
         methods: {
             success(params){
               // params 返回的二次验证参数
+          },
+          showVerify(){
+            //当mode="pop"时,调用组件实例的show方法显示组件
+            this.$refs.verify.show();   
           }
         },
         components<i>:</i> {

@@ -203,13 +203,11 @@
                                 this.showRefresh = false
                                 this.bindingClick = false
                                 if (this.mode=='pop') {
-                                    
                                     setTimeout(()=>{
                                         this.$parent.clickShow = false;
                                         this.refresh();
                                     },1500)
                                 }
-
                                 this.$parent.$emit('success', {captchaVerification})
                             }else{
                                 this.$parent.$emit('error', this)
@@ -356,7 +354,7 @@
                 //     })
                 // }
 
-                // this.text = '验证失败'
+                this.text = '验证失败'
                 this.showRefresh = true
             },
 
@@ -366,7 +364,6 @@
                     captchaType:this.captchaType
                 }
                 reqGet(data).then(res=>{
-                    // console.log(res,"11111");
                     if (res.repCode == "0000") {
                         this.pointBackImgBase = res.repData.originalImageBase64
                         this.backToken = res.repData.token
@@ -377,7 +374,6 @@
             },
             //坐标转换函数
             pointTransfrom(pointArr,imgSize){
-
                 var newPointArr = pointArr.map(p=>{
                     let x = Math.round(310 * p.x/parseInt(imgSize.imgWidth)) 
                     let y =Math.round(155 * p.y/parseInt(imgSize.imgHeight)) 

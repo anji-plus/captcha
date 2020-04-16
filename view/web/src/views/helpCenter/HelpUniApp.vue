@@ -2,14 +2,13 @@
     <div class="helpWeb">
         <h2>1. 兼容性</h2>
         <p>
-            IE8+、Chrome、Firefox.(其他未测试)
+            微信小程序等(uni-app支持的小程序系系列)
         </p>
         <h2>2. 初始化组件</h2>
         <div class="code">
             <p>2.1 引入或者下载组件到项目中</p>
             <p>2.2 下载组件所需要的依赖插件: <span style="color:red
-            "> npm install axios &nbsp;&nbsp; crypto-js&nbsp;&nbsp;  -S</span> </p>
-               
+            "> npm install  &nbsp;&nbsp; crypto-js&nbsp;&nbsp;  -S</span> </p>
             <pre >
                 <i>&lt;</i>template<i>></i>
                 <i>&lt;</i>Verify
@@ -17,7 +16,7 @@
                     :mode<i>=</i>"'fixed'"                                                     //调用的模式
                     :captchaType="'blockPuzzle'"                                //调用的类型 点选或者滑动   
                     :imgSize<i>=</i>"{ width: '330px', height: '155px' }"       //图片的大小对象
-                    ref<i>=</i>"verify"
+                    ref="verify"
                 <i>></i><i>&lt;</i>/Verify
                 <i>&lt;</i>/template<i>></i>
 
@@ -56,9 +55,9 @@
         <p><span class="sub_title">接口地址</span> ：http://10.108.11.46:8080/api/captcha/get</p>
         <p>
             <span class="sub_title">请求参数:</span>
-            <pre style='line-hieght:36px;'> {
-                    "captchaType": "blockPuzzle"  //验证码类型滑动
-                },
+            <pre style='line-hieght:36px;'>  {    
+                    "captchaType": "blockPuzzle"  //验证码类型 clickWord
+                }
             </pre>
         </p>
         <p>
