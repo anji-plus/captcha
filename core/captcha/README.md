@@ -6,12 +6,12 @@
  引入相关组件，调用初始化函数，通过配置的一些参数信息。将行为验证码渲染出来。
 ## 2.2 后端接入
 ### 2.2.1 引入maven依赖
-目前暂未上传maven仓库，源码已分享
+目前已上传maven仓库，源码已分享
 ```java
 <dependency>
    <groupId>com.anji</groupId>
    <artifactId>captcha</artifactId>
-   <version>0.0.1-SNAPSHOT</version>
+   <version>1.1.0-RELEASE</version>
 </dependency>
 ```
 ### 2.2.2 启动类上添加相应注解

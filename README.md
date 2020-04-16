@@ -80,4 +80,4 @@ appId请在微信公众平台自行申请
 # 更详细的前后端接入文档，请查看
 
 
-[链接](https://github.com/raodeming/captcha/blob/master/core/captcha/README.md "链接")
+[链接](https://github.com/anji-plus/captcha/blob/master/core/captcha/README.md "链接")
