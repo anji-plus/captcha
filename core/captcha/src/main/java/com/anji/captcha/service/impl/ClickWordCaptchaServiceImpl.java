@@ -152,7 +152,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         Font watermark = new Font(HAN_ZI_FONT, Font.BOLD, HAN_ZI_SIZE/2);
         backgroundGraphics.setFont(watermark);
         backgroundGraphics.setColor(Color.white);
-        backgroundGraphics.drawString(waterMark, width-((HAN_ZI_SIZE/2)*(waterMark.length()+1)), height-(HAN_ZI_SIZE/2));
+        backgroundGraphics.drawString(waterMark, width-((HAN_ZI_SIZE/2)*(waterMark.length()))-5, height-(HAN_ZI_SIZE/2)+7);
 
         //创建合并图片
         BufferedImage combinedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
