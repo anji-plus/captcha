@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'package:captcha/request/HttpManager.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:steel_crypt/steel_crypt.dart';
+import 'request/HttpManager.dart';
 import 'tools/widget_util.dart';
 
 class CaptchaPage extends StatefulWidget {
@@ -388,121 +387,118 @@ class _CaptchaPageState extends State<CaptchaPage>
                   ),
 
                   //底部，滑动区域
-                  Container(
-                      height: 70,
-                      margin: EdgeInsets.fromLTRB(
-                          ((dialogWidth - baseSize.width) / 2) + 1,
-                          0,
-                          (dialogWidth - baseSize.width) / 2,
-                          0),
-                      //color: Colors.cyanAccent,
-                      child: Stack(
-                        alignment: AlignmentDirectional.centerStart,
-                        children: <Widget>[
-                          Container(
-                            height: 60,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1,
-                                color: Color(0xffe5e5e5),
+                  baseSize.width > 0
+                      ? Container(
+                          height: 70,
+                          width: baseSize.width,
+                          child: Stack(
+                            alignment: AlignmentDirectional.centerStart,
+                            children: <Widget>[
+                              Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: Color(0xffe5e5e5),
+                                  ),
+                                  color: Color(0xfff8f9fb),
+                                ),
                               ),
-                              color: Color(0xfff8f9fb),
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              '向右拖动滑块填充拼图',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                          Container(
-                            width: sliderXMoved,
-                            height: 58,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: sliderXMoved > 0 ? 1 : 0,
-                                color: movedXBorderColor,
+                              Container(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  '向右拖动滑块填充拼图',
+                                  style: TextStyle(fontSize: 16),
+                                ),
                               ),
-                              color: Color(0xfff3fef1),
-                            ),
-                          ),
-                          GestureDetector(
-                            onPanStart: (startDetails) {
-                              _checkMilliseconds =
-                                  new DateTime.now().millisecondsSinceEpoch;
-                              print("startDetails");
-                              print(startDetails.globalPosition);
+                              Container(
+                                width: sliderXMoved,
+                                height: 58,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: sliderXMoved > 0 ? 1 : 0,
+                                    color: movedXBorderColor,
+                                  ),
+                                  color: Color(0xfff3fef1),
+                                ),
+                              ),
+                              GestureDetector(
+                                onPanStart: (startDetails) {
+                                  _checkMilliseconds =
+                                      new DateTime.now().millisecondsSinceEpoch;
+                                  print("startDetails");
+                                  print(startDetails.globalPosition);
 
-                              sliderStartX = startDetails.globalPosition.dx;
-                              print(
-                                  "startDetails --- sliderStartX ${sliderStartX} ");
-                            },
-                            onPanUpdate: (updateDetails) {
-                              print("updateDetails");
-                              print(updateDetails.globalPosition);
+                                  sliderStartX = startDetails.globalPosition.dx;
+                                  print(
+                                      "startDetails --- sliderStartX ${sliderStartX} ");
+                                },
+                                onPanUpdate: (updateDetails) {
+                                  print("updateDetails");
+                                  print(updateDetails.globalPosition);
 
-                              double offset = updateDetails.globalPosition.dx -
-                                  sliderStartX;
+                                  double offset =
+                                      updateDetails.globalPosition.dx -
+                                          sliderStartX;
 //                          print("updateDetails.offet  ${offset * (dialogWidth - 20) / 310.0}");
 //                          print("updateDetails.offet11 ${offset} ${offset + 60}   ${dialogWidth - 20}");
-                              double _w1 = dialogWidth -
-                                  ((dialogWidth - baseSize.width) / 2) -
-                                  slideSize.width;
-                              if (offset < 0) {
-                                offset = 0;
-                              } else if ((offset > _w1)) {
-                                offset = _w1;
-                              }
-                              setState(() {
-                                sliderXMoved = offset *
-                                    baseSize.width /
-                                    (dialogWidth - 20);
-                              });
-                              //滑动过程，改变滑块左边框颜色
-                              updateSliderColorIcon();
-                            },
-                            onPanEnd: (endDetails) {
-                              print("endDetails");
-                              checkCaptcha(sliderXMoved, captchaToken);
-                              int _nowTime =
-                                  new DateTime.now().millisecondsSinceEpoch;
-                              _checkMilliseconds =
-                                  _nowTime - _checkMilliseconds;
+                                  double _w1 = baseSize.width - 60;
+                                  if (offset < 0) {
+                                    offset = 0;
+                                  } else if ((offset > _w1)) {
+                                    offset = _w1;
+                                  }
+                                  setState(() {
+                                    sliderXMoved = offset;
+                                  });
+                                  //滑动过程，改变滑块左边框颜色
+                                  updateSliderColorIcon();
+                                },
+                                onPanEnd: (endDetails) {
+                                  print("endDetails");
+                                  checkCaptcha(sliderXMoved, captchaToken);
+                                  int _nowTime =
+                                      new DateTime.now().millisecondsSinceEpoch;
+                                  _checkMilliseconds =
+                                      _nowTime - _checkMilliseconds;
 
-                              //滑动结束
-                            },
-                            child: Container(
-                              width: 60,
-                              height: 60,
-                              margin: EdgeInsets.fromLTRB(
-                                  sliderXMoved > 0 ? sliderXMoved : 1, 0, 0, 0),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  top: BorderSide(
-                                    width: 1,
-                                    color: Color(0xffe5e5e5),
+                                  //滑动结束
+                                },
+                                child: Container(
+                                  width: 60,
+                                  height: 60,
+                                  margin: EdgeInsets.fromLTRB(
+                                      sliderXMoved > 0 ? sliderXMoved : 1,
+                                      0,
+                                      0,
+                                      0),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                        width: 1,
+                                        color: Color(0xffe5e5e5),
+                                      ),
+                                      right: BorderSide(
+                                        width: 1,
+                                        color: Color(0xffe5e5e5),
+                                      ),
+                                      bottom: BorderSide(
+                                        width: 1,
+                                        color: Color(0xffe5e5e5),
+                                      ),
+                                    ),
+                                    color: sliderColor,
                                   ),
-                                  right: BorderSide(
-                                    width: 1,
-                                    color: Color(0xffe5e5e5),
-                                  ),
-                                  bottom: BorderSide(
-                                    width: 1,
-                                    color: Color(0xffe5e5e5),
+                                  child: IconButton(
+                                    icon: Icon(sliderIcon),
+                                    iconSize: 30,
+                                    color: Colors.black54,
                                   ),
                                 ),
-                                color: sliderColor,
-                              ),
-                              child: IconButton(
-                                icon: Icon(sliderIcon),
-                                iconSize: 30,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          )
-                        ],
-                      )),
+                              )
+                            ],
+                          ))
+                      : Container(),
                 ],
               ),
             ],
