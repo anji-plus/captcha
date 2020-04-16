@@ -7,8 +7,8 @@
 package com.anji.captcha.model.common;
 
 import com.alibaba.fastjson.JSONObject;
+import com.anji.captcha.util.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 
