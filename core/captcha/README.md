@@ -9,7 +9,7 @@
 目前已上传maven仓库，源码已分享
 ```java
 <dependency>
-   <groupId>com.anji</groupId>
+   <groupId>com.github.anji-plus</groupId>
    <artifactId>captcha</artifactId>
    <version>1.1.0-RELEASE</version>
 </dependency>
