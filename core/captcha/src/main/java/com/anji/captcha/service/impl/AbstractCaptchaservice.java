@@ -9,7 +9,7 @@ package com.anji.captcha.service.impl;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.service.CaptchaRedisService;
 import com.anji.captcha.util.AESUtil;
-import org.apache.commons.lang3.StringUtils;
+import com.anji.captcha.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;

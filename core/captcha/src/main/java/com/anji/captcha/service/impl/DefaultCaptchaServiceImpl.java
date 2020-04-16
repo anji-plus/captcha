@@ -14,7 +14,7 @@ import com.anji.captcha.service.CaptchaRedisService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.config.Container;
-import org.apache.commons.lang.StringUtils;
+import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,9 +7,8 @@
 package com.anji.captcha.util;
 
 
-import org.apache.commons.lang3.StringUtils;
-import sun.misc.BASE64Decoder;
 import org.apache.commons.codec.binary.Base64;
+import sun.misc.BASE64Decoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
