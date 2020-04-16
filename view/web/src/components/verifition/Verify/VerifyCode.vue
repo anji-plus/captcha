@@ -11,7 +11,7 @@
                     'color': containerColor
                 }">
             <!-- 显示字符串 -->
-            <span :style="code.style" v-for="code in codeShow">
+            <span :style="code.style" v-for="(code,index) in codeShow" :key="index">
                 {{code.char || code}}
             </span>
         </div>
