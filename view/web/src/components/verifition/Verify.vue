@@ -3,7 +3,7 @@
     <div :class="mode=='pop'?'verifybox':''" :style="{'max-width':parseInt(imgSize.width)+30+'px'}">
         <div class="verifybox-top" :style="{'width':imgSize.width}" v-if="mode=='pop'">
             请完成安全验证
-            <span class="verifybox-close" @click="clickShow = false">
+            <span class="verifybox-close" @click="closeBox">
                 <i class="iconfont icon-close"></i>
             </span>
         </div>
@@ -52,7 +52,6 @@
     import VerifySlide from './Verify/VerifySlide'
     import VerifyPoints from './Verify/VerifyPoints'
 
-
     export default {
         name: 'Vue2Verify',
         props: {
@@ -70,9 +69,6 @@
                     }
                     return language
                 }
-            },
-            containerId:{
-                type:String,
             },
             captchaType:{
                 type:String,
@@ -192,8 +188,16 @@
                 if (this.instance.refresh) {
                     this.instance.refresh()
                 }
+            },
+            closeBox(){
+                this.clickShow = false
+                this.refresh();
+            },
+            show(){
+                if (this.mode=="pop") {
+                    this.clickShow = true;
+                }
             }
-
         },
         computed: {
             instance() {
@@ -293,11 +297,11 @@
             }
         },
         mounted(){
-            if (this.mode=="pop") {
-                document.querySelector(this.containerId).addEventListener('click',()=>{
-                   this.clickShow = true;
-                })
-            }
+            // if (this.mode=="pop") {
+            //     document.querySelector(this.containerId).addEventListener('click',()=>{
+            //        this.clickShow = true;
+            //     })
+            // }
         }
     }
 </script>
@@ -324,7 +328,7 @@
         box-sizing: border-box;
     }
     .verifybox-bottom{
-        /* padding: 15px; */
+        padding: 15px;
         box-sizing: border-box;
     }
     .verifybox-close{

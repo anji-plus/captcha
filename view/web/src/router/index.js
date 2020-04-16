@@ -34,6 +34,7 @@ export default new Router({
         {path:'desc',name:"helpDesc",component:()=>import("./../views/helpCenter/HelpDesc.vue")},
         {path:'process',name:"helpProcess",component:()=>import("./../views/helpCenter/HelpProcess.vue")},
         {path:'question',name:"question",component:()=>import("./../views/helpCenter/Question.vue")},
+        {path:'uniApp',name:"uniApp",component:()=>import("./../views/helpCenter/HelpUniApp.vue")}
       ]
     },
     {

@@ -24,12 +24,11 @@
           <Verify
             :mode="'pop'"
             :captchaType="'clickWord'"
-            :captchaId="'936c8254-abf6-446e-ba34-0b02ed15f6e2'"
-            :containerId="'#pointFixed_btn'"
             :imgSize="{ width: '330px', height: '155px' }"
+            ref='verify'
           ></Verify>
           <!-- 组件 -->
-          <button class="result_btn" id="pointFixed_btn">登录</button>
+          <button class="result_btn"  @click="$refs.verify.show()">登录</button>
         </form>
       </el-col>
       <el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11" class="demo-code">
@@ -43,9 +42,8 @@
      @success<i>=</i>"success"          //验证成功的回调函数
      :mode<i>=</i>"'pop'"               //调用的模式
      :captchaType="'clickWord'"    // //调用的类型 点选或者滑动  
-     :captchaId<i>=</i>"'936c8254-abf6-446e-ba34-0b02ed15f6e2'"//申请的使用的 id
-     :containerId<i>=</i>"'#pointFixed_btn'"     //绑定成功回调函数的dom元素Id
      :imgSize<i>=</i>"{ width: '330px', height: '155px' }" //图片的大小
+     ref<i>=</i>"verify"
   <i>></i><i>&lt;</i>/Verify
 <i>&lt;</i>/template<i>></i>
 
@@ -56,8 +54,12 @@
     export default {
         name: 'app',
         methods: {
-            success(params){
-              // params 返回的二次验证参数
+          success(params){
+            // params 返回的二次验证参数
+          },
+          showVerify(){
+            //当mode="pop"时,调用组件实例的show方法显示组件
+            this.$refs.verify.show();   
           }
         },
         components<i>:</i> {

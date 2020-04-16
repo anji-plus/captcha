@@ -63,7 +63,7 @@
         </div>
     </div>
 </template>
-<script>
+<script type="text/babel">
     /**
      * VerifySlide
      * @description 滑块
@@ -72,6 +72,7 @@
     import {resetSize} from './../utils/util'
     import {reqGet,reqCheck}  from "./../api/index"
 
+    //  "captchaType":"blockPuzzle",
     export default {
         name: 'VerifySlide',
         props: {
@@ -101,7 +102,7 @@
             },
             imgUrl: {
                 type: String,
-                default: '@/components/verifition/utils/axios'
+                default: 'http://via.placeholder.com/'
             },
             imgName: {
                 type: Array,
@@ -192,7 +193,7 @@
                     for (let key in setSize) {
                         this.$set(this.setSize, key, setSize[key])
                     }
-                    this.randSet()
+                    // this.randSet()
                     this.$parent.$emit('ready', this)
                 })
 
@@ -305,21 +306,20 @@
                                 this.leftBarBorderColor = '#5cb85c'
                                 this.iconColor = '#fff'
                                 this.iconClass = 'icon-check'
-                                this.showRefresh = true
+                                this.showRefresh = false
                                 this.isEnd = true;   
-                                console.log(this.$parent,"this.$parent");
                                 if (this.mode=='pop') {
                                     setTimeout(()=>{
                                         this.$parent.clickShow = false;
                                         this.refresh();
                                     },1500)
                                 }
-                                
                                 // this.tipsBackColor = '#5cb85c'
                                 this.tipsBackColor = 'rgb(92, 184, 92,.5)'
                                 this.tipWords = `${((this.endMovetime-this.startMoveTime)/1000).toFixed(2)}s验证成功`
                                 setTimeout(()=>{
                                     this.tipWords = ""
+                                    this.$parent.closeBox();
                                     this.$parent.$emit('success', {captchaVerification})
                                 },1000)
                             }else{
@@ -404,7 +404,7 @@
                 this.iconColor = '#000'
                 this.iconClass = 'icon-right'
 
-                this.randSet()
+                // this.randSet()
                 // this.imgRand = Math.floor(Math.random() * this.imgName.length);			//随机的背景图片
                 this.getPictrue()
 
@@ -433,12 +433,12 @@
             },
 
             // 请求背景图片和验证图片
+            // 请求背景图片和验证图片
             getPictrue(){
                 let data = {
                     captchaType:this.captchaType
                 }
                 reqGet(data).then(res=>{
-                    // console.log(res,"11111");
                     if (res.repCode == "0000") {
                         this.backImgBase = res.repData.originalImageBase64
                         this.blockBackImgBase = res.repData.jigsawImageBase64
@@ -446,7 +446,6 @@
                     }
                 })
             },
-            
         },
         watch: {
             // type变化则全面刷新
@@ -462,8 +461,10 @@
             this.$el.onselectstart = function () {
                 return false
             }
-            
         },
+        // created(){
+            
+        // },
         i18n: {
             messages: {
                 'en-US': {},

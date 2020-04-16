@@ -44,7 +44,6 @@
      @success<i>=</i>"'success'"                                            //验证成功的回调函数
      :mode<i>=</i>"'fixed'"                                                     //调用的模式
      :captchaType="'blockPuzzle'"                                //调用的类型 点选或者滑动   
-     :captchaId<i>=</i>"'9ca07a9c-c260-50ae-2c13-89cde2f34cb9'"  //申请的使用的 id
      :imgSize<i>=</i>"{ width: '330px', height: '155px' }"       //图片的大小对象
   <i>></i><i>&lt;</i>/Verify
 <i>&lt;</i>/template<i>></i>
