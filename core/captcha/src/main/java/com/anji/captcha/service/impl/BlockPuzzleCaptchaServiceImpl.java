@@ -49,7 +49,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
         Font watermark = new Font(HAN_ZI_FONT, Font.BOLD, HAN_ZI_SIZE/2);
         backgroundGraphics.setFont(watermark);
         backgroundGraphics.setColor(Color.white);
-        backgroundGraphics.drawString(waterMark, width-((HAN_ZI_SIZE/2)*(waterMark.length()))-5, height-(HAN_ZI_SIZE/2));
+        backgroundGraphics.drawString(waterMark, width-((HAN_ZI_SIZE/2)*(waterMark.length()))-5, height-(HAN_ZI_SIZE/2)+7);
 
         //抠图图片
         BufferedImage   jigsawImage = getBufferedImage(ImageUtils.getBlockPuzzleJigsawPath(captchaVO.getCaptchaOriginalPath()));
