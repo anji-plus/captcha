@@ -4,12 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-<!--    <groupId>com.github.anji-plus</groupId>-->
-<!--    <artifactId>captcha</artifactId>-->
-<!--    <version>1.1.0-RELEASE</version>-->
-    <groupId>com.anji</groupId>
+    <groupId>com.github.anji-plus</groupId>
     <artifactId>captcha</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.1.1</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>anji-plus captcha.jar</description>
@@ -81,8 +78,8 @@
 
     <!--中央仓库上传配置开始-->
 
-    <!--<licenses>
-        &lt;!&ndash; Apache许可证 &ndash;&gt;
+    <licenses>
+        <!-- Apache许可证 -->
         <license>
             <name>The Apache Software License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
@@ -174,7 +171,7 @@
                     </plugin>
                 </plugins>
             </build>
-            &lt;!&ndash; 【注】snapshotRepository 与 repository 中的 id 一定要与 setting.xml 中 server 的 id 保持一致！ &ndash;&gt;
+            <!-- 【注】snapshotRepository 与 repository 中的 id 一定要与 setting.xml 中 server 的 id 保持一致！ -->
             <distributionManagement>
                 <snapshotRepository>
                     <id>releases</id>
@@ -186,49 +183,49 @@
                 </repository>
             </distributionManagement>
         </profile>
-    </profiles>-->
+    </profiles>
     <!--中央仓库上传配置结束-->
 
     <!--    公司私服上传配置开始-->
 
-    <distributionManagement>
-        <repository>
-            <id>nexus-releases</id>
-            <url>http://10.108.10.53:8081/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <url>http://10.108.10.53:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
-        <!--            <repository>-->
-        <!--                <id>nexus-releases</id>-->
-        <!--                <url>http://10.108.2.59:8081/repository/maven-releases/</url>-->
-        <!--            </repository>-->
-        <!--            <snapshotRepository>-->
-        <!--                <id>nexus-snapshots</id>-->
-        <!--                <url>http://10.108.2.59:8081/repository/maven-snapshots/</url>-->
-        <!--            </snapshotRepository>-->
-    </distributionManagement>
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>nexus-releases</id>-->
+<!--            <url>http://10.108.10.53:8081/repository/maven-releases/</url>-->
+<!--        </repository>-->
+<!--        <snapshotRepository>-->
+<!--            <id>nexus-snapshots</id>-->
+<!--            <url>http://10.108.10.53:8081/repository/maven-snapshots/</url>-->
+<!--        </snapshotRepository>-->
+<!--        &lt;!&ndash;            <repository>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <id>nexus-releases</id>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <url>http://10.108.2.59:8081/repository/maven-releases/</url>&ndash;&gt;-->
+<!--        &lt;!&ndash;            </repository>&ndash;&gt;-->
+<!--        &lt;!&ndash;            <snapshotRepository>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <id>nexus-snapshots</id>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <url>http://10.108.2.59:8081/repository/maven-snapshots/</url>&ndash;&gt;-->
+<!--        &lt;!&ndash;            </snapshotRepository>&ndash;&gt;-->
+<!--    </distributionManagement>-->
 
-    <!-- Package as an executable jar -->
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+<!--    &lt;!&ndash; Package as an executable jar &ndash;&gt;-->
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <version>3.8.0</version>-->
+<!--                <configuration>-->
+<!--                    <source>${java.version}</source>-->
+<!--                    <target>${java.version}</target>-->
+<!--                    <encoding>UTF-8</encoding>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
     <!--    公司私服上传配置结束-->
 
 </project>
