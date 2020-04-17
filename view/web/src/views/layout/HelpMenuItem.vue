@@ -13,9 +13,9 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="/helpCenter/process">接入流程</el-menu-item>
-              <el-menu-item index="/helpCenter/web">web接入</el-menu-item>
-              <el-menu-item index="/helpCenter/uniApp">uni-app版小程序接入</el-menu-item>
               <el-menu-item index="/helpCenter/admin">后端接入</el-menu-item>
+              <el-menu-item index="/helpCenter/web">web接入</el-menu-item>
+              <el-menu-item index="/helpCenter/uniApp">uni-app接入</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-menu-item index="/helpCenter/question">
