@@ -11,7 +11,7 @@
 <dependency>
    <groupId>com.github.anji-plus</groupId>
    <artifactId>captcha</artifactId>
-   <version>1.1.2</version>
+   <version>1.1.3</version>
 </dependency>
 ```
 ### 2.2.2 启动类上添加相应注解
