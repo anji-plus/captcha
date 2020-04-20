@@ -90,6 +90,7 @@ public abstract class AbstractCaptchaservice implements CaptchaService {
         return encoder.encodeBuffer(bytes).trim();
     }
 
+
     public String getJigsawUrlOrPath() {
         return jigsawUrlOrPath;
     }

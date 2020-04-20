@@ -14,6 +14,7 @@ import com.anji.captcha.service.CaptchaRedisService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.config.Container;
+import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +61,9 @@ public class DefaultCaptchaServiceImpl implements CaptchaService {
             }
         });
         System.out.println("supported-captchaTypes-service:"+instances.keySet().toString());
+        //初始化底图
+        ImageUtils.cacheImage(captchaOriginalPathJigsaw, captchaOriginalPathClick);
+        System.out.println("--->>>初始化验证码底图<<<---");
     }
     private CaptchaService getService(String captchaType){
         return instances.get(captchaType.concat("CaptchaService"));
