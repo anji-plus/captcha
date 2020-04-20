@@ -13,6 +13,7 @@ import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.RandomUtils;
 
+import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,13 +37,18 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
 
     private static Logger logger = LoggerFactory.getLogger(ClickWordCaptchaServiceImpl.class);
 
-    @Value("${captcha.water.mark:}")
+    @Value("${captcha.water.mark:安吉加加}")
     private String waterMark;
 
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
-        BufferedImage bufferedImage = getBufferedImage(ImageUtils.getClickWordBgPath(captchaVO.getCaptchaOriginalPath()));
+//        BufferedImage bufferedImage = getBufferedImage(ImageUtils.getClickWordBgPath(captchaVO.getCaptchaOriginalPath()));
+        BufferedImage bufferedImage = ImageUtils.getPicClick();
         CaptchaVO imageData = getImageData(bufferedImage);
+        if (imageData == null
+                || StringUtils.isBlank(imageData.getOriginalImageBase64())) {
+            return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_ERROR);
+        }
         return ResponseModel.successData(imageData);
     }
 
@@ -159,9 +165,9 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         Graphics combinedGraphics = combinedImage.getGraphics();
         combinedGraphics.drawImage(backgroundImage, 0, 0, null);
 
-        dataVO.setOriginalImageBase64(getImageToBase64Str(backgroundImage).replaceAll("\r|\n", ""));
+        dataVO.setOriginalImageBase64(ImageUtils.getImageToBase64Str(backgroundImage).replaceAll("\r|\n", ""));
         //pointList信息不传到前端，只做后端check校验
-        dataVO.setPointList(pointList);
+        //dataVO.setPointList(pointList);
         dataVO.setWordList(wordList);
         dataVO.setToken(RandomUtils.getUUID());
         //将坐标信息存入redis中
@@ -186,9 +192,9 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
             x = RandomUtils.getRandomInt(1+HAN_ZI_SIZE_HALF, imageWidth);
         } else {
             if (wordSortIndex == 0) {
-                x = RandomUtils.getRandomInt(1+HAN_ZI_SIZE_HALF, avgWidth * (wordSortIndex+1) );
+                x = RandomUtils.getRandomInt(1+HAN_ZI_SIZE_HALF, avgWidth * (wordSortIndex+1) - HAN_ZI_SIZE_HALF );
             }else {
-                x = RandomUtils.getRandomInt(avgWidth * wordSortIndex, avgWidth * (wordSortIndex+1) );
+                x = RandomUtils.getRandomInt(avgWidth * wordSortIndex + HAN_ZI_SIZE_HALF, avgWidth * (wordSortIndex+1) -HAN_ZI_SIZE_HALF );
             }
         }
         y = RandomUtils.getRandomInt(HAN_ZI_SIZE, imageHeight - HAN_ZI_SIZE);

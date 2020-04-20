@@ -13,6 +13,7 @@ import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.RandomUtils;
+import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,13 +36,14 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
     private static Logger logger = LoggerFactory.getLogger(BlockPuzzleCaptchaServiceImpl.class);
 
-    @Value("${captcha.water.mark:}")
+    @Value("${captcha.water.mark:安吉加加}")
     private String waterMark;
 
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
         //原生图片
-        BufferedImage originalImage = getBufferedImage(ImageUtils.getBlockPuzzleBgPath(captchaVO.getCaptchaOriginalPath()));
+//        BufferedImage originalImage = getBufferedImage(ImageUtils.getBlockPuzzleBgPath(captchaVO.getCaptchaOriginalPath()));
+        BufferedImage originalImage = ImageUtils.getOriginal();
         //设置水印
         Graphics backgroundGraphics = originalImage.getGraphics();
         int width = originalImage.getWidth();
@@ -52,8 +54,14 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
         backgroundGraphics.drawString(waterMark, width-((HAN_ZI_SIZE/2)*(waterMark.length()))-5, height-(HAN_ZI_SIZE/2)+7);
 
         //抠图图片
-        BufferedImage   jigsawImage = getBufferedImage(ImageUtils.getBlockPuzzleJigsawPath(captchaVO.getCaptchaOriginalPath()));
+//        BufferedImage   jigsawImage = getBufferedImage(ImageUtils.getBlockPuzzleJigsawPath(captchaVO.getCaptchaOriginalPath()));
+        BufferedImage jigsawImage = ImageUtils.getslidingBlock();
         CaptchaVO captcha = pictureTemplatesCut(originalImage, jigsawImage);
+        if (captcha == null
+                || StringUtils.isBlank(captcha.getJigsawImageBase64())
+                || StringUtils.isBlank(captcha.getOriginalImageBase64())) {
+            return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_ERROR);
+        }
         return ResponseModel.successData(captcha);
     }
 
@@ -138,11 +146,10 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
             // 源图生成遮罩
             byte[] oriCopyImages = DealOriPictureByTemplate(originalImage, jigsawImage, x, 0);
-
             BASE64Encoder encoder = new BASE64Encoder();
             dataVO.setOriginalImageBase64(encoder.encode(oriCopyImages).replaceAll("\r|\n", ""));
             //point信息不传到前端，只做后端check校验
-            dataVO.setPoint(point);
+            //dataVO.setPoint(point);
             dataVO.setJigsawImageBase64(encoder.encode(jigsawImages).replaceAll("\r|\n", ""));
             dataVO.setToken(RandomUtils.getUUID());
 //            BASE64Decoder decoder = new BASE64Decoder();
