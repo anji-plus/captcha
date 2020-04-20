@@ -11,15 +11,13 @@
 <dependency>
    <groupId>com.github.anji-plus</groupId>
    <artifactId>captcha</artifactId>
-   <version>1.1.0-RELEASE</version>
+   <version>1.1.2</version>
 </dependency>
 ```
 ### 2.2.2 启动类上添加相应注解
 ```java
 @ComponentScan(basePackages = {
-      "com.anji.captcha.config",
-      "com.anji.captcha.controller",
-      "com.anji.captcha.service.impl",
+      "com.anji.captcha",
       "产品自身对应的包路径…"
 })
 ```
@@ -52,7 +50,8 @@ HTTP POST, 接口仅支持POST请求, 且仅接受 application/json 编码的参
 | 9999  | 服务器内部异常  |
 |  0011 | 参数不能为空  |
 | 6110  | 验证码已失效，请重新获取  |
-| 6111  | 验证码坐标不正确  |
+| 6111  | 验证失败  |
+| 6112  | 获取验证码失败,请联系管理员  |
 
 ## 2.3 前端接入
 ### 2.3.1 兼容性
