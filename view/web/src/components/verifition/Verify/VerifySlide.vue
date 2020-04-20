@@ -443,6 +443,8 @@
                         this.backImgBase = res.repData.originalImageBase64
                         this.blockBackImgBase = res.repData.jigsawImageBase64
                         this.backToken = res.repData.token
+                    }else{
+                        this.tipWords = res.repMsg;
                     }
                 })
             },
