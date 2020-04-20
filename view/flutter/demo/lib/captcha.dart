@@ -131,7 +131,7 @@ class _CaptchaPageState extends State<CaptchaPage>
       movedXBorderColor = Colors.white; //滑块拖动时，左边已滑的区域边框颜色
     });
     HttpManager.requestData(
-            '/api/captcha/get', {"captchaType": "blockPuzzle"}, {})
+            '/captcha/get', {"captchaType": "blockPuzzle"}, {})
         .then((res) async {
       if (res['repCode'] != '0000' || res['repData'] == null) {
         return;
@@ -191,7 +191,7 @@ class _CaptchaPageState extends State<CaptchaPage>
     Map _map = json.decode(dcrypt);
 
     print("dcrypt ---- ${_map}");
-    HttpManager.requestData('/api/captcha/check', {
+    HttpManager.requestData('/captcha/check', {
       "pointJson": cryptedStr,
       "captchaType": "blockPuzzle",
       "token": captchaToken
