@@ -43,4 +43,12 @@ public class RandomUtils {
         return new Random().nextInt(endNum-startNum) + startNum;
     }
 
+    public static void main(String[] args) {
+        for (int i = 0; i < 100; i++) {
+            int randomNum = RandomUtils.getRandomInt(1, 4);
+            System.out.println(randomNum);
+        }
+
+    }
+
 }

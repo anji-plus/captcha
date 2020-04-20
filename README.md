@@ -43,6 +43,8 @@ vue源码
 启动前请确认\view\web\src\components\verifition\utils\axios.js
 ```javascript
 axios.defaults.baseURL = "http://127.0.0.1:8086"
+//本地启动请注释当前行
+//config.data = signUtil.sign(token, config.data);
 ```
 地址是否正确
 启动命令：
