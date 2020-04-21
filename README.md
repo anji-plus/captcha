@@ -5,11 +5,11 @@
  
 ![滑动拼图](https://mirror.anji-plus.com/captcha-web/static/blockPuzzle.png "滑动拼图")
 
- 图2-1 滑动拼图(水印自定义)
+ 图1-1 滑动拼图(水印自定义)
  
 ![点选文字](https://mirror.anji-plus.com/captcha-web/static/clickWord.png "点选文字")
 
- 图2-2 文字点选(水印自定义)
+ 图1-2 文字点选(水印自定义)
 
 ## 1.2 概念术语描述
 | 术语  | 描述  |
