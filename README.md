@@ -5,11 +5,11 @@
  
 ![滑动拼图](https://github.com/anji-plus/captcha/blob/master/images/blockPuzzle.png "滑动拼图")
 
- 图2-1 滑动拼图
+ 图2-1 滑动拼图(水印自定义)
  
 ![点选文字](https://github.com/anji-plus/captcha/blob/master/images/clickWord.png "点选文字")
 
- 图2-2 文字点选
+ 图2-2 文字点选(水印自定义)
 
 ## 1.2 概念术语描述
 | 术语  | 描述  |
@@ -34,6 +34,7 @@
 ## -core-captcha，maven编译
 后端java源码，依赖redis
 启动前请确认application.properties中配置(底图路径请确认无误)
+若访问报跨域问题，将com.anji.captcha.config.CorsFilter注释打开。
 启动成功后地址：http://127.0.0.1:8086
 
 ## -view-web vue项目
@@ -77,7 +78,19 @@ npm run  dev:mp-weixin
 appId请在微信公众平台自行申请
 
 
-若访问报跨域问题，将com.anji.captcha.config.CorsFilter注释打开。
+## -view-flutter-demo 手机App
+安装Android Studio / flutter / Dart <br>
+以及相关的环境配置
+
+启动前请确认:<br>
+\view\flutter\demo\lib\request\HttpManager.dart 65行请求后端地址<br>
+
+运行：
+```javascript
+运行 main.dart
+```
+
+
 
 # 更详细的前后端接入文档，请查看
 
