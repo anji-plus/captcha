@@ -7,7 +7,7 @@
           <el-menu-item index="/helpCenter/desc">
             <span slot="title">功能概述</span>
           </el-menu-item>
-          <el-submenu index="/MailDeploy">
+          <el-submenu>
             <template slot="title">
               <span>开发文档</span>
             </template>

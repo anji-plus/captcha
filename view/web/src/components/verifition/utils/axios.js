@@ -1,5 +1,6 @@
 import axios from 'axios';
 import signUtil from './signUtil';
+import { Message, MessageBox } from 'element-ui';
 
 axios.defaults.baseURL = process.env.BASE_API;
 
@@ -34,6 +35,11 @@ service.interceptors.response.use(
     if (res.repCode == '0000') {
       return res
     }else {
+      Message({
+        message: res.repMsg,
+        type: 'error',
+        duration: 3 * 1000
+      })
       return res;
     }
   },
