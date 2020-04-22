@@ -28,7 +28,7 @@
              ref="verify"
           ></Verify>
           <!-- 组件 -->
-          <button class="result_btn" @click="$refs.verify.show()">登录</button>
+          <button class="result_btn" @click.prevent="showBox">登录</button>
         </form>
       </el-col>
       <el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11" class="demo-code">
@@ -81,7 +81,12 @@ export default {
   name: "sliderFixed",
   components: {
     Verify
-  }
+  },
+  methods: {
+    showBox(){
+      this.$refs.verify.show();
+    }
+  },
 };
 </script>
 
