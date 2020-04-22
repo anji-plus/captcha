@@ -4,7 +4,7 @@
       <el-col :span="24">
         <el-menu
           :default-active="activeNav" class="el-menu-vertical-demo" @select="handleSelect2" router>
-          <el-submenu index="/MailDeploy">
+          <el-submenu index="/useOnline">
             <template slot="title">
               <span>滑动验证</span>
             </template>
@@ -13,7 +13,7 @@
               <el-menu-item index="/useOnline/sliderPop">弹出式</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="/SMSPush">
+          <el-submenu index="/useOnline">
             <template slot="title">
               <span>点选验证</span>
             </template>

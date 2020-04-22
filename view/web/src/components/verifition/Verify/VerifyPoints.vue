@@ -369,6 +369,8 @@
                         this.backToken = res.repData.token
                         this.poinTextList = res.repData.wordList
                         this.text = '请依次点击【' + this.poinTextList.join(",") + '】'
+                    }else{
+                        this.text = res.repMsg;
                     }
                 })
             },
