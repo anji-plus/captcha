@@ -62,7 +62,7 @@ class HttpManager {
 
     try {
       ///开始请求
-      response = await dio.request("http://10.108.11.46:8080$url", data: params, options: option);
+      response = await dio.request("http://10.108.11.46:8080/api$url", data: params, options: option);
     } on DioError catch (e) {
       Response errorResponse;
       if (e.response != null) {
