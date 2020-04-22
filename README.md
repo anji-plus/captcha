@@ -3,13 +3,13 @@
  行为验证码采用嵌入式集成方式，接入方便，安全，高效。抛弃了传统字符型验证码展示-填写字符-比对答案的流程，采用验证码展示-采集用户行为-分析用户行为流程，用户只需要产生指定的行为轨迹，不需要键盘手动输入，极大优化了传统验证码用户体验不佳的问题；同时，快速、准确的返回人机判定结果。
  目前对外提供两种类型的验证码，其中包含滑动拼图、文字点选。如图2-1、2-2所示。
  
-![滑动拼图](https://github.com/anji-plus/captcha/blob/master/images/blockPuzzle.png "滑动拼图")
+![滑动拼图](https://mirror.anji-plus.com/captcha-web/static/blockPuzzle.png "滑动拼图")
 
- 图2-1 滑动拼图
+ 图1-1 滑动拼图(水印自定义)
  
-![点选文字](https://github.com/anji-plus/captcha/blob/master/images/clickWord.png "点选文字")
+![点选文字](https://mirror.anji-plus.com/captcha-web/static/clickWord.png "点选文字")
 
- 图2-2 文字点选
+ 图1-2 文字点选(水印自定义)
 
 ## 1.2 概念术语描述
 | 术语  | 描述  |
@@ -26,7 +26,7 @@
 ④	验证数据随表单提交到产品后台后，产品后台需要将验证数据发送到集成jar包的/captcha/verify接口做二次校验，目的是核实验证数据的有效性。
 ⑤	集成jar包返回校验通过/失败到产品应用后端，再返回到前端。
 如图1-3所示。
-![时序图](https://github.com/anji-plus/captcha/blob/master/images/shixu.png "点选文字")
+![时序图](https://mirror.anji-plus.com/captcha-web/static/shixu.png "时序图")
 ###### 图 1-3 流程时序图
 
 # 目录结构
@@ -34,6 +34,7 @@
 ## -core-captcha，maven编译
 后端java源码，依赖redis
 启动前请确认application.properties中配置(底图路径请确认无误)
+若访问报跨域问题，将com.anji.captcha.config.CorsFilter注释打开。
 启动成功后地址：http://127.0.0.1:8086
 
 ## -view-web vue项目
@@ -77,7 +78,19 @@ npm run  dev:mp-weixin
 appId请在微信公众平台自行申请
 
 
-若访问报跨域问题，将com.anji.captcha.config.CorsFilter注释打开。
+## -view-flutter-demo 手机App
+安装Android Studio / flutter / Dart <br>
+以及相关的环境配置
+
+启动前请确认:<br>
+\view\flutter\demo\lib\request\HttpManager.dart 65行请求后端地址<br>
+
+运行：
+```javascript
+运行 main.dart
+```
+
+
 
 # 更详细的前后端接入文档，请查看
 

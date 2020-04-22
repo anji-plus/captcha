@@ -1,5 +1,5 @@
 'use strict'
 module.exports = {
   NODE_ENV: '"production"',
-  BASE_API: '"https://mirror.anji-plus.com"'
+  BASE_API: '"https://mirror.anji-plus.com/api"'
 }

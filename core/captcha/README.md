@@ -11,15 +11,13 @@
 <dependency>
    <groupId>com.github.anji-plus</groupId>
    <artifactId>captcha</artifactId>
-   <version>1.1.0-RELEASE</version>
+   <version>1.1.3</version>
 </dependency>
 ```
 ### 2.2.2 启动类上添加相应注解
 ```java
 @ComponentScan(basePackages = {
-      "com.anji.captcha.config",
-      "com.anji.captcha.controller",
-      "com.anji.captcha.service.impl",
+      "com.anji.captcha",
       "产品自身对应的包路径…"
 })
 ```
@@ -52,7 +50,8 @@ HTTP POST, 接口仅支持POST请求, 且仅接受 application/json 编码的参
 | 9999  | 服务器内部异常  |
 |  0011 | 参数不能为空  |
 | 6110  | 验证码已失效，请重新获取  |
-| 6111  | 验证码坐标不正确  |
+| 6111  | 验证失败  |
+| 6112  | 获取验证码失败,请联系管理员  |
 
 ## 2.3 前端接入
 ### 2.3.1 兼容性
@@ -170,7 +169,7 @@ export default {
 ### 3.1.1 字体乱码问题
 点选文字中所用字体默认为宋体，linux不支持该字体，所以可能会出现以下图中情况，如图3-1所示。
 
-![字体错误](https://github.com/raodeming/captcha/blob/master/images/font-error.png "字体错误")
+![字体错误](https://mirror.anji-plus.com/captcha-web/static/font-error.png "字体错误")
  
 图3-1  点选文字字体乱码
 ### 3.1.2 乱码解决方案
