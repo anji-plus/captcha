@@ -233,6 +233,7 @@
 
             //鼠标按下
             start: function (e) {
+                e = e || window.event
                 this.startMoveTime = +new Date();   //开始滑动的时间
                 if (this.isEnd == false) {
                     this.text = ''
@@ -245,6 +246,7 @@
             },
             //鼠标移动
             move: function (e) {
+                e = e || window.event
                 if (this.status && this.isEnd == false) {
                     // if (this.mode == 'pop') {
                     //    this.showImage = true
@@ -256,7 +258,7 @@
                         var x = e.touches[0].pageX;
                     }
                     // var bar_area_left = this.getLeft(this.barArea);
-                    var bar_area_left = this.barArea.getBoundingClientRect().x;
+                    var bar_area_left = this.barArea.getBoundingClientRect().left;
                     var move_block_left = x - bar_area_left //小方块相对于父元素的left值
 
                     if (this.type !== '1') {		//图片滑动
