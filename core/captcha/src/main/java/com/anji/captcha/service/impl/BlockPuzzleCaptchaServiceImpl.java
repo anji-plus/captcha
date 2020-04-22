@@ -247,7 +247,19 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
                 if (rgb != 16777215 && rgb <= 0) {
                     targetImage.setRGB(i, j, oriImageData[i][j]);
                     int rgb_ori = targetImage.getRGB(i, j);
+                    if (j > 3 && j < templateImageData[0].length - 3) {
+                        int rgbBefore = templateImageData[i][j-1];
+                        int rgbAfter = templateImageData[i][j+1];
+                        if (rgbBefore > 0 || rgbAfter > 0) {
+                            int rgb1 = new Color(255, 255, 255, 150).getRGB();
+                            targetImage.setRGB(i, j, rgb1);
+                        }
+                    }
+
+
                 }
+
+
             }
         }
         return targetImage;
