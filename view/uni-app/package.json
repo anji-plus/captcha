@@ -35,6 +35,7 @@
     "@dcloudio/uni-stat": "^2.0.0-26520200314001",
     "crypto-js": "^4.0.0",
     "flyio": "^0.6.2",
+    "js-md5": "^0.7.3",
     "regenerator-runtime": "^0.12.1",
     "vue": "^2.6.11",
     "vuex": "^3.0.1"

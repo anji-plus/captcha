@@ -51,6 +51,7 @@
      * @description 点选
      * */
     import CryptoJS from 'crypto-js'
+	import {myRequest} from "../utils/request.js"
     export default {
         name: 'VerifyPoints',
         props: {
@@ -108,7 +109,6 @@
         },
         data() {
             return {
-                baseUrl:'http://10.108.11.46:8080/api',
                 fontPos: [], // 选中的坐标信息
                 checkPosArr: [], //用户点击的坐标
                 num: 1,//点击的记数
@@ -166,11 +166,11 @@
                                 "pointJson":this.aesEncrypt(JSON.stringify(this.checkPosArr)),
                                 "token":this.backToken
                             }
-                            uni.request({
-                                url: `${this.baseUrl}/captcha/check`, 
+                            myRequest({
+                                url: `/captcha/check`, 
                                 data,
                                 method:"POST",
-                                success: result => {
+                            }).then(result => {
                                     let res = result.data
                                     if (res.repCode == "0000") {
                                         this.barAreaColor = '#4cae4c'
@@ -178,12 +178,12 @@
                                         this.text = '验证成功'
                                         this.showRefresh = false
                                         this.bindingClick = false
-                                        if (this.mode=='pop') {
-                                            setTimeout(()=>{
-                                                this.$parent.clickShow = false;
-                                                this.refresh();
-                                            },1500)
-                                        }
+										setTimeout(()=>{
+											if (this.mode=='pop') {
+												this.$parent.clickShow = false;
+											}
+											this.refresh();
+										},1500)
                                         this.$parent.$emit('success', {captchaVerification})
                                     }else{
                                         this.$parent.$emit('error', this)
@@ -194,8 +194,7 @@
                                             this.refresh();
                                         }, 700);
                                     }
-                                }
-                            })    
+                                })    
                         }, 400);
                     }
                     if (this.num < this.checkNum) {
@@ -247,11 +246,11 @@
                 let data = {
                     captchaType:this.captchaType
                 }
-                uni.request({
-                    url: `${this.baseUrl}/captcha/get`, //仅为示例，并非真实接口地址。
+                myRequest({
+                    url: "/captcha/get", //仅为示例，并非真实接口地址。
                     data,
                     method:"POST",
-                    success: (result) => {
+                }).then((result) => {
                         let res = result.data
                         if (res.repCode == "0000") {
                             this.pointBackImgBase = res.repData.originalImageBase64
@@ -259,8 +258,7 @@
                             this.poinTextList = res.repData.wordList
                             this.text = '请依次点击【' + this.poinTextList.join(",") + '】'
                         }
-                    }
-                })
+                    })
             },
             //坐标转换函数
             pointTransfrom(pointArr,imgSize){
