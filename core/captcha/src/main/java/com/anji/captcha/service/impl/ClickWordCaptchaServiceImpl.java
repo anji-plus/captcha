@@ -37,7 +37,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
 
     private static Logger logger = LoggerFactory.getLogger(ClickWordCaptchaServiceImpl.class);
 
-    @Value("${captcha.water.mark:安吉加加}")
+    @Value("${captcha.water.mark:}")
     private String waterMark;
 
     @Override
