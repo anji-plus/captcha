@@ -53,6 +53,9 @@
             <el-table-column prop="desc" label="说明"></el-table-column>
         </el-table>
         <h2>5. 获取验证码接口详情</h2>
+        <p class="sub_title">
+            后端请求地址根据部署情况到:verifition/utils/axios.js 第五行 axios.defaults.baseURL = process.env.BASE_API 修改路劲
+        </p>
         <p><span class="sub_title">接口地址</span> ：http://10.108.11.46:8080/api/captcha/get</p>
         <p>
             <span class="sub_title">请求参数:</span>
@@ -128,7 +131,7 @@ export default {
     data() {
         return {
             backFuc:[
-                {fucName:'success',desc:'验证码匹配成功后的回调函数。'},
+                {fucName:'success',desc:'验证码匹配成功后的回调函数。回调参数params 需要合并到业务逻辑参数中进行二次验证'},
                 {fucName:'error',desc:'验证码匹配失败后的回调函数。'},
                 {fucName:'ready',desc:'验证码初始化成功的回调函数。'}
             ],
