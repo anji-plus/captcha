@@ -63,7 +63,7 @@ public class DefaultCaptchaServiceImpl implements CaptchaService {
         System.out.println("supported-captchaTypes-service:"+instances.keySet().toString());
         //初始化底图
         ImageUtils.cacheImage(captchaOriginalPathJigsaw, captchaOriginalPathClick);
-        System.out.println("--->>>初始化验证码底图<<<---");
+        logger.info("--->>>初始化验证码底图<<<---");
     }
     private CaptchaService getService(String captchaType){
         return instances.get(captchaType.concat("CaptchaService"));
