@@ -5,8 +5,8 @@
           行为验证码采用嵌入式集成方式，接入方便，安全，高效。抛弃了传统字符型验证码展示-填写字符-比对答案的流程，采用验证码展示-采集用户行为-分析用户行为流程，用户只需要产生指定的行为轨迹，不需要键盘手动输入，极大优化了传统验证码用户体验不佳的问题；同时，快速、准确的返回人机判定结果。
         </p>
         <h2>2.类型展示</h2>
-        <img src="./../../assets/image/jieshao.png" alt="">
-        <img src="./../../assets/image/jieshao2.png" alt="">
+        <img src="./../../assets/image/clickWord.png" alt="">
+        <img src="./../../assets/image/blockPuzzle.png" alt="">
         <h2>3.概率术语描述</h2>
         <el-table
             :data="tableData"

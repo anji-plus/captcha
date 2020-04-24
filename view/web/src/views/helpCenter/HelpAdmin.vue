@@ -1,20 +1,19 @@
 <template>
     <div class="helpAdmin">
         <h2>1. 引入maven依赖</h2>
+        <p>目前已上传maven仓库，源码已分享</p>
         <p>
             <i>&lt;</i>dependency<i>></i>
-        <pre>  <i>&lt;</i>groupId<i>></i>com.anji<i>&lt;</i>/groupId<i>></i>
+        <pre>  <i>&lt;</i>groupId<i>></i>com.github.anji-plus<i>&lt;</i>/groupId<i>></i>
         <i>&lt;</i>artifactId<i>></i>captcha<i>&lt;</i>/artifactId<i>></i>
-        <i>&lt;</i>version<i>></i>0.0.1-SNAPSHOT<i>&lt;</i>/version<i>></i>
+        <i>&lt;</i>version<i>></i>1.1.4<i>&lt;</i>/version<i>></i>
     <i>&lt;</i>/dependency<i>></i>
 </pre>
         </p>
         <h2>2. 启动类上添加相应注解</h2>
         <p>
             @ComponentScan(basePackages = {  <br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    "com.anji.captcha.util",     <br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    "com.anji.captcha.controller", <br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    "com.anji.captcha.service.impl",<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    "com.anji.captcha",     <br/>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    "产品自身对应的包路径…"  <br/>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
 
@@ -54,7 +53,7 @@ export default {
     data() {
         return {
             reqData:[
-                {params:'captchaVerification',type:'String',isrequire:'Y',mark:'验证数据'},
+                {params:'captchaVerification',type:'String',isrequire:'Y',mark:'验证数据，aes加密，数据在前端success函数回调参数中获取'},
             ],
             repData:[
                 {params:'repCode',type:'String',isrequire:'Y',mark:'异常代号'},
@@ -66,7 +65,9 @@ export default {
                 {number:'0000',desc:'请求成功'},
                 {number:'9999',desc:'服务器内部异常'},
                 {number:'0011',desc:'参数不能为空'},
-                {number:'6000',desc:'签名验证错误'},
+                {number:'6110',desc:'验证码已失效，请重新获取'},
+                {number:'6111',desc:'验证失败'},
+                {number:'6112',desc:'获取验证码失败,请联系管理员'},
             ]
         }
     },
