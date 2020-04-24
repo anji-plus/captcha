@@ -1,12 +1,12 @@
 <template>
 	<view class="content">
 		<view class="tab-menu">
-			<view class="tab-item" :class="{active:showMode=='fixed'}" @click="fixedClick">滑动嵌入</view>
-			<view class="tab-item" :class="{active:showMode=='pop'}" @click="popClick">滑动弹出</view>
+			<view class="tab-item" :class="{active:showMode=='fixed'}" @click="fixedClick">点选嵌入</view>
+			<view class="tab-item" :class="{active:showMode=='pop'}" @click="popClick">点选弹出</view>
 		</view>
 		
 		<view v-if="showMode=='fixed'">
-			<!-- <text class="title">滑动嵌入--行为验证码</text> -->
+			<!-- <text class="title">点选嵌入--行为验证码</text> -->
 			<view class="form">
 				<view class="form-item">
 					<input type="text" value="用户名"  disabled=""/>
@@ -17,7 +17,8 @@
 				<Verify
 					@success='success'
 					:mode="'fixed'"
-					:captchaType="'blockPuzzle'"
+					:captchaType="'clickWord'"
+					:captchaId ="'btn'"
 					ref="verify"
 					:imgSize="{width:'340px',height:'175px'}"
 				></Verify>
@@ -26,7 +27,7 @@
 		</view>
 		
 		<view v-if="showMode=='pop'">
-			<!-- <text class="title">滑动弹出--行为验证码</text> -->
+			<!-- <text class="title">点选弹出--行为验证码</text> -->
 			<view class="form">
 				<view class="form-item">
 					<input type="text" value="用户名"  disabled=""/>
@@ -37,7 +38,8 @@
 				<Verify
 					@success='success'
 					:mode="'pop'"
-					:captchaType="'blockPuzzle'"
+					:captchaType="'clickWord'"
+					:captchaId ="'btn'"
 					ref="verify"
 					:imgSize="{width:'340px',height:'175px'}"
 				></Verify>

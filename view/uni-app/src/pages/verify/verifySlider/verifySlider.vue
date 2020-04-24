@@ -52,6 +52,7 @@
      * @description 滑块
      * */
     import CryptoJS from 'crypto-js'
+	import {myRequest} from "../utils/request.js"
     export default {
         name: 'VerifySlide',
         props: {
@@ -112,7 +113,6 @@
         },
         data() {
             return {
-                baseUrl:'http://10.108.11.46:8080/api',
                 backImgBase:'',      //验证码背景图片
                 blockBackImgBase:'', //验证滑块的背景图片
                 backToken:"",        //后端返回的唯一token值
@@ -226,52 +226,49 @@
                             "pointJson":this.aesEncrypt(JSON.stringify({x:moveLeftDistance,y:5.0})),
                             "token":this.backToken
                         }
-
-                        uni.request({
-                            url: `${this.baseUrl}/captcha/check`, //仅为示例，并非真实接口地址。
+                        myRequest({
+                            url: `/captcha/check`, //仅为示例，并非真实接口地址。
                             data,
                             method:"POST",
-                            success: (result) => {
-                                let res = result.data
-                                if (res.repCode == "0000") {
-                                    this.moveBlockBackgroundColor = '#5cb85c'
-                                    this.leftBarBorderColor = '#5cb85c'
-                                    this.iconColor = '#fff'
-                                    this.iconClass = 'icon-check'
-                                    this.showRefresh = true
-                                    this.isEnd = true;   
-                                    if (this.mode=='pop') {
-                                        setTimeout(()=>{
-                                            this.$parent.clickShow = false;
-                                            this.refresh();
-                                        },1500)
-                                    }
-                                    
-                                    // this.tipsBackColor = '#5cb85c'
-                                    this.tipsBackColor = 'rgb(92, 184, 92,.5)'
-                                    this.tipWords = `${((this.endMovetime-this.startMoveTime)/1000).toFixed(2)}s验证成功`
-                                    setTimeout(()=>{
-                                        this.tipWords = ""
-                                        this.$parent.$emit('success', {captchaVerification})
-                                    },1000)
-                                }else{
-                                    this.moveBlockBackgroundColor = '#d9534f'
-                                    this.leftBarBorderColor = '#d9534f'
-                                    this.iconColor = '#fff'
-                                    this.iconClass = 'icon-close'
-                                    // this.tipsBackColor = '#d9534f'
-                                    this.tipsBackColor = 'rgb(217, 83, 79,.5)'
-                                    setTimeout(()=>{
-                                        this.refresh();
-                                    }, 1000);
-                                    this.$parent.$emit('error',this)
-                                    this.tipWords = "验证失败"
-                                    setTimeout(()=>{
-                                        this.tipWords = ""
-                                    },1000)
-                                }
-                            }
-                        })
+                        }).then((result) => {
+							let res = result.data
+							if (res.repCode == "0000") {
+								this.moveBlockBackgroundColor = '#5cb85c'
+								this.leftBarBorderColor = '#5cb85c'
+								this.iconColor = '#fff'
+								this.iconClass = 'icon-check'
+								this.showRefresh = true
+								this.isEnd = true;   
+								setTimeout(()=>{
+									if (this.mode=='pop') {
+										this.$parent.clickShow = false;
+									}
+									this.refresh();
+								},1500)
+								// this.tipsBackColor = '#5cb85c'
+								this.tipsBackColor = 'rgb(92, 184, 92,.5)'
+								this.tipWords = `${((this.endMovetime-this.startMoveTime)/1000).toFixed(2)}s验证成功`
+								setTimeout(()=>{
+									this.tipWords = ""
+									this.$parent.$emit('success', {captchaVerification})
+								},1000)
+							}else{
+								this.moveBlockBackgroundColor = '#d9534f'
+								this.leftBarBorderColor = '#d9534f'
+								this.iconColor = '#fff'
+								this.iconClass = 'icon-close'
+								// this.tipsBackColor = '#d9534f'
+								this.tipsBackColor = 'rgb(217, 83, 79,.5)'
+								setTimeout(()=>{
+									this.refresh();
+								}, 1000);
+								this.$parent.$emit('error',this)
+								this.tipWords = "验证失败"
+								setTimeout(()=>{
+									this.tipWords = ""
+								},1000)
+							}
+						})
                     } else {		//普通滑动
 
                         if (parseInt((this.moveBlockLeft || '').replace('upx', '')) >= (parseInt(this.setSize.barWidth) - parseInt(this.barSize.height) - parseInt(this.vOffset))) {
@@ -340,19 +337,18 @@
                 let data = {
                     captchaType:this.captchaType
                 }
-                uni.request({
-                    url: `${this.baseUrl}/captcha/get`, //仅为示例，并非真实接口地址。
+                myRequest({
+                    url: '/captcha/get', //仅为示例，并非真实接口地址。
                     data,
                     method:"POST",
-                    success: (result) => {
+                }).then((result) => {
                         let res = result.data
                         if (res.repCode == "0000") {
                             this.backImgBase = res.repData.originalImageBase64
                             this.blockBackImgBase = res.repData.jigsawImageBase64
                             this.backToken = res.repData.token
                         }
-                    }
-                })
+                    })
             },
             aesEncrypt(word){
                 var key = CryptoJS.enc.Utf8.parse("BGxdEUOZkXka4HSj");
