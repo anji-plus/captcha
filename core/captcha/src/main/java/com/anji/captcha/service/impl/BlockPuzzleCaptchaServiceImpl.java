@@ -36,7 +36,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
     private static Logger logger = LoggerFactory.getLogger(BlockPuzzleCaptchaServiceImpl.class);
 
-    @Value("${captcha.water.mark:安吉加加}")
+    @Value("${captcha.water.mark:}")
     private String waterMark;
 
     @Override
