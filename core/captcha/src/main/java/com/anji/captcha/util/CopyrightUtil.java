@@ -17,7 +17,7 @@ public class CopyrightUtil {
 
     public static void main(String[] args) throws Exception {
         //java文件所在目录
-        String dir = "D:\\anji-code\\githup\\behavior-captcha\\core\\captcha";
+        String dir = "D:\\anji-code\\github\\behavior-captcha\\core\\captcha";
         File file = new File(dir);
         addCopyright4Directory(file);
     }

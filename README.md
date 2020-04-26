@@ -1,5 +1,6 @@
 ### 在线体验:[https://mirror.anji-plus.com/captcha-web/](https://mirror.anji-plus.com/captcha-web/ "链接")
-### uni-app在线体验未开放，敬请期待
+### uni-app在线体验（微信小程序，请使用微信扫一扫）
+![微信小程序](https://mirror.anji-plus.com/captcha-web/static/8cm.jpg "微信小程序")
 
 # 1 总体功能概述
 ## 1.1 组件介绍
@@ -66,10 +67,10 @@ http://127.0.0.1:8080
 vue源码
 
 启动前请确认:<br>
-\view\uni-app\src\pages\verify\verifySlider\verifySlider.vue 115行<br>
-\view\uni-app\src\pages\verify\verifyPoint\verifyPoint.vue 111行
+\view\uni-app\src\pages\verify\utils\request.js 
+
 ```javascript
-baseUrl:'http://127.0.0.1:8086'
+let baseUrl = "https://mirror.anji-plus.com/api"
 ```
 地址是否正确
 
@@ -101,4 +102,5 @@ appId请在微信公众平台自行申请
 # 更详细的前后端接入文档，请查看WiKi
 
 
-[链接](https://github.com/anji-plus/captcha/wiki "链接")
+[码云](https://gitee.com/anji-plus/captcha/wikis/Home "码云") ---
+[github](https://github.com/anji-plus/captcha/wiki "github")
