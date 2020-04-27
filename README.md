@@ -99,8 +99,7 @@ appId请在微信公众平台自行申请
 ```
 
 
-### 欢迎进微信群沟通![输入图片说明](https://images.gitee.com/uploads/images/2020/0427/114608_97f06660_1728982.jpeg "微信二维码.jpg")
-
+### 欢迎进微信群沟通![输入图片说明](https://images.gitee.com/uploads/images/2020/0427/115449_cb19a9b0_1728982.jpeg "微信二维码.jpg")
 # 更详细的前后端接入文档，请查看WiKi
 
 
