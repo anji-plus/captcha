@@ -114,5 +114,5 @@ appId请在微信公众平台自行申请
 ###### 增加Android示例
 
 ### 欢迎进微信群沟通
-<img src="https://images.gitee.com/uploads/images/2020/0427/115449_cb19a9b0_1728982.jpeg" width = "200" height = "200" div align=right />
+<img src="https://images.gitee.com/uploads/images/2020/0427/115449_cb19a9b0_1728982.jpeg" width = "200" height = "200" div align=left />
 
