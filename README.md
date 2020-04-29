@@ -2,6 +2,9 @@
 ### uni-app在线体验（微信小程序，请使用微信扫一扫）
 ![微信小程序](https://mirror.anji-plus.com/captcha-web/static/8cm.jpg "微信小程序")
 
+### uni-app H5页面在线体验（扫一扫）
+![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")
+
 如果图片未能正常展示，可查看码云，和github同步 [码云]( https://gitee.com/anji-plus/captcha "码云")
 
 # 1 总体功能概述
