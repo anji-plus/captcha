@@ -325,8 +325,6 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
                                     EdgeInsets.fromLTRB(sliderXMoved, 0, 0, 0),
                                 child: Image.memory(
                                   Base64Decoder().convert(slideImageBase64),
-//                        width: slideSize.width * (dialogWidth - 20) / baseSize.width,
-//                        height: 180,
                                   fit: BoxFit.fitWidth,
                                   gaplessPlayback: true,
                                 ),
