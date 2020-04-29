@@ -1,4 +1,4 @@
-### 在线体验:[https://mirror.anji-plus.com/captcha-web/](https://mirror.anji-plus.com/captcha-web/ "链接")
+### PC在线体验:[https://mirror.anji-plus.com/captcha-web/](https://mirror.anji-plus.com/captcha-web/ "链接")
 ### uni-app在线体验（微信小程序，请使用微信扫一扫）
 ![微信小程序](https://mirror.anji-plus.com/captcha-web/static/8cm.jpg "微信小程序")
 
