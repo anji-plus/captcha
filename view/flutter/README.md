@@ -50,7 +50,9 @@ static void loadingBlockPuzzle(BuildContext context, {barrierDismissible = true}
 ```
 
 ### 事件
-|  参数 |  说明 |  
+
+| 参数  | 说明  |
+| ------------ | ------------ |
 | onSuccess | 可自定义回调内容，根据自己服务定制 |
 | onFail | 失败回调默认为空，可自定义回调内容，根据自己服务定制  |
 
