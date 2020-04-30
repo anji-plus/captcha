@@ -39,7 +39,7 @@
 					:mode="'pop'"
 					:captchaType="'blockPuzzle'"
 					ref="verify"
-					:imgSize="{width:'340px',height:'175px'}"
+					:imgSize="{width:'310px',height:'155px'}"
 				></Verify>
 				<button type="primary" id="btn" class="verify-btn" @click="showVerify">登 &nbsp;&nbsp;&nbsp;录</button>
 			</view>

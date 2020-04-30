@@ -21,6 +21,7 @@
 					:captchaId ="'btn'"
 					ref="verify"
 					:imgSize="{width:'340px',height:'175px'}"
+					class="aa"
 				></Verify>
 				<!-- <button type="primary" id="btn" class="verify-btn" @click="showVerify" disabled>登录测试</button> -->
 			</view>
@@ -41,7 +42,7 @@
 					:captchaType="'clickWord'"
 					:captchaId ="'btn'"
 					ref="verify"
-					:imgSize="{width:'340px',height:'175px'}"
+					:imgSize="{width:'310px',height:'155px'}"
 				></Verify>
 				<button type="primary" id="btn" class="verify-btn" @click="showVerify">登 &nbsp;&nbsp;&nbsp;录</button>
 			</view>
@@ -61,6 +62,7 @@
 		components:{
 			Verify
 		},
+
 		methods: {
 			showVerify(){
 				this.$refs.verify.show();
@@ -116,6 +118,7 @@
 	}
 	.form-item input{
 		width:90%;
+		/* margin-left: 5%; */
 		border: 1rpx solid #ccc;
 		height:50rpx;
 		line-height: 50rpx;
