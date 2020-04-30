@@ -13,6 +13,8 @@ class HttpManager {
     "mirrorToken": null,
     "content-Type": CONTENT_TYPE_JSON
   };
+  //请求base url
+  static String baseUrl = "http://10.108.11.46:8080/api";
 
   ///发起网络请求
   ///[ url] 请求url
@@ -62,7 +64,7 @@ class HttpManager {
 
     try {
       ///开始请求
-      response = await dio.request("http://10.108.11.46:8080/api$url", data: params, options: option);
+      response = await dio.request("$baseUrl$url", data: params, options: option);
     } on DioError catch (e) {
       Response errorResponse;
       if (e.response != null) {
