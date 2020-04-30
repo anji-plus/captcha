@@ -103,7 +103,6 @@ export default {
 | mode  | 验证码的显示方式，弹出式pop，固定fixed，默认是：mode : ‘pop’  |
 | vSpace  | 验证码图片和移动条容器的间隔，默认单位是px。如：间隔为5px，设置vSpace:5  |
 | explain  |  滑动条内的提示，不设置默认是：'向右滑动完成验证' |
-|  explain | 滑动条内的提示，不设置默认是：'向右滑动完成验证'  |
 |  imgSize |  其中包含了width、height两个参数，分别代表图片的宽度和高度，支持百分比方式设置 如:{width:'100%',height:'200px'} |
 | blockSize  | 其中包含了width、height两个参数，分别代表拼图块的宽度和高度，如:{width:'40px',height:'40px'}  |
 | barSize  | 其中包含了width、height两个参数，分别代表滑动条的宽度和高度，支持百分比方式设置，如:{width:'100%',height:'40px'}  |

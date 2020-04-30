@@ -22,10 +22,8 @@ import org.springframework.stereotype.Component;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 点选文字验证码
@@ -39,6 +37,12 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
 
     @Value("${captcha.water.mark:}")
     private String waterMark;
+
+    @Value("${captcha.water.font:宋体}")
+    private String waterMarkFont;
+
+    @Value("${captcha.font.type:宋体}")
+    private String fontType;
 
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
@@ -120,7 +124,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         int width = backgroundImage.getWidth();
         int height = backgroundImage.getHeight();
 
-        Font font = new Font(HAN_ZI_FONT, Font.BOLD, HAN_ZI_SIZE);
+        Font font = new Font(fontType, Font.BOLD, HAN_ZI_SIZE);
         int wordCount = getWordTotalCount();
         //定义随机1到arr.length某一个字不参与校验
         int num = RandomUtils.getRandomInt(1, wordCount);
@@ -143,7 +147,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
             }
             //设置角度
             AffineTransform affineTransform = new AffineTransform();
-            affineTransform.rotate(Math.toRadians(RandomUtils.getRandomInt(-85, 85)), 0, 0);
+            affineTransform.rotate(Math.toRadians(RandomUtils.getRandomInt(-45, 45)), 0, 0);
             Font rotatedFont = font.deriveFont(affineTransform);
             backgroundGraphics.setFont(rotatedFont);
             backgroundGraphics.drawString(word, (int)point.getX(), (int)point.getY());
@@ -154,8 +158,8 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
             }
         }
 
-        //设置水印
-        Font watermark = new Font(HAN_ZI_FONT, Font.BOLD, HAN_ZI_SIZE/2);
+
+        Font watermark = new Font(waterMarkFont, Font.BOLD, HAN_ZI_SIZE/2);
         backgroundGraphics.setFont(watermark);
         backgroundGraphics.setColor(Color.white);
         backgroundGraphics.drawString(waterMark, width-((HAN_ZI_SIZE/2)*(waterMark.length()))-5, height-(HAN_ZI_SIZE/2)+7);
