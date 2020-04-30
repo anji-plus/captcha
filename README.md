@@ -1,9 +1,11 @@
 ### PC在线体验:[https://mirror.anji-plus.com/captcha-web/](https://mirror.anji-plus.com/captcha-web/ "链接")
 ### uni-app在线体验（微信小程序，请使用微信扫一扫）
-![微信小程序](https://mirror.anji-plus.com/captcha-web/static/8cm.jpg "微信小程序")
-
 ### uni-app H5页面在线体验（扫一扫）
-![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")
+![微信小程序](https://mirror.anji-plus.com/captcha-web/static/8cm.jpg "微信小程序")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")
+
+&emsp;&emsp;&emsp;&emsp;&emsp;微信小程序&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;uni-app H5
+
+
 
 如果图片未能正常展示，可查看码云，和github同步 [码云]( https://gitee.com/anji-plus/captcha "码云")
 
@@ -14,13 +16,9 @@
  
 
  
-![滑动拼图](https://mirror.anji-plus.com/captcha-web/static/blockPuzzle.png "滑动拼图")
+![滑动拼图](https://mirror.anji-plus.com/captcha-web/static/blockPuzzle.png "滑动拼图")&emsp;&emsp;&emsp;&emsp;&emsp;![点选文字](https://mirror.anji-plus.com/captcha-web/static/clickWord.png "点选文字")
 
- 图1-1 滑动拼图(水印自定义)
- 
-![点选文字](https://mirror.anji-plus.com/captcha-web/static/clickWord.png "点选文字")
-
- 图1-2 文字点选(水印自定义)
+ &emsp;&emsp;&emsp;&emsp;图1-1 滑动拼图(水印自定义)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;图1-2 文字点选(水印自定义)
 
 ## 1.2 概念术语描述
 | 术语  | 描述  |

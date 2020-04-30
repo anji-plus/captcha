@@ -39,8 +39,15 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
     @Value("${captcha.water.mark:}")
     private String waterMark;
 
+    @Value("${captcha.water.font:宋体}")
+    private String waterMarkFont;
+
+    @Value("${captcha.slip.offset:5}")
+    private String slipOffset;
+
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
+
         //原生图片
 //        BufferedImage originalImage = getBufferedImage(ImageUtils.getBlockPuzzleBgPath(captchaVO.getCaptchaOriginalPath()));
         BufferedImage originalImage = ImageUtils.getOriginal();
@@ -48,10 +55,10 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
         Graphics backgroundGraphics = originalImage.getGraphics();
         int width = originalImage.getWidth();
         int height = originalImage.getHeight();
-        Font watermark = new Font(HAN_ZI_FONT, Font.BOLD, HAN_ZI_SIZE/2);
+        Font watermark = new Font(waterMarkFont, Font.BOLD, HAN_ZI_SIZE / 2);
         backgroundGraphics.setFont(watermark);
         backgroundGraphics.setColor(Color.white);
-        backgroundGraphics.drawString(waterMark, width-((HAN_ZI_SIZE/2)*(waterMark.length()))-5, height-(HAN_ZI_SIZE/2)+7);
+        backgroundGraphics.drawString(waterMark, width - ((HAN_ZI_SIZE / 2) * (waterMark.length())) - 5, height - (HAN_ZI_SIZE / 2) + 7);
 
         //抠图图片
 //        BufferedImage   jigsawImage = getBufferedImage(ImageUtils.getBlockPuzzleJigsawPath(captchaVO.getCaptchaOriginalPath()));
@@ -87,8 +94,8 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
             logger.error("验证码坐标解析失败", e);
             return ResponseModel.errorMsg(e.getMessage());
         }
-        if (point.x-8 > point1.x
-                || point1.x > point.x+8
+        if (point.x-Integer.parseInt(slipOffset) > point1.x
+                || point1.x > point.x+Integer.parseInt(slipOffset)
                 || point.y != point1.y) {
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_COORDINATE_ERROR);
         }
@@ -149,7 +156,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
             BASE64Encoder encoder = new BASE64Encoder();
             dataVO.setOriginalImageBase64(encoder.encode(oriCopyImages).replaceAll("\r|\n", ""));
             //point信息不传到前端，只做后端check校验
-            //dataVO.setPoint(point);
+            dataVO.setPoint(point);
             dataVO.setJigsawImageBase64(encoder.encode(jigsawImages).replaceAll("\r|\n", ""));
             dataVO.setToken(RandomUtils.getUUID());
 //            BASE64Decoder decoder = new BASE64Decoder();

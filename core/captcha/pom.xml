@@ -42,6 +42,12 @@
             <version>${spring-boot-version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring-boot-version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>commons-io</groupId>
@@ -185,47 +191,5 @@
         </profile>
     </profiles>
     <!--中央仓库上传配置结束-->
-
-    <!--    公司私服上传配置开始-->
-
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--            <id>nexus-releases</id>-->
-<!--            <url>http://10.108.10.53:8081/repository/maven-releases/</url>-->
-<!--        </repository>-->
-<!--        <snapshotRepository>-->
-<!--            <id>nexus-snapshots</id>-->
-<!--            <url>http://10.108.10.53:8081/repository/maven-snapshots/</url>-->
-<!--        </snapshotRepository>-->
-<!--        &lt;!&ndash;            <repository>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <id>nexus-releases</id>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <url>http://10.108.2.59:8081/repository/maven-releases/</url>&ndash;&gt;-->
-<!--        &lt;!&ndash;            </repository>&ndash;&gt;-->
-<!--        &lt;!&ndash;            <snapshotRepository>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <id>nexus-snapshots</id>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <url>http://10.108.2.59:8081/repository/maven-snapshots/</url>&ndash;&gt;-->
-<!--        &lt;!&ndash;            </snapshotRepository>&ndash;&gt;-->
-<!--    </distributionManagement>-->
-
-<!--    &lt;!&ndash; Package as an executable jar &ndash;&gt;-->
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <version>3.8.0</version>-->
-<!--                <configuration>-->
-<!--                    <source>${java.version}</source>-->
-<!--                    <target>${java.version}</target>-->
-<!--                    <encoding>UTF-8</encoding>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
-    <!--    公司私服上传配置结束-->
 
 </project>
