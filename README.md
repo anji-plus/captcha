@@ -1,12 +1,17 @@
-### 在线体验:[https://mirror.anji-plus.com/captcha-web/](https://mirror.anji-plus.com/captcha-web/ "链接")
-### uni-app在线体验未开放，敬请期待
+### PC在线体验:[https://mirror.anji-plus.com/captcha-web/](https://mirror.anji-plus.com/captcha-web/ "链接")
+### uni-app在线体验（微信小程序，请使用微信扫一扫）
+![微信小程序](https://mirror.anji-plus.com/captcha-web/static/8cm.jpg "微信小程序")
+
+### uni-app H5页面在线体验（扫一扫）
+![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")
+
+如果图片未能正常展示，可查看码云，和github同步 [码云]( https://gitee.com/anji-plus/captcha "码云")
 
 # 1 总体功能概述
 ## 1.1 组件介绍
  行为验证码采用嵌入式集成方式，接入方便，安全，高效。抛弃了传统字符型验证码展示-填写字符-比对答案的流程，采用验证码展示-采集用户行为-分析用户行为流程，用户只需要产生指定的行为轨迹，不需要键盘手动输入，极大优化了传统验证码用户体验不佳的问题；同时，快速、准确的返回人机判定结果。
- 目前对外提供两种类型的验证码，其中包含滑动拼图、文字点选。如图2-1、2-2所示。
+ 目前对外提供两种类型的验证码，其中包含滑动拼图、文字点选。如图1-1、1-2所示。
  
- 如果图片未能正常展示，可查看码云，和githup同步 [码云]( https://gitee.com/anji-plus/captcha "码云")
 
  
 ![滑动拼图](https://mirror.anji-plus.com/captcha-web/static/blockPuzzle.png "滑动拼图")
@@ -66,10 +71,10 @@ http://127.0.0.1:8080
 vue源码
 
 启动前请确认:<br>
-\view\uni-app\src\pages\verify\verifySlider\verifySlider.vue 115行<br>
-\view\uni-app\src\pages\verify\verifyPoint\verifyPoint.vue 111行
+\view\uni-app\src\pages\verify\utils\request.js 
+
 ```javascript
-baseUrl:'http://127.0.0.1:8086'
+let baseUrl = "https://mirror.anji-plus.com/api"
 ```
 地址是否正确
 
@@ -101,4 +106,16 @@ appId请在微信公众平台自行申请
 # 更详细的前后端接入文档，请查看WiKi
 
 
-[链接](https://github.com/anji-plus/captcha/wiki "链接")
+[码云](https://gitee.com/anji-plus/captcha/wikis/Home "码云") ---
+[github](https://github.com/anji-plus/captcha/wiki "github")
+
+#### 近期计划，招募贡献者：
+###### 增加html示例
+###### 增加weex示例
+###### 增加ReactNative示例
+###### 增加IOS示例
+###### 增加Android示例
+
+### 欢迎进微信群沟通
+<img src="https://images.gitee.com/uploads/images/2020/0427/115449_cb19a9b0_1728982.jpeg" width = "200" height = "200" div align=left />
+
