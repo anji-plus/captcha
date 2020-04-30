@@ -78,10 +78,6 @@
                 type:String,
                 // required:true
             },
-            captchaId:{
-                type:String,
-                required:true
-            },
             captchaType:{
                 type:String,
                 required:true
