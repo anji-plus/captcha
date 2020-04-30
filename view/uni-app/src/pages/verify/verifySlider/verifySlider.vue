@@ -12,7 +12,7 @@
                     <text class="iconfont icon-refresh"></text>
                 </view>
                 <transition name="tips">
-                    <text class="verify-tips" v-if="tipWords" :style="{'background-color': tipsBackColor}">{{tipWords}}</text>
+                    <text class="verify-tips" v-if="tipWords" :class="passFalg ? 'suc-bg':'err-bg'" >{{tipWords}}</text>
                 </transition>
             </view>
         </view>
@@ -56,9 +56,6 @@
     export default {
         name: 'VerifySlide',
         props: {
-            captchaId:{
-                type:String,
-            },
             captchaType:{
                 type:String,
             },
@@ -113,6 +110,7 @@
         },
         data() {
             return {
+				passFalg:false,      //请求通过与否
                 backImgBase:'',      //验证码背景图片
                 blockBackImgBase:'', //验证滑块的背景图片
                 backToken:"",        //后端返回的唯一token值
@@ -246,7 +244,8 @@
 									this.refresh();
 								},1500)
 								// this.tipsBackColor = '#5cb85c'
-								this.tipsBackColor = 'rgb(92, 184, 92,.5)'
+								// this.tipsBackColor = 'rgba(92, 184, 92,.5)'
+								this.passFalg = true
 								this.tipWords = `${((this.endMovetime-this.startMoveTime)/1000).toFixed(2)}s验证成功`
 								setTimeout(()=>{
 									this.tipWords = ""
@@ -258,7 +257,8 @@
 								this.iconColor = '#fff'
 								this.iconClass = 'icon-close'
 								// this.tipsBackColor = '#d9534f'
-								this.tipsBackColor = 'rgb(217, 83, 79,.5)'
+								// this.tipsBackColor = 'rgba(217, 83, 79,.5)'
+								this.passFalg = false
 								setTimeout(()=>{
 									this.refresh();
 								}, 1000);
@@ -426,6 +426,17 @@
         line-height:30px;
         color: #fff;
     }
+	.suc-bg{
+	   background-color:rgba(92, 184, 92,.5);  
+	   filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#7f5CB85C, endcolorstr=#7f5CB85C);
+	}
+	
+	.err-bg{
+	   background-color:rgba(217, 83, 79,.5);  
+	   filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#7fD9534F, endcolorstr=#7fD9534F);
+	}
+	
+	
     .tips-enter,.tips-leave-to{
         bottom: -30px;
     }
