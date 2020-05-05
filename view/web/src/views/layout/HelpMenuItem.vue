@@ -7,7 +7,7 @@
           <el-menu-item index="/helpCenter/desc">
             <span slot="title">功能概述</span>
           </el-menu-item>
-          <el-submenu>
+          <el-submenu index="/helpCenter/question">
             <template slot="title">
               <span>开发文档</span>
             </template>
@@ -15,6 +15,7 @@
               <el-menu-item index="/helpCenter/process">接入流程</el-menu-item>
               <el-menu-item index="/helpCenter/admin">后端接入</el-menu-item>
               <el-menu-item index="/helpCenter/web">web接入</el-menu-item>
+              <el-menu-item index="/helpCenter/webHtml">web-html接入</el-menu-item>
               <el-menu-item index="/helpCenter/uniApp">uni-app接入</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
