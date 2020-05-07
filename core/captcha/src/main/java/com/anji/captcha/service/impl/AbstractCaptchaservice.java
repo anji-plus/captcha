@@ -7,7 +7,7 @@
 package com.anji.captcha.service.impl;
 
 import com.anji.captcha.service.CaptchaService;
-import com.anji.captcha.service.CaptchaRedisService;
+import com.anji.captcha.service.CacheService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public abstract class AbstractCaptchaservice implements CaptchaService {
 
 
     @Autowired
-    protected CaptchaRedisService captchaRedisService;
+    protected CacheService captchaRedisService;
     /**
      *
      * 获取原生图片
