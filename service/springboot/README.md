@@ -5,69 +5,54 @@
 ### 2.1.2 前端接入
  引入相关组件，调用初始化函数，通过配置的一些参数信息。将行为验证码渲染出来。
 ## 2.2 后端接入
-### 2.2.1 SpringBoot项目
-示例：service\springboot。引入jar，已上传至maven中央仓库。
+### 2.2.1 引入maven依赖
+目前已上传maven仓库，源码已分享
 ```java
 <dependency>
    <groupId>com.github.anji-plus</groupId>
    <artifactId>captcha</artifactId>
-   <version>1.1.5</version>
+   <version>1.1.3</version>
 </dependency>
 ```
-修改application.properties，自定义底图和水印，启动后前端就可以请求接口了。
-```properties
-spring.redis.host=127.0.0.1
-....
-
-#滑动验证，底图路径，不配置将使用默认图片
-#captcha.captchaOriginalPath.jigsaw=/app/product/dist/captchabg
-#滑动验证，底图路径，不配置将使用默认图片
-#captcha.captchaOriginalPath.pic-click=/app/product/dist/captchabg
-
-#右下角水印
-captcha.water.mark=\u81ea\u5b9a\u4e49\u6c34\u5370
-#水印字体(宋体)
-captcha.water.font=\u5b8b\u4f53
-#汉字字体(隶书)
-captcha.font.type=\u96b6\u4e66
-#校验滑动拼图偏移量(默认5)
-captcha.slip.offset=5
-```
-
-### 2.2.2 后端二次校验接口
-以登录为例，用户在提交表单到后台，会携带一个验证码相关的参数。后端登录接口login，首先调用CaptchaService.verification做二次校验。
+### 2.2.2 启动类上添加相应注解
 ```java
-@Autowired
-private CaptchaService captchaService;
-
-//这里是伪代码
-private boolean login(Request request){
-    String captchaVerification = request.getString("captchaVerification");
-
-    CaptchaVO captchaVO = new CaptchaVO();
-    captchaVO.setCaptchaVerification(captchaVO);
-    ResponseModel response = captchaService.verification(captchaVO);
-    if(response.isSuccess() == false){
-         //验证码校验失败，返回信息告诉前端
-         //repCode  0000  无异常，代表成功 
-         //repCode  9999  服务器内部异常 
-         //repCode  0011  参数不能为空
-         //repCode  6110  验证码已失效，请重新获取
-         //repCode  6111  验证失败
-         //repCode  6112  获取验证码失败,请联系管理员
-
-    }
-}
+@ComponentScan(basePackages = {
+      "com.anji.captcha",
+      "产品自身对应的包路径…"
+})
 ```
-### 2.2.3 防刷功能
-    a.同一用户，登录错误3次才要求验证码，考虑是登录模块的功能。
-    b.同一用户，限制请求验证码，5分钟不能超过100次等。
-    以上功能，我们会在service/springboot示例代码中提供额外的参考代码，不集成在jar中。
-### 2.2.4 SpringMVC项目
-```
-示例：仓库service\springmvc。考虑部分老项目，还是非springboot的，我们提供spring mvc的项目示例代码。主要是配置redisTemplate和包扫描。
-```
-    
+
+### 2.2.3 二次校验接口
+登录为例，用户在提交表单到产品应用后台，会携带一个验证码相关的参数。产品应用会在登录接口login中将该参数传给集成jar包中相关接口做二次校验。
+接口地址：https://****/captcha/verify
+### 2.2.4 请求方式
+HTTP POST, 接口仅支持POST请求, 且仅接受 application/json 编码的参数
+### 2.2.5 请求参数
+| 参数  |  类型 | 必填  |  备注 |
+| ------------ | ------------ | ------------ | ------------ |
+| captchaVerification  | String  |  Y | 验证数据，aes加密，数据在前端success函数回调参数中获取  |
+
+
+### 2.2.6 响应参数
+| 参数  |  类型 | 必填  |  备注 |
+| ------------ | ------------ | ------------ | ------------ |
+| repCode  | String  | Y  | 异常代号  |
+| success  | Boolean  |  Y | 成功或者失败  |
+| error  | Boolean  | Y  | 接口报错  |
+| repMsg  | String  | Y  | 错误信息  |
+
+
+### 2.2.7 异常代号
+
+| error  |  说明 |
+| ------------ | ------------ |
+|  0000 |  无异常，代表成功 |
+| 9999  | 服务器内部异常  |
+|  0011 | 参数不能为空  |
+| 6110  | 验证码已失效，请重新获取  |
+| 6111  | 验证失败  |
+| 6112  | 获取验证码失败,请联系管理员  |
+
 ## 2.3 前端接入
 ### 2.3.1 兼容性
 IE8+、Chrome、Firefox.(其他未测试)
