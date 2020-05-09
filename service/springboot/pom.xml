@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.github.anji-plus</groupId>
             <artifactId>captcha</artifactId>
-            <version>1.1.6</version>
+            <version>1.1.5</version>
         </dependency>
 
         <dependency>
@@ -58,12 +58,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.31</version>
-        </dependency>
-
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>2.9.0</version>
         </dependency>
 
         <dependency>
