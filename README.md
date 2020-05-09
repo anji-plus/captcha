@@ -42,7 +42,7 @@
 &emsp;
 
 # 5 接入文档
-#### &emsp; 详细的前后端接入文档，后端示例代码service目录下，前端救命代码view目录下。
+#### &emsp; 详细的前后端接入文档，后端示例代码service目录下，前端示例代码view目录下。
 #### &emsp; 5.1 [码云wiki接入文档（国内较快）](https://gitee.com/anji-plus/captcha/wikis/Home "码云")<br>
 #### &emsp; 5.2 [github wiki接入文档](https://github.com/anji-plus/captcha/wiki "github")<br>
 
