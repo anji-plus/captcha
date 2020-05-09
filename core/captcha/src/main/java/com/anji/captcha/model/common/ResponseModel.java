@@ -8,7 +8,6 @@ package com.anji.captcha.model.common;
 
 import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.util.StringUtils;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.io.Serializable;
 
@@ -71,10 +70,10 @@ public class ResponseModel implements Serializable {
         return responseModel;
     }
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
+//    @Override
+//    public String toString() {
+//        return ToStringBuilder.reflectionToString(this);
+//    }
 
     public String toJsonString() {
         return JSONObject.toJSONString(this);
