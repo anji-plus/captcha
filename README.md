@@ -30,8 +30,8 @@
 ├─core    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;     java后端jar包<br>
 ├─images    &emsp;&emsp;&emsp;&emsp;&emsp;    效果图<br>
 ├─service<br>
-&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
-&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例<br>
+├&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
+├&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例<br>
 └─view    &emsp;&emsp;&emsp;&emsp;&emsp;    多语言客户端示例<br>
 &emsp;├─android    &emsp;&emsp;    原生android实现示例<br>
 &emsp;├─flutter    &emsp;&emsp;    flutter实现示例<br>
@@ -43,7 +43,7 @@
 
 # 5 接入文档
 #### &emsp; 详细的前后端接入文档，后端示例代码service目录下，前端救命代码view目录下。
-#### &emsp; 5.1 [码云wiki接入文档](https://gitee.com/anji-plus/captcha/wikis/Home "码云")<br>
+#### &emsp; 5.1 [码云wiki接入文档（国内较快）](https://gitee.com/anji-plus/captcha/wikis/Home "码云")<br>
 #### &emsp; 5.2 [github wiki接入文档](https://github.com/anji-plus/captcha/wiki "github")<br>
 
 # 6 近期计划
