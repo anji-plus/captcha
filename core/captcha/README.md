@@ -1,7 +1,7 @@
 # 2 对接流程
 ## 2.1 接入流程
 ### 2.1.1 后端接入
- 用户提交表单会携带验证码相关参数，产品应用在相关接口处将该参数传给 集成jar包相关接口做二次校验，以确保该次验证是正确有效的。
+ 用户提交表单会携带验证码相关参数，后台需要调用captchaService.verification做二次校验，以确保验证数据的正确有效。
 ### 2.1.2 前端接入
  引入相关组件，调用初始化函数，通过配置的一些参数信息。将行为验证码渲染出来。
 ## 2.2 后端接入
@@ -59,71 +59,8 @@ private boolean login(Request request){
     }
 }
 ```
-### 2.2.3 防刷功能
-    a.同一用户，登录错误3次才要求验证码，考虑是登录模块的功能。
-    b.同一用户，限制请求验证码，5分钟不能超过100次等。
-    以上功能，我们会在service/springboot示例代码中提供额外的参考代码，不集成在jar中。
-### 2.2.4 SpringMVC项目
-```
-示例：仓库service\springmvc。考虑部分老项目，还是非springboot的，我们提供spring mvc的项目示例代码。主要是配置redisTemplate和包扫描。
-```
-    
-## 2.3 前端接入
-### 2.3.1 兼容性
-IE8+、Chrome、Firefox.(其他未测试)
-### 2.3.2 初始化组件
-引入前端vue组件, npm install axios    crypto-js   -S
-// 基础用例
-
-```javascript
-<template>
-	<Verify
-		@success="'success'" //验证成功的回调函数
-		:mode="'fixed'"     //调用的模式
-		:captchaType="'blockPuzzle'"    //调用的类型 点选或者滑动   
-		:imgSize="{ width: '330px', height: '155px' }"//图片的大小对象
-	></Verify
-</template>
-
-<script>
-//引入组件
-import Verify from "./../../components/verifition/Verify";
-export default {
-	name: 'app',
-	components: {
-		Verify
-	}
-	methods:{
-		success(params){
-		// params 返回的二次验证参数
-		}
-	}
-}
-</script>
-```
-
-### 2.3.3 事件
-
-|  参数 | 说明  |
-| ------------ | ------------ |
-| success  | 验证码匹配成功后的回调函数  |
-| error  | 验证码匹配失败后的回调函数  |
-| ready  |  验证码初始化成功的回调函数 |
-
-### 2.3.4 验证码参数
-
-| 参数  | 说明  |
-| ------------ | ------------ |
-| captchaType  | 1）滑动拼图 blockPuzzle  2）文字点选 clickWord  |
-| mode  | 验证码的显示方式，弹出式pop，固定fixed，默认是：mode : ‘pop’  |
-| vSpace  | 验证码图片和移动条容器的间隔，默认单位是px。如：间隔为5px，设置vSpace:5  |
-| explain  |  滑动条内的提示，不设置默认是：'向右滑动完成验证' |
-|  imgSize |  其中包含了width、height两个参数，分别代表图片的宽度和高度，支持百分比方式设置 如:{width:'100%',height:'200px'} |
-| blockSize  | 其中包含了width、height两个参数，分别代表拼图块的宽度和高度，如:{width:'40px',height:'40px'}  |
-| barSize  | 其中包含了width、height两个参数，分别代表滑动条的宽度和高度，支持百分比方式设置，如:{width:'100%',height:'40px'}  |
-
-### 2.3.5 获取验证码接口详情
-#### 接口地址：http://*:*/captcha/get
+### 2.2.3 后端接口
+#### 获取验证码接口：http://*:*/captcha/get
 ##### 请求参数：
 ```json
 {
@@ -149,8 +86,7 @@ export default {
     "error": false
 }
 ```
-### 2.3.6 核对验证码接口详情
-#### 请求接口：http://*:*/captcha/check
+#### 核对验证码接口接口：http://*:*/captcha/check
 ##### 请求参数：
 ```json
 {
@@ -173,10 +109,15 @@ export default {
     "error": false
 }
 ```
-## 2.4 IOS接入
-待接入
-## 2.5 Android
-待接入
+
+### 2.2.4 防刷功能
+    a.同一用户，登录错误3次才要求验证码，考虑是登录模块的功能。
+    b.同一用户，限制请求验证码，5分钟不能超过100次等。
+    以上功能，我们会在service/springboot示例代码中提供额外的参考代码，不集成在jar中。
+### 2.2.5 SpringMVC项目
+```
+示例：仓库service\springmvc。考虑部分老项目，还是非springboot的，我们提供spring mvc的项目示例代码。主要是配置redisTemplate和包扫描。
+```
 
 # 3  Q & A
 ## 3.1 linux部署注意事项点选文字
@@ -225,16 +166,3 @@ fc-cache
 ```shell
 fc-list
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
