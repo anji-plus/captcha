@@ -1,1 +1,1 @@
-#org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.anji.mirror.configuration.MirrorAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.anji.captcha.config.BeanAutoConfig
