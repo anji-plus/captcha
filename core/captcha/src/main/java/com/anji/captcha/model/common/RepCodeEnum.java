@@ -55,7 +55,7 @@ public enum RepCodeEnum {
      * @param fieldNames
      * @return
      */
-    public ResponseModel parseError(String... fieldNames) {
+    public ResponseModel parseError(Object... fieldNames) {
         ResponseModel errorMessage=new ResponseModel();
         String newDesc = MessageFormat.format(this.desc, fieldNames);
 
@@ -63,4 +63,5 @@ public enum RepCodeEnum {
         errorMessage.setRepMsg(newDesc);
         return errorMessage;
     }
+
 }
