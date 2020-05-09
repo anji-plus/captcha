@@ -10,7 +10,7 @@ package com.anji.captcha.service.impl;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
-import com.anji.captcha.service.CaptchaRedisService;
+import com.anji.captcha.service.CacheService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.config.Container;
@@ -49,7 +49,7 @@ public class DefaultCaptchaServiceImpl implements CaptchaService {
 
 
     @Autowired
-    protected CaptchaRedisService captchaRedisService;
+    protected CacheService captchaRedisService;
 
     private Map<String,CaptchaService> instances = new HashMap();
     @PostConstruct

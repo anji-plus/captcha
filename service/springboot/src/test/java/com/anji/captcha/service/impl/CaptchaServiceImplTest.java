@@ -9,12 +9,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Created by raodeming on 2020/4/30.
  */
 @RunWith(SpringRunner.class)
+@ComponentScan(basePackages = {"com.anji.captcha"})
 @SpringBootTest
 public class CaptchaServiceImplTest {
 
