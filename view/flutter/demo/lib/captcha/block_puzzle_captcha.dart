@@ -138,10 +138,6 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
       }
 
       Map<String, dynamic> repData = res['repData'];
-      print("--------------");
-      print(repData.keys);
-      print("${repData["point"]}");
-
       sliderXMoved = 0;
       sliderStartX = 0;
       captchaToken = '';
@@ -152,8 +148,6 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
       slideImageBase64 = repData["jigsawImageBase64"];
       slideImageBase64 = slideImageBase64.replaceAll('\n', '');
       captchaToken = repData["token"];
-
-      print(baseImageBase64);
 
       var baseR = await WidgetUtil.getImageWH(
           image: Image.memory(Base64Decoder().convert(baseImageBase64)));
@@ -187,10 +181,8 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
     var cryptedStr = aesEncrypter.encrypt(pointStr);
     var dcrypt = aesEncrypter.decrypt(cryptedStr);
 
-    print("cryptedStr ---- ${cryptedStr}"); // - A string to encrypt.
     Map _map = json.decode(dcrypt);
 
-    print("dcrypt ---- ${_map}");
     HttpManager.requestData('/captcha/check', {
       "pointJson": cryptedStr,
       "captchaType": "blockPuzzle",
@@ -424,17 +416,17 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
                                 onPanStart: (startDetails) {
                                   _checkMilliseconds =
                                       new DateTime.now().millisecondsSinceEpoch;
-                                  print("startDetails");
-                                  print(startDetails.globalPosition);
+//                                  print("startDetails");
+//                                  print(startDetails.globalPosition);
 
                                   sliderStartX = startDetails.globalPosition.dx;
-                                  print(
-                                      "startDetails --- sliderStartX ${sliderStartX} ");
+//                                  print(
+//                                      "startDetails --- sliderStartX ${sliderStartX} ");
                                 },
                                 onPanUpdate: (updateDetails) {
-                                  print("updateDetails");
-                                  print(updateDetails.globalPosition);
-
+//                                  print("updateDetails");
+//                                  print(updateDetails.globalPosition);
+//
                                   double offset =
                                       updateDetails.globalPosition.dx -
                                           sliderStartX;
@@ -453,7 +445,7 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
                                   updateSliderColorIcon();
                                 },
                                 onPanEnd: (endDetails) {
-                                  print("endDetails");
+//                                  print("endDetails");
                                   checkCaptcha(sliderXMoved, captchaToken);
                                   int _nowTime =
                                       new DateTime.now().millisecondsSinceEpoch;
