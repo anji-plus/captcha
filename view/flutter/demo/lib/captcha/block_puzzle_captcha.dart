@@ -248,7 +248,14 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
 
   @override
   Widget build(BuildContext context) {
-    var dialogWidth = 0.9 * MediaQuery.of(context).size.width;
+    var mediaQuery = MediaQuery.of(context);
+
+    var dialogWidth = 0.9 * mediaQuery.size.width;
+    var isRatioCross = false;
+    if(dialogWidth < 320.0 ){
+      dialogWidth = mediaQuery.size.width;
+      isRatioCross = true;
+    }
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
@@ -292,14 +299,14 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
 
                   //显示验证码
                   Container(
-                    margin: EdgeInsets.all(10),
+                    margin: isRatioCross ? EdgeInsets.zero: EdgeInsets.all(10),
                     child: Stack(
                       children: <Widget>[
                         //底图 310*155
                         baseImageBase64.length > 0
                             ? Image.memory(
                                 Base64Decoder().convert(baseImageBase64),
-//                      width: dialogWidth - 20,
+                        width: baseSize.width,
                                 fit: BoxFit.fitWidth,
                                 gaplessPlayback: true,
                               )
@@ -317,7 +324,8 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
                                     EdgeInsets.fromLTRB(sliderXMoved, 0, 0, 0),
                                 child: Image.memory(
                                   Base64Decoder().convert(slideImageBase64),
-                                  fit: BoxFit.fitWidth,
+                                  fit: BoxFit.fitHeight,
+                                  height: slideSize.height,
                                   gaplessPlayback: true,
                                 ),
                               )
