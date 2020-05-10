@@ -14,9 +14,7 @@ import java.util.Set;
  * @author lide
  * @date 2018-08-21
  */
-public interface CaptchaRedisService {
-
-	void set(String key, String value);
+public interface CacheService {
 
 	void set(String key, String value, long expiresInSeconds);
 

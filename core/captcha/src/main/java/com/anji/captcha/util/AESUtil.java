@@ -7,13 +7,14 @@
 package com.anji.captcha.util;
 
 
-import org.apache.commons.codec.binary.Base64;
+//import org.apache.commons.codec.binary.Base64;
 import sun.misc.BASE64Decoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 import java.math.BigInteger;
+import java.util.Base64;
 
 
 public class AESUtil {
@@ -68,7 +69,8 @@ public class AESUtil {
      * @return 编码后的base 64 code
      */
     public static String base64Encode(byte[] bytes){
-        return Base64.encodeBase64String(bytes);
+        //return Base64.encodeBase64String(bytes);
+        return Base64.getEncoder().encodeToString(bytes);
     }
 
     /**
