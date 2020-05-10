@@ -156,7 +156,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
             BASE64Encoder encoder = new BASE64Encoder();
             dataVO.setOriginalImageBase64(encoder.encode(oriCopyImages).replaceAll("\r|\n", ""));
             //point信息不传到前端，只做后端check校验
-            dataVO.setPoint(point);
+//            dataVO.setPoint(point);
             dataVO.setJigsawImageBase64(encoder.encode(jigsawImages).replaceAll("\r|\n", ""));
             dataVO.setToken(RandomUtils.getUUID());
 //            BASE64Decoder decoder = new BASE64Decoder();
