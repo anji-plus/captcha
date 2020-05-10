@@ -155,7 +155,13 @@ class _ClickWordCaptchaState extends State<ClickWordCaptcha> {
 
   @override
   Widget build(BuildContext context) {
-    var dialogWidth = 0.9 * MediaQuery.of(context).size.width;
+    var data = MediaQuery.of(context);
+    var dialogWidth = 0.9 * data.size.width;
+    var isRatioCross = false;
+    if(dialogWidth < 320.0 ){
+      dialogWidth = data.size.width;
+      isRatioCross = true;
+    }
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
