@@ -31,7 +31,7 @@
                 <div class="form-info mt14vh pb50" style="margin-left:5vw">
                   <el-row :gutter="20">
                     <el-col :xs="22" :sm="14" :md="10" :lg="8" :xl="7">
-                      <div class="logo"><img src="/static/logo.png" alt=""></div>
+                      <div class="logo"><img src="./../../static/logo.png" alt=""></div>
                       <form onsubmit="return false">
                         <ul class="user-info mt60">
                           <li class="user-input">
