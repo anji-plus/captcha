@@ -51,5 +51,5 @@
 #### &emsp; 6.2 增加ReactNative示例
 
 # 6 技术支持微信群
-<img src="https://images.gitee.com/uploads/images/2020/0504/151948_d5b4eece_1728982.jpeg" width = "200" height = "200" div align=left />
+<img src="https://images.gitee.com/uploads/images/2020/0511/091107_b81b631c_1728982.jpeg" width = "200" height = "200" div align=left />
 
