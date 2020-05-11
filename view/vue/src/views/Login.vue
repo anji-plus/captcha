@@ -52,13 +52,19 @@
                           </li>
                            <li class="keep-password">
                             <label>
-                              <a href='https://gitee.com/anji-plus/captcha/invite_link?invite=7df099e79d3373008f25296f59e36cfb033e7bd786211623b7993663152babc589bab2c87e156b5ae766b0d826817bc9' target="_blank" style="color:#222"><img src="https://gitee.com/static/images/logo-en.svg" style="vertical-align:middle;margin-right:5px" width="24px"/> gitee</a>
+                              <a href='https://gitee.com/anji-plus/captcha/' target="_blank" style="color:#222"><img src="https://gitee.com/static/images/logo-en.svg" style="vertical-align:middle;margin-right:5px" width="24px"/> gitee</a>
                             </label>
 
                             <label class="ml20">
                              <a href='https://gitee.com/anji-plus/captcha/stargazers' target="_blank"><img src='https://gitee.com/anji-plus/captcha/badge/star.svg?theme=gvp' style="vertical-align:middle;" alt='star' /></a>
                             </label>
-                        
+
+                          </li>
+                          <li class="keep-password">
+                            <label>
+                              <a href='https://github.com/anji-plus/captcha' target="_blank" style="color:#222"><img src="https://github.githubassets.com/favicons/favicon.png" style="vertical-align:middle;margin-right:5px" width="24px"/> github</a>
+                            </label>
+
                           </li>
                           <li class="mt50">
                             <!-- @click="login" -->
