@@ -125,22 +125,22 @@ export default {
     font-size: 14px;
     color: #333;
     width: 100%;
-    height: calc(100vh - 110px);
-    height: -moz-calc(100vh - 110px);
-    height: -webkit-calc(100vh - 110px);
-    height: calc(100vh - 110px);
+    height: calc(100vh - 146px);
+    height: -moz-calc(100vh - 146px);
+    height: -webkit-calc(100vh - 146px);
+    height: calc(100vh - 146px);
     overflow-y: auto;
     overflow-x: hidden;
   }
   .log-list {
-    min-height: calc(100vh - 150px);
-    min-height: -moz-calc(100vh - 150px);
-    min-height: -webkit-calc(100vh - 150px);
-    min-height: calc(100vh - 150px);
-    max-height: calc(100vh - 150px);
-    max-height: -moz-calc(100vh - 150px);
-    max-height: -webkit-calc(100vh - 150px);
-    max-height: calc(100vh - 150px);
+    min-height: calc(100vh - 186px);
+    min-height: -moz-calc(100vh - 186px);
+    min-height: -webkit-calc(100vh - 186px);
+    min-height: calc(100vh - 186px);
+    max-height: calc(100vh - 186px);
+    max-height: -moz-calc(100vh - 186px);
+    max-height: -webkit-calc(100vh - 186px);
+    max-height: calc(100vh - 186px);
     overflow-y: auto;
     overflow-x: hidden;
   }
