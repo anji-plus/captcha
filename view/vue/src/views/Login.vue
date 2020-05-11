@@ -98,8 +98,8 @@ import Verify from './../components/verifition/Verify'
 export default {
   data () {
     return {
-      loginName: '',
-      loginPassword: '',
+      loginName: 'admin',
+      loginPassword: '123456',
       menu: [],
       checked: true,
       dialogFormVisible: false
