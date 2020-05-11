@@ -35,13 +35,13 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
 
     private static Logger logger = LoggerFactory.getLogger(ClickWordCaptchaServiceImpl.class);
 
-    @Value("${captcha.water.mark:}")
+    @Value("${captcha.water.mark:'我的水印'}")
     private String waterMark;
 
-    @Value("${captcha.water.font:宋体}")
+    @Value("${captcha.water.font:'宋体'}")
     private String waterMarkFont;
 
-    @Value("${captcha.font.type:宋体}")
+    @Value("${captcha.font.type:'宋体'}")
     private String fontType;
 
     @Override
