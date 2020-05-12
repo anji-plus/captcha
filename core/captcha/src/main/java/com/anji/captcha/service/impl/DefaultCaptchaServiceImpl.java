@@ -10,7 +10,7 @@ package com.anji.captcha.service.impl;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
-import com.anji.captcha.service.CacheService;
+import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.config.Container;
@@ -47,13 +47,13 @@ public class DefaultCaptchaServiceImpl implements CaptchaService {
 
     protected static String REDIS_SECOND_CAPTCHA_KEY = "RUNNING:CAPTCHA:second-%s";
 
-
-    @Autowired
-    protected CacheService captchaRedisService;
+    protected CaptchaCacheService captchaCacheService;
 
     private Map<String,CaptchaService> instances = new HashMap();
     @PostConstruct
     public void init(){
+        initCache();
+
         Object t = this;
         Container.getBeanOfType(CaptchaService.class).entrySet().stream().forEach(item->{
             if(!t.equals(item.getValue())) {
@@ -65,6 +65,30 @@ public class DefaultCaptchaServiceImpl implements CaptchaService {
         ImageUtils.cacheImage(captchaOriginalPathJigsaw, captchaOriginalPathClick);
         logger.info("--->>>初始化验证码底图<<<---");
     }
+
+    public void initCache(){
+        Map<String, CaptchaCacheService> map = Container.getBeanOfType(CaptchaCacheService.class);
+        if(map == null || map.isEmpty()){
+            captchaCacheService = Container.getBean("captchaCacheServiceMemImpl", CaptchaCacheService.class);
+            return;
+        }
+        if(map.size()==1){
+            captchaCacheService = Container.getBean("captchaCacheServiceMemImpl", CaptchaCacheService.class);
+            return;
+        }
+        if(map.size()>=2){
+            map.entrySet().stream().forEach(item ->{
+                if(captchaCacheService != null){
+                    return;
+                }
+                if(!"captchaCacheServiceMemImpl".equals(item.getKey())){
+                    captchaCacheService = item.getValue();
+                    return;
+                }
+            });
+        }
+    }
+
     private CaptchaService getService(String captchaType){
         return instances.get(captchaType.concat("CaptchaService"));
     }
@@ -114,10 +138,10 @@ public class DefaultCaptchaServiceImpl implements CaptchaService {
             String pointJson = s.split("---")[1];
             //取坐标信息
             String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, token);
-            if (!captchaRedisService.exists(codeKey)) {
+            if (!captchaCacheService.exists(codeKey)) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
             }
-            String redisData = captchaRedisService.get(codeKey);
+            String redisData = captchaCacheService.get(codeKey);
             if (!pointJson.equals(redisData)) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_COORDINATE_ERROR);
             }

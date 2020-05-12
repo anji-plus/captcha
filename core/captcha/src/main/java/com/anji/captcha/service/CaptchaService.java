@@ -6,12 +6,13 @@
  */
 package com.anji.captcha.service;
 
-
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 
 /**
- * Created by raodeming on 2019/12/25.
+ * @Title: 验证码缓存接口
+ * @author lide1202@hotmail.com
+ * @date 2020-05-12
  */
 public interface CaptchaService {
 
