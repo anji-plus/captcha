@@ -42,9 +42,19 @@
 &emsp;
 
 # 5 接入文档
-#### &emsp; 详细的前后端接入文档，后端示例代码service目录下，前端示例代码view目录下。
-#### &emsp; 5.1 [码云wiki接入文档（国内较快）](https://gitee.com/anji-plus/captcha/wikis/Home "码云")<br>
-#### &emsp; 5.2 [github wiki接入文档](https://github.com/anji-plus/captcha/wiki "github")<br>
+#### &emsp; 5.1 本地启动
+&emsp; 第一步，启动后端，service/springboot导入Eclipse或者Intellij，启动StartApplication。<br>
+&emsp; 第二步，启动前端，使用visual code打开文件夹view/vue，npm install后npm run dev，浏览器登录<br>
+```js
+npm install
+npm run dev
+
+DONE  Compiled successfully in 29587ms                                                                                                                 12:06:38
+I  Your application is running here: http://localhost:8081
+``` 
+&emsp;详细的前后端接入文档，后端示例代码service目录下，前端示例代码view目录下。
+#### &emsp; 5.2 [码云wiki接入文档（国内较快）](https://gitee.com/anji-plus/captcha/wikis/Home "码云")<br>
+#### &emsp; 5.3 [github wiki接入文档](https://github.com/anji-plus/captcha/wiki "github")<br>
 
 # 6 近期计划
 #### &emsp; 6.2 增加weex示例

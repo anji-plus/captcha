@@ -30,8 +30,6 @@
             <groupId>com.github.anji-plus</groupId>
             <artifactId>captcha</artifactId>
             <version>1.1.6</version>
-            <scope>system</scope>
-            <systemPath>D:/Workspace/captcha/core/captcha/target/captcha-1.1.6.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -62,10 +60,10 @@
             <version>1.2.31</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
+<!--        </dependency>-->
 
     </dependencies>
 
