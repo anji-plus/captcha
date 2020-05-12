@@ -9,6 +9,7 @@ package com.anji.captcha.config;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ import java.util.Map;
 
 
 @Component
-@Order(1)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class Container implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
