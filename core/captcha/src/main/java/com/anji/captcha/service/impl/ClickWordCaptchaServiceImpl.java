@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.RandomUtils;
 
@@ -88,7 +89,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         try {
             point = JSONObject.parseArray(s, Point.class);
             //aes解密
-            pointJson = decrypt(captchaVO.getPointJson());
+            pointJson = decrypt(captchaVO.getPointJson(), captchaVO.getKey());
             point1 = JSONObject.parseArray(pointJson, Point.class);
         } catch (Exception e) {
             logger.error("验证码坐标解析失败", e);
@@ -106,6 +107,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         String secondKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getToken());
         captchaCacheService.set(secondKey, pointJson, EXPIRESIN_THREE);
         captchaVO.setResult(true);
+        captchaVO.setKey(AESUtil.getKey());
         return ResponseModel.successData(captchaVO);
     }
 
@@ -174,6 +176,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         //dataVO.setPointList(pointList);
         dataVO.setWordList(wordList);
         dataVO.setToken(RandomUtils.getUUID());
+        dataVO.setKey(AESUtil.getKey());
         //将坐标信息存入redis中
         String codeKey = String.format(REDIS_CAPTCHA_KEY, dataVO.getToken());
         captchaCacheService.set(codeKey, JSONObject.toJSONString(pointList), EXPIRESIN_SECONDS);

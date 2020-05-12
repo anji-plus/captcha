@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.RandomUtils;
 import com.anji.captcha.util.StringUtils;
@@ -28,7 +29,7 @@ import java.util.Random;
 
 /**
  * 滑动验证码
- *
+ * <p>
  * Created by raodeming on 2019/12/25.
  */
 @Component(value = "blockPuzzleCaptchaService")
@@ -88,14 +89,14 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
         try {
             point = JSONObject.parseObject(s, Point.class);
             //aes解密
-            pointJson = decrypt(captchaVO.getPointJson());
+            pointJson = decrypt(captchaVO.getPointJson(), captchaVO.getKey());
             point1 = JSONObject.parseObject(pointJson, Point.class);
         } catch (Exception e) {
             logger.error("验证码坐标解析失败", e);
             return ResponseModel.errorMsg(e.getMessage());
         }
-        if (point.x-Integer.parseInt(slipOffset) > point1.x
-                || point1.x > point.x+Integer.parseInt(slipOffset)
+        if (point.x - Integer.parseInt(slipOffset) > point1.x
+                || point1.x > point.x + Integer.parseInt(slipOffset)
                 || point.y != point1.y) {
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_COORDINATE_ERROR);
         }
@@ -103,6 +104,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
         String secondKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getToken());
         captchaCacheService.set(secondKey, pointJson, EXPIRESIN_THREE);
         captchaVO.setResult(true);
+        captchaVO.setKey(AESUtil.getKey());
         return ResponseModel.successData(captchaVO);
     }
 
@@ -116,7 +118,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
      *
      * @throws Exception
      */
-    public CaptchaVO pictureTemplatesCut(BufferedImage originalImage, BufferedImage jigsawImage){
+    public CaptchaVO pictureTemplatesCut(BufferedImage originalImage, BufferedImage jigsawImage) {
         try {
             CaptchaVO dataVO = new CaptchaVO();
 
@@ -127,8 +129,8 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
             //随机生成拼图坐标
             Point point = generateJigsawPoint(originalWidth, originalHeight, jigsawWidth, jigsawHeight);
-            int x = (int)point.getX();
-            int y = (int)point.getY();
+            int x = (int) point.getX();
+            int y = (int) point.getY();
 
             //生成新的拼图图像
             BufferedImage newJigsawImage = new BufferedImage(jigsawWidth, jigsawHeight, jigsawImage.getType());
@@ -168,7 +170,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
             captchaCacheService.set(codeKey, JSONObject.toJSONString(point), EXPIRESIN_SECONDS);
 
             return dataVO;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -232,6 +234,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
     /**
      * 根据模板图片抠图
+     *
      * @param oriImage
      * @param templateImage
      * @param targetImage
@@ -255,8 +258,8 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
                     targetImage.setRGB(i, j, oriImageData[i][j]);
                     int rgb_ori = targetImage.getRGB(i, j);
                     if (j > 3 && j < templateImageData[0].length - 3) {
-                        int rgbBefore = templateImageData[i][j-1];
-                        int rgbAfter = templateImageData[i][j+1];
+                        int rgbBefore = templateImageData[i][j - 1];
+                        int rgbAfter = templateImageData[i][j + 1];
                         if (rgbBefore > 0 || rgbAfter > 0) {
                             int rgb1 = new Color(255, 255, 255, 150).getRGB();
                             targetImage.setRGB(i, j, rgb1);
@@ -274,11 +277,12 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
     /**
      * 生成图像矩阵
+     *
      * @param
      * @return
      * @throws Exception
      */
-    private static int[][] getData(BufferedImage bimg){
+    private static int[][] getData(BufferedImage bimg) {
         int[][] data = new int[bimg.getWidth()][bimg.getHeight()];
         for (int i = 0; i < bimg.getWidth(); i++) {
             for (int j = 0; j < bimg.getHeight(); j++) {
@@ -290,6 +294,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
     /**
      * 随机生成拼图坐标
+     *
      * @param originalWidth
      * @param originalHeight
      * @param jigsawWidth
