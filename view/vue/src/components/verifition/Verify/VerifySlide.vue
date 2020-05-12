@@ -295,7 +295,6 @@
                         var moveLeftDistance = parseInt((this.moveBlockLeft || '').replace('px', ''));
                         moveLeftDistance = moveLeftDistance * 310/ parseInt(this.setSize.imgWidth)
 
-                        var captchaVerification = aesEncrypt(this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0}))
                         let data = {
                             captchaType:this.captchaType,
                             "pointJson":aesEncrypt(JSON.stringify({x:moveLeftDistance,y:5.0})),
@@ -319,6 +318,8 @@
                                 // this.tipsBackColor = '#5cb85c'
                                 this.tipsBackColor = 'rgb(92, 184, 92,.5)'
                                 this.tipWords = `${((this.endMovetime-this.startMoveTime)/1000).toFixed(2)}s验证成功`
+
+                                var captchaVerification = aesEncrypt(this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0}))
                                 setTimeout(()=>{
                                     this.tipWords = ""
                                     this.$parent.closeBox();
