@@ -49,7 +49,7 @@
 npm install
 npm run dev
 
-DONE  Compiled successfully in 29587ms                                                                                                                 12:06:38
+DONE  Compiled successfully in 29587ms                       12:06:38
 I  Your application is running here: http://localhost:8081
 ``` 
 &emsp;详细的前后端接入文档，后端示例代码service目录下，前端示例代码view目录下。
