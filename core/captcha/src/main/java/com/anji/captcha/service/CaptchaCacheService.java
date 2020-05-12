@@ -6,15 +6,12 @@
  */
 package com.anji.captcha.service;
 
-import java.util.List;
-import java.util.Set;
-
 /**
- * @Title: redis通用方法
- * @author lide
+ * @Title: 验证码缓存接口
+ * @author lide1202@hotmail.com
  * @date 2018-08-21
  */
-public interface CacheService {
+public interface CaptchaCacheService {
 
 	void set(String key, String value, long expiresInSeconds);
 
