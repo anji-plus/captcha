@@ -116,7 +116,8 @@ private boolean login(Request request){
     以上功能，我们会在service/springboot示例代码中提供额外的参考代码，不集成在jar中。
 ### 2.2.5 SpringMVC项目
 ```
-示例：仓库service\springmvc。考虑部分老项目，还是非springboot的，我们提供spring mvc的项目示例代码。主要是配置redisTemplate和包扫描。整理中...
+示例：仓库service\springmvc。考虑部分老项目，还是非springboot的，我们提供spring mvc的项目示例代码。
+     主要是配置redisTemplate和包扫描。整理中...
 ```
 
 # 3  Q & A
