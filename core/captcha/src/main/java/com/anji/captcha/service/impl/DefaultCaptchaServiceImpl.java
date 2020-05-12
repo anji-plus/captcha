@@ -7,18 +7,17 @@
 package com.anji.captcha.service.impl;
 
 
+import com.anji.captcha.config.Container;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
-import com.anji.captcha.config.Container;
 import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
@@ -133,9 +132,10 @@ public class DefaultCaptchaServiceImpl implements CaptchaService {
         }
         try {
             //aes解密
-            String s = AESUtil.aesDecrypt(captchaVO.getCaptchaVerification(), null);
+            String s = AESUtil.aesDecrypt(captchaVO.getCaptchaVerification(), captchaVO.getKey());
             String token = s.split("---")[0];
             String pointJson = s.split("---")[1];
+            String key = s.split("---")[2];
             //取坐标信息
             String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, token);
             if (!captchaCacheService.exists(codeKey)) {
