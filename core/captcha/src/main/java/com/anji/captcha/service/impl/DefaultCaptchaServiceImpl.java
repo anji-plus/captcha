@@ -142,6 +142,8 @@ public class DefaultCaptchaServiceImpl implements CaptchaService {
                 return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
             }
             String redisData = captchaCacheService.get(codeKey);
+            //二次校验取值后，即刻失效
+            captchaCacheService.delete(codeKey);
             if (!pointJson.equals(redisData)) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_COORDINATE_ERROR);
             }
