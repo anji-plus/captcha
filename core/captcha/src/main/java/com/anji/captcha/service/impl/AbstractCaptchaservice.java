@@ -6,18 +6,21 @@
  */
 package com.anji.captcha.service.impl;
 
+import com.anji.captcha.config.Container;
+import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
-import com.anji.captcha.service.CacheService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
+import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.util.Map;
 
 /**
  * Created by raodeming on 2019/12/25.
@@ -47,9 +50,33 @@ public abstract class AbstractCaptchaservice implements CaptchaService {
 
     protected static Long EXPIRESIN_THREE = 3 * 60L;
 
+    protected CaptchaCacheService captchaCacheService;
 
-    @Autowired
-    protected CacheService captchaRedisService;
+    //判断应用是否实现了自定义缓存，没有就使用内存
+    @PostConstruct
+    public void init(){
+        Map<String, CaptchaCacheService> map = Container.getBeanOfType(CaptchaCacheService.class);
+        if(map == null || map.isEmpty()){
+            captchaCacheService = Container.getBean("captchaCacheServiceMemImpl", CaptchaCacheService.class);
+            return;
+        }
+        if(map.size()==1){
+            captchaCacheService = Container.getBean("captchaCacheServiceMemImpl", CaptchaCacheService.class);
+            return;
+        }
+        if(map.size()>=2){
+            map.entrySet().stream().forEach(item ->{
+                if(captchaCacheService != null){
+                    return;
+                }
+                if(!"captchaCacheServiceMemImpl".equals(item.getKey())){
+                    captchaCacheService = item.getValue();
+                    return;
+                }
+            });
+        }
+    }
+
     /**
      *
      * 获取原生图片

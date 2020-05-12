@@ -76,12 +76,12 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
     public ResponseModel check(CaptchaVO captchaVO) {
         //取坐标信息
         String codeKey = String.format(REDIS_CAPTCHA_KEY, captchaVO.getToken());
-        if (!captchaRedisService.exists(codeKey)) {
+        if (!captchaCacheService.exists(codeKey)) {
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
         }
-        String s = captchaRedisService.get(codeKey);
+        String s = captchaCacheService.get(codeKey);
         //验证码只用一次，即刻失效
-        captchaRedisService.delete(codeKey);
+        captchaCacheService.delete(codeKey);
         Point point = null;
         Point point1 = null;
         String pointJson = null;
@@ -101,7 +101,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
         }
         //校验成功，将信息存入redis
         String secondKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getToken());
-        captchaRedisService.set(secondKey, pointJson, EXPIRESIN_THREE);
+        captchaCacheService.set(secondKey, pointJson, EXPIRESIN_THREE);
         captchaVO.setResult(true);
         return ResponseModel.successData(captchaVO);
     }
@@ -165,7 +165,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
             //将坐标信息存入redis中
             String codeKey = String.format(REDIS_CAPTCHA_KEY, dataVO.getToken());
-            captchaRedisService.set(codeKey, JSONObject.toJSONString(point), EXPIRESIN_SECONDS);
+            captchaCacheService.set(codeKey, JSONObject.toJSONString(point), EXPIRESIN_SECONDS);
 
             return dataVO;
         } catch (Exception e){
