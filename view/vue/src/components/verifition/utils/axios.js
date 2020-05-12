@@ -20,7 +20,7 @@ service.interceptors.request.use(
     if ((token == null || token == '') && config.data.hasOwnProperty('token')) {
       token = config.data.token;
     }
-    config.data = signUtil.sign(token, config.data);  //此处为魔镜后端数据传输结构 加密方式
+    //config.data = signUtil.sign(token, config.data);  //如果应用经过网关需要签名或者时间戳，请自己实现。
     return config
   },
   error => {

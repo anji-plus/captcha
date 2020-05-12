@@ -11,12 +11,15 @@
 <dependency>
    <groupId>com.github.anji-plus</groupId>
    <artifactId>captcha</artifactId>
-   <version>1.1.5</version>
+   <version>1.1.6</version>
 </dependency>
 ```
 修改application.properties，自定义底图和水印，启动后前端就可以请求接口了。
 ```properties
-spring.redis.host=127.0.0.1
+# 对于分布式部署的应用，我们建议应用自己实现CaptchaCacheService，比如用Redis或者memcache，参考service/spring-boot下的CaptchaCacheServiceRedisImpl.java
+# 如果应用是单点的，也没有使用redis，那默认使用内存。
+# 内存缓存只适合单节点部署的应用，否则验证码生产与验证在节点之间信息不同步，导致失败。
+#spring.redis.host=10.108.11.46
 ....
 
 #滑动验证，底图路径，不配置将使用默认图片
@@ -24,13 +27,14 @@ spring.redis.host=127.0.0.1
 #滑动验证，底图路径，不配置将使用默认图片
 #captcha.captchaOriginalPath.pic-click=/app/product/dist/captchabg
 
-#右下角水印
-captcha.water.mark=\u81ea\u5b9a\u4e49\u6c34\u5370
-#水印字体(宋体)
+#汉字统一使用Unicode,保证程序通过@value读取到是中文，可通过这个在线转换 https://tool.chinaz.com/tools/unicode.aspx 中文转Unicode
+#右下角水印文字(我的水印)
+captcha.water.mark=\u6211\u7684\u6c34\u5370
+#右下角水印字体(宋体)
 captcha.water.font=\u5b8b\u4f53
-#汉字字体(隶书)
-captcha.font.type=\u96b6\u4e66
-#校验滑动拼图偏移量(默认5)
+#点选文字验证码的文字字体(宋体)
+captcha.font.type=\u5b8b\u4f53
+#校验滑动拼图允许误差偏移量(默认5像素)
 captcha.slip.offset=5
 ```
 

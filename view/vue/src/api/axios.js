@@ -4,16 +4,8 @@ import { setItem, getItem } from '@/utils/storage';
 import signUtil from '@/utils/signUtil';
 import router from '../router'
 
-// console.log(process.env.NODE_ENV);
+axios.defaults.baseURL = process.env.BASE_API;
 
-// axios.defaults.baseURL = process.env.BASE_API;
-axios.defaults.baseURL = "http://10.108.11.46";
-
-// if (process.env.NODE_ENV == 'development') {
-//   axios.defaults.baseURL = 'http://10.108.12.100:28060/api/';
-// } else if (process.env.NODE_ENV == 'production') {
-//   axios.defaults.baseURL = 'http://10.108.12.3:28103/';
-// }
 const service = axios.create({
   withCredentials: true,
   timeout: 40000,

@@ -35,13 +35,13 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
 
     private static Logger logger = LoggerFactory.getLogger(ClickWordCaptchaServiceImpl.class);
 
-    @Value("${captcha.water.mark:}")
+    @Value("${captcha.water.mark:'我的水印'}")
     private String waterMark;
 
-    @Value("${captcha.water.font:宋体}")
+    @Value("${captcha.water.font:'宋体'}")
     private String waterMarkFont;
 
-    @Value("${captcha.font.type:宋体}")
+    @Value("${captcha.font.type:'宋体'}")
     private String fontType;
 
     @Override
@@ -60,12 +60,12 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
     public ResponseModel check(CaptchaVO captchaVO) {
         //取坐标信息
         String codeKey = String.format(REDIS_CAPTCHA_KEY, captchaVO.getToken());
-        if (!captchaRedisService.exists(codeKey)) {
+        if (!captchaCacheService.exists(codeKey)) {
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
         }
-        String s = captchaRedisService.get(codeKey);
+        String s = captchaCacheService.get(codeKey);
         //验证码只用一次，即刻失效
-        captchaRedisService.delete(codeKey);
+        captchaCacheService.delete(codeKey);
         List<Point> point = null;
         List<Point> point1 = null;
         String pointJson = null;
@@ -104,7 +104,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         }
         //校验成功，将信息存入redis
         String secondKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getToken());
-        captchaRedisService.set(secondKey, pointJson, EXPIRESIN_THREE);
+        captchaCacheService.set(secondKey, pointJson, EXPIRESIN_THREE);
         captchaVO.setResult(true);
         return ResponseModel.successData(captchaVO);
     }
@@ -176,7 +176,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         dataVO.setToken(RandomUtils.getUUID());
         //将坐标信息存入redis中
         String codeKey = String.format(REDIS_CAPTCHA_KEY, dataVO.getToken());
-        captchaRedisService.set(codeKey, JSONObject.toJSONString(pointList), EXPIRESIN_SECONDS);
+        captchaCacheService.set(codeKey, JSONObject.toJSONString(pointList), EXPIRESIN_SECONDS);
 //        base64StrToImage(getImageToBase64Str(backgroundImage), "D:\\点击.png");
         return dataVO;
     }
