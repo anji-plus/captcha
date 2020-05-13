@@ -40,25 +40,22 @@ c.`非常重要`。对于分布式多实例部署的应用，应用必须自己�
 以登录为例，用户在提交表单到后台，会携带一个验证码相关的参数。后端登录接口login，首先调用CaptchaService.verification做二次校验。
 ```java
 @Autowired
+@Lazy
 private CaptchaService captchaService;
 
-//这里是伪代码
-private boolean login(Request request){
-    String captchaVerification = request.getString("captchaVerification");
-
-    CaptchaVO captchaVO = new CaptchaVO();
-    captchaVO.setCaptchaVerification(captchaVO);
+@PostMapping("/login")
+public ResponseModel get(@RequestBody CaptchaVO captchaVO) {
     ResponseModel response = captchaService.verification(captchaVO);
     if(response.isSuccess() == false){
-         //验证码校验失败，返回信息告诉前端
-         //repCode  0000  无异常，代表成功 
-         //repCode  9999  服务器内部异常 
-         //repCode  0011  参数不能为空
-         //repCode  6110  验证码已失效，请重新获取
-         //repCode  6111  验证失败
-         //repCode  6112  获取验证码失败,请联系管理员
-
+        //验证码校验失败，返回信息告诉前端
+        //repCode  0000  无异常，代表成功
+        //repCode  9999  服务器内部异常
+        //repCode  0011  参数不能为空
+        //repCode  6110  验证码已失效，请重新获取
+        //repCode  6111  验证失败
+        //repCode  6112  获取验证码失败,请联系管理员
     }
+    return response;
 }
 ```
 ### 2.2.3 后端接口
