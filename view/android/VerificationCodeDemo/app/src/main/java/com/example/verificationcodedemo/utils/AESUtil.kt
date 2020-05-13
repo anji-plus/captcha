@@ -14,7 +14,7 @@ import javax.crypto.spec.SecretKeySpec
  */
 object AESUtil {
 
-    private val KEY: String = "BGxdEUOZkXka4HSj"
+    private val KEY: String = "XwKsGlMcdPMEhR1B"
     private val ALGORITHMSTR: String = "AES/ECB/PKCS7Padding"
     private val ALGORITHM: String = "AES"
 
