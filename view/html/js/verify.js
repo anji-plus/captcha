@@ -470,11 +470,11 @@
 						}
 
 						var captchaVerification = aesEncrypt(_this.backToken+'---'+JSON.stringify(_this.checkPosArr))
-						checkPictrue(data,this.options.baseUrl).then(res=>{
+						checkPictrue(data, _this.options.baseUrl).then(res=>{
 							if (res.repCode=="0000") {
 								_this.$element.find('.verify-bar-area').css({'color': '#4cae4c', 'border-color': '#5cb85c'});
 								_this.$element.find('.verify-msg').text('验证成功');
-								_this.$element.find('.verify-refresh').hide();
+								// _this.$element.find('.verify-refresh').hide();
 								_this.$element.find('.verify-img-panel').unbind('click');
 								setTimeout(res=>{
 									_this.$element.find(".mask").css("display","none");
@@ -594,7 +594,7 @@
         	this.fontPos = [];
         	this.checkPosArr = [];
         	this.num = 1;
-			getPictrue({captchaType:"clickWord"},this.options.baseUrl).then(res=>{
+			getPictrue({captchaType:"clickWord"},_this.options.baseUrl).then(res=>{
 				if (res.repCode=="0000") {
 					this.htmlDoms.back_img[0].src ='data:image/png;base64,'+ res.repData.originalImageBase64
 					this.backToken = res.repData.token

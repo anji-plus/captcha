@@ -99,7 +99,7 @@ class _ClickWordCaptchaState extends State<ClickWordCaptcha> {
     }).toList();
     var pointStr = json.encode(mousePos);
 
-    var aesEncrypter = AesCrypt('BGxdEUOZkXka4HSj', 'ecb', 'pkcs7');
+    var aesEncrypter = AesCrypt('XwKsGlMcdPMEhR1B', 'ecb', 'pkcs7');
     var cryptedStr = aesEncrypter.encrypt(pointStr);
     var dcrypt = aesEncrypter.decrypt(cryptedStr);
 
@@ -141,7 +141,7 @@ class _ClickWordCaptchaState extends State<ClickWordCaptcha> {
 
     await Future.delayed(Duration(milliseconds: 1000));
 
-    var aesEncrypter = AesCrypt('BGxdEUOZkXka4HSj', 'ecb', 'pkcs7');
+    var aesEncrypter = AesCrypt('XwKsGlMcdPMEhR1B', 'ecb', 'pkcs7');
     var cryptedStr = aesEncrypter.encrypt(pointJson);
 
     print(cryptedStr);

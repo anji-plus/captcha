@@ -5,6 +5,13 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
         <title>verify插件demo</title>
 		<link rel="stylesheet" type="text/css" href="css/verify.css">
+		<script>
+			(function () {
+			  if (!window.Promise) {
+				document.writeln('<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.1.1/es6-promise.min.js"><' + '/' + 'script>');
+			  }
+			})();
+		</script>
 		<style>
 			.btn{
 				border: none;
@@ -47,10 +54,6 @@
 		</div>
 
 		<script type="text/javascript" src="js/jquery.min.js" ></script>
-		<!-- 可选 为示例加密方式 start-->
-		<script src="./js/md5.js"></script>
-		<script src="./js/signUtil.js"></script>
-		<!-- 以上 为示例加密方式 end-->
 		<script src="./js/crypto-js.js"></script>
 		<script src="./js/ase.js"></script>
         <script type="text/javascript" src="js/verify.js" ></script>
