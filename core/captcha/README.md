@@ -31,6 +31,8 @@ captcha.water.font=\u5b8b\u4f53
 captcha.font.type=\u5b8b\u4f53
 #校验滑动拼图允许误差偏移量(默认5像素)
 captcha.slip.offset=5
+#aes.key(16位，和前端加密保持一致)
+#captcha.aes.key=XwKsGlMcdPMEhR1B
 ```
 c.`非常重要`。对于分布式多实例部署的应用，应用必须自己实现CaptchaCacheService，比如用Redis或者memcache，参考service/springboot/src/.../CaptchaCacheServiceRedisImpl.java<br>
 
