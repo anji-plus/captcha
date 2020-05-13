@@ -8,7 +8,7 @@
 
 import UIKit
 import CryptoSwift
-let key = "BGxdEUOZkXka4HSj"
+let key = "XwKsGlMcdPMEhR1B"
 
 class ESConfig: NSObject {
     //加密
