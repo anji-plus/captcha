@@ -1,7 +1,6 @@
 package com.example.verificationcodedemo.network
 
 import android.content.Context
-import android.util.Log
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.Moshi

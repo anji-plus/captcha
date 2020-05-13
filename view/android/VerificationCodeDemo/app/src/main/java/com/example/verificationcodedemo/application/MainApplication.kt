@@ -2,8 +2,6 @@ package com.example.verificationcodedemo.application
 
 import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
-import android.content.res.Resources
 import com.example.verificationcodedemo.network.Configuration
 import com.example.verificationcodedemo.network.ServerApi
 
