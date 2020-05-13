@@ -177,7 +177,7 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
     var pointMap = {"x": sliderXMoved, "y": 5};
     var pointStr = json.encode(pointMap);
 
-    var aesEncrypter = AesCrypt('BGxdEUOZkXka4HSj', 'ecb', 'pkcs7');
+    var aesEncrypter = AesCrypt('XwKsGlMcdPMEhR1B', 'ecb', 'pkcs7');
     var cryptedStr = aesEncrypter.encrypt(pointStr);
     var dcrypt = aesEncrypter.decrypt(cryptedStr);
 
