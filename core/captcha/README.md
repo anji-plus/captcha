@@ -11,7 +11,7 @@ a.引入jar，已上传至maven中央仓库。
 <dependency>
    <groupId>com.github.anji-plus</groupId>
    <artifactId>captcha</artifactId>
-   <version>1.2.0</version>
+   <version>1.1.8</version>
 </dependency>
 ```
 b.修改application.properties，自定义底图和水印，启动后前端就可以请求接口了。
@@ -31,6 +31,8 @@ captcha.water.font=\u5b8b\u4f53
 captcha.font.type=\u5b8b\u4f53
 #校验滑动拼图允许误差偏移量(默认5像素)
 captcha.slip.offset=5
+#aes.key(16位，和前端加密保持一致)
+#captcha.aes.key=XwKsGlMcdPMEhR1B
 ```
 c.`非常重要`。对于分布式多实例部署的应用，应用必须自己实现CaptchaCacheService，比如用Redis或者memcache，参考service/springboot/src/.../CaptchaCacheServiceRedisImpl.java<br>
 
@@ -38,25 +40,22 @@ c.`非常重要`。对于分布式多实例部署的应用，应用必须自己�
 以登录为例，用户在提交表单到后台，会携带一个验证码相关的参数。后端登录接口login，首先调用CaptchaService.verification做二次校验。
 ```java
 @Autowired
+@Lazy
 private CaptchaService captchaService;
 
-//这里是伪代码
-private boolean login(Request request){
-    String captchaVerification = request.getString("captchaVerification");
-
-    CaptchaVO captchaVO = new CaptchaVO();
-    captchaVO.setCaptchaVerification(captchaVO);
+@PostMapping("/login")
+public ResponseModel get(@RequestBody CaptchaVO captchaVO) {
     ResponseModel response = captchaService.verification(captchaVO);
     if(response.isSuccess() == false){
-         //验证码校验失败，返回信息告诉前端
-         //repCode  0000  无异常，代表成功 
-         //repCode  9999  服务器内部异常 
-         //repCode  0011  参数不能为空
-         //repCode  6110  验证码已失效，请重新获取
-         //repCode  6111  验证失败
-         //repCode  6112  获取验证码失败,请联系管理员
-
+        //验证码校验失败，返回信息告诉前端
+        //repCode  0000  无异常，代表成功
+        //repCode  9999  服务器内部异常
+        //repCode  0011  参数不能为空
+        //repCode  6110  验证码已失效，请重新获取
+        //repCode  6111  验证失败
+        //repCode  6112  获取验证码失败,请联系管理员
     }
+    return response;
 }
 ```
 ### 2.2.3 后端接口

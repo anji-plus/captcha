@@ -19,7 +19,7 @@ import java.util.Base64;
 
 public class AESUtil {
     //密钥 (需要前端和后端保持一致)
-    private static final String KEY = "BGxdEUOZkXka4HSj";
+    private static final String KEY = "XwKsGlMcdPMEhR1B";
     //算法
     private static final String ALGORITHMSTR = "AES/ECB/PKCS5Padding";
 
