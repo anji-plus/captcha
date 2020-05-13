@@ -1,5 +1,9 @@
 <template>
     <div class="helpAdmin">
+        <h3>
+            详细文档请移步  <a class="link" target="_blank" href="https://github.com/anji-plus/captcha/wiki/1.java%E5%90%8E%E7%AB%AF%E6%8E%A5%E5%85%A5">java后端接入</a>
+        </h3>
+        <!-- <h2 style="color:red">下方文档不再跟新</h2>
         <h2>1. 引入maven依赖</h2>
         <p>目前已上传maven仓库，源码已分享</p>
         <p>
@@ -44,7 +48,7 @@
         <el-table :data="numData" border style="width: 100%;margin-top:10px;">
             <el-table-column prop="number" label="error" width="180"></el-table-column>
             <el-table-column prop="desc" label="说明"></el-table-column>
-        </el-table>
+        </el-table> -->
     </div>
 </template>
 
@@ -76,6 +80,10 @@ export default {
 
 <style lang="less" scoped>
 .helpAdmin{
+    .link{
+        text-decoration:none;
+        color: red;
+    }
     h2{
         background: #eee;
         line-height: 36px;
