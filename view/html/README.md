@@ -55,7 +55,7 @@
 | mode  | String | 验证码的显示方式，弹出式pop，固定fixed，默认：mode : ‘pop’  |
 | vSpace  | String | 验证码图片和移动条容器的间隔，默认单位是px。如：间隔为5px，默认:vSpace:5  |
 | explain  | String |  滑动条内的提示，不设置默认是：'向右滑动完成验证' |
-| imgSize | Object |  其中包含了width、height两个参数，分别代表图片的宽度和高度，支持百分比方式设置 如:{width:'400px',height:'200px'} 
+| imgSize | Object |  其中包含了width、height两个参数，分别代表图片的宽度和高度，如:{width:'400px',height:'200px'} 
 
 ### 4.默认接口api地址
 |  请求URL | 请求方式 |  

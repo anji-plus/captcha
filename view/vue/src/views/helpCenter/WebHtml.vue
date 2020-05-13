@@ -1,7 +1,7 @@
 <template>
     <div class="webHtml">
         <h3>
-            在线体验:  <a class="link" target="_blank" href="/static/web-html/index.html">web-html在线体验地址</a>
+            在线体验:  <a class="link" target="_blank" :href="htmlUrl">web-html在线体验地址</a>
         </h3>
         <h2>1. 兼容性</h2>
         <p>
@@ -9,41 +9,39 @@
         </p>
         <h2>2. 引入对应的css以及js文件</h2>
         <p>
+            <p>将view/html文件夹copy到自己项目中</p>
             <p>
-                1.引入css文件verify.css <link rel="stylesheet" type="text/css" href="css/verify.css">
+                1)引入css文件verify.css 
             </p> 
             <p>
-                2.<span class="sub_title">按顺序</span>引入js文件下js文件 jquery.min.js ,&nbsp;&nbsp;&nbsp;md5.js,&nbsp;&nbsp;&nbsp;signUtil.js,&nbsp;&nbsp;&nbsp;crypto-js.js,&nbsp;&nbsp;&nbsp;ase.js,&nbsp;&nbsp;&nbsp;verify.js
-                <br>其中 md5.js,&nbsp;&nbsp;&nbsp;signUtil.js 根据<span class="sub_title">参数传输格式 自行修改</span>
+                2)<span class="sub_title">按顺序</span>引入js文件下js文件 jquery.min.js ,&nbsp;&nbsp;&nbsp;crypto-js.js,&nbsp;&nbsp;&nbsp;ase.js,&nbsp;&nbsp;&nbsp;verify.js
             </p>
         </p>
         <h2>3. 初始化组件</h2>
         <div class="code">
             <pre>
-                <p>准备初始化的容器</p> 
+                <p>准备初始化的容器以及id</p> 
                 <i>&lt;</i>div<i> id="content"></i><i>&lt;</i>/div<i>></i>
-
-                <p class="sub_title">滑动式 调用slideVerify方法初始化; 点选调用pointsVerify方法初始化</p>
+ 
+                <p class="sub_title">滑动式调用$('#content').slideVerify(option)初始化;<br/>   &nbsp;&nbsp;&nbsp;点选式调用$('#content').pointsVerify(option)初始化;</p>
                 $('#content').slideVerify({
-                    vOffset : 5,	//误差量，根据需求自行调整
-                    mode:'fixed',
-                    imgSize : {       //图片的大小对象
+                    baseUrl:'https://mirror.anji-plus.com/captcha-api'  //服务器请求地址, 默认地址为安吉服务器;
+                    mode:'fixed',     //展示模式
+                    imgSize : {       //图片的大小对象,有默认值{ width: '310px',height: '155px'},可省略
                         width: '400px',
                         height: '200px',
                     },
-                    barSize:{
+                    barSize:{         //下方滑块的大小对象,有默认值{ width: '310px',height: '50px'},可省略
                         width: '400px',
                         height: '40px',
                     },
-                    ready : function() {  //加载完毕的回调
-                    },
+                    ready : function() {},  //加载完毕的回调
                     success : function(params) { //成功的回调
-                        // 返回的二次验证参数
-                        console.log(params,"params");
+                        // params为返回的二次验证参数 需要在接下来的实现逻辑回传服务器
+                        例如: login($.extend({}, params))  
                     },
-                    error : function() {        //失败的回调
-                        //alert('验证失败！');
-                    }
+                    error : function() {}        //失败的回调
+                    
                 });
             </pre>
         </div>
@@ -55,13 +53,11 @@
         <h2>6. 验证码参数</h2>
         <el-table :data="transParams" border style="width: 100%;margin-top:10px;">
             <el-table-column prop="paramName" label="参数名" width="180"></el-table-column>
+            <el-table-column prop="type" label="类型" width="180"></el-table-column>
             <el-table-column prop="desc" label="说明"></el-table-column>
         </el-table>
         <h2>7. 获取验证码接口详情</h2>
-        <p class="sub_title">
-            后端请求地址根据部署情况到:verify/js/verify.js 第五行 var baseUrl = "https://mirror.anji-plus.com/api" 修改路劲
-        </p>
-        <p><span class="sub_title">接口地址</span> ：http://10.108.11.46:8080/api/captcha/get</p>
+        <p><span class="sub_title">接口地址</span> http://*:*/captcha/get</p>
         <p>
             <span class="sub_title">请求参数:</span>
             <pre style='line-hieght:36px;'> {
@@ -92,7 +88,7 @@
 
         </p>
         <h2>6. 核对验证码接口详情</h2>
-        <p><span class="sub_title">接口地址</span> ：http://10.108.11.46:8080/api/captcha/check</p>
+        <p><span class="sub_title">接口地址</span> ：http://*:*/captcha/check</p>
         <p>
             <span class="sub_title">请求参数：</span>
             <pre style="color:black;background:white;">     {
@@ -134,17 +130,23 @@ export default {
     data() {
         return {
             backFuc:[
-                {fucName:'success',desc:'验证码匹配成功后的回调函数。回调参数params 需要合并到业务逻辑参数中进行二次验证'},
+                {fucName:'success(params)',desc:'验证码匹配成功后的回调函数。回调参数params 需要合并到业务逻辑参数中进行二次验证'},
                 {fucName:'error',desc:'验证码匹配失败后的回调函数。'},
                 {fucName:'ready',desc:'验证码初始化成功的回调函数。'}
             ],
             transParams:[
-                {paramName:'mode',desc:'验证码的显示方式，弹出式pop，固定fixed，默认是：mode : ‘pop’。'},
-                {paramName:'vSpace',desc:'验证码图片和移动条容器的间隔，默认单位是px。如：间隔为5px，设置vSpace:5。'},
-                {paramName:'explain',desc:'滑动条内的提示，不设置默认是："向右滑动完成验证"。'},
-                {paramName:'imgSize',desc:'其中包含了width、height两个参数，分别代表图片的宽度和高度'},
-                {paramName:'barSize',desc:'其中包含了width、height两个参数，分别代表下方滑块容器的宽度和高度'},
+                {paramName:'baseUrl',type:"String",desc:"请求后端的服务器地址,默认:'https://mirror.anji-plus.com/captcha-api' 安吉服务器地址"},
+                {paramName:'mode',type:"String",desc:'验证码的显示方式，弹出式pop，固定fixed，默认是：mode : ‘pop’。'},
+                {paramName:'vSpace',type:"String",desc:'验证码图片和移动条容器的间隔，默认单位是px。如：间隔为5px，设置vSpace:5。'},
+                {paramName:'explain',type:"String",desc:'滑动条内的提示，不设置默认是："向右滑动完成验证"。'},
+                {paramName:'imgSize',type:"String",desc:'其中包含了width、height两个参数，分别代表图片的宽度和高度'},
+                {paramName:'barSize',type:"Object",desc:'其中包含了width、height两个参数，分别代表下方滑块容器的宽度和高度'},
             ]
+        }
+    },
+    computed: {
+        htmlUrl(){
+           return window.location.href.includes("anji-plus")?"/captcha-web/static/web-html/index.html":"/static/web-html/index.html"
         }
     },
 }

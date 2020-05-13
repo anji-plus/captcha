@@ -6,7 +6,7 @@
         </p>
         <h2>2. 初始化组件</h2>
         <div class="code">
-            <p>2.1 引入或者下载组件到项目中</p>
+            <p>2.1 复制view/vue/src/components/verifition文件夹,到自己工程对应目录下,在登录页面插入如下代码。</p>
             <p>2.2 下载组件所需要的依赖插件: <span style="color:red
             "> npm install axios &nbsp;&nbsp; crypto-js&nbsp;&nbsp;  -S</span> </p>
                
@@ -14,11 +14,13 @@
                 <i>&lt;</i>template<i>></i>
                 <i>&lt;</i>Verify
                     @success<i>=</i>"'success'"                                            //验证成功的回调函数
-                    :mode<i>=</i>"'fixed'"                                                     //调用的模式
+                    :mode<i>=</i>"'pop'"                                                     //调用的模式
                     :captchaType="'blockPuzzle'"                                //调用的类型 点选或者滑动   
                     :imgSize<i>=</i>"{ width: '330px', height: '155px' }"       //图片的大小对象
                     ref<i>=</i>"verify"
-                <i>></i><i>&lt;</i>/Verify
+                <i>></i><i>&lt;</i>/Verify<i>></i>
+                //mode="pop"模式
+                <i>&lt;</i>button @click="useVerify"<i>></i>调用验证组件<i>&lt;</i>/button<i>></i>
                 <i>&lt;</i>/template<i>></i>
 
                 <i>&lt;</i>script<i>></i>
@@ -32,14 +34,17 @@
                         }
                         methods:{
                             success(params){
-                            // params 返回的二次验证参数
+                                // params 返回的二次验证参数, 和登录参数一起回传给登录接口，方便后台进行二次验证
+                            },
+                            useVerify(){
+                                this.$refs.verify.show()
                             }
                         }
                     }
                 <i>&lt;</i>/script<i>></i>
             </pre>
-            <strong class="sub_title">注: mode为"pop"时,使用组件需要给组件添加ref值,并且手动调用show方法
-                例: this.$refs.verify.show();
+            <strong class="sub_title">&nbsp;****注: mode为"pop"时,使用组件需要给组件添加ref值,并且手动调用show方法 例: this.$refs.verify.show()**** 
+                <br>&nbsp; ****注: mode为"fixed"时,无需添加ref值,无需调用show()方法****
             </strong>
         </div>
         <h2>3. 回调函数</h2>
@@ -50,13 +55,14 @@
         <h2>4. 验证码参数</h2>
         <el-table :data="transParams" border style="width: 100%;margin-top:10px;">
             <el-table-column prop="paramName" label="参数名" width="180"></el-table-column>
+            <el-table-column prop="type" label="类型" width="180"></el-table-column>
             <el-table-column prop="desc" label="说明"></el-table-column>
         </el-table>
         <h2>5. 获取验证码接口详情</h2>
         <p class="sub_title">
-            后端请求地址根据部署情况到:verifition/utils/axios.js 第五行 axios.defaults.baseURL = process.env.BASE_API 修改路劲
+            组件内部默认请求服务器地址: process.env.BASE_API ; 是vue项目打包配置地址,方便分环境打包
         </p>
-        <p><span class="sub_title">接口地址</span> ：http://10.108.11.46:8080/api/captcha/get</p>
+        <p><span class="sub_title">接口地址</span> ：http://*:*/captcha/get</p>
         <p>
             <span class="sub_title">请求参数:</span>
             <pre style='line-hieght:36px;'> {
@@ -87,7 +93,7 @@
 
         </p>
         <h2>6. 核对验证码接口详情</h2>
-        <p><span class="sub_title">接口地址</span> ：http://10.108.11.46:8080/api/captcha/check</p>
+        <p><span class="sub_title">接口地址</span> ：http://*:*/captcha/check</p>
         <p>
             <span class="sub_title">请求参数：</span>
             <pre style="color:black;background:white;">     {
@@ -131,16 +137,16 @@ export default {
     data() {
         return {
             backFuc:[
-                {fucName:'success',desc:'验证码匹配成功后的回调函数。回调参数params 需要合并到业务逻辑参数中进行二次验证'},
+                {fucName:'success(params)',desc:'验证码匹配成功后的回调函数。回调参数params 需要合并到业务逻辑参数中进行二次验证'},
                 {fucName:'error',desc:'验证码匹配失败后的回调函数。'},
                 {fucName:'ready',desc:'验证码初始化成功的回调函数。'}
             ],
             transParams:[
-                {paramName:'captchaType',desc:'必需 1）滑动拼图 blockPuzzle 2）文字点选 clickWord'},
-                {paramName:'mode',desc:'验证码的显示方式，弹出式pop，固定fixed，默认是：mode : ‘pop’。'},
-                {paramName:'vSpace',desc:'验证码图片和移动条容器的间隔，默认单位是px。如：间隔为5px，设置vSpace:5。'},
-                {paramName:'explain',desc:'滑动条内的提示，不设置默认是："向右滑动完成验证"。'},
-                {paramName:'imgSize',desc:'其中包含了width、height两个参数，分别代表图片的宽度和高度.'},
+                {paramName:'captchaType',type:"String",desc:'必需 1）滑动拼图 blockPuzzle 2）文字点选 clickWord'},
+                {paramName:'mode',type:"String",desc:'验证码的显示方式，弹出式pop，固定fixed，默认是：mode : ‘pop’。'},
+                {paramName:'vSpace',type:"String",desc:'验证码图片和移动条容器的间隔，默认单位是px。如：间隔为5px，设置vSpace:5。'},
+                {paramName:'explain',type:"String",desc:'滑动条内的提示，不设置默认是："向右滑动完成验证"。'},
+                {paramName:'imgSize',type:"Object",desc:'其中包含了width、height两个参数，分别代表图片的宽度和高度.'},
             ]
 
         }
