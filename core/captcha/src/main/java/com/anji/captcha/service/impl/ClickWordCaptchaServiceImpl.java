@@ -44,6 +44,9 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
     @Value("${captcha.font.type:'宋体'}")
     private String fontType;
 
+    @Value("${captcha.aes.key:XwKsGlMcdPMEhR1B}")
+    private String aesKey;
+
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
 //        BufferedImage bufferedImage = getBufferedImage(ImageUtils.getClickWordBgPath(captchaVO.getCaptchaOriginalPath()));
@@ -88,7 +91,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         try {
             point = JSONObject.parseArray(s, Point.class);
             //aes解密
-            pointJson = decrypt(captchaVO.getPointJson());
+            pointJson = decrypt(captchaVO.getPointJson(), aesKey);
             point1 = JSONObject.parseArray(pointJson, Point.class);
         } catch (Exception e) {
             logger.error("验证码坐标解析失败", e);
