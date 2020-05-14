@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// axios.defaults.baseURL = process.env.BASE_API;
-axios.defaults.baseURL = "https://mirror.anji-plus.com/captcha-api";
+axios.defaults.baseURL = process.env.BASE_API;
 
 const service = axios.create({
   timeout: 40000,

@@ -27,15 +27,15 @@ export default new Router({
       path: '/helpCenter',
       name: 'helpCenter',
       component: ()=> import("./../views/helpCenter/HelpCenter.vue"),
-      redirect:'/helpCenter/desc',
+      redirect:'/helpCenter/admin/1',
       children:[
-        {path:'admin',name:"helpAdmin",component:()=>import("./../views/helpCenter/HelpAdmin.vue")},
-        {path:'web',name:"helpWeb",component:()=>import("./../views/helpCenter/HelpWeb.vue")},
+        {path:'admin/:id',name:"helpAdmin",component:()=>import("./../views/helpCenter/HelpAdmin.vue")},
+        // {path:'web',name:"helpWeb",component:()=>import("./../views/helpCenter/HelpWeb.vue")},
         {path:'desc',name:"helpDesc",component:()=>import("./../views/helpCenter/HelpDesc.vue")},
-        {path:'process',name:"helpProcess",component:()=>import("./../views/helpCenter/HelpProcess.vue")},
+        // {path:'process',name:"helpProcess",component:()=>import("./../views/helpCenter/HelpProcess.vue")},
         {path:'question',name:"question",component:()=>import("./../views/helpCenter/Question.vue")},
-        {path:'uniApp',name:"uniApp",component:()=>import("./../views/helpCenter/HelpUniApp.vue")},
-        {path:'webHtml',name:"webHtml",component:()=>import("./../views/helpCenter/WebHtml.vue")}
+        // {path:'uniApp',name:"uniApp",component:()=>import("./../views/helpCenter/HelpUniApp.vue")},
+        // {path:'webHtml',name:"webHtml",component:()=>import("./../views/helpCenter/WebHtml.vue")}
       ]
     },
     {
