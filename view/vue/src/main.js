@@ -14,6 +14,10 @@ Vue.use(ElementUI)
 import './assets/style/common.css'
 import './assets/style/group.css'
 
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+Vue.use(mavonEditor)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
