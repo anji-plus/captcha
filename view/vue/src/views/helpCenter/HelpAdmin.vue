@@ -27,7 +27,6 @@ export default {
     computed: {
         fileName(){
            const url = this.urlArr.find(item=>this.$route.params.id == item.id)
-           console.log(url);
             return url.name
         }
     },
@@ -35,8 +34,6 @@ export default {
         Markdown
     },
     created() {
-        console.log(this.$route);
-        
     },
 }
 </script>
