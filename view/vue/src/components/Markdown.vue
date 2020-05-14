@@ -26,6 +26,9 @@ export default {
     },
     methods: {
         loadFile(){
+            if (window.location.href.includes("anji-plus")) {
+                this.filePath ='/captcha-web' + this.filePath
+            }
             readFile(this.filePath).then(res=>{
                 this.value = res.data ? res.data: res
             })
