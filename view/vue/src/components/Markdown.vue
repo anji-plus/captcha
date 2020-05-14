@@ -26,9 +26,12 @@ export default {
     },
     methods: {
         loadFile(){
-            if (window.location.href.includes("anji-plus") && !this.filePath.includes("/captcha-web")) {
-                this.filePath ='/captcha-web' + this.filePath
+            // if (window.location.href.includes("anji-plus") && !this.filePath.includes("/captcha-web")) {
+            if (!this.filePath.includes("/captcha-web")) {
+                this.filePath ='https://mirror.anji-plus.com/captcha-web' + this.filePath
                 readFile(this.filePath).then(res=>{
+                    console.log(res,"res");
+                    
                     this.value = res.data ? res.data: res
                 })
             }
