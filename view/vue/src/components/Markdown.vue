@@ -26,17 +26,15 @@ export default {
     },
     methods: {
         loadFile(){
-            if (window.location.href.includes("anji-plus")) {
+            if (window.location.href.includes("anji-plus") && !this.filePath.includes("/captcha-web")) {
                 this.filePath ='/captcha-web' + this.filePath
+                readFile(this.filePath).then(res=>{
+                    this.value = res.data ? res.data: res
+                })
             }
-            readFile(this.filePath).then(res=>{
-                this.value = res.data ? res.data: res
-            })
         }
     },
-    created() {
-        this.loadFile()
-    },
+    created() {},
 }
 </script>
 
