@@ -8,6 +8,7 @@ package com.anji.captcha.service.impl;
 
 
 import com.anji.captcha.config.Container;
+import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
@@ -103,6 +104,9 @@ public class DefaultCaptchaServiceImpl implements CaptchaService {
         if (StringUtils.isEmpty(captchaVO.getCaptchaType())) {
             return RepCodeEnum.NULL_ERROR.parseError("类型");
         }
+        if(!CaptchaTypeEnum.validateCodeValue(captchaVO.getCaptchaType())){
+            return RepCodeEnum.PARAM_TYPE_ERROR.parseError("captchaType: "+CaptchaTypeEnum.getString());
+        }
         if (captchaVO.getCaptchaType().equals("blockPuzzle")) {
             captchaVO.setCaptchaOriginalPath(captchaOriginalPathJigsaw);
         } else {
@@ -118,6 +122,9 @@ public class DefaultCaptchaServiceImpl implements CaptchaService {
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaType())) {
             return RepCodeEnum.NULL_ERROR.parseError("类型");
+        }
+        if(!CaptchaTypeEnum.validateCodeValue(captchaVO.getCaptchaType())){
+            return RepCodeEnum.PARAM_TYPE_ERROR.parseError("captchaType: "+CaptchaTypeEnum.getString());
         }
         if (StringUtils.isEmpty(captchaVO.getToken())) {
             return RepCodeEnum.NULL_ERROR.parseError("token");
