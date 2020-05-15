@@ -14,6 +14,7 @@ const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
 const devWebpackConfig = merge(baseWebpackConfig, {
+  // mode: 'development',
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
@@ -25,7 +26,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
 
-  // these devServer options should be customized in /config/index.js
+  // these devServer options should be customized in /config/index.config
   devServer: {
     clientLogLevel: 'warning',
     historyApiFallback: {
@@ -98,5 +99,3 @@ module.exports = new Promise((resolve, reject) => {
     }
   })
 })
-
-
