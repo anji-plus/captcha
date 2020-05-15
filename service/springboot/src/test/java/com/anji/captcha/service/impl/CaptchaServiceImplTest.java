@@ -37,10 +37,10 @@ public class CaptchaServiceImplTest {
      * 这个需要实时坐标的，用例不可用
      */
     @Test
-    public void check() {
+    public void check() throws Exception {
         String token = "";
         String pointJson = "{}";
-        pointJson = AESUtil.aesDecrypt(pointJson);
+        pointJson = AESUtil.aesDecrypt(pointJson,"");
         CaptchaVO captchaVO = new CaptchaVO();
         captchaVO.setCaptchaType("blockPuzzle");
         captchaVO.setPointJson(pointJson);
