@@ -31,7 +31,7 @@
 ├─images    &emsp;&emsp;&emsp;&emsp;&emsp;    效果图<br>
 ├─service<br>
 │&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
-│&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例<br>
+│&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例，未完成<br>
 └─view    &emsp;&emsp;&emsp;&emsp;&emsp;    多语言客户端示例<br>
 &emsp;├─android    &emsp;&emsp;    原生android实现示例<br>
 &emsp;├─flutter    &emsp;&emsp;    flutter实现示例<br>
