@@ -1,16 +1,15 @@
 /*! Verify&admin MIT License by anji-plus*/
 
 ;(function($, window, document,undefined) {
-	//后端的请求url地址
-	var baseUrl = "https://mirror.anji-plus.com/api"
+	
     //请求图片get事件
-    function getPictrue(data){
+    function getPictrue(data,baseUrl){
 		return new Promise((resolve,reject)=>{
 			$.ajax({
 				type : "post",
 				contentType: "application/json;charset=UTF-8",
 				url : baseUrl + "/captcha/get",
-				data :JSON.stringify(sign(data)),   //请求参数包装函数   此方法再signUtil.js可修改
+				data :JSON.stringify(data),  
 				success:function(res){
 					resolve(res)
 				},
@@ -22,13 +21,13 @@
         
 	}
 	//验证图片check事件
-	function checkPictrue(data){
+	function checkPictrue(data,baseUrl){
 		return new Promise((resolve,reject)=>{
 			$.ajax({
 				type : "post",
 				contentType: "application/json;charset=UTF-8",
 				url : baseUrl + "/captcha/check",
-				data :JSON.stringify(sign(data)),    //请求参数包装函数   此方法再signUtil.js可修改
+				data :JSON.stringify(data),   
 				success:function(res){
 					resolve(res)
 				},
@@ -45,6 +44,7 @@
 		this.backToken = null,
 		this.moveLeftDistance = 0,
         this.defaults = {
+			baseUrl:"https://mirror.anji-plus.com/captcha-api",
 			containerId:'',
         	captchaType:"blockPuzzle",
         	mode : 'fixed',	//弹出式pop，固定fixed
@@ -269,7 +269,7 @@
 					"token":this.backToken
 				}
 				var captchaVerification = aesEncrypt(this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0}))
-				checkPictrue(data).then(res=>{
+				checkPictrue(data,this.options.baseUrl).then(res=>{
 					// 请求反正成功的判断
 					if (res.repCode=="0000") {
 						this.htmlDoms.move_block.css('background-color', '#5cb85c');
@@ -386,7 +386,7 @@
 			this.htmlDoms.icon.addClass('icon-right');
 			this.$element.find('.verify-msg:eq(0)').text(this.options.explain);
 			this.isEnd = false;
-			getPictrue({captchaType:"blockPuzzle"}).then(res=>{
+			getPictrue({captchaType:"blockPuzzle"},this.options.baseUrl).then(res=>{
 				if (res.repCode=="0000") {
 					this.$element.find(".backImg")[0].src = 'data:image/png;base64,'+res.repData.originalImageBase64
 					this.$element.find(".bock-backImg")[0].src = 'data:image/png;base64,'+res.repData.jigsawImageBase64
@@ -403,6 +403,7 @@
 		this.$element = ele,
 		this.backToken = null,
         this.defaults = {
+			baseUrl:"https://mirror.anji-plus.com/captcha-api",
 			captchaType:"clickWord",
 			containerId:'',
         	mode : 'fixed',	//弹出式pop，固定fixed
@@ -469,11 +470,11 @@
 						}
 
 						var captchaVerification = aesEncrypt(_this.backToken+'---'+JSON.stringify(_this.checkPosArr))
-						checkPictrue(data).then(res=>{
+						checkPictrue(data, _this.options.baseUrl).then(res=>{
 							if (res.repCode=="0000") {
 								_this.$element.find('.verify-bar-area').css({'color': '#4cae4c', 'border-color': '#5cb85c'});
 								_this.$element.find('.verify-msg').text('验证成功');
-								_this.$element.find('.verify-refresh').hide();
+								// _this.$element.find('.verify-refresh').hide();
 								_this.$element.find('.verify-img-panel').unbind('click');
 								setTimeout(res=>{
 									_this.$element.find(".mask").css("display","none");
@@ -593,7 +594,7 @@
         	this.fontPos = [];
         	this.checkPosArr = [];
         	this.num = 1;
-			getPictrue({captchaType:"clickWord"}).then(res=>{
+			getPictrue({captchaType:"clickWord"},_this.options.baseUrl).then(res=>{
 				if (res.repCode=="0000") {
 					this.htmlDoms.back_img[0].src ='data:image/png;base64,'+ res.repData.originalImageBase64
 					this.backToken = res.repData.token
