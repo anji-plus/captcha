@@ -43,7 +43,7 @@
 
 # 5 接入文档
 #### &emsp; 5.1 本地启动
-&emsp; 第一步，启动后端，service/springboot导入Eclipse或者Intellij，启动StartApplication。<br>
+&emsp; 第一步，启动后端，service/springboot导入Eclipse或者Intellij，启动StartApplication。[社区底图库](https://gitee.com/anji-plus/AJ-Captcha-Images)<br>
 &emsp; 第二步，启动前端，使用visual code打开文件夹view/vue，npm install后npm run dev，浏览器登录<br>
 ```js
 npm install
