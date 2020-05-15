@@ -21,22 +21,24 @@ export default {
                 {id:8,name:'react-native'},
                 {id:9,name:'android'},
                 {id:10,name:'ios'},
-            ]
+            ],
+            fileName:''
         }
     },
-    computed: {
-        fileName(){
-           const url = this.urlArr.find(item=>this.$route.params.id == item.id)
-           console.log(url);
-            return url.name
+    watch: {
+        $route:{
+            handler:'getFileName',
+            immediate:true
+        }
+    },
+    methods: {
+        getFileName(){
+            const url = this.urlArr.find(item=>this.$route.params.id == item.id)
+            this.fileName = url.name
         }
     },
     components:{
         Markdown
-    },
-    created() {
-        console.log(this.$route);
-        
     },
 }
 </script>
