@@ -26,22 +26,19 @@ export default {
         }
     },
     watch: {
-        $route:'getFileName'
+        $route:{
+            handler:'getFileName',
+            immediate:true
+        }
     },
     methods: {
         getFileName(){
-           const url = this.urlArr.find(item=>this.$route.params.id == item.id)
-           this.fileName = url.name
+            const url = this.urlArr.find(item=>this.$route.params.id == item.id)
+            this.fileName = url.name
         }
-    },
-    computed: {
-        
     },
     components:{
         Markdown
-    },
-    created() {
-        this.getFileName();
     },
 }
 </script>

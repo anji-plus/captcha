@@ -12,31 +12,32 @@ export default {
     props:{
         filePath:{
             type:String,
-            require:true
+            require:true,
+            default:' '
         }
     },
     data() {
         return {
             value:'',
+            newFilePath:'',
         }
     },
     watch: {
-        filePath:'loadFile',
-        immediate:true
+        'filePath':{
+            handler(){
+                this.newFilePath = 'https://mirror.anji-plus.com/captcha-web' + this.filePath
+                this.loadFile();
+            },
+            immediate:true
+        }
     },
     methods: {
         loadFile(){
-            if (!this.filePath.includes("/captcha-web")) {
-                this.filePath ='https://mirror.anji-plus.com/captcha-web' + this.filePath
-                readFile(this.filePath).then(res=>{
-                    console.log(res,"res");
-                    
-                    this.value = res.data ? res.data: res
-                })
-            }
+            readFile(this.newFilePath).then(res=>{
+                this.value = res.data ? res.data: res
+            })
         }
     },
-    created() {},
 }
 </script>
 
