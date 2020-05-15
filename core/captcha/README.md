@@ -5,23 +5,18 @@
 ### 2.1.2 前端接入
  引入相关组件，调用初始化函数，通过配置的一些参数信息。将行为验证码渲染出来。
 ## 2.2 后端接入
-### 2.2.1 SpringBoot项目
-示例：service\springboot。引入jar，已上传至maven中央仓库。
+### 2.2.1 SpringBoot项目，参考示例：service\springboot。
+a.引入jar，已上传至maven中央仓库。
 ```java
 <dependency>
    <groupId>com.github.anji-plus</groupId>
    <artifactId>captcha</artifactId>
-   <version>1.1.6</version>
+   <version>1.1.8</version>
 </dependency>
 ```
-修改application.properties，自定义底图和水印，启动后前端就可以请求接口了。
+b.修改application.properties，自定义底图和水印，启动后前端就可以请求接口了。[社区底图库](https://gitee.com/anji-plus/AJ-Captcha-Images)
 ```properties
-# 对于分布式部署的应用，我们建议应用自己实现CaptchaCacheService，比如用Redis或者memcache，参考service/spring-boot下的CaptchaCacheServiceRedisImpl.java
-# 如果应用是单点的，也没有使用redis，那默认使用内存。
-# 内存缓存只适合单节点部署的应用，否则验证码生产与验证在节点之间信息不同步，导致失败。
-#spring.redis.host=10.108.11.46
 ....
-
 #滑动验证，底图路径，不配置将使用默认图片
 #captcha.captchaOriginalPath.jigsaw=/app/product/dist/captchabg
 #滑动验证，底图路径，不配置将使用默认图片
@@ -36,31 +31,31 @@ captcha.water.font=\u5b8b\u4f53
 captcha.font.type=\u5b8b\u4f53
 #校验滑动拼图允许误差偏移量(默认5像素)
 captcha.slip.offset=5
+#aes.key(16位，和前端加密保持一致)
+#captcha.aes.key=XwKsGlMcdPMEhR1B
 ```
+c.`非常重要`。对于分布式多实例部署的应用，应用必须自己实现CaptchaCacheService，比如用Redis或者memcache，参考service/springboot/src/.../CaptchaCacheServiceRedisImpl.java<br>
 
 ### 2.2.2 后端二次校验接口
 以登录为例，用户在提交表单到后台，会携带一个验证码相关的参数。后端登录接口login，首先调用CaptchaService.verification做二次校验。
 ```java
 @Autowired
+@Lazy
 private CaptchaService captchaService;
 
-//这里是伪代码
-private boolean login(Request request){
-    String captchaVerification = request.getString("captchaVerification");
-
-    CaptchaVO captchaVO = new CaptchaVO();
-    captchaVO.setCaptchaVerification(captchaVO);
+@PostMapping("/login")
+public ResponseModel get(@RequestBody CaptchaVO captchaVO) {
     ResponseModel response = captchaService.verification(captchaVO);
     if(response.isSuccess() == false){
-         //验证码校验失败，返回信息告诉前端
-         //repCode  0000  无异常，代表成功 
-         //repCode  9999  服务器内部异常 
-         //repCode  0011  参数不能为空
-         //repCode  6110  验证码已失效，请重新获取
-         //repCode  6111  验证失败
-         //repCode  6112  获取验证码失败,请联系管理员
-
+        //验证码校验失败，返回信息告诉前端
+        //repCode  0000  无异常，代表成功
+        //repCode  9999  服务器内部异常
+        //repCode  0011  参数不能为空
+        //repCode  6110  验证码已失效，请重新获取
+        //repCode  6111  验证失败
+        //repCode  6112  获取验证码失败,请联系管理员
     }
+    return response;
 }
 ```
 ### 2.2.3 后端接口
@@ -120,7 +115,8 @@ private boolean login(Request request){
     以上功能，我们会在service/springboot示例代码中提供额外的参考代码，不集成在jar中。
 ### 2.2.5 SpringMVC项目
 ```
-示例：仓库service\springmvc。考虑部分老项目，还是非springboot的，我们提供spring mvc的项目示例代码。主要是配置redisTemplate和包扫描。
+示例：仓库service\springmvc。考虑部分老项目，还是非springboot的，我们提供spring mvc的项目示例代码。
+     主要是配置redisTemplate和包扫描。整理中...
 ```
 
 # 3  Q & A

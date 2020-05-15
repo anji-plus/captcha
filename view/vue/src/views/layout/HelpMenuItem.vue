@@ -4,19 +4,15 @@
       <el-col :span="24">
         <el-menu
           :default-active="activeNav" class="el-menu-vertical-demo" @select="handleSelect2" router>
-          <el-menu-item index="/helpCenter/desc">
+          <!-- <el-menu-item index="/helpCenter/desc">
             <span slot="title">功能概述</span>
-          </el-menu-item>
+          </el-menu-item> -->
           <el-submenu index="/helpCenter/question">
             <template slot="title">
               <span>开发文档</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/helpCenter/process">接入流程</el-menu-item>
-              <el-menu-item index="/helpCenter/admin">后端接入</el-menu-item>
-              <el-menu-item index="/helpCenter/web">vue接入</el-menu-item>
-              <el-menu-item index="/helpCenter/uniApp">uni-app接入</el-menu-item>
-              <el-menu-item index="/helpCenter/webHtml">html接入</el-menu-item>
+              <el-menu-item v-for="item in sliderArr" :index="`/helpCenter/admin/${item.id}`" :key="item.id">{{item.title}}</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-menu-item index="/helpCenter/question">
@@ -32,7 +28,18 @@
     name: "MenuItem",
     data(){
       return{
-        // activeNav:'/projectDetails'
+        sliderArr:[
+          {id:1,title:'接入流程'},
+          {id:2,title:'后端接入'},
+          {id:3,title:'html接入'},
+          {id:4,title:'vue接入'},
+          {id:5,title:'flutter接入'},
+          {id:6,title:'uni-app接入'},
+          {id:7,title:'weex接入'},
+          {id:8,title:'ReactNative接入'},
+          {id:9,title:'android接入'},
+          {id:10,title:'ios接入'},
+        ]
       }
     },
     computed:{

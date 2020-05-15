@@ -44,10 +44,8 @@
                           </li>
                           <li class="keep-password">
                             <label>
-                              <!-- <el-checkbox v-model="checked">记住密码</el-checkbox> -->
                               测试账号: admin  &nbsp; &nbsp; 密码: 123456
                             </label>
-                            <!-- <el-button class="forget fr" @click="goForgetPassword">忘记密码?</el-button> -->
 
                           </li>
                            <li class="keep-password">
@@ -67,18 +65,10 @@
 
                           </li>
                           <li class="mt50">
-                            <!-- @click="login" -->
+
                             <el-button class="buttonSize button-solid goHome" type="primary" @click="checkPrama">
                               登&nbsp;&nbsp;录</el-button>
                           </li>
-                          <!-- <li class="register mt50">
-                            没有账号？ <el-button class="forget" @click="goRegister">马上注册 ></el-button>
-                            <el-popover placement="right" width="300" trigger="click">
-                              <h2 class="qrcode">扫码下载“魔镜—窥见”APP</h2> -->
-                              <!-- <img src="../../static/QRcode.png" style="margin: 20px auto;display: block"> -->
-                              <!-- <el-button class="forget fr " style="margin-top: -4px" slot="reference"><img src="../../static/icon-appdownload.png"> 移动端下载</el-button> -->
-                            <!-- </el-popover>
-                          </li> -->
                         </ul>
 
                       </form>
@@ -114,9 +104,6 @@ export default {
   components: {
     Verify
   },
-  mounted () {
-    this.getCookie();
-  },
   beforeDestroy () {
     document.removeEventListener('keyup',this.handerKeyup)
   },
@@ -128,17 +115,13 @@ export default {
     handerKeyup(e){
       var keycode = document.all ? event.keyCode : e.which;
         if (keycode == 13) {
-          // this.login();// 登录方法名
           this.checkPrama();
-          // return false;
       }
     },
     goRegister () {
       this.$router.push("/register");
     },
-    goForgetPassword () {
-      this.$router.push("/forget-password");
-    },
+
     checkPrama(){
       if (!this.loginName || !this.loginPassword) {
         this.$message({
@@ -158,66 +141,7 @@ export default {
           type: 'warning'
         });
       }
-
-      // let _this = this;
-      // let p = {
-      //   "userName": this.loginName,
-      //   "password": aesEncrypt(this.loginPassword)
-      // }
-      // if (this.checked = true) {
-      //   //传入账号名，密码，和保存天数3个参数
-      //   this.setCookie(this.loginName, aesEncrypt(this.loginPassword), 7);
-      // }
-      // reqLogin(Object.assign(p,params)).then(res => {
-      //   // 缓存设置
-      //   if (res.repCode == "0000") {
-      //     var repData = res.repData;
-
-      //     setItem("token", repData.token)
-      //     setItem("accessUser", repData.accessUser)
-
-      //     queryForCodeSelect().then(res1 => {
-      //       if (res1.repCode == '0000') {
-      //         setItem("queryForCodeSelect",res1.repData);
-
-      //       }
-      //     }).catch(error => {
-      //     })
-      //   }
-      // }).catch(error => {
-      // })
     },
-    loginEnter(){
-      this.checkPrama();
-    },
-    //设置cookie
-    setCookie (c_name, c_pwd, exdays) {
-      var exdate = new Date();//获取时间
-      exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays);//保存的天数
-      //字符串拼接cookie
-      window.document.cookie = "userName" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
-      window.document.cookie = "userPwd" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
-    },
-    //读取cookie
-    getCookie: function () {
-      console.log(document.cookie)
-      if (document.cookie.length > 0) {
-        var arr = document.cookie.split('; ');//这里显示的格式需要切割一下自己可输出看下
-        for (var i = 0; i < arr.length; i++) {
-          var arr2 = arr[i].split('=');//再次切割
-          //判断查找相对应的值
-          if (arr2[0] == 'userName') {
-            this.loginName = arr2[1];//保存到保存数据的地方
-          } else if (arr2[0] == 'userPwd') {
-            this.loginPassword = aesDecrypt(arr2[1]);
-          }
-        }
-      }
-    },
-    //清除cookie
-    clearCookie: function () {
-      this.setCookie("", "", -1);//修改2值都为空，天数为负1天就好了
-    }
   },
 }
 </script>

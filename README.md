@@ -30,8 +30,8 @@
 ├─core    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;     java后端jar包<br>
 ├─images    &emsp;&emsp;&emsp;&emsp;&emsp;    效果图<br>
 ├─service<br>
-├&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
-├&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例<br>
+│&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
+│&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例，未完成<br>
 └─view    &emsp;&emsp;&emsp;&emsp;&emsp;    多语言客户端示例<br>
 &emsp;├─android    &emsp;&emsp;    原生android实现示例<br>
 &emsp;├─flutter    &emsp;&emsp;    flutter实现示例<br>
@@ -43,13 +43,13 @@
 
 # 5 接入文档
 #### &emsp; 5.1 本地启动
-&emsp; 第一步，启动后端，service/springboot导入Eclipse或者Intellij，启动StartApplication。<br>
+&emsp; 第一步，启动后端，service/springboot导入Eclipse或者Intellij，启动StartApplication。[社区底图库](https://gitee.com/anji-plus/AJ-Captcha-Images)<br>
 &emsp; 第二步，启动前端，使用visual code打开文件夹view/vue，npm install后npm run dev，浏览器登录<br>
 ```js
 npm install
 npm run dev
 
-DONE  Compiled successfully in 29587ms                                                                                                                 12:06:38
+DONE  Compiled successfully in 29587ms                       12:06:38
 I  Your application is running here: http://localhost:8081
 ``` 
 &emsp;详细的前后端接入文档，后端示例代码service目录下，前端示例代码view目录下。
@@ -57,7 +57,7 @@ I  Your application is running here: http://localhost:8081
 #### &emsp; 5.3 [github wiki接入文档](https://github.com/anji-plus/captcha/wiki "github")<br>
 
 # 6 近期计划
-#### &emsp; 6.2 增加weex示例
+#### &emsp; 6.1 增加weex示例
 #### &emsp; 6.2 增加ReactNative示例
 
 # 6 技术支持微信群
