@@ -29,7 +29,7 @@ export default new Router({
       component: ()=> import("./../views/helpCenter/HelpCenter.vue"),
       redirect:'/helpCenter/admin/1',
       children:[
-        {path:'admin/:id',name:"helpAdmin",component:()=>import("./../views/helpCenter/HelpAdmin.vue")},
+        {path:'admin/:id',name:"admin",component:()=>import("./../views/helpCenter/HelpAdmin.vue")},
         // {path:'web',name:"helpWeb",component:()=>import("./../views/helpCenter/HelpWeb.vue")},
         {path:'desc',name:"helpDesc",component:()=>import("./../views/helpCenter/HelpDesc.vue")},
         // {path:'process',name:"helpProcess",component:()=>import("./../views/helpCenter/HelpProcess.vue")},
