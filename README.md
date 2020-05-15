@@ -57,7 +57,7 @@ I  Your application is running here: http://localhost:8081
 #### &emsp; 5.3 [github wiki接入文档](https://github.com/anji-plus/captcha/wiki "github")<br>
 
 # 6 近期计划
-#### &emsp; 6.2 增加weex示例
+#### &emsp; 6.1 增加weex示例
 #### &emsp; 6.2 增加ReactNative示例
 
 # 6 技术支持微信群
