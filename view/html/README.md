@@ -20,7 +20,7 @@
 <script> 
     $('#content').slideVerify({
         baseUrl:'https://mirror.anji-plus.com/captcha-api'  //服务器请求地址, 默认地址为安吉服务器;
-        mode:'fixed',     //展示模式
+        mode:'pop',     //展示模式
         imgSize : {       //图片的大小对象,有默认值{ width: '310px',height: '155px'},可省略
             width: '400px',
             height: '200px',
@@ -28,6 +28,11 @@
         barSize:{          //下方滑块的大小对象,有默认值{ width: '310px',height: '50px'},可省略
             width: '400px',
             height: '40px',
+        },
+        beforeCheck:function(){  //检验参数合法性的函数  mode ="pop"有效
+            let flag = true;
+            //实现: 参数合法性的判断逻辑, 返回一个boolean值
+            return flag
         },
         ready : function() {},  //加载完毕的回调
         success : function(params) { //成功的回调
@@ -46,11 +51,13 @@
 | success(params)  |  funciton | 验证码匹配成功后的回调函数,params为返回需回传服务器的二次验证参数  |
 | error  |  funciton | 验证码匹配失败后的回调函数  |
 | ready  |  funciton |  验证码初始化成功的回调函数 |
+| beforeCheck  |  funciton |mode="pop"模式有效, 调用验证码前检验参数合法性的函数,返回值为boolean值,默认返回ture |
+
 
 ### 3.验证码参数
 
 |  参数 | 类型 |  说明 |
-| ------------ | ------------ | ------------ |1
+| ------------ | ------------ | ------------ |
 | baseUrl  | String | 请求后端的服务器地址,默认:'https://mirror.anji-plus.com/captcha-api' 安吉服务器地址 |
 | mode  | String | 验证码的显示方式，弹出式pop，固定fixed，默认：mode : ‘pop’  |
 | vSpace  | String | 验证码图片和移动条容器的间隔，默认单位是px。如：间隔为5px，默认:vSpace:5  |
