@@ -63,7 +63,8 @@
 	        barSize : {
 	        	width : '310px',
 	        	height : '50px',
-	        },
+			},
+			beforeCheck(){ return true},
             ready : function(){},
         	success : function(){},
             error : function(){}
@@ -95,7 +96,9 @@
 				
 				let clickBtn = document.getElementById(this.options.containerId);
 				clickBtn && (clickBtn.onclick = function(){
-					_this.$element.find(".mask").css("display","block");
+					if (_this.options.beforeCheck()) {
+						_this.$element.find(".mask").css("display","block");
+					}
 				})
         	}
         	
@@ -298,16 +301,15 @@
 						this.htmlDoms.icon.addClass('icon-close');
 
 						this.htmlDoms.tips.addClass('err-bg').removeClass('suc-bg')
-						this.htmlDoms.tips.css({"display":"block",animation:"move 1s cubic-bezier(0, 0, 0.39, 1.01)"});
-						this.htmlDoms.tips.text(`验证失败`)
-
+						this.htmlDoms.tips.css({"display":"block",animation:"move 1.3s cubic-bezier(0, 0, 0.39, 1.01)"});
+						this.htmlDoms.tips.text(res.repMsg)
 						setTimeout(function () { 
 							_this.refresh();
 						}, 400);
 
 						setTimeout(()=>{
 							this.htmlDoms.tips.css({"display":"none",animation:"none"});
-						},1000)
+						},1300)
 						this.options.error(this);
 					}
 				})
@@ -416,7 +418,8 @@
 	        barSize : {
 	        	width : '310px',
 	        	height : '50px',
-	        },
+			},
+			beforeCheck(){ return true},
 	        ready : function(){},
         	success : function(){},
             error : function(){}
@@ -426,9 +429,7 @@
     
     //定义Points的方法
     Points.prototype = {
-
     	init : function() {
-			
 			var _this = this;
 			//加载页面
         	_this.loadDom();
@@ -448,11 +449,12 @@
 				
 				let clickBtn = document.getElementById(this.options.containerId);
 				clickBtn && (clickBtn.onclick = function(){
-					_this.$element.find(".mask").css("display","block");
+					if (_this.options.beforeCheck()) {
+						_this.$element.find(".mask").css("display","block");
+					}
 				})
 				
         	}
-   	
 		 	// 注册点击验证事件
         	_this.$element.find('.back-img').on('click', function(e) {
         		
@@ -615,14 +617,22 @@
     };
     //在插件中使用slideVerify对象
     $.fn.slideVerify = function(options, callbacks) {
-        var slide = new Slide(this, options);
-        slide.init();
+		var slide = new Slide(this, options);
+		if (slide.options.mode=="pop" && slide.options.beforeCheck()) {
+			slide.init();
+		}else if (slide.options.mode=="fixed") {
+			slide.init();
+		}
     };
     
     //在插件中使用clickVerify对象
     $.fn.pointsVerify = function(options, callbacks) {
         var points = new Points(this, options);
-        points.init();
+		if (points.options.mode=="pop" && points.options.beforeCheck()) {
+			points.init();
+		}else if (points.options.mode=="fixed") {
+			points.init();
+		}
     };
    
 })(jQuery, window, document);

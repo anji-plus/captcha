@@ -82,6 +82,12 @@
 			$('#mpanel2').slideVerify({
 				mode:'pop',
 				containerId:'btn',//pop模式 必填 被点击之后出现行为验证码的元素id
+				beforeCheck:function(){
+					let flag = false;
+					//实现: 参数合法性的判断逻辑, 返回一个boolean值
+					return flag
+				},
+				//检验参数的函数
 		        ready : function() {  //加载完毕的回调
 		    	},
 		        success : function(params) { //成功的回调
