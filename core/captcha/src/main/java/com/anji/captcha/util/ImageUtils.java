@@ -6,7 +6,10 @@
  */
 package com.anji.captcha.util;
 
+import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.model.common.CaptchaBaseMapEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -18,11 +21,13 @@ import sun.misc.BASE64Encoder;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-
 public class ImageUtils {
+    private static Logger logger = LoggerFactory.getLogger(ImageUtils.class);
     private static Map<String, String> originalCacheMap = new ConcurrentHashMap();  //滑块底图
     private static Map<String, String> slidingBlockCacheMap = new ConcurrentHashMap(); //滑块
     private static Map<String, String> picClickCacheMap = new ConcurrentHashMap(); //点选文字
@@ -35,18 +40,30 @@ public class ImageUtils {
             originalCacheMap.putAll(getResourcesImagesFile("classpath:images/jigsaw/original/*.png"));
             slidingBlockCacheMap.putAll(getResourcesImagesFile("classpath:images/jigsaw/slidingBlock/*.png"));
         } else {
-            originalCacheMap.putAll(getImagesFile(captchaOriginalPathJigsaw + File.separator + "original"));
-            slidingBlockCacheMap.putAll(getImagesFile(captchaOriginalPathJigsaw + File.separator + "slidingBlock"));
+            if (captchaOriginalPathJigsaw.startsWith("classpath:")) {
+                logger.info("自定义项目路径滑动拼图底图路径：{}", captchaOriginalPathJigsaw + "/original/*.png");
+                logger.info("自定义项目路径滑动拼图滑块路径：{}", captchaOriginalPathJigsaw + "/slidingBlock/*.png");
+                originalCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathJigsaw + "/original/*.png"));
+                slidingBlockCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathJigsaw + "/slidingBlock/*.png"));
+            } else {
+                originalCacheMap.putAll(getImagesFile(captchaOriginalPathJigsaw + File.separator + "original"));
+                slidingBlockCacheMap.putAll(getImagesFile(captchaOriginalPathJigsaw + File.separator + "slidingBlock"));
+            }
         }
         //点选文字
         if (StringUtils.isBlank(captchaOriginalPathClick)) {
             picClickCacheMap.putAll(getResourcesImagesFile("classpath:images/pic-click/*.png"));
         } else {
-            picClickCacheMap.putAll(getImagesFile(captchaOriginalPathClick));
+            if (captchaOriginalPathClick.startsWith("classpath:")) {
+                picClickCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathClick + "/*.png"));
+            } else {
+                picClickCacheMap.putAll(getImagesFile(captchaOriginalPathClick));
+            }
         }
         fileNameMap.put(CaptchaBaseMapEnum.ORIGINAL.getCodeValue(), originalCacheMap.keySet().toArray(new String[0]));
         fileNameMap.put(CaptchaBaseMapEnum.SLIDING_BLOCK.getCodeValue(), slidingBlockCacheMap.keySet().toArray(new String[0]));
         fileNameMap.put(CaptchaBaseMapEnum.PIC_CLICK.getCodeValue(), picClickCacheMap.keySet().toArray(new String[0]));
+        logger.info("初始化底图:{}", JSONObject.toJSONString(fileNameMap));
     }
 
     public static BufferedImage getOriginal() {
