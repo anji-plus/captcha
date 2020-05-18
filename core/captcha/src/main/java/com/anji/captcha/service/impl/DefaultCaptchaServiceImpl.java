@@ -13,7 +13,6 @@ import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
-import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
@@ -131,22 +130,12 @@ public class DefaultCaptchaServiceImpl implements CaptchaService {
             return RepCodeEnum.NULL_ERROR.parseError("captchaVerification");
         }
         try {
-            //aes解密
-            String s = AESUtil.aesDecrypt(captchaVO.getCaptchaVerification(), captchaVO.getKey());
-            String token = s.split("---")[0];
-            String pointJson = s.split("---")[1];
-            String key = s.split("---")[2];
-            //取坐标信息
-            String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, token);
+            String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getCaptchaVerification());
             if (!captchaCacheService.exists(codeKey)) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
             }
-            String redisData = captchaCacheService.get(codeKey);
             //二次校验取值后，即刻失效
             captchaCacheService.delete(codeKey);
-            if (!pointJson.equals(redisData)) {
-                return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_COORDINATE_ERROR);
-            }
         } catch (Exception e) {
             logger.error("验证码坐标解析失败", e);
             return ResponseModel.errorMsg(e.getMessage());
