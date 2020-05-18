@@ -30,7 +30,7 @@ public class CaptchaVO implements Serializable {
 
     private Integer captchaFontSize;
 
-    private String key;
+    private String secretKey;
 
     /**
      * 原生图片base64
@@ -200,11 +200,11 @@ public class CaptchaVO implements Serializable {
         this.captchaVerification = captchaVerification;
     }
 
-    public String getKey() {
-        return key;
+    public String getSecretKey() {
+        return secretKey;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 }
