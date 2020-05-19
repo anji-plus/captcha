@@ -144,24 +144,15 @@ var VerifySlide = function VerifySlide() {
 };
 
 var VerifyPoint = function VerifyPoint() {
-  return Promise.all(/*! import() | pages/verify/verifyPoint/verifyPoint */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/verify/verifyPoint/verifyPoint")]).then(__webpack_require__.bind(null, /*! ./verifyPoint/verifyPoint */ 236));
+  return Promise.all(/*! import() | pages/verify/verifyPoint/verifyPoint */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/verify/verifyPoint/verifyPoint")]).then(__webpack_require__.bind(null, /*! ./verifyPoint/verifyPoint */ 237));
 };
 
 var _default2 = {
   name: 'Vue2Verify',
   props: {
-    containerId: {
-      type: String // required:true
-
-    },
     captchaType: {
       type: String,
       required: true
-    },
-    type: {
-      type: String | Number,
-      require: false // default: 'picture' //数字图片码
-
     },
     figure: {
       type: Number
@@ -169,25 +160,9 @@ var _default2 = {
     arith: {
       type: Number
     },
-    width: {
-      type: String,
-      default: "310px"
-    },
-    height: {
-      type: String
-    },
-    fontSize: {
-      type: String
-    },
-    codeLength: {
-      type: Number
-    },
     mode: {
       type: String,
       default: 'pop'
-    },
-    vOffset: {
-      type: Number
     },
     vSpace: {
       type: Number,
@@ -217,19 +192,6 @@ var _default2 = {
     },
     barSize: {
       type: Object
-    },
-    //默认的文字数量
-    defaultNum: {
-      type: Number
-    },
-    //校对的文字数量
-    checkNum: {
-      type: Number,
-      default: 3
-    },
-    showButton: {
-      type: Boolean,
-      default: false
     }
   },
   data: function data() {
@@ -243,16 +205,6 @@ var _default2 = {
     };
   },
   methods: {
-    /**
-     * checkCode
-     * @description 判断验证码
-     * */
-    checkCode: function checkCode() {
-      if (this.instance.checkCode) {
-        this.instance.checkCode();
-      }
-    },
-
     /**
      * refresh
      * @description 刷新
@@ -281,69 +233,6 @@ var _default2 = {
     }
   },
   watch: {
-    type: {
-      immediate: true,
-      handler: function handler(type) {
-        if (type) {
-          switch (type.toString()) {
-            case 'picture':
-              this.verifyType = '1';
-              this.componentType = 'VerifyCode';
-              break;
-
-            case '1':
-              this.verifyType = '1';
-              this.componentType = 'VerifyCode';
-              break;
-
-            case 'compute':
-              this.verifyType = '2';
-              this.componentType = 'VerifyCode';
-              break;
-
-            case '2':
-              this.verifyType = '2';
-              this.componentType = 'VerifyCode';
-              break;
-
-            case 'slide':
-              this.verifyType = '1';
-              this.componentType = 'VerifySlide';
-              break;
-
-            case '3':
-              this.verifyType = '1';
-              this.componentType = 'VerifySlide';
-              break;
-
-            case 'puzzle':
-              this.verifyType = '2';
-              this.componentType = 'VerifySlide';
-              break;
-
-            case '4':
-              this.verifyType = '2';
-              this.componentType = 'VerifySlide';
-              break;
-
-            case 'pick':
-              this.verifyType = '';
-              this.componentType = 'VerifyPoints';
-              break;
-
-            case '5':
-              this.verifyType = '';
-              this.componentType = 'VerifyPoints';
-              break;
-
-            default:
-              this.verifyType = undefined;
-              this.componentType = undefined;
-              console.error('Unsupported Type:' + type);
-          }
-        }
-      }
-    },
     captchaType: {
       immediate: true,
       handler: function handler(captchaType) {

@@ -50,7 +50,7 @@
      * VerifyPoints
      * @description 点选
      * */
-    import CryptoJS from 'crypto-js'
+    import {aesEncrypt} from "./../utils/ase.js"
 	import {myRequest} from "../utils/request.js"
     export default {
         name: 'VerifyPoints',
@@ -63,30 +63,10 @@
             captchaType:{
                 type:String,
             },
-            //默认的文字数量
-            defaultNum: {
-                type: Number,
-                default: 4
-            },
-            //校对的文字数量
-            checkNum: {
-                type: Number,
-                default: 3
-            },
             //间隔
             vSpace: {
                 type: Number,
                 default: 5
-            },
-            imgUrl: {
-                type: String,
-                default: 'http://via.placeholder.com/'
-            },
-            imgName: {
-                type: Array,
-                default() {
-                    return ['350x150', '350x450']
-                }
             },
             imgSize: {
                 type: Object,
@@ -109,13 +89,14 @@
         },
         data() {
             return {
-                fontPos: [], // 选中的坐标信息
-                checkPosArr: [], //用户点击的坐标
-                num: 1,//点击的记数
-                pointBackImgBase:'',    //后端获取到的背景图片
-                poinTextList:[],       //后端返回的点击字体顺序
-                backToken:'',           //后端返回的token值
-                imgRand: 0, // //随机的背景图片
+                checkNum:3,                 //
+                fontPos: [],                // 选中的坐标信息
+                checkPosArr: [],            //用户点击的坐标
+                num: 1,                     //点击的记数
+                pointBackImgBase:'',        //后端获取到的背景图片
+                poinTextList:[],            //后端返回的点击字体顺序
+                backToken:'',               //后端返回的token值
+                imgRand: 0,                 //随机的背景图片
                 setSize: {
                     imgHeight: 0,
                     imgWidth: 0,
@@ -139,7 +120,6 @@
                 this.fontPos.splice(0, this.fontPos.length)
                 this.checkPosArr.splice(0, this.checkPosArr.length)
                 this.num = 1
-                // this.getPictrue();
                 this.$nextTick(() => {
                     this.refresh();
                     this.$parent.$emit('ready', this)
@@ -153,17 +133,15 @@
                     this.checkPosArr.push(this.getMousePos(this.$refs.canvas, e));
                     if (this.num == this.checkNum) {
                         this.num = this.createPoint(this.getMousePos(this.$refs.canvas, e));
-                        console.log(this.checkPosArr,"this.checkPosArr");
                         //按比例转换坐标值
                         this.checkPosArr = this.pointTransfrom(this.checkPosArr,this.imgSize);
-                        console.log(this.checkPosArr,"this.checkPosArr");
                         //等创建坐标执行完
                         setTimeout(() => {
                             //发送后端请求
-                            var captchaVerification = this.aesEncrypt(this.backToken+'---'+JSON.stringify(this.checkPosArr))
+                            var captchaVerification = aesEncrypt(this.backToken+'---'+JSON.stringify(this.checkPosArr))
                             let data = {
                                 captchaType:this.captchaType,
-                                "pointJson":this.aesEncrypt(JSON.stringify(this.checkPosArr)),
+                                "pointJson":aesEncrypt(JSON.stringify(this.checkPosArr)),
                                 "token":this.backToken
                             }
                             myRequest({
@@ -176,7 +154,6 @@
                                         this.barAreaColor = '#4cae4c'
                                         this.barAreaBorderColor = '#5cb85c'
                                         this.text = '验证成功'
-                                        this.showRefresh = false
                                         this.bindingClick = false
 										setTimeout(()=>{
 											if (this.mode=='pop') {
@@ -225,18 +202,7 @@
                 this.checkPosArr.splice(0, this.checkPosArr.length)
                 this.num = 1
 
-                // this.imgRand = Math.floor(Math.random() * this.imgName.length);			//随机的背景图片
                 this.getPictrue();
-
-                // var image = new Image();
-                // image.src = this.imgUrl + this.imgName[this.imgRand];
-                // // 加载完成开始绘制
-                // var _this = this
-                // image.onload = function (e) {
-                //     _this.$nextTick(() => {
-                //         _this.fontPos = _this.drawImg(_this.$el, this)
-                //     })
-                // }
 
                 // this.text = '验证失败'
                 this.showRefresh = true
@@ -270,12 +236,6 @@
                 // console.log(newPointArr,"newPointArr");
                 return newPointArr
             },
-            aesEncrypt(word){
-                var key = CryptoJS.enc.Utf8.parse("XwKsGlMcdPMEhR1B");
-                var srcs = CryptoJS.enc.Utf8.parse(word);
-                var encrypted = CryptoJS.AES.encrypt(srcs, key, {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
-                return encrypted.toString();
-            },
         },
         watch: {
             // type变化则全面刷新
@@ -285,8 +245,6 @@
                     this.init()
                 }
             }
-        },
-        mounted() {
         },
     }
 </script>
