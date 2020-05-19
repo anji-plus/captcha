@@ -1,22 +1,8 @@
 <template>
-        <!-- :style="{display: mode === 'pop'?'none':undefined,
-                      position: mode === 'pop'?'absolute':'relative',
-                      height: (parseInt(setSize.imgHeight) + vSpace) + 'px',
-                      bottom: mode ==='pop'?'42px':undefined}"
-                      @mouseover="showImage = true"
-                      @mouseout="showImage = true"
-                      @mouseover="showImage = true"
-                      @mouseout="showImage = true"
-                      mode !== 'pop' && -->
-    <div style="position: relative;"
-         >
-        <!-- puzzle的情况 -->
-        
+    <div style="position: relative;">
         <div v-if="type === '2'" class="verify-img-out"
-             v-show="showImage"
              :style="{height: (parseInt(setSize.imgHeight) + vSpace) + 'px'}"
             >
-                        <!-- background: 'url(' + imgUrl + imgName[imgRand]+')', -->
             <div class="verify-img-panel" :style="{width: setSize.imgWidth,
                                                    height: setSize.imgHeight,}">
                 <img :src="'data:image/png;base64,'+backImgBase" alt="" style="width:100%;height:100%;display:block">
@@ -25,11 +11,8 @@
                 <transition name="tips">
                     <span class="verify-tips" v-if="tipWords" :style="{'background-color': tipsBackColor}">{{tipWords}}</span>
                 </transition>
-                <!-- <div class="verify-gap"
-                     :style="{'width': blockSize.width, 'height': blockSize.height, top: top + 'px', left: left + 'px'}"></div> -->
             </div>
         </div>
-
         <!-- 公共部分 -->
         <div class="verify-bar-area" :style="{width: setSize.imgWidth,
                                               height: barSize.height,
@@ -44,8 +27,6 @@
                      :style="{width: barSize.height, height: barSize.height, 'background-color': moveBlockBackgroundColor, left: moveBlockLeft, transition: transitionLeft}">
                     <i :class="['verify-icon iconfont', iconClass]"
                        :style="{color: iconColor}"></i>
-                       <!-- background-image': 'url(' + imgUrl + imgName[imgRand] + ')', -->
-                       <!-- 'background': 'url(data:image/png;base64,'+ blockBackImgBase + ')', -->
                     <div v-if="type === '2'"
                          class="verify-sub-block"
                     
@@ -53,13 +34,11 @@
                                   'height': setSize.imgHeight,
                                   'top':'-' + (parseInt(setSize.imgHeight) + vSpace) + 'px',
                                   'background-size': setSize.imgWidth + ' ' + setSize.imgHeight,
-                                  }"
-                         v-show=" showImage">
+                                  }">
                          <img :src="'data:image/png;base64,'+blockBackImgBase" alt=""  style="width:100%;height:100%;display:block">
                          </div>
                 </div>
             </div>
-            <!-- 'top': '-' + (parseInt(setSize.imgHeight) - top + vSpace) + 'px', 原先的 -->
         </div>
     </div>
 </template>
@@ -99,16 +78,6 @@
             explain: {
                 type: String,
                 default: '向右滑动完成验证'
-            },
-            imgUrl: {
-                type: String,
-                default: 'http://via.placeholder.com/'
-            },
-            imgName: {
-                type: Array,
-                default() {
-                    return ['350x150', '350x450']
-                }
             },
             imgSize: {
                 type: Object,
@@ -158,7 +127,6 @@
                 },
                 top: 0,
                 left: 0,
-                showImage: true,
                 moveBlockLeft: undefined,
                 leftBarWidth: undefined,
                 // 移动中样式
@@ -248,10 +216,6 @@
             move: function (e) {
                 e = e || window.event
                 if (this.status && this.isEnd == false) {
-                    // if (this.mode == 'pop') {
-                    //    this.showImage = true
-                    // }
-
                     if (!e.touches) {   //兼容移动端
                         var x = e.clientX;
                     } else {     //兼容PC端
