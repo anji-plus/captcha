@@ -208,7 +208,7 @@
         	
         	this.$element.css('position', 'relative');
 
-			this.htmlDoms.sub_block.css({'height':this.setSize.img_height,'width':Math.ceil(parseInt(this.setSize.img_width)*50/310)+ 'px',
+			this.htmlDoms.sub_block.css({'height':this.setSize.img_height,'width':Math.floor(parseInt(this.setSize.img_width)*47/310)+ 'px',
 									'top':-(parseInt(this.setSize.img_height) + this.options.vSpace) + 'px'})
 			this.htmlDoms.out_panel.css('height', parseInt(this.setSize.img_height) + this.options.vSpace + 'px');
 			this.htmlDoms.img_panel.css({'width': this.setSize.img_width, 'height': this.setSize.img_height});
@@ -220,6 +220,12 @@
 
         //鼠标按下
         start: function(e) {
+			if(!e.touches) {    //兼容移动端
+				var x = e.clientX;
+			}else {     //兼容PC端
+				var x = e.touches[0].pageX;
+			}
+			this.startLeft = Math.floor(x - this.htmlDoms.bar_area[0].getBoundingClientRect().left);
 			this.startMoveTime = new Date().getTime();
         	if(this.isEnd == false) {
 	        	this.htmlDoms.msg.text('');
@@ -240,7 +246,7 @@
 	                var x = e.touches[0].pageX;
 	            }
 				var bar_area_left = this.htmlDoms.bar_area[0].getBoundingClientRect().left;
-                var move_block_left = x - bar_area_left; //小方块相对于父元素的left值
+				var move_block_left = x - bar_area_left; //小方块相对于父元素的left值
 				if(move_block_left >= (this.htmlDoms.bar_area[0].offsetWidth - parseInt(this.setSize.bar_height) + parseInt(parseInt(this.setSize.block_width)/2) - 2) ) {
 					move_block_left = (this.htmlDoms.bar_area[0].offsetWidth - parseInt(this.setSize.bar_height) + parseInt(parseInt(this.setSize.block_width)/2)- 2);
 				}
@@ -248,12 +254,10 @@
             		move_block_left = parseInt(parseInt(this.setSize.block_width)/2);
             	}
 				//拖动后小方块的left值
-
-	            this.htmlDoms.move_block.css('left', move_block_left-parseInt(parseInt(this.setSize.block_width)/2) + "px");
-	            this.htmlDoms.left_bar.css('width', move_block_left-parseInt(parseInt(this.setSize.block_width)/2) + "px");
+	            this.htmlDoms.move_block.css('left', move_block_left-this.startLeft + "px");
+	            this.htmlDoms.left_bar.css('width', move_block_left-this.startLeft + "px");
 				this.htmlDoms.sub_block.css('left', "0px");
-				
-				this.moveLeftDistance = move_block_left-parseInt(parseInt(this.setSize.block_width)/2)
+				this.moveLeftDistance = move_block_left - this.startLeft
 	        }
         },
         
@@ -280,12 +284,10 @@
 						this.htmlDoms.icon.css('color', '#fff');
 						this.htmlDoms.icon.removeClass('icon-right');
 						this.htmlDoms.icon.addClass('icon-check');
-
 						//提示框
 						this.htmlDoms.tips.addClass('suc-bg').removeClass('err-bg')
 						this.htmlDoms.tips.css({"display":"block",animation:"move 1s cubic-bezier(0, 0, 0.39, 1.01)"});
 						this.htmlDoms.tips.text(`${((this.endMovetime-this.startMoveTime)/1000).toFixed(2)}s验证成功`)
-
 						this.isEnd = true;
 						setTimeout(res=>{
 							_this.$element.find(".mask").css("display","none");
