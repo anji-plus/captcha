@@ -166,9 +166,8 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 //            dataVO.setPoint(point);
             dataVO.setJigsawImageBase64(encoder.encodeToString(jigsawImages).replaceAll("\r|\n", ""));
             dataVO.setToken(RandomUtils.getUUID());
-//            BASE64Decoder decoder = new BASE64Decoder();
-//            base64StrToImage(encoder.encode(oriCopyImages), "D:\\原图.png");
-//            base64StrToImage(encoder.encode(jigsawImages), "D:\\滑动.png");
+//            base64StrToImage(encoder.encodeToString(oriCopyImages), "D:\\原图.png");
+//            base64StrToImage(encoder.encodeToString(jigsawImages), "D:\\滑动.png");
 
             //将坐标信息存入redis中
             String codeKey = String.format(REDIS_CAPTCHA_KEY, dataVO.getToken());
