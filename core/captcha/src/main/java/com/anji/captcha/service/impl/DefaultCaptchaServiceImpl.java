@@ -19,13 +19,13 @@ import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +35,7 @@ import java.util.Map;
 @Component(value = "defaultCaptchaServiceImpl")
 @Primary
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class DefaultCaptchaServiceImpl implements CaptchaService {
+public class DefaultCaptchaServiceImpl implements CaptchaService, InitializingBean {
 
     private static Logger logger = LoggerFactory.getLogger(DefaultCaptchaServiceImpl.class);
 
@@ -53,8 +53,8 @@ public class DefaultCaptchaServiceImpl implements CaptchaService {
     protected CaptchaCacheService captchaCacheService;
 
     private Map<String,CaptchaService> instances = new HashMap();
-    @PostConstruct
-    public void init(){
+    @Override
+    public void afterPropertiesSet() throws Exception {
         initCache();
 
         Object t = this;
