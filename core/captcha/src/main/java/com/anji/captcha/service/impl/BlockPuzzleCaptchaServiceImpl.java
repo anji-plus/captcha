@@ -46,6 +46,14 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
     @Value("${captcha.slip.offset:5}")
     private String slipOffset;
 
+
+    private static Boolean captchaAesStatus;
+
+    @Value("${captcha.aes.status:true}")
+    public void setCaptchaAesStatus(Boolean captchaAesStatus) {
+        BlockPuzzleCaptchaServiceImpl.captchaAesStatus = captchaAesStatus;
+    }
+
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
 
@@ -82,13 +90,13 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
         //验证码只用一次，即刻失效
         captchaCacheService.delete(codeKey);
         PointVO point = null;
-        Point point1 = null;
+        PointVO point1 = null;
         String pointJson = null;
         try {
             point = JSONObject.parseObject(s, PointVO.class);
             //aes解密
             pointJson = decrypt(captchaVO.getPointJson(), point.getSecretKey());
-            point1 = JSONObject.parseObject(pointJson, Point.class);
+            point1 = JSONObject.parseObject(pointJson, PointVO.class);
         } catch (Exception e) {
             logger.error("验证码坐标解析失败", e);
             return ResponseModel.errorMsg(e.getMessage());
@@ -166,6 +174,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 //            dataVO.setPoint(point);
             dataVO.setJigsawImageBase64(encoder.encodeToString(jigsawImages).replaceAll("\r|\n", ""));
             dataVO.setToken(RandomUtils.getUUID());
+            dataVO.setSecretKey(point.getSecretKey());
 //            base64StrToImage(encoder.encodeToString(oriCopyImages), "D:\\原图.png");
 //            base64StrToImage(encoder.encodeToString(jigsawImages), "D:\\滑动.png");
 
@@ -205,7 +214,11 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
         } else {
             y = random.nextInt(originalHeight - jigsawHeight) + 5;
         }
-        return new PointVO(x, y, AESUtil.getKey());
+        String key = null;
+        if (captchaAesStatus) {
+            key = AESUtil.getKey();
+        }
+        return new PointVO(x, y, key);
     }
 
     /**
