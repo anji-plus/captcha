@@ -61,5 +61,5 @@ I  Your application is running here: http://localhost:8081
 #### &emsp; 6.2 增加ReactNative示例
 
 # 6 技术支持微信群
-<img src="https://images.gitee.com/uploads/images/2020/0511/091107_b81b631c_1728982.jpeg" width = "200" height = "200" div align=left />
+<img src="https://images.gitee.com/uploads/images/2020/0518/092037_e8431f14_1728982.jpeg" width = "200" height = "200" div align=left />
 
