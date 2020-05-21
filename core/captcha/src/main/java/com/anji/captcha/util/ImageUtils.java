@@ -12,13 +12,14 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.FileCopyUtils;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -84,8 +85,10 @@ public class ImageUtils {
             e.printStackTrace();
         }
         byte[] bytes = baos.toByteArray();
-        BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encodeBuffer(bytes).trim();
+
+        Base64.Encoder encoder = Base64.getEncoder();
+
+        return encoder.encodeToString(bytes).trim();
     }
 
     /**
@@ -96,8 +99,8 @@ public class ImageUtils {
      */
     public static BufferedImage getBase64StrToImage(String base64String) {
         try {
-            BASE64Decoder base64Decoder = new BASE64Decoder();
-            byte[] bytes = base64Decoder.decodeBuffer(base64String);
+            Base64.Decoder decoder = Base64.getDecoder();
+            byte[] bytes = decoder.decode(base64String);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
             return ImageIO.read(inputStream);
         } catch (IOException e) {
