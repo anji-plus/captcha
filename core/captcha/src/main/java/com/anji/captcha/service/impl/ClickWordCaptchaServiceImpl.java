@@ -46,6 +46,13 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
     @Value("${captcha.font.type:'宋体'}")
     private String fontType;
 
+    private static Boolean captchaAesStatus;
+
+    @Value("${captcha.aes.status:true}")
+    public void setCaptchaAesStatus(Boolean captchaAesStatus) {
+        ClickWordCaptchaServiceImpl.captchaAesStatus = captchaAesStatus;
+    }
+
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
         BufferedImage bufferedImage = ImageUtils.getPicClick();
@@ -68,7 +75,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         //验证码只用一次，即刻失效
         captchaCacheService.delete(codeKey);
         List<PointVO> point = null;
-        List<Point> point1 = null;
+        List<PointVO> point1 = null;
         String pointJson = null;
         /**
          * [
@@ -90,7 +97,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
             point = JSONObject.parseArray(s, PointVO.class);
             //aes解密
             pointJson = decrypt(captchaVO.getPointJson(), point.get(0).getSecretKey());
-            point1 = JSONObject.parseArray(pointJson, Point.class);
+            point1 = JSONObject.parseArray(pointJson, PointVO.class);
         } catch (Exception e) {
             logger.error("验证码坐标解析失败", e);
             return ResponseModel.errorMsg(e.getMessage());
@@ -138,7 +145,10 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         //定义随机1到arr.length某一个字不参与校验
         int num = RandomUtils.getRandomInt(1, wordCount);
         Set<String> currentWords = new HashSet<String>();
-        String secretKey = AESUtil.getKey();
+        String secretKey = null;
+        if (captchaAesStatus) {
+            secretKey = AESUtil.getKey();
+        }
         for (int i = 0; i < wordCount; i++) {
             String word;
             do {
@@ -184,6 +194,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         //dataVO.setPointList(pointList);
         dataVO.setWordList(wordList);
         dataVO.setToken(RandomUtils.getUUID());
+        dataVO.setSecretKey(secretKey);
         //将坐标信息存入redis中
         String codeKey = String.format(REDIS_CAPTCHA_KEY, dataVO.getToken());
         captchaCacheService.set(codeKey, JSONObject.toJSONString(pointList), EXPIRESIN_SECONDS);
@@ -212,7 +223,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
             }
         }
         y = RandomUtils.getRandomInt(HAN_ZI_SIZE, imageHeight - HAN_ZI_SIZE);
-        return new PointVO(x, y);
+        return new PointVO(x, y, null);
     }
 
 
