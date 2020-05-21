@@ -86,6 +86,9 @@ public class AESUtil {
      * @throws Exception
      */
     public static String aesEncrypt(String content, String encryptKey) throws Exception {
+        if (StringUtils.isBlank(encryptKey)) {
+            return content;
+        }
         return base64Encode(aesEncryptToBytes(content, encryptKey));
     }
 
@@ -115,6 +118,9 @@ public class AESUtil {
      * @throws Exception
      */
     public static String aesDecrypt(String encryptStr, String decryptKey) throws Exception {
+        if (StringUtils.isBlank(decryptKey)) {
+            return encryptStr;
+        }
         return StringUtils.isEmpty(encryptStr) ? null : aesDecryptByBytes(base64Decode(encryptStr), decryptKey);
     }
 

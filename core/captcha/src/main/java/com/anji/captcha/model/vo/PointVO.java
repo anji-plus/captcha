@@ -5,26 +5,12 @@ import java.awt.*;
 /**
  * Created by raodeming on 2020/5/16.
  */
-public class PointVO extends Point {
+public class PointVO{
     private String secretKey;
 
-    public PointVO(String secretKey) {
-        this.secretKey = secretKey;
-    }
+    public int x;
 
-    public PointVO(Point p, String secretKey) {
-        super(p);
-        this.secretKey = secretKey;
-    }
-
-    public PointVO(int x, int y, String secretKey) {
-        super(x, y);
-        this.secretKey = secretKey;
-    }
-
-    public PointVO(int x, int y) {
-        super(x, y);
-    }
+    public int y;
 
     public String getSecretKey() {
         return secretKey;
@@ -32,5 +18,35 @@ public class PointVO extends Point {
 
     public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public PointVO(int x, int y, String secretKey) {
+        this.secretKey = secretKey;
+        this.x = x;
+        this.y = y;
+    }
+
+    public PointVO() {
+    }
+
+    public PointVO(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 }
