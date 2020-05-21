@@ -15,40 +15,22 @@
                         :type="verifyType"
                         :figure="figure"
                         :arith="arith"
-                        :width="width"
-                        :height="height"
-                        :fontSize="fontSize"
-                        :codeLength="codeLength"
                         :mode="mode"
-                        :vOffset="vOffset"
                         :vSpace="vSpace"
                         :explain="explain"
-                        :imgUrl="imgUrl"
-                        :imgName="imgName"
-                        :showButton="showButton"
                         :imgSize="imgSize"
                         :blockSize="blockSize"
                         :barSize="barSize"
-                        :defaultNum="defaultNum"
-                        :checkNum="checkNum"
                         ref="instance"></components>
-            <!-- 确定按钮容器 -->
-            <div @click="checkCode" v-show="showButton" style="width:0; height:0;">
-                <slot name="check">
-                    <button class="verify-btn">{{i18n('ok')}}</button>
-                </slot>
-            </div>
         </div>
     </div>
 </div>
 </template>
 <script type="text/babel">
-
     /**
      * Verify 验证码组件
      * @description 分发验证码使用
      * */
-    import VerifyCode from './Verify/VerifyCode'
     import VerifySlide from './Verify/VerifySlide'
     import VerifyPoints from './Verify/VerifyPoints'
 
@@ -74,48 +56,21 @@
                 type:String,
                 required:true
             },
-            type: {
-                type: String | Number,
-                require: false,
-                // default: 'picture' //数字图片码
-            },
             figure: {
                 type: Number
             },
             arith: {
                 type: Number
             },
-            width: {
-                type: String,
-                default:"310px"
-            },
-            height: {
-                type: String
-            },
-            fontSize: {
-                type: String
-            },
-            codeLength: {
-                type: Number
-            },
             mode: {
                 type: String,
                 default:'pop'
-            },
-            vOffset: {
-                type: Number
             },
             vSpace: {
                 type: Number
             },
             explain: {
                 type: String
-            },
-            imgUrl: {
-                type: String
-            },
-            imgName: {
-                type: Array
             },
             imgSize: {
                 type: Object,
@@ -132,18 +87,6 @@
             barSize: {
                 type: Object
             },
-            //默认的文字数量
-            defaultNum: {
-                type: Number
-            },
-            //校对的文字数量
-            checkNum: {
-                type: Number
-            },
-            showButton: {
-                type: Boolean,
-                default: false
-            }
         },
         data() {
             return {
@@ -169,15 +112,6 @@
                     // 兼容不存在的语言
                     let i18n = this.$options.i18n.messages[this.locale] || this.$options.i18n.messages['en-US']
                     return i18n[text]
-                }
-            },
-            /**
-             * checkCode
-             * @description 判断验证码
-             * */
-            checkCode() {
-                if (this.instance.checkCode) {
-                    this.instance.checkCode()
                 }
             },
             /**
@@ -212,59 +146,6 @@
             }
         },
         watch: {
-            type: {
-                immediate: true,
-                handler(type) {
-                    if (type) {
-                        switch (type.toString()) {
-                            case 'picture':
-                                this.verifyType = '1'
-                                this.componentType = 'VerifyCode'
-                                break
-                            case '1':
-                                this.verifyType = '1'
-                                this.componentType = 'VerifyCode'
-                                break
-                            case 'compute':
-                                this.verifyType = '2'
-                                this.componentType = 'VerifyCode'
-                                break
-                            case '2':
-                                this.verifyType = '2'
-                                this.componentType = 'VerifyCode'
-                                break
-                            case 'slide':
-                                this.verifyType = '1'
-                                this.componentType = 'VerifySlide'
-                                break
-                            case '3':
-                                this.verifyType = '1'
-                                this.componentType = 'VerifySlide'
-                                break
-                            case 'puzzle':
-                                this.verifyType = '2'
-                                this.componentType = 'VerifySlide'
-                                break
-                            case '4':
-                                this.verifyType = '2'
-                                this.componentType = 'VerifySlide'
-                                break
-                            case 'pick':
-                                this.verifyType = ''
-                                this.componentType = 'VerifyPoints'
-                                break
-                            case '5':
-                                this.verifyType = ''
-                                this.componentType = 'VerifyPoints'
-                                break
-                            default:
-                                this.verifyType = undefined
-                                this.componentType = undefined
-                                console.error('Unsupported Type:' + type)
-                        }
-                    }
-                }
-            },
             captchaType:{
                 immediate: true,
                 handler(captchaType) {
@@ -282,27 +163,9 @@
             },
         },
         components: {
-            VerifyCode,
             VerifySlide,
             VerifyPoints
         },
-        i18n: {
-            messages: {
-                'en-US': {
-                    ok: 'ok'
-                },
-                'zh-CN': {
-                    ok: '确定'
-                }
-            }
-        },
-        mounted(){
-            // if (this.mode=="pop") {
-            //     document.querySelector(this.containerId).addEventListener('click',()=>{
-            //        this.clickShow = true;
-            //     })
-            // }
-        }
     }
 </script>
 <style>
@@ -357,9 +220,16 @@
         bottom:0px;
         width: 100%;
         height: 30px;
-        background-color:rgb(231, 27, 27,.5);
         line-height:30px;
         color: #fff;
+    }
+    .suc-bg{
+       background-color:rgba(92, 184, 92,.5);  
+       filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#7f5CB85C, endcolorstr=#7f5CB85C);
+    }
+    .err-bg{
+       background-color:rgba(217, 83, 79,.5);  
+       filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#7fD9534F, endcolorstr=#7fD9534F);
     }
     .tips-enter,.tips-leave-to{
         bottom: -30px;
