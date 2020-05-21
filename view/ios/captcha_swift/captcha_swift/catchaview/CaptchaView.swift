@@ -73,6 +73,7 @@ class CaptchaView: UIView {
     let contentView     = UIView() // 容器视图
     let shadowView      = UIView() // 背景视图
     
+    var needEncryption = false;
     
     //========puzzle============
     //滑块父view
