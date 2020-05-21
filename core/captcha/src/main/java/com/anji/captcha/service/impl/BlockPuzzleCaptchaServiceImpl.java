@@ -7,7 +7,6 @@
 package com.anji.captcha.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
@@ -18,12 +17,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 import java.util.Random;
 
 /**
@@ -156,11 +155,12 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
             // 源图生成遮罩
             byte[] oriCopyImages = DealOriPictureByTemplate(originalImage, jigsawImage, x, 0);
-            BASE64Encoder encoder = new BASE64Encoder();
-            dataVO.setOriginalImageBase64(encoder.encode(oriCopyImages).replaceAll("\r|\n", ""));
+
+            Base64.Encoder encoder = Base64.getEncoder();
+            dataVO.setOriginalImageBase64(encoder.encodeToString(oriCopyImages).replaceAll("\r|\n", ""));
             //point信息不传到前端，只做后端check校验
 //            dataVO.setPoint(point);
-            dataVO.setJigsawImageBase64(encoder.encode(jigsawImages).replaceAll("\r|\n", ""));
+            dataVO.setJigsawImageBase64(encoder.encodeToString(jigsawImages).replaceAll("\r|\n", ""));
             dataVO.setToken(RandomUtils.getUUID());
 //            BASE64Decoder decoder = new BASE64Decoder();
 //            base64StrToImage(encoder.encode(oriCopyImages), "D:\\原图.png");
