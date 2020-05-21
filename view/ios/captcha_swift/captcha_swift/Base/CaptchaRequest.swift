@@ -66,6 +66,7 @@ struct CaptchaResponseData {
     var originalImageBase64: String = ""
     var jigsawImageBase64: String = ""
     var token: String = ""
+    var secretKey: String = ""
     var result: String = ""
     //点选文字
     var wordList: [Any] = []
