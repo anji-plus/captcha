@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
         <title>verify插件demo</title>
 		<link rel="stylesheet" type="text/css" href="css/verify.css">
+		
 		<script>
 			(function () {
 			  if (!window.Promise) {
@@ -52,13 +53,16 @@
 			<div id="mpanel4" style="margin-top:50px;">
 			</div>
 		</div>
-
+		<!-- 兼容es6语法start -->
+		<script src="./js/browser.js"></script>
+		<script src="./js/polyfill.min.js"></script>
+		<!-- end -->
 		<script type="text/javascript" src="js/jquery.min.js" ></script>
 		<script src="./js/crypto-js.js"></script>
 		<script src="./js/ase.js"></script>
         <script type="text/javascript" src="js/verify.js" ></script>
         
-        <script>
+        <script type="text/babel">
 			// 初始化验证码  嵌入式
         	$('#mpanel1').slideVerify({
 				baseUrl:'https://mirror.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
