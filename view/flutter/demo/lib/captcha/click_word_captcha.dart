@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:captcha/request/HttpManager.dart';
+import 'package:captcha/request/encrypt_util.dart';
 import 'package:captcha/tools/object_utils.dart';
 import 'package:captcha/tools/widget_util.dart';
 import 'package:flutter/material.dart';
@@ -121,7 +122,13 @@ class _ClickWordCaptchaState extends State<ClickWordCaptcha> {
     }
     Map<String, dynamic> repData = res['repData'];
     if (repData["result"] != null && repData["result"] == true) {
-      _checkSuccess(repData["pointJson"]);
+      //如果不加密  将  token  和 坐标序列化 通过  --- 链接成字符串
+      var captchaVerification = "${_clickWordCaptchaModel.token}---$pointStr";
+      if(!ObjectUtils.isEmpty(_clickWordCaptchaModel.secretKey)){
+        //如果加密  将  token  和 坐标序列化 通过  --- 链接成字符串 进行加密  加密密钥为 _clickWordCaptchaModel.secretKey
+        captchaVerification = EncryptUtil.aesEncode(key: _clickWordCaptchaModel.secretKey, content: captchaVerification);
+      }
+      _checkSuccess(captchaVerification);
     } else {
       _checkFail();
     }

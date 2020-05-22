@@ -64,3 +64,14 @@ if(self.needEncryption){
 
 ```
 
+### 二次校验传参
+```
+// token是get请求获取的  pointStr是坐标序列化的字符串  
+//如果需要加密   将字符串进行拼接加密
+var successStr = "\(token)---\(pointStr)";
+if(self.repModel.secretKey.count > 0){
+    successStr = ESConfig.aesEncrypt(successStr, self.repModel.secretKey)
+}
+success(successStr)
+```
+

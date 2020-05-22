@@ -201,12 +201,17 @@ class CaptchaView: UIView {
     }
     
     /// 请求校验接口
-    func requestCheckData(pointJson: String = ""){
+    func requestCheckData(pointJson: String = "", token: String, pointStr: String){
         CaptchaRequest.captchaCheck(currentType, pointJson: pointJson, token: self.repModel.token, success: { (model) in
-            self.showResult(true)
+            
+            var successStr = "\(token)---\(pointStr)";
+            if(self.repModel.secretKey.count > 0){
+                successStr = ESConfig.aesEncrypt(successStr, self.repModel.secretKey)
+            }
+            self.showResult(true, successStr: successStr)
             
         }) { (error) in
-            self.showResult(false)
+            self.showResult(false, successStr: "")
         }
         
     }
@@ -263,7 +268,7 @@ class CaptchaView: UIView {
             } else {
                 pointJson = pointEncode;
             }
-            requestCheckData(pointJson: pointJson);
+            requestCheckData(pointJson: pointJson, token: self.repModel.token, pointStr: pointEncode);
         case .clickword:
             
             var pointsList: [Any] = []
@@ -278,7 +283,7 @@ class CaptchaView: UIView {
             } else {
                 pointJson = pointEncode;
             }
-            requestCheckData(pointJson: pointJson);
+            requestCheckData(pointJson: pointJson,token: self.repModel.token, pointStr: pointEncode);
         }
         
     }
@@ -287,9 +292,9 @@ class CaptchaView: UIView {
     ///
     /// - Parameter isSuccess: 是否正确
     /// - note: 暂时只有错误时,才显示
-    func showResult(_ isSuccess: Bool) {
+    func showResult(_ isSuccess: Bool, successStr: String) {
         if let block = completeBlock {
-            block("isSuccess\(isSuccess)")
+            block(successStr)
         }
         switch currentType {
         case .puzzle:
