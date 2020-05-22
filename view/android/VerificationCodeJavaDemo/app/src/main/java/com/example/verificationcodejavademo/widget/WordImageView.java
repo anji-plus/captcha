@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,7 +37,7 @@ public class WordImageView extends FrameLayout {
     private Bitmap cover;
     private int size = 0;//需要点击文字的数量
     private List<Point> mList = new ArrayList<>();
-    private Handler mHandler=new Handler();
+    private Handler mHandler = new Handler();
 
     public WordImageView(@NonNull Context context) {
         super(context);
@@ -80,33 +79,35 @@ public class WordImageView extends FrameLayout {
         word_iv_cover.setLayoutParams(l);
         word_iv_cover.setImageBitmap(cover);
 
-        setLocation(cover.getWidth() , cover.getHeight());
+        setLocation(cover.getWidth(), cover.getHeight());
     }
 
-    private void setLocation(int w,int h) {
+    private void setLocation(int w, int h) {
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) word_fl_content.getLayoutParams();
         layoutParams.width = DisplayUtil.dip2px(getContext(), (float) w);
         layoutParams.height = DisplayUtil.dip2px(getContext(), (float) h);
         word_fl_content.setLayoutParams(layoutParams);
     }
 
-    public void ok(){
+    public void ok() {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 reset();
             }
-        },1000);
+        }, 1000);
     }
-    public void fail(){
+
+    public void fail() {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 reset();
             }
-        },1000);
+        }, 1000);
     }
-    private void reset(){
+
+    private void reset() {
         mList.clear();
         word_fl_content.removeAllViews();
         word_fl_content.addView(word_iv_cover);
@@ -141,7 +142,7 @@ public class WordImageView extends FrameLayout {
         LayoutParams l = new LayoutParams(DisplayUtil.dip2px(getContext(), 20 * 1.0f), DisplayUtil.dip2px(getContext(), 20 * 1.0f));
         textView.setLayoutParams(l);
         textView.setGravity(Gravity.CENTER);
-        textView.setText(mList.size()+"");
+        textView.setText(mList.size() + "");
         textView.setTextColor(Color.WHITE);
         textView.setBackground(getResources().getDrawable(R.drawable.shape_dot_bg));
         MarginLayoutParams postion = (MarginLayoutParams) textView.getLayoutParams();
