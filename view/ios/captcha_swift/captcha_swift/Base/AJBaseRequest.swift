@@ -24,10 +24,13 @@ enum RequestResult{
 private let shareInstance = AJBaseRequest()
 private var timeoutInterval: TimeInterval = 60  //请求超时时间
 //IP地址
-let kServerBaseUrl = "https://mirror.anji-plus.com/captcha-api"
+let kServerBaseUrl = "https://mirror.anji-plus.com/api"
 //let kServerBaseUrl = "http://10.108.11.46:8080/api"
 //let kServerBaseUrl = "http://10.108.12.20:8080/api"
 //let kServerBaseUrl = "http://10.108.12.20:8086/"
+//let kServerBaseUrl = "http://10.108.12.11:8080/"
+//let kServerBaseUrl = "http://127.0.0.1:8080"
+
 
 
 class AJBaseRequest {
@@ -45,18 +48,17 @@ extension AJBaseRequest {
     }()
     
     func baseRequest(url: String, method: MethodType = .post, reqData: [String : Any], autoShowMessage: Bool = true, success: @escaping (Any?) -> (), failure: @escaping (Error) -> ()){
-//        let token = ""
-//        let timeInterval = NSDate().timeIntervalSince1970 * 1000
+        let token = ""
+        let timeInterval = NSDate().timeIntervalSince1970 * 1000
         
-//        let time = Int64(timeInterval)
-//        let sign = self.getMD5Sign(reqData, time: String(time), token: token)
-//        let params: [String : Any] = [
-//            "time":time,
-//            "token":token,
-//            "reqData":reqData,
-//            "sign":sign,
-//        ]
-        let params: [String : Any] = reqData
+        let time = Int64(timeInterval)
+        let sign = self.getMD5Sign(reqData, time: String(time), token: token)
+        let params: [String : Any] = [
+            "time":time,
+            "token":token,
+            "reqData":reqData,
+            "sign":sign,
+        ]
         AJBaseRequest.aManager.delegate.sessionDidReceiveChallenge = CertificateTrust.alamofireCertificateTrust
         let headers = ["Content-Type":"application/json"]
         let _method = method == MethodType.post ? HTTPMethod.post : HTTPMethod.get;
@@ -134,7 +136,3 @@ func printLog<T>(_ message: T,
         #endif
     }
 }
-
-
-
-
