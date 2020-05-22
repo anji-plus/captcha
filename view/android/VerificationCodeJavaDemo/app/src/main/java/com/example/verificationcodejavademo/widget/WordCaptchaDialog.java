@@ -13,7 +13,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,15 +21,12 @@ import androidx.annotation.NonNull;
 
 import com.example.verificationcodejavademo.R;
 import com.example.verificationcodejavademo.model.CaptchaCheckIt;
-import com.example.verificationcodejavademo.model.CaptchaGetIt;
-import com.example.verificationcodejavademo.model.Point;
 import com.example.verificationcodejavademo.model.WordCaptchaGetIt;
 import com.example.verificationcodejavademo.network.BaseObserver;
 import com.example.verificationcodejavademo.network.RetrofitUtils;
 import com.example.verificationcodejavademo.network.RxHelper;
 import com.example.verificationcodejavademo.utils.AESUtil;
 import com.example.verificationcodejavademo.utils.ImageUtil;
-import com.google.gson.Gson;
 
 import org.json.JSONObject;
 

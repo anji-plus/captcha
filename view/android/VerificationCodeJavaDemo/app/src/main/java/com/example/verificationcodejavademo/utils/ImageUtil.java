@@ -1,16 +1,11 @@
 package com.example.verificationcodejavademo.utils;
 
-import android.app.VoiceInteractor;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.LruCache;
 import android.util.TypedValue;
-import android.widget.ImageView;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Date:2020/5/20

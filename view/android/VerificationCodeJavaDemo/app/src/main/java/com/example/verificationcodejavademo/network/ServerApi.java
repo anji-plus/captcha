@@ -18,7 +18,7 @@ import retrofit2.http.POST;
 public interface ServerApi {
 
     final static String BaseUrl = "https://mirror.anji-plus.com/captcha-api/";
-//final static String BaseUrl="http://10.108.12.11:8080/";
+//    final static String BaseUrl = "http://10.108.12.11:8080/";
 
     //获取验证码
     @POST("captcha/get")
