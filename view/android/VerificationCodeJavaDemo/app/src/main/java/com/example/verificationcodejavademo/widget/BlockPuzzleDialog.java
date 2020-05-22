@@ -6,8 +6,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -170,10 +168,4 @@ public class BlockPuzzleDialog extends Dialog {
         });
     }
 
-    private void runUIDelayed(Runnable run, int de) {
-        if (handler == null) {
-            handler = new Handler();
-            handler.postDelayed(run, de);
-        }
-    }
 }

@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitUtils {
     private static final String TAG = "RetrofitUtils";
     //设置默认超时时间
-    public static final int DEFAULT_TIME=10;
+    public static final int DEFAULT_TIME = 10;
     private static ServerApi mServerApi;
 
     public static ServerApi getServerApi() {
@@ -50,7 +50,7 @@ public class RetrofitUtils {
     }
 
     private OkHttpClient initOkHttp() {
-        HttpLoggingInterceptor httpLoggingInterceptor=new HttpLoggingInterceptor();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
         return new OkHttpClient().newBuilder()
                 .readTimeout(DEFAULT_TIME, TimeUnit.SECONDS)//设置读取超时时间

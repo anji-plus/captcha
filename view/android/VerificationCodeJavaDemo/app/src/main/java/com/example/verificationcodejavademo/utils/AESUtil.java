@@ -1,11 +1,8 @@
 package com.example.verificationcodejavademo.utils;
 
-import android.os.Handler;
-import android.os.Looper;
+
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
-
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -22,7 +19,7 @@ public class AESUtil {
         if (TextUtils.isEmpty(content)) {
             return content;
         }
-        if (key.isEmpty() || key == null) {
+        if (key == null || key.isEmpty()) {
             return content;
         }
         try {
