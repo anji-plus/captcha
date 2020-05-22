@@ -73,6 +73,8 @@ class CaptchaView: UIView {
     let contentView     = UIView() // 容器视图
     let shadowView      = UIView() // 背景视图
     
+    var needEncryption = false;
+
     
     //========puzzle============
     //滑块父view
@@ -170,8 +172,15 @@ class CaptchaView: UIView {
         }
         CaptchaRequest.captchaAccept(currentType, success: { (model) in
             self.repModel = model
+            //secretKey有值 代表需要进行加密
+            if(self.repModel.secretKey.count > 0){
+                self.needEncryption = true
+            } else {
+                self.needEncryption = false
+            }
             self.getRequestView(self.currentType)
         }) { (error) in
+            self.needEncryption = false
             self.repModel = CaptchaResponseData()
             self.getRequestView(self.currentType)
         }
@@ -245,8 +254,15 @@ class CaptchaView: UIView {
     func checkResult(_ point:CGPoint){
         switch currentType {
         case .puzzle:
+            
+            var pointJson = "";
             let pointEncode = ESConfig.jsonEncode(CaptchaRequestModel(x: point.x, y: 5))
-            let pointJson = ESConfig.aesEncrypt(pointEncode)
+            //请求数据有secretKey 走加密  否则不走加密
+            if(self.needEncryption){
+                pointJson = ESConfig.aesEncrypt(pointEncode, self.repModel.secretKey)
+            } else {
+                pointJson = pointEncode;
+            }
             requestCheckData(pointJson: pointJson);
         case .clickword:
             
@@ -255,7 +271,13 @@ class CaptchaView: UIView {
                 pointsList.append(["x": item.x, "y": item.y])
             }
             let pointEncode = ESConfig.jsonClickWordEncode(pointsList)
-            let pointJson = ESConfig.aesEncrypt(pointEncode)
+            var pointJson = "";
+            //请求数据有secretKey 走加密  否则不走加密
+            if(self.needEncryption){
+                pointJson = ESConfig.aesEncrypt(pointEncode, self.repModel.secretKey)
+            } else {
+                pointJson = pointEncode;
+            }
             requestCheckData(pointJson: pointJson);
         }
         

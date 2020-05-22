@@ -34,3 +34,33 @@ AJBaseRequest.swift
 ```
 请求接口地址 配置在 AJBaseRequest类中 ,需要更改地址替换`kServerBaseUrl`即可
 
+### 校验注意事项
+请求验证码接口中会有`secretKey`参数，当`secretKey`有值， 进行`as`加密， 加密key为`secretKey`,不加密情况下`pointJson`为json系列化为字符串
+```
+
+CaptchaRequest.captchaAccept(currentType, success: { (model) in
+    self.repModel = model
+    //secretKey有值 代表需要进行加密
+    if(self.repModel.secretKey.count > 0){
+        self.needEncryption = true
+    } else {
+        self.needEncryption = false
+    }
+    self.getRequestView(self.currentType)
+}) { (error) in
+    self.repModel = CaptchaResponseData()
+    self.getRequestView(self.currentType)
+}
+
+
+let pointEncode = ESConfig.jsonClickWordEncode(pointsList)
+var pointJson = "";
+//请求数据有secretKey 走加密  否则不走加密
+if(self.needEncryption){
+    pointJson = ESConfig.aesEncrypt(pointEncode, self.repModel.secretKey)
+} else {
+    pointJson = pointEncode;
+}
+
+```
+
