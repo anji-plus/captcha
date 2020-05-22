@@ -70,6 +70,7 @@ class _ClickWordCaptchaState extends State<ClickWordCaptcha> {
     var res = await HttpManager.requestData(
         '/captcha/get', {"captchaType": "clickWord"}, {});
     if (res['repCode'] != '0000' || res['repData'] == null) {
+      _clickWordCaptchaModel.secretKey = "";
       bottomTitle = "加载失败,请刷新";
       _clickWordCaptchaState = ClickWordCaptchaState.normal;
       _changeResultState();
@@ -99,9 +100,14 @@ class _ClickWordCaptchaState extends State<ClickWordCaptcha> {
     }).toList();
     var pointStr = json.encode(mousePos);
 
-    var aesEncrypter = AesCrypt('XwKsGlMcdPMEhR1B', 'ecb', 'pkcs7');
-    var cryptedStr = aesEncrypter.encrypt(pointStr);
-    var dcrypt = aesEncrypter.decrypt(cryptedStr);
+    var cryptedStr = pointStr;
+
+    // secretKey 不为空 进行as加密
+    if(!ObjectUtils.isEmpty(_clickWordCaptchaModel.secretKey)){
+      var aesEncrypter = AesCrypt(_clickWordCaptchaModel.secretKey, 'ecb', 'pkcs7');
+      cryptedStr = aesEncrypter.encrypt(pointStr);
+      var dcrypt = aesEncrypter.decrypt(cryptedStr);
+    }
 
 //    Map _map = json.decode(dcrypt);
     var res = await HttpManager.requestData('/captcha/check', {
@@ -141,7 +147,7 @@ class _ClickWordCaptchaState extends State<ClickWordCaptcha> {
 
     await Future.delayed(Duration(milliseconds: 1000));
 
-    var aesEncrypter = AesCrypt('XwKsGlMcdPMEhR1B', 'ecb', 'pkcs7');
+    var aesEncrypter = AesCrypt('BGxdEUOZkXka4HSj', 'ecb', 'pkcs7');
     var cryptedStr = aesEncrypter.encrypt(pointJson);
 
     print(cryptedStr);
@@ -305,10 +311,12 @@ class ClickWordCaptchaModel {
   String token; // 获取的token 用于校验
   List wordList; //显示需要点选的字
   String wordStr; //显示需要点选的字转换为字符串
+  String secretKey; //加密key
 
   ClickWordCaptchaModel(
       {this.imgStr = "",
       this.token = "",
+      this.secretKey = "",
       this.wordList = const [],
       this.wordStr = ""});
 
@@ -317,6 +325,7 @@ class ClickWordCaptchaModel {
     ClickWordCaptchaModel captchaModel = ClickWordCaptchaModel();
     captchaModel.imgStr = map["originalImageBase64"] ?? "";
     captchaModel.token = map["token"] ?? "";
+    captchaModel.token = map["secretKey"] ?? "";
     captchaModel.wordList = map["wordList"] ?? [];
 
     if (!ObjectUtils.isListEmpty(captchaModel.wordList)) {
@@ -331,6 +340,7 @@ class ClickWordCaptchaModel {
     var map = new Map<String, dynamic>();
     map['imgStr'] = imgStr;
     map['token'] = token;
+    map['secretKey'] = token;
     map['wordList'] = wordList;
     map['wordStr'] = wordStr;
     return map;

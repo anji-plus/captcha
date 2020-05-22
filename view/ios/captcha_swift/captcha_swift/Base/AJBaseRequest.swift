@@ -24,10 +24,11 @@ enum RequestResult{
 private let shareInstance = AJBaseRequest()
 private var timeoutInterval: TimeInterval = 60  //请求超时时间
 //IP地址
-let kServerBaseUrl = "https://mirror.anji-plus.com/captcha-api"
+let kServerBaseUrl = "https://mirror.anji-plus.com/api"
 //let kServerBaseUrl = "http://10.108.11.46:8080/api"
 //let kServerBaseUrl = "http://10.108.12.20:8080/api"
 //let kServerBaseUrl = "http://10.108.12.20:8086/"
+
 
 
 class AJBaseRequest {
@@ -47,15 +48,9 @@ extension AJBaseRequest {
     func baseRequest(url: String, method: MethodType = .post, reqData: [String : Any], autoShowMessage: Bool = true, success: @escaping (Any?) -> (), failure: @escaping (Error) -> ()){
 //        let token = ""
 //        let timeInterval = NSDate().timeIntervalSince1970 * 1000
-        
+//
 //        let time = Int64(timeInterval)
 //        let sign = self.getMD5Sign(reqData, time: String(time), token: token)
-//        let params: [String : Any] = [
-//            "time":time,
-//            "token":token,
-//            "reqData":reqData,
-//            "sign":sign,
-//        ]
         let params: [String : Any] = reqData
         AJBaseRequest.aManager.delegate.sessionDidReceiveChallenge = CertificateTrust.alamofireCertificateTrust
         let headers = ["Content-Type":"application/json"]
@@ -134,7 +129,3 @@ func printLog<T>(_ message: T,
         #endif
     }
 }
-
-
-
-
