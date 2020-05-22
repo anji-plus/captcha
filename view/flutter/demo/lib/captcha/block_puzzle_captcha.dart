@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:captcha/request/HttpManager.dart';
+import 'package:captcha/request/encrypt_util.dart';
 import 'package:captcha/tools/object_utils.dart';
 import 'package:captcha/tools/widget_util.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
   //------------动画------------
 
   //校验通过
-  void checkSuccess() {
+  void checkSuccess(String content) {
     setState(() {
       checkResultAfterDrag = true;
       _checkSuccess = true;
@@ -69,7 +70,7 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
           widget.onSuccess("结果回调");
         }
         //关闭验证码
-        Navigator.pop(context);
+        Navigator.pop(context, content);
       });
     });
   }
@@ -210,7 +211,13 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
 
       Map<String, dynamic> repData = res['repData'];
       if (repData["result"] != null && repData["result"] == true) {
-        checkSuccess();
+        //如果不加密  将  token  和 坐标序列化 通过  --- 链接成字符串
+        var captchaVerification = "$captchaToken---$pointStr";
+        if(!ObjectUtils.isEmpty(secretKey)){
+          //如果加密  将  token  和 坐标序列化 通过  --- 链接成字符串 进行加密  加密密钥为 _clickWordCaptchaModel.secretKey
+          captchaVerification = EncryptUtil.aesEncode(key: secretKey, content: captchaVerification);
+        }
+        checkSuccess(captchaVerification);
       } else {
         checkFail();
       }
