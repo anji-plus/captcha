@@ -473,11 +473,10 @@
 					setTimeout(()=>{ 
 						let data = {
 							captchaType:_this.options.captchaType,
-							"pointJson":this.secretKey ? aesEncrypt(JSON.stringify(_this.checkPosArr)):JSON.stringify(_this.checkPosArr),
+							"pointJson":_this.secretKey ? aesEncrypt(JSON.stringify(_this.checkPosArr),_this.secretKey):JSON.stringify(_this.checkPosArr),
 							"token":_this.backToken
 						}
-
-						var captchaVerification = this.secretKey ? aesEncrypt(_this.backToken+'---'+JSON.stringify(_this.checkPosArr)):_this.backToken+'---'+JSON.stringify(_this.checkPosArr)
+						var captchaVerification = _this.secretKey ? aesEncrypt(_this.backToken+'---'+JSON.stringify(_this.checkPosArr),_this.secretKey):_this.backToken+'---'+JSON.stringify(_this.checkPosArr)
 						checkPictrue(data, _this.options.baseUrl).then(res=>{
 							if (res.repCode=="0000") {
 								_this.$element.find('.verify-bar-area').css({'color': '#4cae4c', 'border-color': '#5cb85c'});
