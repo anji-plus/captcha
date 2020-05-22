@@ -42,7 +42,6 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
 
     @Override
     public void onSubscribe(Disposable d) {
-        Log.e(TAG, "onSubscribe: ");
         this.d = d;
         if (!isConnected(mContext)) {
             Toast.makeText(mContext, "网络未连接", Toast.LENGTH_SHORT).show();
@@ -60,9 +59,7 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
     //后给给返回结果
     @Override
     public void onNext(BaseResponse<T> response) {
-
-        Log.e(TAG, "onNext: ");
-        Log.i(TAG, "请求数据: " + new Gson().toJson(response));
+        Log.i(TAG, "网络请求数据结果: " + new Gson().toJson(response));
         if (response.getRepCode().equals("0000")) {
             onSuccess(response.getRepData());
         } else {
@@ -74,22 +71,20 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
     //网络请求失败
     @Override
     public void onError(Throwable e) {
-        Log.e(TAG, "Throwable: " + e.getMessage());
+        Log.e(TAG, "onError: " + e.getMessage());
         if (d.isDisposed()) {
             d.dispose();
         }
         hidDialog();
         onFailure(e, RxExceptionUtil.exceptionHandler(e));
-        Log.e(TAG, "onError: ");
     }
 
     @Override
     public void onComplete() {
-        if (d.isDisposed()){
+        if (d.isDisposed()) {
             d.dispose();
         }
         hidDialog();
-        Log.e(TAG, "onComplete: ");
     }
 
     private void hidDialog() {
