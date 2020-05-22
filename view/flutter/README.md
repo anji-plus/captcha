@@ -79,3 +79,14 @@ if(!ObjectUtils.isEmpty(_clickWordCaptchaModel.secretKey)){
   var dcrypt = aesEncrypter.decrypt(cryptedStr);
 }
 ```
+
+### 二次校验传出的参数
+```
+//如果不加密  将  token  和 坐标序列化 通过  --- 链接成字符串
+var captchaVerification = "$captchaToken---$pointStr";
+if(!ObjectUtils.isEmpty(secretKey)){
+  //如果加密  将  token  和 坐标序列化 通过  --- 链接成字符串 进行加密  加密密钥为 _clickWordCaptchaModel.secretKey
+  captchaVerification = EncryptUtil.aesEncode(key: secretKey, content: captchaVerification);
+}
+checkSuccess(captchaVerification);
+```
