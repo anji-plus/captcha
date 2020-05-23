@@ -51,8 +51,6 @@ public abstract class AbstractCaptchaservice implements CaptchaService, Initiali
     protected CaptchaCacheService captchaCacheService;
 
     //判断应用是否实现了自定义缓存，没有就使用内存
-
-
     @Override
     public void afterPropertiesSet() throws Exception {
         Map<String, CaptchaCacheService> map = Container.getBeanOfType(CaptchaCacheService.class);

@@ -1,4 +1,4 @@
-package com.anji.captcha.service.impl;
+package com.anji.captcha.service.test;
 
 import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.demo.StartApplication;
