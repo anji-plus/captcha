@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 @Configuration
 public class CaptchaConfig {
@@ -15,6 +14,7 @@ public class CaptchaConfig {
     public CaptchaService captchaService(){
         CaptchaService s = new DefaultCaptchaServiceImpl();
         Properties config = new Properties();
+        //TODO 从application.properties文件读取...
         s.init(config);
         return s;
     }
