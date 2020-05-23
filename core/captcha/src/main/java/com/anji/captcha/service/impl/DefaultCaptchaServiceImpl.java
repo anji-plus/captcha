@@ -6,8 +6,6 @@
  */
 package com.anji.captcha.service.impl;
 
-
-import com.anji.captcha.config.Container;
 import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
@@ -19,15 +17,11 @@ import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-/*import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;*/
+import sun.security.krb5.Config;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.ServiceLoader;
 
 /**
@@ -36,7 +30,7 @@ import java.util.ServiceLoader;
 //@Component(value = "defaultCaptchaServiceImpl")
 //@Primary
 //@Order(Ordered.LOWEST_PRECEDENCE)
-public class DefaultCaptchaServiceImpl implements CaptchaService/*, InitializingBean */{
+public class DefaultCaptchaServiceImpl implements CaptchaService{
 
     private static Logger logger = LoggerFactory.getLogger(DefaultCaptchaServiceImpl.class);
 
@@ -62,8 +56,9 @@ public class DefaultCaptchaServiceImpl implements CaptchaService/*, Initializing
     public static CaptchaService getInstance(String type){
         return instances.get(type);
     }
-    //@Override
-    public void init() throws Exception {
+
+    @Override
+    public void init(Properties config) {
         initCache();
 
         Object t = this;
