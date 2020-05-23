@@ -16,8 +16,6 @@ import com.anji.captcha.util.RandomUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-/*import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;*/
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -49,6 +47,14 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
     public String captchaType() {
         return "clickWord";
     }
+    @Override
+    public void init(Properties config){
+        waterMark = config.getProperty("captcha.water.mark","我的水印");
+        waterMarkFont = config.getProperty("captcha.water.font","宋体");
+        fontType = config.getProperty("captcha.font.type","宋体");
+        aesKey = config.getProperty("captcha.aes.key");
+    }
+
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
 //        BufferedImage bufferedImage = getBufferedImage(ImageUtils.getClickWordBgPath(captchaVO.getCaptchaOriginalPath()));

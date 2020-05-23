@@ -15,14 +15,13 @@ import com.anji.captcha.util.RandomUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
+import java.util.Properties;
 import java.util.Random;
 
 /**
@@ -46,6 +45,14 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
     //@Value("${captcha.aes.key:XwKsGlMcdPMEhR1B}")
     private String aesKey;
+
+    @Override
+    public void init(Properties config){
+        waterMark = config.getProperty("captcha.water.mark","我的水印");
+        waterMarkFont = config.getProperty("captcha.water.font","宋体");
+        slipOffset = config.getProperty("captcha.slip.offset","5");
+        aesKey = config.getProperty("captcha.aes.key");
+    }
 
     @Override
     public String captchaType() {

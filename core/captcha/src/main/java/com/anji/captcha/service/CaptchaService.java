@@ -9,6 +9,8 @@ package com.anji.captcha.service;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 
+import java.util.Properties;
+
 /**
  * @Title: 验证码缓存接口
  * @author lide1202@hotmail.com
@@ -19,7 +21,7 @@ public interface CaptchaService {
      * 配置初始化
      * @throws Exception
      */
-    public void init() throws Exception;
+    public void init(Properties config);
 
     /**
      * 获取验证码

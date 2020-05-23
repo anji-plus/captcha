@@ -2,7 +2,6 @@ package com.anji.captcha.service.impl;
 
 import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.util.CacheUtil;
-//import org.springframework.stereotype.Service;
 
 /**
  * 对于分布式部署的应用，我们建议应用自己实现CaptchaCacheService，比如用Redis，参考service/spring-boot代码示例。
@@ -12,11 +11,11 @@ import com.anji.captcha.util.CacheUtil;
  * @author lide1202@hotmail.com
  * @date 2020-05-12
  */
-
 //@Service(value="captchaCacheServiceMemImpl")
 public class CaptchaCacheServiceMemImpl implements CaptchaCacheService {
     @Override
     public void set(String key, String value, long expiresInSeconds) {
+
         CacheUtil.set(key, value, expiresInSeconds);
     }
 
