@@ -17,6 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.Base64;
+import java.util.Properties;
 import java.util.ServiceLoader;
 
 /**
@@ -50,12 +51,17 @@ public abstract class AbstractCaptchaservice implements CaptchaService{
     protected CaptchaCacheService captchaCacheService;
 
     //判断应用是否实现了自定义缓存，没有就使用内存
-    public void init() throws Exception {
+    public void init(Properties config){
         ServiceLoader<CaptchaCacheService> cacheServices = ServiceLoader.load(CaptchaCacheService.class);
         for(CaptchaCacheService item : cacheServices){
-            captchaCacheService = item;
-            break;
+            if(config.getProperty("captcha.cacheType","local").equals(item.type())) {
+                captchaCacheService = item;
+                break;
+            }
         };
+        if(captchaCacheService == null){
+            throw new RuntimeException("captchaCacheService is null,[captcha.cacheType]="+config.getProperty("captcha.cacheType"));
+        }
         /*Map<String, CaptchaCacheService> map = Container.getBeanOfType(CaptchaCacheService.class);
         if(map == null || map.isEmpty()){
             captchaCacheService = Container.getBean("captchaCacheServiceMemImpl", CaptchaCacheService.class);
