@@ -17,7 +17,6 @@ import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.security.krb5.Config;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +29,7 @@ import java.util.ServiceLoader;
 //@Component(value = "defaultCaptchaServiceImpl")
 //@Primary
 //@Order(Ordered.LOWEST_PRECEDENCE)
-public class DefaultCaptchaServiceImpl implements CaptchaService{
+public class DefaultCaptchaServiceImpl extends AbstractCaptchaservice implements CaptchaService{
 
     private static Logger logger = LoggerFactory.getLogger(DefaultCaptchaServiceImpl.class);
 
@@ -44,24 +43,29 @@ public class DefaultCaptchaServiceImpl implements CaptchaService{
     private String aesKey;
 
     protected static String REDIS_SECOND_CAPTCHA_KEY = "RUNNING:CAPTCHA:second-%s";
-
-    protected CaptchaCacheService captchaCacheService;
+    //protected CaptchaCacheService captchaCacheService;
 
     private volatile static Map<String,CaptchaService> instances = new HashMap();
 
     @Override
     public String captchaType() {
-        return "";
+        return "default";
     }
     public static CaptchaService getInstance(String type){
         return instances.get(type);
     }
-
+    public static CaptchaService getDefault(){
+        return instances.get("default");
+    }
     @Override
     public void init(Properties config) {
-        initCache();
+        super.init(config);
 
-        Object t = this;
+        captchaOriginalPathJigsaw = config.getProperty("captcha.captchaOriginalPath.jigsaw");
+        captchaOriginalPathClick = config.getProperty("captcha.captchaOriginalPath.pic-click");
+        aesKey = config.getProperty("captcha.aes.key");
+
+        //Object t = this;
         ServiceLoader<CaptchaService> services = ServiceLoader.load(CaptchaService.class);
         for(CaptchaService item : services){
            instances.put(item.captchaType(), item);
@@ -72,36 +76,8 @@ public class DefaultCaptchaServiceImpl implements CaptchaService{
         logger.info("--->>>初始化验证码底图<<<---");
     }
 
-    public void initCache(){
-        ServiceLoader<CaptchaCacheService> cacheServices = ServiceLoader.load(CaptchaCacheService.class);
-        for(CaptchaCacheService item : cacheServices){
-            captchaCacheService = item;
-            break;
-        };
-        /*Map<String, CaptchaCacheService> map = Container.getBeanOfType(CaptchaCacheService.class);
-        if(map == null || map.isEmpty()){
-            captchaCacheService = Container.getBean("captchaCacheServiceMemImpl", CaptchaCacheService.class);
-            return;
-        }
-        if(map.size()==1){
-            captchaCacheService = Container.getBean("captchaCacheServiceMemImpl", CaptchaCacheService.class);
-            return;
-        }
-        if(map.size()>=2){
-            map.entrySet().stream().forEach(item ->{
-                if(captchaCacheService != null){
-                    return;
-                }
-                if(!"captchaCacheServiceMemImpl".equals(item.getKey())){
-                    captchaCacheService = item.getValue();
-                    return;
-                }
-            });
-        }*/
-    }
-
     private CaptchaService getService(String captchaType){
-        return instances.get(captchaType.concat("CaptchaService"));
+        return instances.get(captchaType);
     }
 
     @Override
