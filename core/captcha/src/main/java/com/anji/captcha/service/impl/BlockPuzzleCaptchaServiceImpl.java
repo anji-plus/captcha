@@ -15,8 +15,8 @@ import com.anji.captcha.util.RandomUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+//import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -30,22 +30,27 @@ import java.util.Random;
  *
  * Created by raodeming on 2019/12/25.
  */
-@Component(value = "blockPuzzleCaptchaService")
+//@Component(value = "blockPuzzleCaptchaService")
 public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
     private static Logger logger = LoggerFactory.getLogger(BlockPuzzleCaptchaServiceImpl.class);
 
-    @Value("${captcha.water.mark:'我的水印'}")
+    //@Value("${captcha.water.mark:'我的水印'}")
     private String waterMark;
 
-    @Value("${captcha.water.font:'宋体'}")
+    //@Value("${captcha.water.font:'宋体'}")
     private String waterMarkFont;
 
-    @Value("${captcha.slip.offset:5}")
+    //@Value("${captcha.slip.offset:5}")
     private String slipOffset;
 
-    @Value("${captcha.aes.key:XwKsGlMcdPMEhR1B}")
+    //@Value("${captcha.aes.key:XwKsGlMcdPMEhR1B}")
     private String aesKey;
+
+    @Override
+    public String captchaType() {
+        return "blockPuzzle";
+    }
 
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {

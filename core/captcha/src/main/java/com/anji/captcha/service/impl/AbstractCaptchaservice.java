@@ -11,7 +11,7 @@ import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.StringUtils;
-import org.springframework.beans.factory.InitializingBean;
+//import org.springframework.beans.factory.InitializingBean;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -19,11 +19,12 @@ import java.io.*;
 import java.net.URL;
 import java.util.Base64;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 /**
  * Created by raodeming on 2019/12/25.
  */
-public abstract class AbstractCaptchaservice implements CaptchaService, InitializingBean {
+public abstract class AbstractCaptchaservice implements CaptchaService/*, InitializingBean*/ {
 
 
     protected static final String URL_PREFIX_HTTP = "http://";
@@ -51,9 +52,14 @@ public abstract class AbstractCaptchaservice implements CaptchaService, Initiali
     protected CaptchaCacheService captchaCacheService;
 
     //判断应用是否实现了自定义缓存，没有就使用内存
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        Map<String, CaptchaCacheService> map = Container.getBeanOfType(CaptchaCacheService.class);
+    //@Override
+    public void init() throws Exception {
+        ServiceLoader<CaptchaCacheService> cacheServices = ServiceLoader.load(CaptchaCacheService.class);
+        for(CaptchaCacheService item : cacheServices){
+            captchaCacheService = item;
+            break;
+        };
+        /*Map<String, CaptchaCacheService> map = Container.getBeanOfType(CaptchaCacheService.class);
         if(map == null || map.isEmpty()){
             captchaCacheService = Container.getBean("captchaCacheServiceMemImpl", CaptchaCacheService.class);
             return;
@@ -72,7 +78,7 @@ public abstract class AbstractCaptchaservice implements CaptchaService, Initiali
                     return;
                 }
             });
-        }
+        }*/
     }
 
     /**
