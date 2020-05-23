@@ -21,4 +21,9 @@ public interface CaptchaCacheService {
 
 	String get(String key);
 
+	/**
+	 * 缓存类型-local/redis/memcache/..
+	 * @return
+	 */
+	String type();
 }

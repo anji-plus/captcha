@@ -6,20 +6,11 @@
  */
 package com.anji.captcha.config;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
 
 
-@Component("ajCaptchaContainer")
-@Order(Ordered.HIGHEST_PRECEDENCE)
-public class Container implements ApplicationContextAware {
-    private static ApplicationContext applicationContext;
+public class Container {
+    /*private static ApplicationContext applicationContext;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -50,5 +41,5 @@ public class Container implements ApplicationContextAware {
 
     public static <T> Map<String, T> getBeanOfType(Class<T> tClass) {
         return getApplicationContext().getBeansOfType(tClass);
-    }
+    }*/
 }

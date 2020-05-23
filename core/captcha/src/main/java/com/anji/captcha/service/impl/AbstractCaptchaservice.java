@@ -6,24 +6,24 @@
  */
 package com.anji.captcha.service.impl;
 
-import com.anji.captcha.config.Container;
 import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.StringUtils;
-import org.springframework.beans.factory.InitializingBean;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+
 import java.io.*;
 import java.net.URL;
 import java.util.Base64;
-import java.util.Map;
+import java.util.Properties;
+import java.util.ServiceLoader;
 
 /**
  * Created by raodeming on 2019/12/25.
  */
-public abstract class AbstractCaptchaservice implements CaptchaService, InitializingBean {
+public abstract class AbstractCaptchaservice implements CaptchaService{
 
 
     protected static final String URL_PREFIX_HTTP = "http://";
@@ -51,11 +51,18 @@ public abstract class AbstractCaptchaservice implements CaptchaService, Initiali
     protected CaptchaCacheService captchaCacheService;
 
     //判断应用是否实现了自定义缓存，没有就使用内存
-
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        Map<String, CaptchaCacheService> map = Container.getBeanOfType(CaptchaCacheService.class);
+    public void init(Properties config){
+        ServiceLoader<CaptchaCacheService> cacheServices = ServiceLoader.load(CaptchaCacheService.class);
+        for(CaptchaCacheService item : cacheServices){
+            if(config.getProperty("captcha.cacheType","local").equals(item.type())) {
+                captchaCacheService = item;
+                break;
+            }
+        };
+        if(captchaCacheService == null){
+            throw new RuntimeException("captchaCacheService is null,[captcha.cacheType]="+config.getProperty("captcha.cacheType"));
+        }
+        /*Map<String, CaptchaCacheService> map = Container.getBeanOfType(CaptchaCacheService.class);
         if(map == null || map.isEmpty()){
             captchaCacheService = Container.getBean("captchaCacheServiceMemImpl", CaptchaCacheService.class);
             return;
@@ -74,7 +81,7 @@ public abstract class AbstractCaptchaservice implements CaptchaService, Initiali
                     return;
                 }
             });
-        }
+        }*/
     }
 
     /**

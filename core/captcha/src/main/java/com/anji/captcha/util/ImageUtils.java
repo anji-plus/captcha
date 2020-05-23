@@ -10,11 +10,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.model.common.CaptchaBaseMapEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.util.Base64Utils;
-import org.springframework.util.FileCopyUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -24,6 +19,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 
 public class ImageUtils {
     private static Logger logger = LoggerFactory.getLogger(ImageUtils.class);
@@ -127,7 +123,7 @@ public class ImageUtils {
 
     public static Map<String, String> getResourcesImagesFile(String path) {
         Map<String, String> imgMap = new HashMap<>();
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        /*ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
             Resource[] resources = resolver.getResources(path);
             for (Resource resource : resources) {
@@ -138,7 +134,7 @@ public class ImageUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         return imgMap;
     }
 
