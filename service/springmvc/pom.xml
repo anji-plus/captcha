@@ -4,14 +4,18 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>com.anji.captcha</groupId>
+    <artifactId>aj-captcha-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../../</relativePath>
+  </parent>
+
   <groupId>com.anjiplus.demo</groupId>
-  <artifactId>captchaInMVC</artifactId>
+  <artifactId>captcha-springmvc</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
-
-  <name>captchaInMVC Maven Webapp</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>captcha-springweb-demo</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,9 +36,9 @@
     <dependency>
       <groupId>com.github.anji-plus</groupId>
       <artifactId>captcha</artifactId>
-      <version>1.1.5</version>
-      <scope>system</scope>
-      <systemPath>D:\Workspace\captcha\core\captcha\target\captcha-1.1.5.jar</systemPath>
+      <version>1.1.9</version>
+      <!--<scope>system</scope>
+      <systemPath>D:\Workspace\captcha\core\captcha\target\captcha-1.1.5.jar</systemPath>-->
     </dependency>
 
     <dependency>

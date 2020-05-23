@@ -23,7 +23,6 @@ class ViewController: UIViewController {
             print(v)
         }
     }
-    
     //加密解密使用
     func testDic(){
         let d = ["x":5,"y":5]
