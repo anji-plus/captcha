@@ -6,25 +6,23 @@
  */
 package com.anji.captcha.service.impl;
 
-import com.anji.captcha.config.Container;
 import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.StringUtils;
-//import org.springframework.beans.factory.InitializingBean;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+
 import java.io.*;
 import java.net.URL;
 import java.util.Base64;
-import java.util.Map;
 import java.util.ServiceLoader;
 
 /**
  * Created by raodeming on 2019/12/25.
  */
-public abstract class AbstractCaptchaservice implements CaptchaService/*, InitializingBean*/ {
+public abstract class AbstractCaptchaservice implements CaptchaService{
 
 
     protected static final String URL_PREFIX_HTTP = "http://";
@@ -52,7 +50,6 @@ public abstract class AbstractCaptchaservice implements CaptchaService/*, Initia
     protected CaptchaCacheService captchaCacheService;
 
     //判断应用是否实现了自定义缓存，没有就使用内存
-    //@Override
     public void init() throws Exception {
         ServiceLoader<CaptchaCacheService> cacheServices = ServiceLoader.load(CaptchaCacheService.class);
         for(CaptchaCacheService item : cacheServices){
