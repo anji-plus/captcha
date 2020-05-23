@@ -15,6 +15,11 @@ import com.anji.captcha.model.vo.CaptchaVO;
  * @date 2020-05-12
  */
 public interface CaptchaService {
+    /**
+     * 配置初始化
+     * @throws Exception
+     */
+    public void init() throws Exception;
 
     /**
      * 获取验证码
@@ -37,5 +42,9 @@ public interface CaptchaService {
      */
     ResponseModel verification(CaptchaVO captchaVO);
 
-
+    /***
+     * 验证码类型
+     * @return
+     */
+    String captchaType();
 }

@@ -19,50 +19,58 @@ import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
+/*import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Component;*/
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 /**
  * Created by raodeming on 2019/12/25.
  */
-@Component(value = "defaultCaptchaServiceImpl")
-@Primary
-@Order(Ordered.LOWEST_PRECEDENCE)
-public class DefaultCaptchaServiceImpl implements CaptchaService, InitializingBean {
+//@Component(value = "defaultCaptchaServiceImpl")
+//@Primary
+//@Order(Ordered.LOWEST_PRECEDENCE)
+public class DefaultCaptchaServiceImpl implements CaptchaService/*, InitializingBean */{
 
     private static Logger logger = LoggerFactory.getLogger(DefaultCaptchaServiceImpl.class);
 
-    @Value("${captcha.captchaOriginalPath.jigsaw:}")
+    //@Value("${captcha.captchaOriginalPath.jigsaw:}")
     private String captchaOriginalPathJigsaw;
 
-    @Value("${captcha.captchaOriginalPath.pic-click:}")
+    //@Value("${captcha.captchaOriginalPath.pic-click:}")
     private String captchaOriginalPathClick;
 
-    @Value("${captcha.aes.key:XwKsGlMcdPMEhR1B}")
+    //@Value("${captcha.aes.key:XwKsGlMcdPMEhR1B}")
     private String aesKey;
 
     protected static String REDIS_SECOND_CAPTCHA_KEY = "RUNNING:CAPTCHA:second-%s";
 
     protected CaptchaCacheService captchaCacheService;
 
-    private Map<String,CaptchaService> instances = new HashMap();
+    private volatile static Map<String,CaptchaService> instances = new HashMap();
+
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public String captchaType() {
+        return "";
+    }
+    public static CaptchaService getInstance(String type){
+        return instances.get(type);
+    }
+    //@Override
+    public void init() throws Exception {
         initCache();
 
         Object t = this;
-        Container.getBeanOfType(CaptchaService.class).entrySet().stream().forEach(item->{
-            if(!t.equals(item.getValue())) {
-                instances.put(item.getKey(), item.getValue());
-            }
-        });
+        ServiceLoader<CaptchaService> services = ServiceLoader.load(CaptchaService.class);
+        for(CaptchaService item : services){
+           instances.put(item.captchaType(), item);
+        };
         System.out.println("supported-captchaTypes-service:"+instances.keySet().toString());
         //初始化底图
         ImageUtils.cacheImage(captchaOriginalPathJigsaw, captchaOriginalPathClick);
@@ -70,7 +78,12 @@ public class DefaultCaptchaServiceImpl implements CaptchaService, InitializingBe
     }
 
     public void initCache(){
-        Map<String, CaptchaCacheService> map = Container.getBeanOfType(CaptchaCacheService.class);
+        ServiceLoader<CaptchaCacheService> cacheServices = ServiceLoader.load(CaptchaCacheService.class);
+        for(CaptchaCacheService item : cacheServices){
+            captchaCacheService = item;
+            break;
+        };
+        /*Map<String, CaptchaCacheService> map = Container.getBeanOfType(CaptchaCacheService.class);
         if(map == null || map.isEmpty()){
             captchaCacheService = Container.getBean("captchaCacheServiceMemImpl", CaptchaCacheService.class);
             return;
@@ -89,7 +102,7 @@ public class DefaultCaptchaServiceImpl implements CaptchaService, InitializingBe
                     return;
                 }
             });
-        }
+        }*/
     }
 
     private CaptchaService getService(String captchaType){

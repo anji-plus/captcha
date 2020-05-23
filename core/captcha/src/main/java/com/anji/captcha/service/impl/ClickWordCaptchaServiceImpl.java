@@ -16,8 +16,8 @@ import com.anji.captcha.util.RandomUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+/*import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;*/
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -30,23 +30,25 @@ import java.util.List;
  *
  * Created by raodeming on 2019/12/25.
  */
-@Component(value = "clickWordCaptchaService")
+//@Component(value = "clickWordCaptchaService")
 public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
-
     private static Logger logger = LoggerFactory.getLogger(ClickWordCaptchaServiceImpl.class);
-
-    @Value("${captcha.water.mark:'我的水印'}")
+    //@Value("${captcha.water.mark:'我的水印'}")
     private String waterMark;
 
-    @Value("${captcha.water.font:'宋体'}")
+    //@Value("${captcha.water.font:'宋体'}")
     private String waterMarkFont;
 
-    @Value("${captcha.font.type:'宋体'}")
+    //@Value("${captcha.font.type:'宋体'}")
     private String fontType;
 
-    @Value("${captcha.aes.key:XwKsGlMcdPMEhR1B}")
+    //@Value("${captcha.aes.key:XwKsGlMcdPMEhR1B}")
     private String aesKey;
 
+    @Override
+    public String captchaType() {
+        return "clickWord";
+    }
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
 //        BufferedImage bufferedImage = getBufferedImage(ImageUtils.getClickWordBgPath(captchaVO.getCaptchaOriginalPath()));
