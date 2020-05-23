@@ -12,7 +12,7 @@ public class CaptchaConfig {
 
     @Bean
     public CaptchaService captchaService(){
-        CaptchaService s = new DefaultCaptchaServiceImpl();
+        CaptchaService s = DefaultCaptchaServiceImpl.getDefault();
         Properties config = new Properties();
         s.init(config);
         return s;

@@ -7,6 +7,7 @@
 package com.anji.captcha.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
@@ -45,10 +46,11 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
 
     @Override
     public String captchaType() {
-        return "clickWord";
+        return CaptchaTypeEnum.CLICKWORD.getCodeValue();
     }
     @Override
     public void init(Properties config){
+        super.init(config);
         waterMark = config.getProperty("captcha.water.mark","我的水印");
         waterMarkFont = config.getProperty("captcha.water.font","宋体");
         fontType = config.getProperty("captcha.font.type","宋体");
