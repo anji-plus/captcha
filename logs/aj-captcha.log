@@ -1,0 +1,156 @@
+05-24 07:17:41.089 |-INFO  c.anji.captcha.demo.StartApplication:50 - Starting StartApplication on kean-qideMacBook-Pro.local with PID 11591 (/Users/kean_qi/Desktop/AllwaysWork/AllwaysGit/GitHub/captchaa/captcha/service/springboot/target/classes started by kean_qi in /Users/kean_qi/Desktop/AllwaysWork/AllwaysGit/GitHub/captchaa/captcha)
+05-24 07:17:41.099 |-INFO  c.anji.captcha.demo.StartApplication:662 - No active profile set, falling back to default profiles: default
+05-24 07:17:41.242 |-INFO  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:590 - Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@9353778: startup date [Sun May 24 07:17:41 CST 2020]; root of context hierarchy
+05-24 07:17:43.018 |-INFO  o.s.b.w.e.tomcat.TomcatWebServer:91 - Tomcat initialized with port(s): 8080 (http)
+05-24 07:17:43.033 |-INFO  o.a.coyote.http11.Http11NioProtocol:180 - Initializing ProtocolHandler ["http-nio-8080"]
+05-24 07:17:43.042 |-INFO  o.a.catalina.core.StandardService:180 - Starting service [Tomcat]
+05-24 07:17:43.043 |-INFO  o.a.catalina.core.StandardEngine:180 - Starting Servlet Engine: Apache Tomcat/8.5.32
+05-24 07:17:43.046 |-INFO  o.a.c.core.AprLifecycleListener:180 - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [/Users/kean_qi/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.]
+05-24 07:17:43.131 |-INFO  o.a.c.c.C.[Tomcat].[localhost].[/]:180 - Initializing Spring embedded WebApplicationContext
+05-24 07:17:43.132 |-INFO  o.s.web.context.ContextLoader:285 - Root WebApplicationContext: initialization completed in 1890 ms
+05-24 07:17:43.207 |-INFO  o.s.b.w.s.ServletRegistrationBean:187 - Servlet dispatcherServlet mapped to [/]
+05-24 07:17:43.211 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'characterEncodingFilter' to: [/*]
+05-24 07:17:43.212 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+05-24 07:17:43.212 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'httpPutFormContentFilter' to: [/*]
+05-24 07:17:43.212 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'requestContextFilter' to: [/*]
+05-24 07:17:43.213 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'corsFilter' to: [/*]
+05-24 07:17:43.425 |-INFO  com.anji.captcha.util.ImageUtils:65 - 初始化底图:{"SLIDING_BLOCK":["10.png","3.png","9.png","8.png","4.png","1.png","7.png","5.png","2.png","11.png","6.png"],"ORIGINAL":["bg3.png","bg19.png","bg14.png","bg7.png","bg9.png","bg4.png","bg15.png","bg11.png","bg20.png","bg8.png","bg16.png","bg12.png","bg1.png","bg5.png","bg10.png","bg13.png","bg2.png","bg17.png","bg18.png","bg6.png"],"PIC_CLICK":["bg3.png","bg1.png","bg5.png","bg7.png","bg9.png","bg4.png","bg2.png","bg6.png","bg8.png"]}
+05-24 07:17:43.427 |-INFO  c.a.c.s.i.DefaultCaptchaServiceImpl:64 - --->>>初始化验证码底图<<<---
+05-24 07:17:43.515 |-INFO  o.s.w.s.h.SimpleUrlHandlerMapping:373 - Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+05-24 07:17:43.742 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerAdapter:574 - Looking for @ControllerAdvice: org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@9353778: startup date [Sun May 24 07:17:41 CST 2020]; root of context hierarchy
+05-24 07:17:43.807 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/test/login],methods=[POST]}" onto public com.anji.captcha.model.common.ResponseModel com.anji.captcha.demo.controller.DemoController.get(com.anji.captcha.model.vo.CaptchaVO)
+05-24 07:17:43.810 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/captcha/get],methods=[POST]}" onto public com.anji.captcha.model.common.ResponseModel com.anji.captcha.controller.CaptchaController.get(com.anji.captcha.model.vo.CaptchaVO)
+05-24 07:17:43.810 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/captcha/check],methods=[POST]}" onto public com.anji.captcha.model.common.ResponseModel com.anji.captcha.controller.CaptchaController.check(com.anji.captcha.model.vo.CaptchaVO)
+05-24 07:17:43.811 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/captcha/verify],methods=[POST]}" onto public com.anji.captcha.model.common.ResponseModel com.anji.captcha.controller.CaptchaController.verify(com.anji.captcha.model.vo.CaptchaVO)
+05-24 07:17:43.815 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+05-24 07:17:43.817 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+05-24 07:17:43.839 |-INFO  o.s.w.s.h.SimpleUrlHandlerMapping:373 - Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+05-24 07:17:43.839 |-INFO  o.s.w.s.h.SimpleUrlHandlerMapping:373 - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+05-24 07:17:43.995 |-INFO  o.s.j.e.a.AnnotationMBeanExporter:433 - Registering beans for JMX exposure on startup
+05-24 07:17:44.010 |-INFO  o.a.coyote.http11.Http11NioProtocol:180 - Starting ProtocolHandler ["http-nio-8080"]
+05-24 07:17:44.028 |-ERROR o.a.catalina.core.StandardService:182 - Failed to start connector [Connector[HTTP/1.1-8080]]
+org.apache.catalina.LifecycleException: Failed to start component [Connector[HTTP/1.1-8080]]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:167)
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:225)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.addPreviouslyRemovedConnectors(TomcatWebServer.java:256)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start(TomcatWebServer.java:198)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.startWebServer(ServletWebServerApplicationContext.java:300)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.finishRefresh(ServletWebServerApplicationContext.java:162)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:553)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:140)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:762)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:398)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:330)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1258)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1246)
+	at com.anji.captcha.demo.StartApplication.main(StartApplication.java:15)
+Caused by: org.apache.catalina.LifecycleException: Protocol handler start failed
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1020)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	... 13 common frames omitted
+Caused by: java.net.BindException: Address already in use
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Net.java:433)
+	at sun.nio.ch.Net.bind(Net.java:425)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:223)
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:210)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:1150)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:591)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1018)
+	... 14 common frames omitted
+05-24 07:17:44.032 |-INFO  o.a.coyote.http11.Http11NioProtocol:180 - Pausing ProtocolHandler ["http-nio-8080"]
+05-24 07:17:44.032 |-INFO  o.a.catalina.core.StandardService:180 - Stopping service [Tomcat]
+05-24 07:17:44.040 |-INFO  o.apache.catalina.util.LifecycleBase:180 - The stop() method was called on component [StandardServer[-1]] after stop() had already been called. The second call will be ignored.
+05-24 07:17:44.040 |-INFO  o.a.coyote.http11.Http11NioProtocol:180 - Stopping ProtocolHandler ["http-nio-8080"]
+05-24 07:17:44.040 |-INFO  o.a.coyote.http11.Http11NioProtocol:180 - Destroying ProtocolHandler ["http-nio-8080"]
+05-24 07:17:44.043 |-INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener:101 - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+05-24 07:17:44.047 |-ERROR o.s.b.d.LoggingFailureAnalysisReporter:42 - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The Tomcat connector configured to listen on port 8080 failed to start. The port may already be in use or the connector may be misconfigured.
+
+Action:
+
+Verify the connector's configuration, identify and stop any process that's listening on port 8080, or configure this application to listen on another port.
+
+05-24 07:17:44.049 |-INFO  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:993 - Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@9353778: startup date [Sun May 24 07:17:41 CST 2020]; root of context hierarchy
+05-24 07:17:44.050 |-INFO  o.s.j.e.a.AnnotationMBeanExporter:451 - Unregistering JMX-exposed beans on shutdown
+05-24 07:18:37.550 |-INFO  c.anji.captcha.demo.StartApplication:50 - Starting StartApplication on kean-qideMacBook-Pro.local with PID 11613 (/Users/kean_qi/Desktop/AllwaysWork/AllwaysGit/GitHub/captchaa/captcha/service/springboot/target/classes started by kean_qi in /Users/kean_qi/Desktop/AllwaysWork/AllwaysGit/GitHub/captchaa/captcha)
+05-24 07:18:37.555 |-INFO  c.anji.captcha.demo.StartApplication:662 - No active profile set, falling back to default profiles: default
+05-24 07:18:37.616 |-INFO  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:590 - Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@6a28ffa4: startup date [Sun May 24 07:18:37 CST 2020]; root of context hierarchy
+05-24 07:18:39.181 |-INFO  o.s.b.w.e.tomcat.TomcatWebServer:91 - Tomcat initialized with port(s): 8080 (http)
+05-24 07:18:39.193 |-INFO  o.a.coyote.http11.Http11NioProtocol:180 - Initializing ProtocolHandler ["http-nio-8080"]
+05-24 07:18:39.201 |-INFO  o.a.catalina.core.StandardService:180 - Starting service [Tomcat]
+05-24 07:18:39.201 |-INFO  o.a.catalina.core.StandardEngine:180 - Starting Servlet Engine: Apache Tomcat/8.5.32
+05-24 07:18:39.206 |-INFO  o.a.c.core.AprLifecycleListener:180 - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [/Users/kean_qi/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.]
+05-24 07:18:39.280 |-INFO  o.a.c.c.C.[Tomcat].[localhost].[/]:180 - Initializing Spring embedded WebApplicationContext
+05-24 07:18:39.280 |-INFO  o.s.web.context.ContextLoader:285 - Root WebApplicationContext: initialization completed in 1664 ms
+05-24 07:18:39.353 |-INFO  o.s.b.w.s.ServletRegistrationBean:187 - Servlet dispatcherServlet mapped to [/]
+05-24 07:18:39.357 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'characterEncodingFilter' to: [/*]
+05-24 07:18:39.358 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+05-24 07:18:39.358 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'httpPutFormContentFilter' to: [/*]
+05-24 07:18:39.358 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'requestContextFilter' to: [/*]
+05-24 07:18:39.359 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'corsFilter' to: [/*]
+05-24 07:18:39.535 |-INFO  com.anji.captcha.util.ImageUtils:65 - 初始化底图:{"SLIDING_BLOCK":["10.png","3.png","9.png","8.png","4.png","1.png","7.png","5.png","2.png","11.png","6.png"],"ORIGINAL":["bg3.png","bg19.png","bg14.png","bg7.png","bg9.png","bg4.png","bg15.png","bg11.png","bg20.png","bg8.png","bg16.png","bg12.png","bg1.png","bg5.png","bg10.png","bg13.png","bg2.png","bg17.png","bg18.png","bg6.png"],"PIC_CLICK":["bg3.png","bg1.png","bg5.png","bg7.png","bg9.png","bg4.png","bg2.png","bg6.png","bg8.png"]}
+05-24 07:18:39.536 |-INFO  c.a.c.s.i.DefaultCaptchaServiceImpl:64 - --->>>初始化验证码底图<<<---
+05-24 07:18:39.603 |-INFO  o.s.w.s.h.SimpleUrlHandlerMapping:373 - Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+05-24 07:18:39.778 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerAdapter:574 - Looking for @ControllerAdvice: org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@6a28ffa4: startup date [Sun May 24 07:18:37 CST 2020]; root of context hierarchy
+05-24 07:18:39.819 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/test/login],methods=[POST]}" onto public com.anji.captcha.model.common.ResponseModel com.anji.captcha.demo.controller.DemoController.get(com.anji.captcha.model.vo.CaptchaVO)
+05-24 07:18:39.822 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/captcha/get],methods=[POST]}" onto public com.anji.captcha.model.common.ResponseModel com.anji.captcha.controller.CaptchaController.get(com.anji.captcha.model.vo.CaptchaVO)
+05-24 07:18:39.822 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/captcha/check],methods=[POST]}" onto public com.anji.captcha.model.common.ResponseModel com.anji.captcha.controller.CaptchaController.check(com.anji.captcha.model.vo.CaptchaVO)
+05-24 07:18:39.823 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/captcha/verify],methods=[POST]}" onto public com.anji.captcha.model.common.ResponseModel com.anji.captcha.controller.CaptchaController.verify(com.anji.captcha.model.vo.CaptchaVO)
+05-24 07:18:39.826 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+05-24 07:18:39.827 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+05-24 07:18:39.849 |-INFO  o.s.w.s.h.SimpleUrlHandlerMapping:373 - Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+05-24 07:18:39.850 |-INFO  o.s.w.s.h.SimpleUrlHandlerMapping:373 - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+05-24 07:18:39.960 |-INFO  o.s.j.e.a.AnnotationMBeanExporter:433 - Registering beans for JMX exposure on startup
+05-24 07:18:39.971 |-INFO  o.a.coyote.http11.Http11NioProtocol:180 - Starting ProtocolHandler ["http-nio-8080"]
+05-24 07:18:40.002 |-INFO  o.a.tomcat.util.net.NioSelectorPool:180 - Using a shared selector for servlet write/read
+05-24 07:18:40.031 |-INFO  o.s.b.w.e.tomcat.TomcatWebServer:206 - Tomcat started on port(s): 8080 (http) with context path ''
+05-24 07:18:40.042 |-INFO  c.anji.captcha.demo.StartApplication:59 - Started StartApplication in 2.948 seconds (JVM running for 3.989)
+05-24 07:18:42.691 |-INFO  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:993 - Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@6a28ffa4: startup date [Sun May 24 07:18:37 CST 2020]; root of context hierarchy
+05-24 07:18:42.693 |-INFO  o.s.j.e.a.AnnotationMBeanExporter:451 - Unregistering JMX-exposed beans on shutdown
+05-24 07:18:58.429 |-INFO  c.anji.captcha.demo.StartApplication:50 - Starting StartApplication on kean-qideMacBook-Pro.local with PID 11635 (/Users/kean_qi/Desktop/AllwaysWork/AllwaysGit/GitHub/captchaa/captcha/service/springboot/target/classes started by kean_qi in /Users/kean_qi/Desktop/AllwaysWork/AllwaysGit/GitHub/captchaa/captcha)
+05-24 07:18:58.441 |-INFO  c.anji.captcha.demo.StartApplication:662 - No active profile set, falling back to default profiles: default
+05-24 07:18:58.509 |-INFO  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:590 - Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@6a28ffa4: startup date [Sun May 24 07:18:58 CST 2020]; root of context hierarchy
+05-24 07:19:00.098 |-INFO  o.s.b.w.e.tomcat.TomcatWebServer:91 - Tomcat initialized with port(s): 8080 (http)
+05-24 07:19:00.109 |-INFO  o.a.coyote.http11.Http11NioProtocol:180 - Initializing ProtocolHandler ["http-nio-8080"]
+05-24 07:19:00.119 |-INFO  o.a.catalina.core.StandardService:180 - Starting service [Tomcat]
+05-24 07:19:00.120 |-INFO  o.a.catalina.core.StandardEngine:180 - Starting Servlet Engine: Apache Tomcat/8.5.32
+05-24 07:19:00.128 |-INFO  o.a.c.core.AprLifecycleListener:180 - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [/Users/kean_qi/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.]
+05-24 07:19:00.192 |-INFO  o.a.c.c.C.[Tomcat].[localhost].[/]:180 - Initializing Spring embedded WebApplicationContext
+05-24 07:19:00.192 |-INFO  o.s.web.context.ContextLoader:285 - Root WebApplicationContext: initialization completed in 1684 ms
+05-24 07:19:00.240 |-INFO  o.s.b.w.s.ServletRegistrationBean:187 - Servlet dispatcherServlet mapped to [/]
+05-24 07:19:00.243 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'characterEncodingFilter' to: [/*]
+05-24 07:19:00.244 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+05-24 07:19:00.244 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'httpPutFormContentFilter' to: [/*]
+05-24 07:19:00.244 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'requestContextFilter' to: [/*]
+05-24 07:19:00.244 |-INFO  o.s.b.w.s.FilterRegistrationBean:245 - Mapping filter: 'corsFilter' to: [/*]
+05-24 07:19:00.383 |-INFO  com.anji.captcha.util.ImageUtils:65 - 初始化底图:{"SLIDING_BLOCK":["10.png","3.png","9.png","8.png","4.png","1.png","7.png","5.png","2.png","11.png","6.png"],"ORIGINAL":["bg3.png","bg19.png","bg14.png","bg7.png","bg9.png","bg4.png","bg15.png","bg11.png","bg20.png","bg8.png","bg16.png","bg12.png","bg1.png","bg5.png","bg10.png","bg13.png","bg2.png","bg17.png","bg18.png","bg6.png"],"PIC_CLICK":["bg3.png","bg1.png","bg5.png","bg7.png","bg9.png","bg4.png","bg2.png","bg6.png","bg8.png"]}
+05-24 07:19:00.384 |-INFO  c.a.c.s.i.DefaultCaptchaServiceImpl:64 - --->>>初始化验证码底图<<<---
+05-24 07:19:00.451 |-INFO  o.s.w.s.h.SimpleUrlHandlerMapping:373 - Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+05-24 07:19:00.576 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerAdapter:574 - Looking for @ControllerAdvice: org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@6a28ffa4: startup date [Sun May 24 07:18:58 CST 2020]; root of context hierarchy
+05-24 07:19:00.634 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/test/login],methods=[POST]}" onto public com.anji.captcha.model.common.ResponseModel com.anji.captcha.demo.controller.DemoController.get(com.anji.captcha.model.vo.CaptchaVO)
+05-24 07:19:00.637 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/captcha/get],methods=[POST]}" onto public com.anji.captcha.model.common.ResponseModel com.anji.captcha.controller.CaptchaController.get(com.anji.captcha.model.vo.CaptchaVO)
+05-24 07:19:00.638 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/captcha/check],methods=[POST]}" onto public com.anji.captcha.model.common.ResponseModel com.anji.captcha.controller.CaptchaController.check(com.anji.captcha.model.vo.CaptchaVO)
+05-24 07:19:00.638 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/captcha/verify],methods=[POST]}" onto public com.anji.captcha.model.common.ResponseModel com.anji.captcha.controller.CaptchaController.verify(com.anji.captcha.model.vo.CaptchaVO)
+05-24 07:19:00.644 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+05-24 07:19:00.646 |-INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping:547 - Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+05-24 07:19:00.667 |-INFO  o.s.w.s.h.SimpleUrlHandlerMapping:373 - Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+05-24 07:19:00.668 |-INFO  o.s.w.s.h.SimpleUrlHandlerMapping:373 - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+05-24 07:19:00.776 |-INFO  o.s.j.e.a.AnnotationMBeanExporter:433 - Registering beans for JMX exposure on startup
+05-24 07:19:00.787 |-INFO  o.a.coyote.http11.Http11NioProtocol:180 - Starting ProtocolHandler ["http-nio-8080"]
+05-24 07:19:00.808 |-INFO  o.a.tomcat.util.net.NioSelectorPool:180 - Using a shared selector for servlet write/read
+05-24 07:19:00.819 |-INFO  o.s.b.w.e.tomcat.TomcatWebServer:206 - Tomcat started on port(s): 8080 (http) with context path ''
+05-24 07:19:00.823 |-INFO  c.anji.captcha.demo.StartApplication:59 - Started StartApplication in 2.98 seconds (JVM running for 3.91)
+05-24 07:19:06.258 |-INFO  o.a.c.c.C.[Tomcat].[localhost].[/]:180 - Initializing Spring FrameworkServlet 'dispatcherServlet'
+05-24 07:19:06.260 |-INFO  o.s.web.servlet.DispatcherServlet:494 - FrameworkServlet 'dispatcherServlet': initialization started
+05-24 07:19:06.279 |-INFO  o.s.web.servlet.DispatcherServlet:509 - FrameworkServlet 'dispatcherServlet': initialization completed in 19 ms
