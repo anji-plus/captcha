@@ -86,10 +86,9 @@ pod 'JSONModel'
 ```
 // case puzzle     = 0 //"滑动拼图"
 // case clickword   = 1 //"字符校验"
-let type = CaptchaType(rawValue: sender.tag) ?? .puzzle
-CaptchaView.show(type) { (v) in
-    print(v)
-}
+[CaptchaView showWithType: sender.tag == 0 ? puzzle: clickword CompleteBlock:^(NSString *  result) {
+    NSLog(@"result: %@", result);
+}];
 ```
 
 ### 事件
