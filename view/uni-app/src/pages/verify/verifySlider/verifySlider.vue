@@ -104,6 +104,7 @@
         },
         data() {
             return {
+                secretKey:'',        //后端返回的加密秘钥 字段
 				passFalg:false,      //请求通过与否
                 backImgBase:'',      //验证码背景图片
                 blockBackImgBase:'', //验证滑块的背景图片
@@ -204,10 +205,10 @@
                         
                         moveLeftDistance = moveLeftDistance * 310/ parseInt(this.imgSize.width)
 
-                        var captchaVerification = aesEncrypt(this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0}))
+                        var captchaVerification = this.secretKey ?aesEncrypt(this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0}),this.secretKey):this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0})
                         let data = {
                             captchaType:this.captchaType,
-                            "pointJson":aesEncrypt(JSON.stringify({x:moveLeftDistance,y:5.0})),
+                            "pointJson":this.secretKey ? aesEncrypt(JSON.stringify({x:moveLeftDistance,y:5.0}),this.secretKey):JSON.stringify({x:moveLeftDistance,y:5.0}),
                             "token":this.backToken
                         }
                         myRequest({
@@ -301,6 +302,7 @@
                             this.backImgBase = res.repData.originalImageBase64
                             this.blockBackImgBase = res.repData.jigsawImageBase64
                             this.backToken = res.repData.token
+                            this.secretKey = res.repData.secretKey
                         }
                     })
             },

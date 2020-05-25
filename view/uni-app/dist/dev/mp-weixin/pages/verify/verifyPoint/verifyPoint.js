@@ -240,6 +240,8 @@ var _default2 = {
   },
   data: function data() {
     return {
+      secretKey: '',
+      //后端返回的加密秘钥 字段
       checkNum: 3,
       //
       fontPos: [],
@@ -304,10 +306,10 @@ var _default2 = {
 
           setTimeout(function () {
             //发送后端请求
-            var captchaVerification = (0, _ase.aesEncrypt)(_this2.backToken + '---' + JSON.stringify(_this2.checkPosArr));
+            var captchaVerification = _this2.secretKey ? (0, _ase.aesEncrypt)(_this2.backToken + '---' + JSON.stringify(_this2.checkPosArr), _this2.secretKey) : _this2.backToken + '---' + JSON.stringify(_this2.checkPosArr);
             var data = {
               captchaType: _this2.captchaType,
-              "pointJson": (0, _ase.aesEncrypt)(JSON.stringify(_this2.checkPosArr)),
+              "pointJson": _this2.secretKey ? (0, _ase.aesEncrypt)(JSON.stringify(_this2.checkPosArr), _this2.secretKey) : JSON.stringify(_this2.checkPosArr),
               "token": _this2.backToken
             };
             (0, _request.myRequest)({
@@ -395,6 +397,7 @@ var _default2 = {
         if (res.repCode == "0000") {
           _this3.pointBackImgBase = res.repData.originalImageBase64;
           _this3.backToken = res.repData.token;
+          _this3.secretKey = res.repData.secretKey;
           _this3.poinTextList = res.repData.wordList;
           _this3.text = '请依次点击【' + _this3.poinTextList.join(",") + '】';
         }

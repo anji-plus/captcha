@@ -51,6 +51,7 @@ class BlockPuzzleDialog : Dialog {
 
     var baseImageBase64: String = ""//背景图片
     var slideImageBase64: String = ""//滑动图片
+    var key: String = ""//ase加密密钥
     var handler: Handler? = null
 
 
@@ -68,11 +69,7 @@ class BlockPuzzleDialog : Dialog {
 
         //设置默认图片
         val bitmap: Bitmap = ImageUtil.getBitmap(context, R.drawable.bg_default)
-        val bitmap1: Bitmap = ImageUtil.getBitmap(context, R.drawable.bg_default)
-        dragView.setUp(
-            ImageUtil.base64ToBitmap(ImageUtil.bitmapToBase64(bitmap))!!,
-            ImageUtil.base64ToBitmap(ImageUtil.bitmapToBase64(bitmap1))!!
-        )
+        dragView.setUp(bitmap!!, bitmap!!)
         dragView.setSBUnMove(false)
         loadCaptcha()
     }
@@ -95,6 +92,7 @@ class BlockPuzzleDialog : Dialog {
                         baseImageBase64 = b.repData!!.originalImageBase64
                         slideImageBase64 = b.repData!!.jigsawImageBase64
                         Configuration.token = b.repData!!.token
+                        key = b.repData!!.secretKey
 
                         dragView.setUp(
                             ImageUtil.base64ToBitmap(baseImageBase64)!!,
@@ -128,11 +126,12 @@ class BlockPuzzleDialog : Dialog {
         val point = Point(sliderXMoved, 5.0)
         var pointStr = Gson().toJson(point).toString()
         Log.e("wuyan", pointStr)
+        Log.e("wuyan", AESUtil.encode(pointStr, key))
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val o = CaptchaCheckOt(
                     captchaType = "blockPuzzle",
-                    pointJson = AESUtil.encode(pointStr),
+                    pointJson = AESUtil.encode(pointStr, key),
                     token = Configuration.token
                 )
                 val b = Configuration.server.checkAsync(o).await().body()
