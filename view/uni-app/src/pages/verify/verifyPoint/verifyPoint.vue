@@ -139,10 +139,10 @@
                         //等创建坐标执行完
                         setTimeout(() => {
                             //发送后端请求
-                            var captchaVerification =this.secretKe? aesEncrypt(this.backToken+'---'+JSON.stringify(this.checkPosArr),this.secretKe):this.backToken+'---'+JSON.stringify(this.checkPosArr)
+                            var captchaVerification =this.secretKey? aesEncrypt(this.backToken+'---'+JSON.stringify(this.checkPosArr),this.secretKey):this.backToken+'---'+JSON.stringify(this.checkPosArr)
                             let data = {
                                 captchaType:this.captchaType,
-                                "pointJson":this.secretKe? aesEncrypt(JSON.stringify(this.checkPosArr),this.secretKe):JSON.stringify(this.checkPosArr),
+                                "pointJson":this.secretKey? aesEncrypt(JSON.stringify(this.checkPosArr),this.secretKey):JSON.stringify(this.checkPosArr),
                                 "token":this.backToken
                             }
                             myRequest({
