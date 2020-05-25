@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 
-@Component
+@Component("ajCaptchaContainer")
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class Container implements ApplicationContextAware {
     private static ApplicationContext applicationContext;

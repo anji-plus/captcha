@@ -186,8 +186,8 @@ public abstract class AbstractCaptchaservice implements CaptchaService, Initiali
      * @return
      * @throws Exception
      */
-    public static String decrypt(String point, String aesKey) throws Exception {
-        return AESUtil.aesDecrypt(point, aesKey);
+    public static String decrypt(String point, String key) throws Exception {
+        return AESUtil.aesDecrypt(point, key);
     }
 
 
