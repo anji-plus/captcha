@@ -1,9 +1,7 @@
 <template>
     <div style="position: relative"
         >
-        <div class="verify-img-out"
-             v-show="showImage"
-             >
+        <div class="verify-img-out">
             <div class="verify-img-panel" :style="{'width': setSize.imgWidth,
                                                    'height': setSize.imgHeight,
                                                    'background-size' : setSize.imgWidth + ' '+ setSize.imgHeight,
@@ -91,6 +89,7 @@
         },
         data() {
             return {
+                secretKey:'',           //后端返回的ase加密秘钥
                 checkNum:3,             //默认需要点击的字数
                 fontPos: [],            //选中的坐标信息
                 checkPosArr: [],        //用户点击的坐标
@@ -98,14 +97,12 @@
                 pointBackImgBase:'',    //后端获取到的背景图片
                 poinTextList:[],        //后端返回的点击字体顺序
                 backToken:'',           //后端返回的token值
-                imgRand: 0, // //随机的背景图片
                 setSize: {
                     imgHeight: 0,
                     imgWidth: 0,
                     barHeight: 0,
                     barWidth: 0
                 },
-                showImage: true,
                 tempPoints: [],
                 text: '',
                 barAreaColor: undefined,
@@ -141,10 +138,10 @@
                     setTimeout(() => {
                         // var flag = this.comparePos(this.fontPos, this.checkPosArr);
                         //发送后端请求
-                        var captchaVerification = aesEncrypt(this.backToken+'---'+JSON.stringify(this.checkPosArr))
+                        var captchaVerification = this.secretKey? aesEncrypt(this.backToken+'---'+JSON.stringify(this.checkPosArr),this.secretKey):this.backToken+'---'+JSON.stringify(this.checkPosArr)
                         let data = {
                             captchaType:this.captchaType,
-                            "pointJson":aesEncrypt(JSON.stringify(this.checkPosArr)),
+                            "pointJson":this.secretKey? aesEncrypt(JSON.stringify(this.checkPosArr),this.secretKey):JSON.stringify(this.checkPosArr),
                             "token":this.backToken
                         }
                         reqCheck(data).then(res=>{
@@ -210,6 +207,7 @@
                     if (res.repCode == "0000") {
                         this.pointBackImgBase = res.repData.originalImageBase64
                         this.backToken = res.repData.token
+                        this.secretKey = res.repData.secretKey
                         this.poinTextList = res.repData.wordList
                         this.text = '请依次点击【' + this.poinTextList.join(",") + '】'
                     }else{

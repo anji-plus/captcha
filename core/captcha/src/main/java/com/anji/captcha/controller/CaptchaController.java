@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by raodeming on 2019/12/25.
  */
-@RestController
+@RestController("ajCaptchaController")
 @RequestMapping("/captcha")
 public class CaptchaController {
 

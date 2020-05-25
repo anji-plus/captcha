@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         //解密
         let pointDecodeJson = ESConfig.aesDncrypt(pointJson)
         printLog("解密： \(pointDecodeJson)");
-        
+
         //反序列化
         let pointDncryptJson: [String: Any] = ESConfig.jsonClickWordDecode(pointEncode) as! [String : Any]
         printLog("反序列化： \(pointDncryptJson)");
