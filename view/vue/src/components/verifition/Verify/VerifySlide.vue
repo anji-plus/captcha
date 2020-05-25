@@ -104,6 +104,7 @@
         },
         data() {
             return {
+                secretKey:'',        //后端返回的加密秘钥 字段
                 passFlag:'',         //是否通过的标识
                 backImgBase:'',      //验证码背景图片
                 blockBackImgBase:'', //验证滑块的背景图片
@@ -241,7 +242,7 @@
                     moveLeftDistance = moveLeftDistance * 310/ parseInt(this.setSize.imgWidth)
                     let data = {
                         captchaType:this.captchaType,
-                        "pointJson":aesEncrypt(JSON.stringify({x:moveLeftDistance,y:5.0})),
+                        "pointJson":this.secretKey ? aesEncrypt(JSON.stringify({x:moveLeftDistance,y:5.0}),this.secretKey):JSON.stringify({x:moveLeftDistance,y:5.0}),
                         "token":this.backToken
                     }
                     reqCheck(data).then(res=>{
@@ -260,7 +261,7 @@
                             }
                             this.passFlag = true
                             this.tipWords = `${((this.endMovetime-this.startMoveTime)/1000).toFixed(2)}s验证成功`
-                            var captchaVerification = aesEncrypt(this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0}))
+                            var captchaVerification = this.secretKey ? aesEncrypt(this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0}),this.secretKey):this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0})
                             setTimeout(()=>{
                                 this.tipWords = ""
                                 this.$parent.closeBox();
@@ -320,6 +321,7 @@
                         this.backImgBase = res.repData.originalImageBase64
                         this.blockBackImgBase = res.repData.jigsawImageBase64
                         this.backToken = res.repData.token
+                        this.secretKey = res.repData.secretKey
                     }else{
                         this.tipWords = res.repMsg;
                     }

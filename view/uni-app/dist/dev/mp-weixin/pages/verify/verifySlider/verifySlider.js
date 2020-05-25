@@ -273,6 +273,8 @@ var _default2 = {
   },
   data: function data() {
     return {
+      secretKey: '',
+      //后端返回的加密秘钥 字段
       passFalg: false,
       //请求通过与否
       backImgBase: '',
@@ -391,16 +393,22 @@ var _default2 = {
           //图片滑动
           var moveLeftDistance = parseInt((this.moveBlockLeft || '').replace('px', ''));
           moveLeftDistance = moveLeftDistance * 310 / parseInt(this.imgSize.width);
-          var captchaVerification = (0, _ase.aesEncrypt)(this.backToken + '---' + JSON.stringify({
+          var captchaVerification = this.secretKey ? (0, _ase.aesEncrypt)(this.backToken + '---' + JSON.stringify({
             x: moveLeftDistance,
             y: 5.0
-          }));
+          }), this.secretKey) : this.backToken + '---' + JSON.stringify({
+            x: moveLeftDistance,
+            y: 5.0
+          });
           var data = {
             captchaType: this.captchaType,
-            "pointJson": (0, _ase.aesEncrypt)(JSON.stringify({
+            "pointJson": this.secretKey ? (0, _ase.aesEncrypt)(JSON.stringify({
               x: moveLeftDistance,
               y: 5.0
-            })),
+            }), this.secretKey) : JSON.stringify({
+              x: moveLeftDistance,
+              y: 5.0
+            }),
             "token": this.backToken
           };
           (0, _request.myRequest)({
@@ -508,6 +516,7 @@ var _default2 = {
           _this6.backImgBase = res.repData.originalImageBase64;
           _this6.blockBackImgBase = res.repData.jigsawImageBase64;
           _this6.backToken = res.repData.token;
+          _this6.secretKey = res.repData.secretKey;
         }
       });
     }
