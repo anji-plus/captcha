@@ -306,10 +306,10 @@ var _default2 = {
 
           setTimeout(function () {
             //发送后端请求
-            var captchaVerification = _this2.secretKe ? (0, _ase.aesEncrypt)(_this2.backToken + '---' + JSON.stringify(_this2.checkPosArr), _this2.secretKe) : _this2.backToken + '---' + JSON.stringify(_this2.checkPosArr);
+            var captchaVerification = _this2.secretKey ? (0, _ase.aesEncrypt)(_this2.backToken + '---' + JSON.stringify(_this2.checkPosArr), _this2.secretKey) : _this2.backToken + '---' + JSON.stringify(_this2.checkPosArr);
             var data = {
               captchaType: _this2.captchaType,
-              "pointJson": _this2.secretKe ? (0, _ase.aesEncrypt)(JSON.stringify(_this2.checkPosArr), _this2.secretKe) : JSON.stringify(_this2.checkPosArr),
+              "pointJson": _this2.secretKey ? (0, _ase.aesEncrypt)(JSON.stringify(_this2.checkPosArr), _this2.secretKey) : JSON.stringify(_this2.checkPosArr),
               "token": _this2.backToken
             };
             (0, _request.myRequest)({
