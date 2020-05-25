@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:captcha/request/HttpManager.dart';
+import 'package:captcha/request/encrypt_util.dart';
+import 'package:captcha/tools/object_utils.dart';
 import 'package:captcha/tools/widget_util.dart';
 import 'package:flutter/material.dart';
 import 'package:steel_crypt/steel_crypt.dart';
@@ -22,8 +24,11 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
   String baseImageBase64 = "";
   String slideImageBase64 = "";
   String captchaToken = "";
+  String secretKey = "";//加密key
+
   Size baseSize = Size.zero; //底部基类图片
   Size slideSize = Size.zero; //滑块图片
+
 
   var sliderColor = Colors.white; //滑块的背景色
   var sliderIcon = Icons.arrow_forward; //滑块的图标
@@ -45,7 +50,7 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
   //------------动画------------
 
   //校验通过
-  void checkSuccess() {
+  void checkSuccess(String content) {
     setState(() {
       checkResultAfterDrag = true;
       _checkSuccess = true;
@@ -65,7 +70,7 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
           widget.onSuccess("结果回调");
         }
         //关闭验证码
-        Navigator.pop(context);
+        Navigator.pop(context, content);
       });
     });
   }
@@ -134,6 +139,9 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
             '/captcha/get', {"captchaType": "blockPuzzle"}, {})
         .then((res) async {
       if (res['repCode'] != '0000' || res['repData'] == null) {
+        setState(() {
+          secretKey = "";
+        });
         return;
       }
 
@@ -144,6 +152,8 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
       checkResultAfterDrag = false;
 
       baseImageBase64 = repData["originalImageBase64"];
+      baseImageBase64 = repData["originalImageBase64"];
+      secretKey = repData["secretKey"] ?? "";
       baseImageBase64 = baseImageBase64.replaceAll('\n', '');
       slideImageBase64 = repData["jigsawImageBase64"];
       slideImageBase64 = slideImageBase64.replaceAll('\n', '');
@@ -176,12 +186,18 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
 //    MediaQueryData mediaQuery = MediaQuery.of(myContext);
     var pointMap = {"x": sliderXMoved, "y": 5};
     var pointStr = json.encode(pointMap);
+    var cryptedStr = pointStr;
 
-    var aesEncrypter = AesCrypt('XwKsGlMcdPMEhR1B', 'ecb', 'pkcs7');
-    var cryptedStr = aesEncrypter.encrypt(pointStr);
-    var dcrypt = aesEncrypter.decrypt(cryptedStr);
+    // secretKey 不为空 进行as加密
+    if(!ObjectUtils.isEmpty(secretKey)){
+      var aesEncrypter = AesCrypt(secretKey, 'ecb', 'pkcs7');
+      cryptedStr = aesEncrypter.encrypt(pointStr);
+      var dcrypt = aesEncrypter.decrypt(cryptedStr);
+      Map _map = json.decode(dcrypt);
 
-    Map _map = json.decode(dcrypt);
+    }
+
+
 
     HttpManager.requestData('/captcha/check', {
       "pointJson": cryptedStr,
@@ -195,7 +211,13 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
 
       Map<String, dynamic> repData = res['repData'];
       if (repData["result"] != null && repData["result"] == true) {
-        checkSuccess();
+        //如果不加密  将  token  和 坐标序列化 通过  --- 链接成字符串
+        var captchaVerification = "$captchaToken---$pointStr";
+        if(!ObjectUtils.isEmpty(secretKey)){
+          //如果加密  将  token  和 坐标序列化 通过  --- 链接成字符串 进行加密  加密密钥为 _clickWordCaptchaModel.secretKey
+          captchaVerification = EncryptUtil.aesEncode(key: secretKey, content: captchaVerification);
+        }
+        checkSuccess(captchaVerification);
       } else {
         checkFail();
       }

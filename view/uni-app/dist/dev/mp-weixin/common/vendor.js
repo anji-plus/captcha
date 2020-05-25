@@ -38961,7 +38961,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.myRequest = void 0;
-var baseUrl = "https://mirror.anji-plus.com/captcha-api";
+var baseUrl = "https://mirror.anji-plus.com/captcha-api"; // let baseUrl = "http://10.108.12.13:8080"
 
 var myRequest = function myRequest() {
   var option = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};

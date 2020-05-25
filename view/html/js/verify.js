@@ -43,6 +43,7 @@
 		this.$element = ele,
 		this.backToken = null,
 		this.moveLeftDistance = 0,
+		this.secretKey = '',
         this.defaults = {
 			baseUrl:"https://mirror.anji-plus.com/captcha-api",
 			containerId:'',
@@ -270,12 +271,13 @@
 				var vOffset = parseInt(this.options.vOffset);
 				this.moveLeftDistance = this.moveLeftDistance * 310/ parseInt(this.setSize.img_width)
 				//图片滑动
+
 				let data = {
 					captchaType:this.options.captchaType,
-					"pointJson":aesEncrypt(JSON.stringify({x:this.moveLeftDistance,y:5.0})),
+					"pointJson": this.secretKey ? aesEncrypt(JSON.stringify({x:this.moveLeftDistance,y:5.0}),this.secretKey):JSON.stringify({x:this.moveLeftDistance,y:5.0}),
 					"token":this.backToken
 				}
-				var captchaVerification = aesEncrypt(this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0}))
+				var captchaVerification = this.secretKey ? aesEncrypt(this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0}),this.secretKey):this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0})
 				checkPictrue(data,this.options.baseUrl).then(res=>{
 					// 请求反正成功的判断
 					if (res.repCode=="0000") {
@@ -394,6 +396,7 @@
 				if (res.repCode=="0000") {
 					this.$element.find(".backImg")[0].src = 'data:image/png;base64,'+res.repData.originalImageBase64
 					this.$element.find(".bock-backImg")[0].src = 'data:image/png;base64,'+res.repData.jigsawImageBase64
+					this.secretKey = res.repData.secretKey
 					this.backToken = res.repData.token
 				}
 			});
@@ -406,6 +409,7 @@
     var Points = function(ele, opt) {
 		this.$element = ele,
 		this.backToken = null,
+		this.secretKey = '',
         this.defaults = {
 			baseUrl:"https://mirror.anji-plus.com/captcha-api",
 			captchaType:"clickWord",
@@ -469,11 +473,10 @@
 					setTimeout(()=>{ 
 						let data = {
 							captchaType:_this.options.captchaType,
-							"pointJson":aesEncrypt(JSON.stringify(_this.checkPosArr)),
+							"pointJson":_this.secretKey ? aesEncrypt(JSON.stringify(_this.checkPosArr),_this.secretKey):JSON.stringify(_this.checkPosArr),
 							"token":_this.backToken
 						}
-
-						var captchaVerification = aesEncrypt(_this.backToken+'---'+JSON.stringify(_this.checkPosArr))
+						var captchaVerification = _this.secretKey ? aesEncrypt(_this.backToken+'---'+JSON.stringify(_this.checkPosArr),_this.secretKey):_this.backToken+'---'+JSON.stringify(_this.checkPosArr)
 						checkPictrue(data, _this.options.baseUrl).then(res=>{
 							if (res.repCode=="0000") {
 								_this.$element.find('.verify-bar-area').css({'color': '#4cae4c', 'border-color': '#5cb85c'});
@@ -602,6 +605,7 @@
 				if (res.repCode=="0000") {
 					this.htmlDoms.back_img[0].src ='data:image/png;base64,'+ res.repData.originalImageBase64
 					this.backToken = res.repData.token
+					this.secretKey = res.repData.secretKey
 					let text = '请依次点击【' + res.repData.wordList.join(",") + '】'
 					_this.$element.find('.verify-msg').text(text);
 				}

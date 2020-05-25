@@ -4,17 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.anji.captcha</groupId>
-    <artifactId>aj-captcha-demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.4.RELEASE</version>
+        <groupId>com.anji.captcha</groupId>
+        <artifactId>aj-captcha-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../</relativePath>
     </parent>
 
-    <name>demo</name>
+    <groupId>com.anji.captcha</groupId>
+    <artifactId>captcha-springboot</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>captcha-springboot-demo</name>
     <description>anji-plus captcha demo</description>
     <url>https://github.com/anji-plus/captcha</url>
     <packaging>jar</packaging>
@@ -29,18 +30,17 @@
         <dependency>
             <groupId>com.github.anji-plus</groupId>
             <artifactId>captcha</artifactId>
-            <version>1.1.8</version>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -59,11 +59,6 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.31</version>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
-<!--        </dependency>-->
 
     </dependencies>
 

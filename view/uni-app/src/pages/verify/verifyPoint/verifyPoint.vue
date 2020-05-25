@@ -89,6 +89,7 @@
         },
         data() {
             return {
+                secretKey:'',        //后端返回的加密秘钥 字段
                 checkNum:3,                 //
                 fontPos: [],                // 选中的坐标信息
                 checkPosArr: [],            //用户点击的坐标
@@ -138,10 +139,10 @@
                         //等创建坐标执行完
                         setTimeout(() => {
                             //发送后端请求
-                            var captchaVerification = aesEncrypt(this.backToken+'---'+JSON.stringify(this.checkPosArr))
+                            var captchaVerification =this.secretKey? aesEncrypt(this.backToken+'---'+JSON.stringify(this.checkPosArr),this.secretKey):this.backToken+'---'+JSON.stringify(this.checkPosArr)
                             let data = {
                                 captchaType:this.captchaType,
-                                "pointJson":aesEncrypt(JSON.stringify(this.checkPosArr)),
+                                "pointJson":this.secretKey? aesEncrypt(JSON.stringify(this.checkPosArr),this.secretKey):JSON.stringify(this.checkPosArr),
                                 "token":this.backToken
                             }
                             myRequest({
@@ -221,6 +222,7 @@
                         if (res.repCode == "0000") {
                             this.pointBackImgBase = res.repData.originalImageBase64
                             this.backToken = res.repData.token
+                            this.secretKey = res.repData.secretKey
                             this.poinTextList = res.repData.wordList
                             this.text = '请依次点击【' + this.poinTextList.join(",") + '】'
                         }

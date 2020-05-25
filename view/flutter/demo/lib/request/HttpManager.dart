@@ -15,7 +15,7 @@ class HttpManager {
   };
   //请求base url
 //  static String baseUrl = "http://10.108.11.46:8080/api";
-  static String baseUrl = "https://mirror.anji-plus.com/captcha-api";
+  static String baseUrl = "https://mirror.anji-plus.com/api";
 
   ///发起网络请求
   ///[ url] 请求url
@@ -40,22 +40,22 @@ class HttpManager {
     if (header != null) {
       headers.addAll(header);
     }
-//
-//    //请求协议 post 、get
+
+    //请求协议 post 、get
     Options option = new Options(method: optionMetod);
-//
-//    ///设置头部
+
+    ///设置头部
     if (option != null) {
       option.headers = headers;
     }
-//
+
     option.sendTimeout = 15000;
-//
-//    //获取token
-//    var mirrorToken = "";
-//
-//
-//    var params = param;
+
+    //获取token
+    var mirrorToken = "";
+
+
+    var params = param;
 //    if (needSign) {
 //      //获取加密的请求参数
 //      params = await SignConfig.signData(param, mirrorToken);
@@ -65,7 +65,7 @@ class HttpManager {
 
     try {
       ///开始请求
-      response = await dio.request("$baseUrl$url", data: param, options: option);
+      response = await dio.request("$baseUrl$url", data: params, options: option);
     } on DioError catch (e) {
       Response errorResponse;
       if (e.response != null) {
