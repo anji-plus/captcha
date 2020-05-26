@@ -53,14 +53,10 @@
 			<div id="mpanel4" style="margin-top:50px;">
 			</div>
 		</div>
-		<!-- 兼容es6语法start -->
-		<script src="./js/browser.js"></script>
-		<script src="./js/polyfill.min.js"></script>
-		<!-- end -->
 		<script type="text/javascript" src="js/jquery.min.js" ></script>
 		<script src="./js/crypto-js.js"></script>
 		<script src="./js/ase.js"></script>
-        <script type="text/babel" src="js/verify.js" ></script>
+        <script src="js/verify.js" ></script>
         
         <script>
 			// 初始化验证码  嵌入式
@@ -108,7 +104,7 @@
 				ready : function() {},  //加载完毕的回调
 				success : function(params) { //成功的回调
 					// params为返回的二次验证参数 需要在接下来的实现逻辑回传服务器
-					例如: login($.extend({}, params))  
+					// 例如: login($.extend({}, params))  
 				},
 				error : function() {}        //失败的回调
 			});
