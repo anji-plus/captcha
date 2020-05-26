@@ -5,10 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.anji.captcha</groupId>
-        <artifactId>aj-captcha-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../../</relativePath>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.4.RELEASE</version>
     </parent>
 
     <groupId>com.anji.captcha</groupId>
@@ -30,6 +29,7 @@
         <dependency>
             <groupId>com.github.anji-plus</groupId>
             <artifactId>captcha</artifactId>
+            <version>1.2.0</version>
         </dependency>
 
 <!--        <dependency>-->
