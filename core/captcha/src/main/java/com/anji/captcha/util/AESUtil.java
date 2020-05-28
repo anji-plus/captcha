@@ -8,7 +8,6 @@ package com.anji.captcha.util;
 
 
 //import org.apache.commons.codec.binary.Base64;
-import sun.misc.BASE64Decoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -18,40 +17,17 @@ import java.util.Base64;
 
 
 public class AESUtil {
-    //密钥 (需要前端和后端保持一致)
-    private static final String KEY = "XwKsGlMcdPMEhR1B";
     //算法
     private static final String ALGORITHMSTR = "AES/ECB/PKCS5Padding";
 
     /**
-     * aes解密
-     * @param encrypt   内容
+     * 获取随机key
      * @return
-     * @throws Exception
      */
-    public static String aesDecrypt(String encrypt) {
-        try {
-            return aesDecrypt(encrypt, KEY);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
+    public static String getKey() {
+        return RandomUtils.getRandomString(16);
     }
 
-    /**
-     * aes加密
-     * @param content
-     * @return
-     * @throws Exception
-     */
-    public static String aesEncrypt(String content) {
-        try {
-            return aesEncrypt(content, KEY);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
 
     /**
      * 将byte[]转为各种进制的字符串
@@ -80,7 +56,8 @@ public class AESUtil {
      * @throws Exception
      */
     public static byte[] base64Decode(String base64Code) throws Exception{
-        return StringUtils.isEmpty(base64Code) ? null : new BASE64Decoder().decodeBuffer(base64Code);
+        Base64.Decoder decoder = Base64.getDecoder();
+        return StringUtils.isEmpty(base64Code) ? null : decoder.decode(base64Code);
     }
 
 
@@ -109,6 +86,9 @@ public class AESUtil {
      * @throws Exception
      */
     public static String aesEncrypt(String content, String encryptKey) throws Exception {
+        if (StringUtils.isBlank(encryptKey)) {
+            return content;
+        }
         return base64Encode(aesEncryptToBytes(content, encryptKey));
     }
 
@@ -138,8 +118,8 @@ public class AESUtil {
      * @throws Exception
      */
     public static String aesDecrypt(String encryptStr, String decryptKey) throws Exception {
-        if(StringUtils.isEmpty(decryptKey)){
-            decryptKey = KEY;
+        if (StringUtils.isBlank(decryptKey)) {
+            return encryptStr;
         }
         return StringUtils.isEmpty(encryptStr) ? null : aesDecryptByBytes(base64Decode(encryptStr), decryptKey);
     }
@@ -148,12 +128,13 @@ public class AESUtil {
      * 测试
      */
     public static void main(String[] args) throws Exception {
-        String content = "ASDFASDF";
+        String randomString = RandomUtils.getRandomString(16);
+        String content = "hahhahaahhahni";
         System.out.println("加密前：" + content);
-        System.out.println("加密密钥和解密密钥：" + KEY);
-        String encrypt = aesEncrypt(content, KEY);
+        System.out.println("加密密钥和解密密钥：" + randomString);
+        String encrypt = aesEncrypt(content, randomString);
         System.out.println("加密后：" + encrypt);
-        String decrypt = aesDecrypt(encrypt, KEY);
+        String decrypt = aesDecrypt(encrypt, randomString);
         System.out.println("解密后：" + decrypt);
     }
 

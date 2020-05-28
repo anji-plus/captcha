@@ -1,7 +1,7 @@
 <template>
 <view :class="mode=='pop'?'mask':''"  v-show="showBox">
     <view :class="mode=='pop'?'verifybox':''" :style="{'max-width':parseInt(imgSize.width)+30+'px'}">
-        <view class="verifybox-top" :style="{'width':imgSize.width}" v-if="mode=='pop'">
+        <view class="verifybox-top" v-if="mode=='pop'">
             请完成安全验证
             <text class="verifybox-close" @click="clickShow = false">
                 <text class="iconfont icon-close"></text>
@@ -16,19 +16,12 @@
                     :type="verifyType"
                     :figure="figure"
                     :arith="arith"
-                    :width="width"
-                    :height="height"
-                    :fontSize="fontSize"
-                    :codeLength="codeLength"
                     :mode="mode"
-                    :vOffset="vOffset"
                     :vSpace="vSpace"
                     :explain="explain"
                     :imgSize="imgSize"
                     :blockSize="blockSize"
                     :barSize="barSize"
-                    :defaultNum="defaultNum"
-                    :checkNum="checkNum"
                     ref="instance"
                 ></VerifySlide>
             </view>
@@ -39,24 +32,15 @@
                     :type="verifyType"
                     :figure="figure"
                     :arith="arith"
-                    :width="width"
-                    :height="height"
-                    :fontSize="fontSize"
-                    :codeLength="codeLength"
                     :mode="mode"
-                    :vOffset="vOffset"
                     :vSpace="vSpace"
                     :explain="explain"
                     :imgSize="imgSize"
                     :blockSize="blockSize"
                     :barSize="barSize"
-                    :defaultNum="defaultNum"
-                    :checkNum="checkNum"
                     ref="instance"
                 ></VerifyPoint>
             </view>
-
-            
         </view>
     </view>
 </view>
@@ -66,26 +50,15 @@
      * Verify 验证码组件
      * @description 分发验证码使用
      * */
-    // import VerifyCode from './Verify/VerifyCode'
     import VerifySlide from './verifySlider/verifySlider'
     import VerifyPoint from "./verifyPoint/verifyPoint"
-
 
     export default {
         name: 'Vue2Verify',
         props: {
-            containerId:{
-                type:String,
-                // required:true
-            },
             captchaType:{
                 type:String,
                 required:true
-            },
-            type: {
-                type: String | Number,
-                require: false,
-                // default: 'picture' //数字图片码
             },
             figure: {
                 type: Number
@@ -93,25 +66,9 @@
             arith: {
                 type: Number
             },
-            width: {
-                type: String,
-                default:"310px"
-            },
-            height: {
-                type: String
-            },
-            fontSize: {
-                type: String
-            },
-            codeLength: {
-                type: Number
-            },
             mode: {
                 type: String,
                 default:'pop'
-            },
-            vOffset: {
-                type: Number
             },
             vSpace: {
                 type: Number,
@@ -142,19 +99,6 @@
             barSize: {
                 type: Object
             },
-            //默认的文字数量
-            defaultNum: {
-                type: Number
-            },
-            //校对的文字数量
-            checkNum: {
-                type: Number,
-                default: 3
-            },
-            showButton: {
-                type: Boolean,
-                default: false
-            }
         },
         data() {
             return {
@@ -167,15 +111,6 @@
             }
         },
         methods: {
-            /**
-             * checkCode
-             * @description 判断验证码
-             * */
-            checkCode() {
-                if (this.instance.checkCode) {
-                    this.instance.checkCode()
-                }
-            },
             /**
              * refresh
              * @description 刷新
@@ -204,59 +139,6 @@
             }
         },
         watch: {
-            type: {
-                immediate: true,
-                handler(type) {
-                    if (type) {
-                        switch (type.toString()) {
-                            case 'picture':
-                                this.verifyType = '1'
-                                this.componentType = 'VerifyCode'
-                                break
-                            case '1':
-                                this.verifyType = '1'
-                                this.componentType = 'VerifyCode'
-                                break
-                            case 'compute':
-                                this.verifyType = '2'
-                                this.componentType = 'VerifyCode'
-                                break
-                            case '2':
-                                this.verifyType = '2'
-                                this.componentType = 'VerifyCode'
-                                break
-                            case 'slide':
-                                this.verifyType = '1'
-                                this.componentType = 'VerifySlide'
-                                break
-                            case '3':
-                                this.verifyType = '1'
-                                this.componentType = 'VerifySlide'
-                                break
-                            case 'puzzle':
-                                this.verifyType = '2'
-                                this.componentType = 'VerifySlide'
-                                break
-                            case '4':
-                                this.verifyType = '2'
-                                this.componentType = 'VerifySlide'
-                                break
-                            case 'pick':
-                                this.verifyType = ''
-                                this.componentType = 'VerifyPoints'
-                                break
-                            case '5':
-                                this.verifyType = ''
-                                this.componentType = 'VerifyPoints'
-                                break
-                            default:
-                                this.verifyType = undefined
-                                this.componentType = undefined
-                                console.error('Unsupported Type:' + type)
-                        }
-                    }
-                }
-            },
             captchaType:{
                 immediate: true,
                 handler(captchaType) {

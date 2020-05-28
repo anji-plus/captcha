@@ -11,21 +11,19 @@ import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import org.springframework.beans.factory.InitializingBean;
 
-import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.util.Base64;
 import java.util.Map;
 
 /**
  * Created by raodeming on 2019/12/25.
  */
-public abstract class AbstractCaptchaservice implements CaptchaService {
+public abstract class AbstractCaptchaservice implements CaptchaService, InitializingBean {
 
 
     protected static final String URL_PREFIX_HTTP = "http://";
@@ -53,8 +51,10 @@ public abstract class AbstractCaptchaservice implements CaptchaService {
     protected CaptchaCacheService captchaCacheService;
 
     //判断应用是否实现了自定义缓存，没有就使用内存
-    @PostConstruct
-    public void init(){
+
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
         Map<String, CaptchaCacheService> map = Container.getBeanOfType(CaptchaCacheService.class);
         if(map == null || map.isEmpty()){
             captchaCacheService = Container.getBean("captchaCacheServiceMemImpl", CaptchaCacheService.class);
@@ -113,8 +113,9 @@ public abstract class AbstractCaptchaservice implements CaptchaService {
             e.printStackTrace();
         }
         byte[] bytes = baos.toByteArray();
-        BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encodeBuffer(bytes).trim();
+
+        Base64.Encoder encoder = Base64.getEncoder();
+        return encoder.encodeToString(bytes).trim();
     }
 
 
@@ -153,10 +154,11 @@ public abstract class AbstractCaptchaservice implements CaptchaService {
         if (imgStr == null) {
             return false;
         }
-        BASE64Decoder decoder = new BASE64Decoder();
+
+        Base64.Decoder decoder = Base64.getDecoder();
         try {
             // 解密
-            byte[] b = decoder.decodeBuffer(imgStr);
+            byte[] b = decoder.decode(imgStr);
             // 处理数据
             for (int i = 0; i < b.length; ++i) {
                 if (b[i] < 0) {
@@ -184,8 +186,8 @@ public abstract class AbstractCaptchaservice implements CaptchaService {
      * @return
      * @throws Exception
      */
-    public static String decrypt(String point, String aesKey) throws Exception {
-        return AESUtil.aesDecrypt(point, aesKey);
+    public static String decrypt(String point, String key) throws Exception {
+        return AESUtil.aesDecrypt(point, key);
     }
 
 

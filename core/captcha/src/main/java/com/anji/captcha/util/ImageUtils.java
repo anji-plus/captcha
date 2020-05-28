@@ -6,27 +6,31 @@
  */
 package com.anji.captcha.util;
 
+import com.alibaba.fastjson.JSONObject;
+import com.anji.captcha.model.common.CaptchaBaseMapEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.FileCopyUtils;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-
 public class ImageUtils {
+    private static Logger logger = LoggerFactory.getLogger(ImageUtils.class);
     private static Map<String, String> originalCacheMap = new ConcurrentHashMap();  //滑块底图
     private static Map<String, String> slidingBlockCacheMap = new ConcurrentHashMap(); //滑块
     private static Map<String, String> picClickCacheMap = new ConcurrentHashMap(); //点选文字
+    private static Map<String, String[]> fileNameMap = new ConcurrentHashMap<>();
 
 
     public static void cacheImage(String captchaOriginalPathJigsaw, String captchaOriginalPathClick) {
@@ -35,32 +39,50 @@ public class ImageUtils {
             originalCacheMap.putAll(getResourcesImagesFile("classpath:images/jigsaw/original/*.png"));
             slidingBlockCacheMap.putAll(getResourcesImagesFile("classpath:images/jigsaw/slidingBlock/*.png"));
         } else {
-            originalCacheMap.putAll(getImagesFile(captchaOriginalPathJigsaw + File.separator + "original"));
-            slidingBlockCacheMap.putAll(getImagesFile(captchaOriginalPathJigsaw + File.separator + "slidingBlock"));
+            if (captchaOriginalPathJigsaw.startsWith("classpath:")) {
+                logger.info("自定义项目路径滑动拼图底图路径：{}", captchaOriginalPathJigsaw + "/original/*.png");
+                logger.info("自定义项目路径滑动拼图滑块路径：{}", captchaOriginalPathJigsaw + "/slidingBlock/*.png");
+                originalCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathJigsaw + "/original/*.png"));
+                slidingBlockCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathJigsaw + "/slidingBlock/*.png"));
+            } else {
+                originalCacheMap.putAll(getImagesFile(captchaOriginalPathJigsaw + File.separator + "original"));
+                slidingBlockCacheMap.putAll(getImagesFile(captchaOriginalPathJigsaw + File.separator + "slidingBlock"));
+            }
         }
         //点选文字
         if (StringUtils.isBlank(captchaOriginalPathClick)) {
             picClickCacheMap.putAll(getResourcesImagesFile("classpath:images/pic-click/*.png"));
         } else {
-            picClickCacheMap.putAll(getImagesFile(captchaOriginalPathClick));
+            if (captchaOriginalPathClick.startsWith("classpath:")) {
+                picClickCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathClick + "/*.png"));
+            } else {
+                picClickCacheMap.putAll(getImagesFile(captchaOriginalPathClick));
+            }
         }
+        fileNameMap.put(CaptchaBaseMapEnum.ORIGINAL.getCodeValue(), originalCacheMap.keySet().toArray(new String[0]));
+        fileNameMap.put(CaptchaBaseMapEnum.SLIDING_BLOCK.getCodeValue(), slidingBlockCacheMap.keySet().toArray(new String[0]));
+        fileNameMap.put(CaptchaBaseMapEnum.PIC_CLICK.getCodeValue(), picClickCacheMap.keySet().toArray(new String[0]));
+        logger.info("初始化底图:{}", JSONObject.toJSONString(fileNameMap));
     }
 
     public static BufferedImage getOriginal() {
-        int randomNum = RandomUtils.getRandomInt(1, originalCacheMap.size() + 1);
-        String s = originalCacheMap.get("bg".concat(String.valueOf(randomNum)).concat(".png"));
+        String[] strings = fileNameMap.get(CaptchaBaseMapEnum.ORIGINAL.getCodeValue());
+        Integer randomInt = RandomUtils.getRandomInt(0, strings.length);
+        String s = originalCacheMap.get(strings[randomInt]);
         return getBase64StrToImage(s);
     }
 
     public static BufferedImage getslidingBlock() {
-        int randomNum = RandomUtils.getRandomInt(1, slidingBlockCacheMap.size() + 1);
-        String s = slidingBlockCacheMap.get(String.valueOf(randomNum).concat(".png"));
+        String[] strings = fileNameMap.get(CaptchaBaseMapEnum.SLIDING_BLOCK.getCodeValue());
+        Integer randomInt = RandomUtils.getRandomInt(0, strings.length);
+        String s = slidingBlockCacheMap.get(strings[randomInt]);
         return getBase64StrToImage(s);
     }
 
     public static BufferedImage getPicClick() {
-        int randomNum = RandomUtils.getRandomInt(1, picClickCacheMap.size() + 1);
-        String s = picClickCacheMap.get("bg".concat(String.valueOf(randomNum)).concat(".png"));
+        String[] strings = fileNameMap.get(CaptchaBaseMapEnum.PIC_CLICK.getCodeValue());
+        Integer randomInt = RandomUtils.getRandomInt(0, strings.length);
+        String s = picClickCacheMap.get(strings[randomInt]);
         return getBase64StrToImage(s);
     }
 
@@ -78,8 +100,10 @@ public class ImageUtils {
             e.printStackTrace();
         }
         byte[] bytes = baos.toByteArray();
-        BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encodeBuffer(bytes).trim();
+
+        Base64.Encoder encoder = Base64.getEncoder();
+
+        return encoder.encodeToString(bytes).trim();
     }
 
     /**
@@ -90,8 +114,8 @@ public class ImageUtils {
      */
     public static BufferedImage getBase64StrToImage(String base64String) {
         try {
-            BASE64Decoder base64Decoder = new BASE64Decoder();
-            byte[] bytes = base64Decoder.decodeBuffer(base64String);
+            Base64.Decoder decoder = Base64.getDecoder();
+            byte[] bytes = decoder.decode(base64String);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
             return ImageIO.read(inputStream);
         } catch (IOException e) {

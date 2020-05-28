@@ -1,98 +1,45 @@
 <template>
-    <div class="helpAdmin">
-        <h3>
-            详细文档请移步  <a class="link" target="_blank" href="https://github.com/anji-plus/captcha/wiki/1.java%E5%90%8E%E7%AB%AF%E6%8E%A5%E5%85%A5">java后端接入</a>
-        </h3>
-        <!-- <h2 style="color:red">下方文档不再跟新</h2>
-        <h2>1. 引入maven依赖</h2>
-        <p>目前已上传maven仓库，源码已分享</p>
-        <p>
-            <i>&lt;</i>dependency<i>></i>
-        <pre>  <i>&lt;</i>groupId<i>></i>com.github.anji-plus<i>&lt;</i>/groupId<i>></i>
-        <i>&lt;</i>artifactId<i>></i>captcha<i>&lt;</i>/artifactId<i>></i>
-        <i>&lt;</i>version<i>></i>1.1.4<i>&lt;</i>/version<i>></i>
-    <i>&lt;</i>/dependency<i>></i>
-</pre>
-        </p>
-        <h2>2. 启动类上添加相应注解</h2>
-        <p>
-            @ComponentScan(basePackages = {  <br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    "com.anji.captcha",     <br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    "产品自身对应的包路径…"  <br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})
-
-        </p>
-        <h2>3. 二次校验接口</h2>
-        <p>
-            登录为例，用户在提交表单到产品应用后台，会携带一个验证码相关的参数。产品应用会在登录接口login中将该参数传给集成jar包中相关接口做二次校验。
-接口地址：https://****/captcha/verify
-
-        </p>
-        <h2>4.请求方式</h2>
-        <p>HTTP POST, 接口仅支持POST请求, 且仅接受 application/json 编码的参数</p>
-        <h2>5. 请求参数</h2>
-        <el-table :data="reqData" border style="width: 100%;margin-top:10px;">
-            <el-table-column prop="params" label="参数" width="180"></el-table-column>
-            <el-table-column prop="type" label="类型"></el-table-column>
-            <el-table-column prop="isrequire" label="必填"></el-table-column>
-            <el-table-column prop="mark" label="备注"></el-table-column>
-        </el-table>
-        <h2>6. 响应参数</h2>
-        <el-table :data="repData" border style="width: 100%;margin-top:10px;">
-            <el-table-column prop="params" label="参数" width="180"></el-table-column>
-            <el-table-column prop="type" label="类型"></el-table-column>
-            <el-table-column prop="isrequire" label="必填"></el-table-column>
-            <el-table-column prop="mark" label="备注"></el-table-column>
-        </el-table>
-        <h2>7. 异常代号</h2>
-        <el-table :data="numData" border style="width: 100%;margin-top:10px;">
-            <el-table-column prop="number" label="error" width="180"></el-table-column>
-            <el-table-column prop="desc" label="说明"></el-table-column>
-        </el-table> -->
-    </div>
+    <Markdown :filePath="`/static/markdownTxt/${fileName}.txt`"></Markdown>
 </template>
 
 <script>
+
+import Markdown from './../../components/Markdown'
+
 export default {
+    name:'markdown-view',
     data() {
         return {
-            reqData:[
-                {params:'captchaVerification',type:'String',isrequire:'Y',mark:'验证数据，aes加密，数据在前端success函数回调参数中获取'},
+            urlArr:[
+                {id:1,name:'process'},
+                {id:2,name:'admin'},
+                {id:3,name:'html'},
+                {id:4,name:'vue'},
+                {id:5,name:'flutter'},
+                {id:6,name:'uni-app'},
+                {id:7,name:'weex'},
+                {id:8,name:'react-native'},
+                {id:9,name:'android'},
+                {id:10,name:'ios'},
             ],
-            repData:[
-                {params:'repCode',type:'String',isrequire:'Y',mark:'异常代号'},
-                {params:'success',type:'Boolean',isrequire:'Y',mark:'成功或者失败'},
-                {params:'error',type:'Boolean',isrequire:'Y',mark:'接口报错'},
-                {params:'repMsg',type:'String',isrequire:'Y',mark:'错误信息'},
-            ],
-            numData:[
-                {number:'0000',desc:'请求成功'},
-                {number:'9999',desc:'服务器内部异常'},
-                {number:'0011',desc:'参数不能为空'},
-                {number:'6110',desc:'验证码已失效，请重新获取'},
-                {number:'6111',desc:'验证失败'},
-                {number:'6112',desc:'获取验证码失败,请联系管理员'},
-            ]
+            fileName:''
         }
+    },
+    watch: {
+        $route:{
+            handler:'getFileName',
+            immediate:true
+        }
+    },
+    methods: {
+        getFileName(){
+            const url = this.urlArr.find(item=>this.$route.params.id == item.id)
+            this.fileName = url.name
+        }
+    },
+    components:{
+        Markdown
     },
 }
 </script>
 
-<style lang="less" scoped>
-.helpAdmin{
-    .link{
-        text-decoration:none;
-        color: red;
-    }
-    h2{
-        background: #eee;
-        line-height: 36px;
-        text-indent: 1rem;
-        margin-top: 20px;
-    }
-    p{
-        line-height: 36px;
-        text-indent: 2em;
-    }
-}
-</style>

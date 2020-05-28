@@ -30,8 +30,8 @@
 ├─core    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;     java后端jar包<br>
 ├─images    &emsp;&emsp;&emsp;&emsp;&emsp;    效果图<br>
 ├─service<br>
-├&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
-├&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例<br>
+│&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
+│&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例，未完成<br>
 └─view    &emsp;&emsp;&emsp;&emsp;&emsp;    多语言客户端示例<br>
 &emsp;├─android    &emsp;&emsp;    原生android实现示例<br>
 &emsp;├─flutter    &emsp;&emsp;    flutter实现示例<br>
@@ -43,7 +43,7 @@
 
 # 5 接入文档
 #### &emsp; 5.1 本地启动
-&emsp; 第一步，启动后端，service/springboot导入Eclipse或者Intellij，启动StartApplication。<br>
+&emsp; 第一步，启动后端，导入Eclipse或者Intellij,启动service/springboot的StartApplication。[社区底图库](https://gitee.com/anji-plus/AJ-Captcha-Images)<br>
 &emsp; 第二步，启动前端，使用visual code打开文件夹view/vue，npm install后npm run dev，浏览器登录<br>
 ```js
 npm install
@@ -57,9 +57,10 @@ I  Your application is running here: http://localhost:8081
 #### &emsp; 5.3 [github wiki接入文档](https://github.com/anji-plus/captcha/wiki "github")<br>
 
 # 6 近期计划
-#### &emsp; 6.2 增加weex示例
+#### &emsp; 6.1 增加weex示例
 #### &emsp; 6.2 增加ReactNative示例
 
 # 6 技术支持微信群
-<img src="https://images.gitee.com/uploads/images/2020/0511/091107_b81b631c_1728982.jpeg" width = "200" height = "200" div align=left />
+<img src="https://images.gitee.com/uploads/images/2020/0525/092548_b39fd3fc_1728982.jpeg" width = "200" height = "200" div align=left />
+
 

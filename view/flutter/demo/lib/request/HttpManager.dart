@@ -56,10 +56,10 @@ class HttpManager {
 
 
     var params = param;
-    if (needSign) {
-      //获取加密的请求参数
-      params = await SignConfig.signData(param, mirrorToken);
-    }
+//    if (needSign) {
+//      //获取加密的请求参数
+//      params = await SignConfig.signData(param, mirrorToken);
+//    }
 
     Response response;
 
