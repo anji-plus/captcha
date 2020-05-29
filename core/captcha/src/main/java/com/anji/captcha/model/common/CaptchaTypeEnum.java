@@ -2,7 +2,8 @@ package com.anji.captcha.model.common;
 
 public enum CaptchaTypeEnum {
     BLOCKPUZZLE("blockPuzzle","滑块拼图"),
-    CLICKWORD("clickWord","文字点选");
+    CLICKWORD("clickWord","文字点选"),
+    DEFAULT("default","默认");
 
     private String codeValue;
     private String codeDesc;

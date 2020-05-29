@@ -37,7 +37,7 @@
     <dependency>
       <groupId>com.github.anji-plus</groupId>
       <artifactId>captcha</artifactId>
-      <version>1.2.0</version>
+      <version>1.2.1</version>
 <!--      <scope>system</scope>-->
 <!--      <systemPath>D:\Workspace\captcha\core\captcha\target\captcha-1.1.5.jar</systemPath>-->
     </dependency>
