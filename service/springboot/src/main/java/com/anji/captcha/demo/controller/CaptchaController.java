@@ -4,7 +4,7 @@
  *http://www.anji-plus.com
  *All rights reserved.
  */
-package com.anji.captcha.controller;
+package com.anji.captcha.demo.controller;
 
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by raodeming on 2019/12/25.
  */
-@RestController("ajCaptchaController")
+@RestController
 @RequestMapping("/captcha")
 public class CaptchaController {
 
