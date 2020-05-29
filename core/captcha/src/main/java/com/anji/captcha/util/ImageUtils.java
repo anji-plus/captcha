@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
@@ -28,18 +29,16 @@ public class ImageUtils {
     private static Map<String, String> picClickCacheMap = new ConcurrentHashMap(); //点选文字
     private static Map<String, String[]> fileNameMap = new ConcurrentHashMap<>();
 
-
     public static void cacheImage(String captchaOriginalPathJigsaw, String captchaOriginalPathClick) {
         //滑动拼图
         if (StringUtils.isBlank(captchaOriginalPathJigsaw)) {
-            originalCacheMap.putAll(getResourcesImagesFile("classpath:images/jigsaw/original/*.png"));
-            slidingBlockCacheMap.putAll(getResourcesImagesFile("classpath:images/jigsaw/slidingBlock/*.png"));
+            originalCacheMap.putAll(getResourcesImagesFile("images/jigsaw/original"));
+            slidingBlockCacheMap.putAll(getResourcesImagesFile("images/jigsaw/slidingBlock"));
         } else {
             if (captchaOriginalPathJigsaw.startsWith("classpath:")) {
-                logger.info("自定义项目路径滑动拼图底图路径：{}", captchaOriginalPathJigsaw + "/original/*.png");
                 logger.info("自定义项目路径滑动拼图滑块路径：{}", captchaOriginalPathJigsaw + "/slidingBlock/*.png");
-                originalCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathJigsaw + "/original/*.png"));
-                slidingBlockCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathJigsaw + "/slidingBlock/*.png"));
+                originalCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathJigsaw.split("\\:")[1]));
+                slidingBlockCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathJigsaw.split("\\:")[1]));
             } else {
                 originalCacheMap.putAll(getImagesFile(captchaOriginalPathJigsaw + File.separator + "original"));
                 slidingBlockCacheMap.putAll(getImagesFile(captchaOriginalPathJigsaw + File.separator + "slidingBlock"));
@@ -47,10 +46,10 @@ public class ImageUtils {
         }
         //点选文字
         if (StringUtils.isBlank(captchaOriginalPathClick)) {
-            picClickCacheMap.putAll(getResourcesImagesFile("classpath:images/pic-click/*.png"));
+            picClickCacheMap.putAll(getResourcesImagesFile("images/pic-click"));
         } else {
             if (captchaOriginalPathClick.startsWith("classpath:")) {
-                picClickCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathClick + "/*.png"));
+                picClickCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathClick.split("\\:")[1]));
             } else {
                 picClickCacheMap.putAll(getImagesFile(captchaOriginalPathClick));
             }
@@ -63,6 +62,9 @@ public class ImageUtils {
 
     public static BufferedImage getOriginal() {
         String[] strings = fileNameMap.get(CaptchaBaseMapEnum.ORIGINAL.getCodeValue());
+        if (null == strings || strings.length == 0) {
+            return null;
+        }
         Integer randomInt = RandomUtils.getRandomInt(0, strings.length);
         String s = originalCacheMap.get(strings[randomInt]);
         return getBase64StrToImage(s);
@@ -70,6 +72,9 @@ public class ImageUtils {
 
     public static BufferedImage getslidingBlock() {
         String[] strings = fileNameMap.get(CaptchaBaseMapEnum.SLIDING_BLOCK.getCodeValue());
+        if (null == strings || strings.length == 0) {
+            return null;
+        }
         Integer randomInt = RandomUtils.getRandomInt(0, strings.length);
         String s = slidingBlockCacheMap.get(strings[randomInt]);
         return getBase64StrToImage(s);
@@ -77,6 +82,9 @@ public class ImageUtils {
 
     public static BufferedImage getPicClick() {
         String[] strings = fileNameMap.get(CaptchaBaseMapEnum.PIC_CLICK.getCodeValue());
+        if (null == strings || strings.length == 0) {
+            return null;
+        }
         Integer randomInt = RandomUtils.getRandomInt(0, strings.length);
         String s = picClickCacheMap.get(strings[randomInt]);
         return getBase64StrToImage(s);
@@ -123,24 +131,35 @@ public class ImageUtils {
 
     public static Map<String, String> getResourcesImagesFile(String path) {
         Map<String, String> imgMap = new HashMap<>();
-        /*ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        try {
-            Resource[] resources = resolver.getResources(path);
-            for (Resource resource : resources) {
-                byte[] bytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
-                String string = Base64Utils.encodeToString(bytes);
-                String filename = resource.getFilename();
-                imgMap.put(filename, string);
+        URL in = ImageUtils.class.getClassLoader().getResource(path);
+        if (null == in) {
+            return new HashMap<>();
+        }
+        File file = new File(in.getFile());
+        if (!file.exists()) {
+            return new HashMap<>();
+        }
+        File[] files = file.listFiles();
+        for (File file1 : files) {
+            byte[] bytes = new byte[0];
+            try {
+                bytes = FileCopyUtils.copyToByteArray(new FileInputStream(file1));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+            String string = Base64Utils.encodeToString(bytes);
+            String filename = file1.getName();
+            imgMap.put(filename, string);
+        }
         return imgMap;
     }
 
     public static Map<String, String> getImagesFile(String path) {
         Map<String, String> imgMap = new HashMap<>();
         File file = new File(path);
+        if (!file.exists()) {
+            return new HashMap<>();
+        }
         File[] files = file.listFiles();
         Arrays.stream(files).forEach(item -> {
             try {

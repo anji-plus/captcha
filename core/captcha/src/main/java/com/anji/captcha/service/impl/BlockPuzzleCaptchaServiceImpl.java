@@ -12,6 +12,7 @@ import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.model.vo.PointVO;
+import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.RandomUtils;
@@ -32,37 +33,17 @@ import java.util.Random;
  *
  * Created by raodeming on 2019/12/25.
  */
-//@Component(value = "blockPuzzleCaptchaService")
-public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
+public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
 
     private static Logger logger = LoggerFactory.getLogger(BlockPuzzleCaptchaServiceImpl.class);
 
-    //@Value("${captcha.water.mark:'我的水印'}")
-    private String waterMark;
+    private CaptchaCacheService captchaCacheService = CaptchaServiceFactory.getCache(cacheType);
 
-    //@Value("${captcha.water.font:'宋体'}")
-    private String waterMarkFont;
-
-    //@Value("${captcha.slip.offset:5}")
-    private String slipOffset;
-
-    //@Value("${captcha.aes.key:XwKsGlMcdPMEhR1B}")
-    private String aesKey;
-
-    private static Boolean captchaAesStatus;
-
-    //@Value("${captcha.aes.status:true}")
-    public void setCaptchaAesStatus(Boolean captchaAesStatus) {
-        BlockPuzzleCaptchaServiceImpl.captchaAesStatus = captchaAesStatus;
-    }
 
     @Override
     public void init(Properties config){
         super.init(config);
-        waterMark = config.getProperty("captcha.water.mark","我的水印");
-        waterMarkFont = config.getProperty("captcha.water.font","宋体");
-        slipOffset = config.getProperty("captcha.slip.offset","5");
-        aesKey = config.getProperty("captcha.aes.key");
+        captchaCacheService = CaptchaServiceFactory.getCache(cacheType);
     }
 
     @Override
@@ -74,8 +55,10 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
     public ResponseModel get(CaptchaVO captchaVO) {
 
         //原生图片
-//        BufferedImage originalImage = getBufferedImage(ImageUtils.getBlockPuzzleBgPath(captchaVO.getCaptchaOriginalPath()));
         BufferedImage originalImage = ImageUtils.getOriginal();
+        if (null == originalImage) {
+            return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_BASEMAP_NULL);
+        }
         //设置水印
         Graphics backgroundGraphics = originalImage.getGraphics();
         int width = originalImage.getWidth();
@@ -86,8 +69,10 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
         backgroundGraphics.drawString(waterMark, width - ((HAN_ZI_SIZE / 2) * (waterMark.length())) - 5, height - (HAN_ZI_SIZE / 2) + 7);
 
         //抠图图片
-//        BufferedImage   jigsawImage = getBufferedImage(ImageUtils.getBlockPuzzleJigsawPath(captchaVO.getCaptchaOriginalPath()));
         BufferedImage jigsawImage = ImageUtils.getslidingBlock();
+        if (null == jigsawImage) {
+            return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_BASEMAP_NULL);
+        }
         CaptchaVO captcha = pictureTemplatesCut(originalImage, jigsawImage);
         if (captcha == null
                 || StringUtils.isBlank(captcha.getJigsawImageBase64())
@@ -141,7 +126,24 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
     @Override
     public ResponseModel verification(CaptchaVO captchaVO) {
-        return null;
+        if (captchaVO == null) {
+            return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
+        }
+        if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
+            return RepCodeEnum.NULL_ERROR.parseError("captchaVerification");
+        }
+        try {
+            String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getCaptchaVerification());
+            if (!captchaCacheService.exists(codeKey)) {
+                return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
+            }
+            //二次校验取值后，即刻失效
+            captchaCacheService.delete(codeKey);
+        } catch (Exception e) {
+            logger.error("验证码坐标解析失败", e);
+            return ResponseModel.errorMsg(e.getMessage());
+        }
+        return ResponseModel.success();
     }
 
     /**

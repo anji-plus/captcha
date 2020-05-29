@@ -12,6 +12,7 @@ import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.model.vo.PointVO;
+import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.RandomUtils;
@@ -32,25 +33,10 @@ import java.util.List;
  * Created by raodeming on 2019/12/25.
  */
 //@Component(value = "clickWordCaptchaService")
-public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
+public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
     private static Logger logger = LoggerFactory.getLogger(ClickWordCaptchaServiceImpl.class);
-    //@Value("${captcha.water.mark:'我的水印'}")
-    private String waterMark;
 
-    //@Value("${captcha.water.font:'宋体'}")
-    private String waterMarkFont;
-
-    //@Value("${captcha.font.type:'宋体'}")
-    private String fontType;
-
-    //@Value("${captcha.aes.key:XwKsGlMcdPMEhR1B}")
-    private String aesKey;
-    private static Boolean captchaAesStatus;
-
-    //@Value("${captcha.aes.status:true}")
-    public void setCaptchaAesStatus(Boolean captchaAesStatus) {
-        ClickWordCaptchaServiceImpl.captchaAesStatus = captchaAesStatus;
-    }
+    private CaptchaCacheService captchaCacheService = CaptchaServiceFactory.getCache(cacheType);
 
     @Override
     public String captchaType() {
@@ -59,16 +45,15 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
     @Override
     public void init(Properties config){
         super.init(config);
-        waterMark = config.getProperty("captcha.water.mark","我的水印");
-        waterMarkFont = config.getProperty("captcha.water.font","宋体");
-        fontType = config.getProperty("captcha.font.type","宋体");
-        aesKey = config.getProperty("captcha.aes.key");
+        captchaCacheService = CaptchaServiceFactory.getCache(cacheType);
     }
 
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
-//        BufferedImage bufferedImage = getBufferedImage(ImageUtils.getClickWordBgPath(captchaVO.getCaptchaOriginalPath()));
         BufferedImage bufferedImage = ImageUtils.getPicClick();
+        if (null == bufferedImage) {
+            return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_BASEMAP_NULL);
+        }
         CaptchaVO imageData = getImageData(bufferedImage);
         if (imageData == null
                 || StringUtils.isBlank(imageData.getOriginalImageBase64())) {
@@ -140,7 +125,24 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
 
     @Override
     public ResponseModel verification(CaptchaVO captchaVO) {
-        return null;
+        if (captchaVO == null) {
+            return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
+        }
+        if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
+            return RepCodeEnum.NULL_ERROR.parseError("captchaVerification");
+        }
+        try {
+            String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getCaptchaVerification());
+            if (!captchaCacheService.exists(codeKey)) {
+                return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
+            }
+            //二次校验取值后，即刻失效
+            captchaCacheService.delete(codeKey);
+        } catch (Exception e) {
+            logger.error("验证码坐标解析失败", e);
+            return ResponseModel.errorMsg(e.getMessage());
+        }
+        return ResponseModel.success();
     }
 
 
