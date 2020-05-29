@@ -9,12 +9,19 @@ package com.anji.captcha.service;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 
+import java.util.Properties;
+
 /**
  * @Title: 验证码缓存接口
  * @author lide1202@hotmail.com
  * @date 2020-05-12
  */
 public interface CaptchaService {
+    /**
+     * 配置初始化
+     * @throws Exception
+     */
+    public void init(Properties config);
 
     /**
      * 获取验证码
@@ -37,5 +44,9 @@ public interface CaptchaService {
      */
     ResponseModel verification(CaptchaVO captchaVO);
 
-
+    /***
+     * 验证码类型
+     * @return
+     */
+    String captchaType();
 }

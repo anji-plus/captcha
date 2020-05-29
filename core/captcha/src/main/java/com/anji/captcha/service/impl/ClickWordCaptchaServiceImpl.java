@@ -7,6 +7,7 @@
 package com.anji.captcha.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
@@ -18,8 +19,6 @@ import com.anji.captcha.util.RandomUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -32,29 +31,43 @@ import java.util.List;
  *
  * Created by raodeming on 2019/12/25.
  */
-@Component(value = "clickWordCaptchaService")
+//@Component(value = "clickWordCaptchaService")
 public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
-
     private static Logger logger = LoggerFactory.getLogger(ClickWordCaptchaServiceImpl.class);
-
-    @Value("${captcha.water.mark:'我的水印'}")
+    //@Value("${captcha.water.mark:'我的水印'}")
     private String waterMark;
 
-    @Value("${captcha.water.font:'宋体'}")
+    //@Value("${captcha.water.font:'宋体'}")
     private String waterMarkFont;
 
-    @Value("${captcha.font.type:'宋体'}")
+    //@Value("${captcha.font.type:'宋体'}")
     private String fontType;
 
+    //@Value("${captcha.aes.key:XwKsGlMcdPMEhR1B}")
+    private String aesKey;
     private static Boolean captchaAesStatus;
 
-    @Value("${captcha.aes.status:true}")
+    //@Value("${captcha.aes.status:true}")
     public void setCaptchaAesStatus(Boolean captchaAesStatus) {
         ClickWordCaptchaServiceImpl.captchaAesStatus = captchaAesStatus;
     }
 
     @Override
+    public String captchaType() {
+        return CaptchaTypeEnum.CLICKWORD.getCodeValue();
+    }
+    @Override
+    public void init(Properties config){
+        super.init(config);
+        waterMark = config.getProperty("captcha.water.mark","我的水印");
+        waterMarkFont = config.getProperty("captcha.water.font","宋体");
+        fontType = config.getProperty("captcha.font.type","宋体");
+        aesKey = config.getProperty("captcha.aes.key");
+    }
+
+    @Override
     public ResponseModel get(CaptchaVO captchaVO) {
+//        BufferedImage bufferedImage = getBufferedImage(ImageUtils.getClickWordBgPath(captchaVO.getCaptchaOriginalPath()));
         BufferedImage bufferedImage = ImageUtils.getPicClick();
         CaptchaVO imageData = getImageData(bufferedImage);
         if (imageData == null

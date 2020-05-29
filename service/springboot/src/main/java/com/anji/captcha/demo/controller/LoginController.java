@@ -5,10 +5,7 @@ import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 后端二次校验接口示例
@@ -22,7 +19,9 @@ public class DemoController {
     private CaptchaService captchaService;
 
     @PostMapping("/login")
-    public ResponseModel get(@RequestBody CaptchaVO captchaVO) {
+    public ResponseModel get(@RequestParam("captchaVerification") String captchaVerification) {
+        CaptchaVO captchaVO = new CaptchaVO();
+        captchaVO.setCaptchaVerification(captchaVerification);
         ResponseModel response = captchaService.verification(captchaVO);
         if(response.isSuccess() == false){
             //验证码校验失败，返回信息告诉前端
