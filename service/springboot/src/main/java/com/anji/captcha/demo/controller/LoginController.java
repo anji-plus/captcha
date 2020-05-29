@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.*;
  * 后端二次校验接口示例
  */
 @RestController
-@RequestMapping("/test")
-public class DemoController {
+@RequestMapping("/auth")
+public class LoginController {
 
     @Autowired
-    @Lazy
     private CaptchaService captchaService;
 
     @PostMapping("/login")
