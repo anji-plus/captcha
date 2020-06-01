@@ -15,10 +15,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -36,7 +33,6 @@ public class ImageUtils {
             slidingBlockCacheMap.putAll(getResourcesImagesFile("images/jigsaw/slidingBlock"));
         } else {
             if (captchaOriginalPathJigsaw.startsWith("classpath:")) {
-                logger.info("自定义项目路径滑动拼图滑块路径：{}", captchaOriginalPathJigsaw + "/slidingBlock/*.png");
                 originalCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathJigsaw.split("\\:")[1]));
                 slidingBlockCacheMap.putAll(getResourcesImagesFile(captchaOriginalPathJigsaw.split("\\:")[1]));
             } else {
@@ -132,6 +128,16 @@ public class ImageUtils {
     public static Map<String, String> getResourcesImagesFile(String path) {
         Map<String, String> imgMap = new HashMap<>();
         URL in = ImageUtils.class.getClassLoader().getResource(path);
+        InputStream resourceAsStream = ImageUtils.class.getClassLoader().getResourceAsStream(path+"/**");
+        try {
+            Enumeration<URL> resources = ImageUtils.class.getClassLoader().getResources(path);
+            while (resources.hasMoreElements()) {
+                InputStream inputStream = resources.nextElement().openStream();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger.info("底图路径：{}", in);
         if (null == in) {
             return new HashMap<>();
         }
