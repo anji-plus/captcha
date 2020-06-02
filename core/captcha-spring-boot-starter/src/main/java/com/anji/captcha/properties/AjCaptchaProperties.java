@@ -12,7 +12,21 @@ import static com.anji.captcha.properties.AjCaptchaProperties.StorageType.local;
 public class AjCaptchaProperties {
     public static final String PREFIX = "aj.captcha";
 
+    /**
+     * 验证码类型.
+     */
     private CaptchaTypeEnum type = CaptchaTypeEnum.DEFAULT;
+
+    /**
+     * 滑动拼图底图路径.
+     */
+    private String jigsaw = "";
+
+    /**
+     * 点选文字底图路径.
+     */
+    private String picClick = "";
+
 
     /**
      * 右下角水印文字(我的水印).

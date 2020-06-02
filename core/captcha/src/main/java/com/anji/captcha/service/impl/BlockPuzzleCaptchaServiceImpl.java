@@ -57,6 +57,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
         //原生图片
         BufferedImage originalImage = ImageUtils.getOriginal();
         if (null == originalImage) {
+            logger.warn("滑动底图未初始化成功，请检查路径");
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_BASEMAP_NULL);
         }
         //设置水印
@@ -71,6 +72,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
         //抠图图片
         BufferedImage jigsawImage = ImageUtils.getslidingBlock();
         if (null == jigsawImage) {
+            logger.warn("滑动滑块未初始化成功，请检查路径");
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_BASEMAP_NULL);
         }
         CaptchaVO captcha = pictureTemplatesCut(originalImage, jigsawImage);
@@ -162,8 +164,8 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
 
             //随机生成拼图坐标
             PointVO point = generateJigsawPoint(originalWidth, originalHeight, jigsawWidth, jigsawHeight);
-            int x = (int) point.getX();
-            int y = (int) point.getY();
+            int x = point.getX();
+            int y = point.getY();
 
             //生成新的拼图图像
             BufferedImage newJigsawImage = new BufferedImage(jigsawWidth, jigsawHeight, jigsawImage.getType());
@@ -201,7 +203,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
             //将坐标信息存入redis中
             String codeKey = String.format(REDIS_CAPTCHA_KEY, dataVO.getToken());
             captchaCacheService.set(codeKey, JSONObject.toJSONString(point), EXPIRESIN_SECONDS);
-
+            logger.debug("token：{},point:{}", dataVO.getToken(), JSONObject.toJSONString(point));
             return dataVO;
         } catch (Exception e) {
             e.printStackTrace();
