@@ -50,13 +50,6 @@
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service</artifactId>
             <version>1.0-rc7</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
-            <scope>provided</scope>
         </dependency>
 
 

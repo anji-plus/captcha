@@ -1,13 +1,11 @@
 package com.anji.captcha.properties;
 
 import com.anji.captcha.model.common.CaptchaTypeEnum;
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import static com.anji.captcha.properties.AjCaptchaProperties.PREFIX;
 import static com.anji.captcha.properties.AjCaptchaProperties.StorageType.local;
 
-@Data
 @ConfigurationProperties(PREFIX)
 public class AjCaptchaProperties {
     public static final String PREFIX = "aj.captcha";
@@ -67,5 +65,81 @@ public class AjCaptchaProperties {
          * redis.
          */
         redis
+    }
+
+    public static String getPREFIX() {
+        return PREFIX;
+    }
+
+    public CaptchaTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(CaptchaTypeEnum type) {
+        this.type = type;
+    }
+
+    public String getJigsaw() {
+        return jigsaw;
+    }
+
+    public void setJigsaw(String jigsaw) {
+        this.jigsaw = jigsaw;
+    }
+
+    public String getPicClick() {
+        return picClick;
+    }
+
+    public void setPicClick(String picClick) {
+        this.picClick = picClick;
+    }
+
+    public String getWaterMark() {
+        return waterMark;
+    }
+
+    public void setWaterMark(String waterMark) {
+        this.waterMark = waterMark;
+    }
+
+    public String getWaterFont() {
+        return waterFont;
+    }
+
+    public void setWaterFont(String waterFont) {
+        this.waterFont = waterFont;
+    }
+
+    public String getFontType() {
+        return fontType;
+    }
+
+    public void setFontType(String fontType) {
+        this.fontType = fontType;
+    }
+
+    public String getSlipOffset() {
+        return slipOffset;
+    }
+
+    public void setSlipOffset(String slipOffset) {
+        this.slipOffset = slipOffset;
+    }
+
+    public Boolean getAesStatus() {
+        return aesStatus;
+    }
+
+    public void setAesStatus(Boolean aesStatus) {
+        this.aesStatus = aesStatus;
+    }
+
+    public StorageType getCacheType() {
+        return cacheType;
+    }
+
+    public void setCacheType(StorageType cacheType) {
+        this.cacheType = cacheType;
     }
 }
