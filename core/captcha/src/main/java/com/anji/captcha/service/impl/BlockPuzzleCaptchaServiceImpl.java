@@ -57,7 +57,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
         //原生图片
         BufferedImage originalImage = ImageUtils.getOriginal();
         if (null == originalImage) {
-            logger.warn("滑动底图未初始化成功，请检查路径");
+            logger.error("滑动底图未初始化成功，请检查路径");
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_BASEMAP_NULL);
         }
         //设置水印
@@ -67,12 +67,12 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
         Font watermark = new Font(waterMarkFont, Font.BOLD, HAN_ZI_SIZE / 2);
         backgroundGraphics.setFont(watermark);
         backgroundGraphics.setColor(Color.white);
-        backgroundGraphics.drawString(waterMark, width - ((HAN_ZI_SIZE / 2) * (waterMark.length())) - 5, height - (HAN_ZI_SIZE / 2) + 7);
+        backgroundGraphics.drawString(waterMark, width - getEnOrChLength(waterMark), height - (HAN_ZI_SIZE / 2) + 7);
 
         //抠图图片
         BufferedImage jigsawImage = ImageUtils.getslidingBlock();
         if (null == jigsawImage) {
-            logger.warn("滑动滑块未初始化成功，请检查路径");
+            logger.error("滑动底图未初始化成功，请检查路径");
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_BASEMAP_NULL);
         }
         CaptchaVO captcha = pictureTemplatesCut(originalImage, jigsawImage);

@@ -25,39 +25,18 @@ import java.util.ServiceLoader;
  */
 public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
 
-    private static Logger logger = LoggerFactory.getLogger(DefaultCaptchaServiceImpl.class);
-
-    protected static String REDIS_SECOND_CAPTCHA_KEY = "RUNNING:CAPTCHA:second-%s";
-    private CaptchaCacheService captchaCacheService;
-
-    private volatile static Map<String,CaptchaService> instances = new HashMap();
-
     @Override
     public String captchaType() {
         return "default";
     }
-    public static CaptchaService getInstance(String type){
-        return instances.get(type);
-    }
-    public static CaptchaService getDefault(Properties config){
-        return instances.get("default");
-    }
+
     @Override
     public void init(Properties config) {
         super.init(config);
-        captchaCacheService = CaptchaServiceFactory.getCache(cacheType);
-        ServiceLoader<CaptchaService> services = ServiceLoader.load(CaptchaService.class);
-        for(CaptchaService item : services){
-           instances.put(item.captchaType(), item);
-        }
-        if(captchaCacheService == null){
-            throw new RuntimeException("captchaCacheService is null,[captcha.cacheType]="+config.getProperty("captcha.cacheType"));
-        }
-        System.out.println("supported-captchaTypes-service:"+instances.keySet().toString());
     }
 
     private CaptchaService getService(String captchaType){
-        return instances.get(captchaType);
+        return CaptchaServiceFactory.instances.get(captchaType);
     }
 
     @Override
