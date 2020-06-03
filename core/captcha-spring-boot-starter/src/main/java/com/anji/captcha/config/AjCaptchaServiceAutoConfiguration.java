@@ -6,28 +6,30 @@ import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.service.impl.CaptchaServiceFactory;
 import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.StringUtils;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.FileCopyUtils;
 
-import org.springframework.core.io.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
 @Configuration
-@Slf4j
 public class AjCaptchaServiceAutoConfiguration {
+
+    private static Logger logger = LoggerFactory.getLogger(AjCaptchaServiceAutoConfiguration.class);
 
     @Bean
     @ConditionalOnMissingBean
     public CaptchaService captchaService(AjCaptchaProperties ajCaptchaProperties) {
-        log.info("自定义配置项：{}", ajCaptchaProperties.toString());
+        logger.info("自定义配置项：{}", ajCaptchaProperties.toString());
         Properties config = new Properties();
         config.put("captcha.cacheType", ajCaptchaProperties.getCacheType().name());
         config.put("captcha.water.mark", ajCaptchaProperties.getWaterMark());
