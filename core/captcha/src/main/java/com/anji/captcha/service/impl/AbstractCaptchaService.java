@@ -15,13 +15,14 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Properties;
 
 /**
  * Created by raodeming on 2019/12/25.
  */
-public abstract class AbstractCaptchaService implements CaptchaService{
+public abstract class AbstractCaptchaService implements CaptchaService {
 
     private static Logger logger = LoggerFactory.getLogger(AbstractCaptchaService.class);
 
@@ -31,7 +32,7 @@ public abstract class AbstractCaptchaService implements CaptchaService{
 
     protected static int HAN_ZI_SIZE = 25;
 
-    protected static int HAN_ZI_SIZE_HALF = HAN_ZI_SIZE/2;
+    protected static int HAN_ZI_SIZE_HALF = HAN_ZI_SIZE / 2;
 
     //check校验坐标
     protected static String REDIS_CAPTCHA_KEY = "RUNNING:CAPTCHA:%s";
@@ -43,7 +44,7 @@ public abstract class AbstractCaptchaService implements CaptchaService{
 
     protected static Long EXPIRESIN_THREE = 3 * 60L;
 
-    protected static  String waterMark = "我的水印";
+    protected static String waterMark = "我的水印";
 
     protected static String waterMarkFont = "宋体";
 
@@ -57,7 +58,7 @@ public abstract class AbstractCaptchaService implements CaptchaService{
 
     //判断应用是否实现了自定义缓存，没有就使用内存
     @Override
-    public void init(Properties config){
+    public void init(Properties config) {
         //初始化底图
         boolean aBoolean = Boolean.parseBoolean(config.getProperty("captcha.init.original"));
         if (!aBoolean) {
@@ -65,11 +66,11 @@ public abstract class AbstractCaptchaService implements CaptchaService{
                     config.getProperty("captcha.captchaOriginalPath.pic-click"));
         }
         logger.info("--->>>初始化验证码底图<<<---");
-        waterMark = config.getProperty("captcha.water.mark","我的水印");
-        slipOffset = config.getProperty("captcha.slip.offset","5");
-        waterMarkFont = config.getProperty("captcha.water.font","宋体");
-        captchaAesStatus = Boolean.parseBoolean(config.getProperty("captcha.aes.status","true"));
-        fontType = config.getProperty("captcha.font.type","宋体");
+        waterMark = config.getProperty("captcha.water.mark", "我的水印");
+        slipOffset = config.getProperty("captcha.slip.offset", "5");
+        waterMarkFont = config.getProperty("captcha.water.font", "宋体");
+        captchaAesStatus = Boolean.parseBoolean(config.getProperty("captcha.aes.status", "true"));
+        fontType = config.getProperty("captcha.font.type", "宋体");
         cacheType = config.getProperty("captcha.cacheType", "local");
     }
 
@@ -98,11 +99,17 @@ public abstract class AbstractCaptchaService implements CaptchaService{
         this.fontColorRandom = fontColorRandom;
     }
 
-    /** 滑块拼图图片地址 */
+    /**
+     * 滑块拼图图片地址
+     */
     private String jigsawUrlOrPath;
-    /** 点选文字 字体总个数 */
+    /**
+     * 点选文字 字体总个数
+     */
     private int wordTotalCount = 4;
-    /** 点选文字 字体颜色是否随机 */
+    /**
+     * 点选文字 字体颜色是否随机
+     */
     private boolean fontColorRandom = Boolean.TRUE;
 
     public static boolean base64StrToImage(String imgStr, String path) {
@@ -137,12 +144,29 @@ public abstract class AbstractCaptchaService implements CaptchaService{
 
     /**
      * 解密前端坐标aes加密
+     *
      * @param point
      * @return
      * @throws Exception
      */
     public static String decrypt(String point, String key) throws Exception {
         return AESUtil.aesDecrypt(point, key);
+    }
+
+    protected static int getEnOrChLength(String s) {
+        int enCount = 0;
+        int chCount = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int length = String.valueOf(s.charAt(i)).getBytes(StandardCharsets.UTF_8).length;
+            if (length > 1) {
+                chCount++;
+            } else {
+                enCount++;
+            }
+        }
+        int chOffset = (HAN_ZI_SIZE / 2) * chCount + 5;
+        int enOffset = enCount*8;
+        return chOffset + enOffset;
     }
 
 
