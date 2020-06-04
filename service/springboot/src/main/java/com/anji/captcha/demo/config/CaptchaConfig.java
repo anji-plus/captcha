@@ -38,9 +38,7 @@ public class CaptchaConfig {
         config.put("captcha.water.mark", "我是底图");
         config.put("captcha.font.type", "隶书");
         config.put("captcha.type", CaptchaTypeEnum.DEFAULT.getCodeValue());  //default blockPuzzle  clickWord
-        CaptchaService s = CaptchaServiceFactory.getInstance(config);
-        s.init(config);
-        return s;
+        return CaptchaServiceFactory.getInstance(config);
     }
 
 }

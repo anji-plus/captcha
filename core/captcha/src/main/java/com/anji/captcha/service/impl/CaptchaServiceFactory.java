@@ -14,7 +14,12 @@ import java.util.ServiceLoader;
 public class CaptchaServiceFactory {
 
     public static CaptchaService getInstance(Properties config){
-        return instances.get(config.getProperty("captcha.type", "default"));
+        CaptchaService ret = instances.get(config.getProperty("captcha.type", "default"));
+        if(ret == null){
+            throw new RuntimeException("unsupported-[captcha.type]="+config.getProperty("captcha.type"));
+        }
+        ret.init(config);
+        return ret;
     }
 
     public static CaptchaCacheService getCache(String cacheType){
@@ -26,7 +31,7 @@ public class CaptchaServiceFactory {
     static {
         ServiceLoader<CaptchaCacheService> cacheServices = ServiceLoader.load(CaptchaCacheService.class);
         for(CaptchaCacheService item : cacheServices){
-                cacheService.put(item.type(), item);
+            cacheService.put(item.type(), item);
         }
         //Object t = this;
         ServiceLoader<CaptchaService> services = ServiceLoader.load(CaptchaService.class);
