@@ -6,19 +6,14 @@
  */
 package com.anji.captcha.service.impl;
 
+import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
-import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
-import java.util.ServiceLoader;
 
 /**
  * Created by raodeming on 2019/12/25.
@@ -71,6 +66,10 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
             return RepCodeEnum.NULL_ERROR.parseError("二次校验参数");
+        }
+        //默认使用滑动
+        if (StringUtils.isEmpty(captchaVO.getCaptchaType())) {
+            captchaVO.setCaptchaType(CaptchaTypeEnum.BLOCKPUZZLE.getCodeDesc());
         }
         return getService(captchaVO.getCaptchaType()).verification(captchaVO);
     }
