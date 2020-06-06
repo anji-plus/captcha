@@ -152,7 +152,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaservice {
         for (int i = 0; i < wordCount; i++) {
             String word;
             do {
-                word = RandomUtils.getRandomHan(HAN_ZI);
+                word = RandomUtils.getRandomHan();
                 currentWords.add(word);
             } while (!currentWords.contains(word));
 
