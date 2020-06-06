@@ -1,6 +1,7 @@
 package com.anji.captcha.config;
 
 
+import com.anji.captcha.model.common.Const;
 import com.anji.captcha.properties.AjCaptchaProperties;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.service.impl.CaptchaServiceFactory;
@@ -28,21 +29,21 @@ public class AjCaptchaServiceAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public CaptchaService captchaService(AjCaptchaProperties ajCaptchaProperties) {
-        logger.info("自定义配置项：{}", ajCaptchaProperties.toString());
+    public CaptchaService captchaService(AjCaptchaProperties prop) {
+        logger.info("自定义配置项：{}", prop.toString());
         Properties config = new Properties();
-        config.put("captcha.cacheType", ajCaptchaProperties.getCacheType().name());
-        config.put("captcha.water.mark", ajCaptchaProperties.getWaterMark());
-        config.put("captcha.font.type", ajCaptchaProperties.getFontType());
-        config.put("captcha.type", ajCaptchaProperties.getType().getCodeValue());
-        config.put("captcha.captchaOriginalPath.jigsaw", ajCaptchaProperties.getJigsaw());
-        config.put("captcha.captchaOriginalPath.pic-click", ajCaptchaProperties.getPicClick());
+        config.put("captcha.cacheType", prop.getCacheType().name());
+        config.put("captcha.water.mark", prop.getWaterMark());
+        config.put("captcha.font.type", prop.getFontType());
+        config.put("captcha.type", prop.getType().getCodeValue());
+        config.put(Const.originalPath_jigsaw, prop.getJigsaw());
+        config.put(Const.originalPath_picClick, prop.getPicClick());
         CaptchaService s = CaptchaServiceFactory.getInstance(config);
-        if ((StringUtils.isNotBlank(ajCaptchaProperties.getJigsaw()) && ajCaptchaProperties.getJigsaw().startsWith("classpath:"))
-                || (StringUtils.isNotBlank(ajCaptchaProperties.getPicClick()) && ajCaptchaProperties.getPicClick().startsWith("classpath:"))) {
+        if ((StringUtils.isNotBlank(prop.getJigsaw()) && prop.getJigsaw().startsWith("classpath:"))
+                || (StringUtils.isNotBlank(prop.getPicClick()) && prop.getPicClick().startsWith("classpath:"))) {
             //自定义resources目录下初始化底图
             config.put("captcha.init.original", "true");
-            initializeBaseMap(ajCaptchaProperties.getJigsaw(), ajCaptchaProperties.getPicClick());
+            initializeBaseMap(prop.getJigsaw(), prop.getPicClick());
         }
         s.init(config);
         return s;
