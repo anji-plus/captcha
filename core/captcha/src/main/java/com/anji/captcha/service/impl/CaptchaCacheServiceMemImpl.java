@@ -11,7 +11,6 @@ import com.anji.captcha.util.CacheUtil;
  * @author lide1202@hotmail.com
  * @date 2020-05-12
  */
-//@Service(value="captchaCacheServiceMemImpl")
 public class CaptchaCacheServiceMemImpl implements CaptchaCacheService {
     @Override
     public void set(String key, String value, long expiresInSeconds) {

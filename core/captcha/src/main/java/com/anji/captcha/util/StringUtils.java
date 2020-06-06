@@ -6,15 +6,7 @@
  */
 package com.anji.captcha.util;
 
-import java.util.HashMap;
-
 public class StringUtils {
-
-    public static void main(String[] args) {
-        HashMap<String, Object> map = new HashMap<>();
-        map.putAll(new HashMap<>());
-        System.out.println("aaa");
-    }
 
     /**
      * The empty String <code>""</code>.

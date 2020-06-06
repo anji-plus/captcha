@@ -21,7 +21,7 @@ public interface CaptchaService {
      * 配置初始化
      * @throws Exception
      */
-    public void init(Properties config);
+    void init(Properties config);
 
     /**
      * 获取验证码
