@@ -12,7 +12,7 @@ import com.anji.captcha.model.vo.CaptchaVO;
 import java.util.Properties;
 
 /**
- * @Title: 验证码缓存接口
+ * 验证码服务接口
  * @author lide1202@hotmail.com
  * @date 2020-05-12
  */
@@ -46,7 +46,9 @@ public interface CaptchaService {
 
     /***
      * 验证码类型
+     * 通过java SPI机制，接入方可自定义实现类，实现新的验证类型
      * @return
      */
     String captchaType();
+
 }

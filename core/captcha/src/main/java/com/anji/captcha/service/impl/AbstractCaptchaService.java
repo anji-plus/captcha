@@ -6,6 +6,7 @@
  */
 package com.anji.captcha.service.impl;
 
+import com.anji.captcha.model.common.Const;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.ImageUtils;
@@ -62,8 +63,8 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         //初始化底图
         boolean aBoolean = Boolean.parseBoolean(config.getProperty("captcha.init.original"));
         if (!aBoolean) {
-            ImageUtils.cacheImage(config.getProperty("captcha.captchaOriginalPath.jigsaw"),
-                    config.getProperty("captcha.captchaOriginalPath.pic-click"));
+            ImageUtils.cacheImage(config.getProperty(Const.originalPath_jigsaw),
+                    config.getProperty(Const.originalPath_picClick));
         }
         logger.info("--->>>初始化验证码底图<<<---");
         waterMark = config.getProperty("captcha.water.mark", "我的水印");
