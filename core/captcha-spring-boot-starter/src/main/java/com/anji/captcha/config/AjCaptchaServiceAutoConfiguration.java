@@ -36,8 +36,8 @@ public class AjCaptchaServiceAutoConfiguration {
         config.put("captcha.water.mark", prop.getWaterMark());
         config.put("captcha.font.type", prop.getFontType());
         config.put("captcha.type", prop.getType().getCodeValue());
-        config.put(Const.originalPath_jigsaw, prop.getJigsaw());
-        config.put(Const.originalPath_picClick, prop.getPicClick());
+        config.put(Const.ORIGINAL_PATH_JIGSAW, prop.getJigsaw());
+        config.put(Const.ORIGINAL_PATH_PIC_CLICK, prop.getPicClick());
         CaptchaService s = CaptchaServiceFactory.getInstance(config);
         if ((StringUtils.isNotBlank(prop.getJigsaw()) && prop.getJigsaw().startsWith("classpath:"))
                 || (StringUtils.isNotBlank(prop.getPicClick()) && prop.getPicClick().startsWith("classpath:"))) {
