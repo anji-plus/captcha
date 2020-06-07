@@ -8,11 +8,11 @@ public interface Const {
     /**
      *
      */
-    String originalPath_jigsaw = "captcha.captchaOriginalPath.jigsaw";
+    String ORIGINAL_PATH_JIGSAW = "captcha.captchaOriginalPath.jigsaw";
 
     /***
      *
      */
-    String originalPath_picClick = "captcha.captchaOriginalPath.pic-click";
+    String ORIGINAL_PATH_PIC_CLICK = "captcha.captchaOriginalPath.pic-click";
 
 }

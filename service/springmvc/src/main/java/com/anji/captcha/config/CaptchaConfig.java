@@ -46,17 +46,17 @@ public class CaptchaConfig {
         config.put("captcha.water.mark", "我是水印");
         config.put("captcha.font.type", "宋体");
         config.put("captcha.type", "default");
-        config.put(Const.originalPath_jigsaw, "");
-        config.put(Const.originalPath_picClick, "");
+        config.put(Const.ORIGINAL_PATH_JIGSAW, "");
+        config.put(Const.ORIGINAL_PATH_PIC_CLICK, "");
         CaptchaService s = CaptchaServiceFactory.getInstance(config);
-        if ((StringUtils.isNotBlank(config.getProperty(Const.originalPath_jigsaw))
-                && config.getProperty(Const.originalPath_jigsaw).startsWith("classpath:"))
-                || (StringUtils.isNotBlank(config.getProperty(Const.originalPath_picClick))
-                && config.getProperty(Const.originalPath_picClick).startsWith("classpath:"))) {
+        if ((StringUtils.isNotBlank(config.getProperty(Const.ORIGINAL_PATH_JIGSAW))
+                && config.getProperty(Const.ORIGINAL_PATH_JIGSAW).startsWith("classpath:"))
+                || (StringUtils.isNotBlank(config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK))
+                && config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK).startsWith("classpath:"))) {
             //自定义resources目录下初始化底图
             config.put("captcha.init.original", "true");
-            initializeBaseMap(config.getProperty(Const.originalPath_jigsaw),
-                    config.getProperty(Const.originalPath_picClick));
+            initializeBaseMap(config.getProperty(Const.ORIGINAL_PATH_JIGSAW),
+                    config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK));
         }
         s.init(config);
         return s;
