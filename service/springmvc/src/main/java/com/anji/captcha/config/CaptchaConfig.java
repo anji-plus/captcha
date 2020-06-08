@@ -1,5 +1,6 @@
-package com.anji.captcha.web.config;
+package com.anji.captcha.config;
 
+import com.anji.captcha.model.common.Const;
 import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.service.impl.CaptchaServiceFactory;
@@ -45,14 +46,17 @@ public class CaptchaConfig {
         config.put("captcha.water.mark", "我是水印");
         config.put("captcha.font.type", "宋体");
         config.put("captcha.type", "default");
-        config.put("captcha.captchaOriginalPath.jigsaw", "");
-        config.put("captcha.captchaOriginalPath.pic-click", "");
+        config.put(Const.ORIGINAL_PATH_JIGSAW, "");
+        config.put(Const.ORIGINAL_PATH_PIC_CLICK, "");
         CaptchaService s = CaptchaServiceFactory.getInstance(config);
-        if ((StringUtils.isNotBlank(config.getProperty("captcha.captchaOriginalPath.jigsaw")) && config.getProperty("captcha.captchaOriginalPath.jigsaw").startsWith("classpath:"))
-                || (StringUtils.isNotBlank(config.getProperty("captcha.captchaOriginalPath.pic-click")) && config.getProperty("captcha.captchaOriginalPath.pic-click").startsWith("classpath:"))) {
+        if ((StringUtils.isNotBlank(config.getProperty(Const.ORIGINAL_PATH_JIGSAW))
+                && config.getProperty(Const.ORIGINAL_PATH_JIGSAW).startsWith("classpath:"))
+                || (StringUtils.isNotBlank(config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK))
+                && config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK).startsWith("classpath:"))) {
             //自定义resources目录下初始化底图
             config.put("captcha.init.original", "true");
-            initializeBaseMap(config.getProperty("captcha.captchaOriginalPath.jigsaw"), config.getProperty("captcha.captchaOriginalPath.pic-click"));
+            initializeBaseMap(config.getProperty(Const.ORIGINAL_PATH_JIGSAW),
+                    config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK));
         }
         s.init(config);
         return s;
