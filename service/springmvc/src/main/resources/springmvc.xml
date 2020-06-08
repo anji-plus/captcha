@@ -12,7 +12,23 @@
     <mvc:annotation-driven />
 
     <!-- 对包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 需要更改 -->
-    <context:component-scan base-package="com.anji.captcha.web" />
+    <context:component-scan base-package="com.anji.captcha" />
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes" value="application/json" />
+                <property name="features">
+                    <list>
+                        <!--设置null值也要输出，fastjson默认是关闭的-->
+                        <value>WriteMapNullValue</value>
+                        <!--设置使用文本方式输出日期，fastjson默认是long-->
+                        <value>WriteDateUseDateFormat</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <!-- 引入同文件夹下的redis属性配置文件 -->
     <import resource="redis-context.xml"/>

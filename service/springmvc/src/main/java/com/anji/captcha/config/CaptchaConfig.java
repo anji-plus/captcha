@@ -23,14 +23,14 @@ import java.util.Properties;
 public class CaptchaConfig {
 
     @Bean(name = "AjCaptchaCacheService")
-    public CaptchaCacheService captchaCacheService(){
+    public CaptchaCacheService captchaCacheService() {
         //缓存类型redis/local/....
         return CaptchaServiceFactory.getCache("local");
     }
 
     @Bean
     @DependsOn("AjCaptchaCacheService")
-    public CaptchaService captchaService(){
+    public CaptchaService captchaService() {
         Properties config = new Properties();
 //        try {
 //            try (InputStream input = CaptchaConfig.class.getClassLoader()
