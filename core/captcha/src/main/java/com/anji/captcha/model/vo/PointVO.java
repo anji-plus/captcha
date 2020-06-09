@@ -1,7 +1,5 @@
 package com.anji.captcha.model.vo;
 
-import java.awt.*;
-
 /**
  * Created by raodeming on 2020/5/16.
  */
