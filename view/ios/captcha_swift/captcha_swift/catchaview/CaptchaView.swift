@@ -75,6 +75,7 @@ class CaptchaView: UIView {
     
     var needEncryption = false;
 
+
     //========puzzle============
     //滑块父view
     let sliderView = UIView()
@@ -202,7 +203,7 @@ class CaptchaView: UIView {
     /// 请求校验接口
     func requestCheckData(pointJson: String = "", token: String, pointStr: String){
         CaptchaRequest.captchaCheck(currentType, pointJson: pointJson, token: self.repModel.token, success: { (model) in
-
+            
             var successStr = "\(token)---\(pointStr)";
             if(self.repModel.secretKey.count > 0){
                 successStr = ESConfig.aesEncrypt(successStr, self.repModel.secretKey)
@@ -258,7 +259,7 @@ class CaptchaView: UIView {
     func checkResult(_ point:CGPoint){
         switch currentType {
         case .puzzle:
-
+            
             var pointJson = "";
             let pointEncode = ESConfig.jsonEncode(CaptchaRequestModel(x: point.x, y: 5))
             //请求数据有secretKey 走加密  否则不走加密

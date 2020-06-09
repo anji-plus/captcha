@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Created by raodeming on 2019/12/25.
- */
-@RestController("ajCaptchaController")
+
+@RestController
 @RequestMapping("/captcha")
 public class CaptchaController {
 
@@ -39,6 +37,5 @@ public class CaptchaController {
     public ResponseModel verify(@RequestBody CaptchaVO captchaVO) {
         return captchaService.verification(captchaVO);
     }
-
 
 }
