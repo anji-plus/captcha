@@ -6,7 +6,7 @@
 
     <groupId>com.github.anji-plus</groupId>
     <artifactId>captcha</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.2.1</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>anji-plus captcha.jar</description>
@@ -122,7 +122,7 @@
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
-                                <phase>site</phase>
+                                <phase>verify</phase>
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
