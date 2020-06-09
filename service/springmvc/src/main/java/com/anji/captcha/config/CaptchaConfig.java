@@ -48,7 +48,6 @@ public class CaptchaConfig {
         config.put("captcha.type", "default");
         config.put(Const.ORIGINAL_PATH_JIGSAW, "");
         config.put(Const.ORIGINAL_PATH_PIC_CLICK, "");
-        CaptchaService s = CaptchaServiceFactory.getInstance(config);
         if ((StringUtils.isNotBlank(config.getProperty(Const.ORIGINAL_PATH_JIGSAW))
                 && config.getProperty(Const.ORIGINAL_PATH_JIGSAW).startsWith("classpath:"))
                 || (StringUtils.isNotBlank(config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK))
@@ -58,7 +57,7 @@ public class CaptchaConfig {
             initializeBaseMap(config.getProperty(Const.ORIGINAL_PATH_JIGSAW),
                     config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK));
         }
-        s.init(config);
+        CaptchaService s = CaptchaServiceFactory.getInstance(config);
         return s;
     }
 
