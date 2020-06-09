@@ -45,6 +45,7 @@
   </dependencyManagement>
   <modules>
     <module>core/captcha</module>
+    <module>core/captcha-spring-boot-starter</module>
     <module>service/springmvc</module>
     <module>service/springboot</module>
   </modules>

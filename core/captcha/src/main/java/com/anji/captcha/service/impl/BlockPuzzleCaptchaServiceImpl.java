@@ -7,6 +7,7 @@
 package com.anji.captcha.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
@@ -17,41 +18,33 @@ import com.anji.captcha.util.RandomUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
+import java.util.Properties;
 import java.util.Random;
 
 /**
  * 滑动验证码
- * <p>
+ *
  * Created by raodeming on 2019/12/25.
  */
-@Component(value = "blockPuzzleCaptchaService")
-public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
+public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
 
     private static Logger logger = LoggerFactory.getLogger(BlockPuzzleCaptchaServiceImpl.class);
 
-    @Value("${captcha.water.mark:'我的水印'}")
-    private String waterMark;
 
-    @Value("${captcha.water.font:'宋体'}")
-    private String waterMarkFont;
+    @Override
+    public void init(Properties config){
+        super.init(config);
+    }
 
-    @Value("${captcha.slip.offset:5}")
-    private String slipOffset;
-
-
-    private static Boolean captchaAesStatus;
-
-    @Value("${captcha.aes.status:true}")
-    public void setCaptchaAesStatus(Boolean captchaAesStatus) {
-        BlockPuzzleCaptchaServiceImpl.captchaAesStatus = captchaAesStatus;
+    @Override
+    public String captchaType() {
+        return CaptchaTypeEnum.BLOCKPUZZLE.getCodeValue();
     }
 
     @Override
@@ -59,6 +52,10 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
         //原生图片
         BufferedImage originalImage = ImageUtils.getOriginal();
+        if (null == originalImage) {
+            logger.error("滑动底图未初始化成功，请检查路径");
+            return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_BASEMAP_NULL);
+        }
         //设置水印
         Graphics backgroundGraphics = originalImage.getGraphics();
         int width = originalImage.getWidth();
@@ -66,10 +63,14 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
         Font watermark = new Font(waterMarkFont, Font.BOLD, HAN_ZI_SIZE / 2);
         backgroundGraphics.setFont(watermark);
         backgroundGraphics.setColor(Color.white);
-        backgroundGraphics.drawString(waterMark, width - ((HAN_ZI_SIZE / 2) * (waterMark.length())) - 5, height - (HAN_ZI_SIZE / 2) + 7);
+        backgroundGraphics.drawString(waterMark, width - getEnOrChLength(waterMark), height - (HAN_ZI_SIZE / 2) + 7);
 
         //抠图图片
         BufferedImage jigsawImage = ImageUtils.getslidingBlock();
+        if (null == jigsawImage) {
+            logger.error("滑动底图未初始化成功，请检查路径");
+            return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_BASEMAP_NULL);
+        }
         CaptchaVO captcha = pictureTemplatesCut(originalImage, jigsawImage);
         if (captcha == null
                 || StringUtils.isBlank(captcha.getJigsawImageBase64())
@@ -83,12 +84,12 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
     public ResponseModel check(CaptchaVO captchaVO) {
         //取坐标信息
         String codeKey = String.format(REDIS_CAPTCHA_KEY, captchaVO.getToken());
-        if (!captchaCacheService.exists(codeKey)) {
+        if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
         }
-        String s = captchaCacheService.get(codeKey);
+        String s = CaptchaServiceFactory.getCache(cacheType).get(codeKey);
         //验证码只用一次，即刻失效
-        captchaCacheService.delete(codeKey);
+        CaptchaServiceFactory.getCache(cacheType).delete(codeKey);
         PointVO point = null;
         PointVO point1 = null;
         String pointJson = null;
@@ -116,14 +117,31 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
             return ResponseModel.errorMsg(e.getMessage());
         }
         String secondKey = String.format(REDIS_SECOND_CAPTCHA_KEY, value);
-        captchaCacheService.set(secondKey, captchaVO.getToken(), EXPIRESIN_THREE);
+        CaptchaServiceFactory.getCache(cacheType).set(secondKey, captchaVO.getToken(), EXPIRESIN_THREE);
         captchaVO.setResult(true);
         return ResponseModel.successData(captchaVO);
     }
 
     @Override
     public ResponseModel verification(CaptchaVO captchaVO) {
-        return null;
+        if (captchaVO == null) {
+            return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
+        }
+        if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
+            return RepCodeEnum.NULL_ERROR.parseError("captchaVerification");
+        }
+        try {
+            String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getCaptchaVerification());
+            if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
+                return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
+            }
+            //二次校验取值后，即刻失效
+            CaptchaServiceFactory.getCache(cacheType).delete(codeKey);
+        } catch (Exception e) {
+            logger.error("验证码坐标解析失败", e);
+            return ResponseModel.errorMsg(e.getMessage());
+        }
+        return ResponseModel.success();
     }
 
     /**
@@ -142,8 +160,8 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
             //随机生成拼图坐标
             PointVO point = generateJigsawPoint(originalWidth, originalHeight, jigsawWidth, jigsawHeight);
-            int x = (int) point.getX();
-            int y = (int) point.getY();
+            int x = point.getX();
+            int y = point.getY();
 
             //生成新的拼图图像
             BufferedImage newJigsawImage = new BufferedImage(jigsawWidth, jigsawHeight, jigsawImage.getType());
@@ -180,8 +198,8 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaservice {
 
             //将坐标信息存入redis中
             String codeKey = String.format(REDIS_CAPTCHA_KEY, dataVO.getToken());
-            captchaCacheService.set(codeKey, JSONObject.toJSONString(point), EXPIRESIN_SECONDS);
-
+            CaptchaServiceFactory.getCache(cacheType).set(codeKey, JSONObject.toJSONString(point), EXPIRESIN_SECONDS);
+            logger.debug("token：{},point:{}", dataVO.getToken(), JSONObject.toJSONString(point));
             return dataVO;
         } catch (Exception e) {
             e.printStackTrace();
