@@ -57,6 +57,8 @@ public abstract class AbstractCaptchaService implements CaptchaService {
 
     protected static String cacheType = "local";
 
+    protected static int captchaInterferenceOptions = 0;
+
     //判断应用是否实现了自定义缓存，没有就使用内存
     @Override
     public void init(Properties config) {
@@ -67,12 +69,13 @@ public abstract class AbstractCaptchaService implements CaptchaService {
                     config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK));
         }
         logger.info("--->>>初始化验证码底图<<<---");
-        waterMark = config.getProperty("captcha.water.mark", "我的水印");
-        slipOffset = config.getProperty("captcha.slip.offset", "5");
-        waterMarkFont = config.getProperty("captcha.water.font", "宋体");
-        captchaAesStatus = Boolean.parseBoolean(config.getProperty("captcha.aes.status", "true"));
-        fontType = config.getProperty("captcha.font.type", "宋体");
-        cacheType = config.getProperty("captcha.cacheType", "local");
+        waterMark = config.getProperty(Const.CAPTCHA_WATER_MARK, "我的水印");
+        slipOffset = config.getProperty(Const.CAPTCHA_SLIP_OFFSET, "5");
+        waterMarkFont = config.getProperty(Const.CAPTCHA_WATER_FONT, "宋体");
+        captchaAesStatus = Boolean.parseBoolean(config.getProperty(Const.CAPTCHA_AES_STATUS, "true"));
+        fontType = config.getProperty(Const.CAPTCHA_FONT_TYPE, "宋体");
+        cacheType = config.getProperty(Const.CAPTCHA_CACHETYPE, "local");
+        captchaInterferenceOptions = Integer.parseInt(config.getProperty(Const.CAPTCHA_INTERFERENCE_OPTIONS, "0"));
     }
 
 
@@ -166,7 +169,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
             }
         }
         int chOffset = (HAN_ZI_SIZE / 2) * chCount + 5;
-        int enOffset = enCount*8;
+        int enOffset = enCount * 8;
         return chOffset + enOffset;
     }
 
