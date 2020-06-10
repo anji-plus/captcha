@@ -52,6 +52,11 @@ public class AjCaptchaProperties {
     private Boolean aesStatus = true;
 
     /**
+     * 滑块干扰项(0/1/2)
+     */
+    private String interferenceOptions = "0";
+
+    /**
      * 缓存类型redis/local/....
      */
     private StorageType cacheType = local;
@@ -141,5 +146,13 @@ public class AjCaptchaProperties {
 
     public void setCacheType(StorageType cacheType) {
         this.cacheType = cacheType;
+    }
+
+    public String getInterferenceOptions() {
+        return interferenceOptions;
+    }
+
+    public void setInterferenceOptions(String interferenceOptions) {
+        this.interferenceOptions = interferenceOptions;
     }
 }

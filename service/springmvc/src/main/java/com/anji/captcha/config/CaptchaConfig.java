@@ -46,6 +46,7 @@ public class CaptchaConfig {
         config.put("captcha.water.mark", "我是水印");
         config.put("captcha.font.type", "宋体");
         config.put("captcha.type", "default");
+        config.put("captcha.interference.options", "0");
         config.put(Const.ORIGINAL_PATH_JIGSAW, "");
         config.put(Const.ORIGINAL_PATH_PIC_CLICK, "");
         if ((StringUtils.isNotBlank(config.getProperty(Const.ORIGINAL_PATH_JIGSAW))
