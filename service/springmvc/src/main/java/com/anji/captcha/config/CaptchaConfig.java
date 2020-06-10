@@ -42,19 +42,22 @@ public class CaptchaConfig {
 //        }
         //各种参数设置....
         //缓存类型redis/local/....
-        config.put("captcha.cacheType", "local");
-        config.put("captcha.water.mark", "我是水印");
-        config.put("captcha.font.type", "宋体");
-        config.put("captcha.type", "default");
-        config.put("captcha.interference.options", "0");
+        config.put(Const.CAPTCHA_CACHETYPE, "local");
+        config.put(Const.CAPTCHA_WATER_MARK, "我的水印");
+        config.put(Const.CAPTCHA_FONT_TYPE, "宋体");
+        config.put(Const.CAPTCHA_TYPE, "default");
+        config.put(Const.CAPTCHA_INTERFERENCE_OPTIONS, "0");
         config.put(Const.ORIGINAL_PATH_JIGSAW, "");
         config.put(Const.ORIGINAL_PATH_PIC_CLICK, "");
+        config.put(Const.CAPTCHA_SLIP_OFFSET, "5");
+        config.put(Const.CAPTCHA_AES_STATUS, "true");
+        config.put(Const.CAPTCHA_WATER_FONT, "宋体");
         if ((StringUtils.isNotBlank(config.getProperty(Const.ORIGINAL_PATH_JIGSAW))
                 && config.getProperty(Const.ORIGINAL_PATH_JIGSAW).startsWith("classpath:"))
                 || (StringUtils.isNotBlank(config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK))
                 && config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK).startsWith("classpath:"))) {
             //自定义resources目录下初始化底图
-            config.put("captcha.init.original", "true");
+            config.put(Const.CAPTCHA_INIT_ORIGINAL, "true");
             initializeBaseMap(config.getProperty(Const.ORIGINAL_PATH_JIGSAW),
                     config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK));
         }
