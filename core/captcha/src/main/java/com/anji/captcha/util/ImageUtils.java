@@ -68,14 +68,14 @@ public class ImageUtils {
         return getBase64StrToImage(s);
     }
 
-    public static BufferedImage getslidingBlock() {
+    public static String getslidingBlock() {
         String[] strings = fileNameMap.get(CaptchaBaseMapEnum.SLIDING_BLOCK.getCodeValue());
         if (null == strings || strings.length == 0) {
             return null;
         }
         Integer randomInt = RandomUtils.getRandomInt(0, strings.length);
         String s = slidingBlockCacheMap.get(strings[randomInt]);
-        return getBase64StrToImage(s);
+        return s;
     }
 
     public static BufferedImage getPicClick() {
