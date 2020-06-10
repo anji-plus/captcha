@@ -63,7 +63,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
     @Override
     public void init(Properties config) {
         //初始化底图
-        boolean aBoolean = Boolean.parseBoolean(config.getProperty("captcha.init.original"));
+        boolean aBoolean = Boolean.parseBoolean(config.getProperty(Const.CAPTCHA_INIT_ORIGINAL));
         if (!aBoolean) {
             ImageUtils.cacheImage(config.getProperty(Const.ORIGINAL_PATH_JIGSAW),
                     config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK));
