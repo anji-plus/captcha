@@ -32,16 +32,20 @@ public class AjCaptchaServiceAutoConfiguration {
     public CaptchaService captchaService(AjCaptchaProperties prop) {
         logger.info("自定义配置项：{}", prop);
         Properties config = new Properties();
-        config.put("captcha.cacheType", prop.getCacheType().name());
-        config.put("captcha.water.mark", prop.getWaterMark());
-        config.put("captcha.font.type", prop.getFontType());
-        config.put("captcha.type", prop.getType().getCodeValue());
+        config.put(Const.CAPTCHA_CACHETYPE, prop.getCacheType().name());
+        config.put(Const.CAPTCHA_WATER_MARK, prop.getWaterMark());
+        config.put(Const.CAPTCHA_FONT_TYPE, prop.getFontType());
+        config.put(Const.CAPTCHA_TYPE, prop.getType().getCodeValue());
+        config.put(Const.CAPTCHA_INTERFERENCE_OPTIONS, prop.getInterferenceOptions());
         config.put(Const.ORIGINAL_PATH_JIGSAW, prop.getJigsaw());
         config.put(Const.ORIGINAL_PATH_PIC_CLICK, prop.getPicClick());
+        config.put(Const.CAPTCHA_SLIP_OFFSET, prop.getSlipOffset());
+        config.put(Const.CAPTCHA_AES_STATUS, prop.getAesStatus());
+        config.put(Const.CAPTCHA_WATER_FONT, prop.getWaterFont());
         if ((StringUtils.isNotBlank(prop.getJigsaw()) && prop.getJigsaw().startsWith("classpath:"))
                 || (StringUtils.isNotBlank(prop.getPicClick()) && prop.getPicClick().startsWith("classpath:"))) {
             //自定义resources目录下初始化底图
-            config.put("captcha.init.original", "true");
+            config.put(Const.CAPTCHA_INIT_ORIGINAL, "true");
             initializeBaseMap(prop.getJigsaw(), prop.getPicClick());
         }
         CaptchaService s = CaptchaServiceFactory.getInstance(config);
