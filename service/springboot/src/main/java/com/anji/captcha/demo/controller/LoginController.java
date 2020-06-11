@@ -1,5 +1,6 @@
 package com.anji.captcha.demo.controller;
 
+import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
@@ -21,6 +22,7 @@ public class LoginController {
     public ResponseModel get(@RequestParam("captchaVerification") String captchaVerification) {
         CaptchaVO captchaVO = new CaptchaVO();
         captchaVO.setCaptchaVerification(captchaVerification);
+        captchaVO.setCaptchaType(CaptchaTypeEnum.BLOCKPUZZLE.getCodeValue());
         ResponseModel response = captchaService.verification(captchaVO);
         if(response.isSuccess() == false){
             //验证码校验失败，返回信息告诉前端
