@@ -155,4 +155,20 @@ public class AjCaptchaProperties {
     public void setInterferenceOptions(String interferenceOptions) {
         this.interferenceOptions = interferenceOptions;
     }
+
+    @Override
+    public String toString() {
+        return "AjCaptchaProperties{" +
+                "type=" + type +
+                ", jigsaw='" + jigsaw + '\'' +
+                ", picClick='" + picClick + '\'' +
+                ", waterMark='" + waterMark + '\'' +
+                ", waterFont='" + waterFont + '\'' +
+                ", fontType='" + fontType + '\'' +
+                ", slipOffset='" + slipOffset + '\'' +
+                ", aesStatus=" + aesStatus +
+                ", interferenceOptions='" + interferenceOptions + '\'' +
+                ", cacheType=" + cacheType +
+                '}';
+    }
 }
