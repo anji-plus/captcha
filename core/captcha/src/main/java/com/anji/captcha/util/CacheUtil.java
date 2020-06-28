@@ -31,13 +31,15 @@ public final class CacheUtil {
      */
     public static void init(int cacheMaxNumber, long second) {
         CACHE_MAX_NUMBER = cacheMaxNumber;
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                refresh();
-            }
-        }, 0, second * 1000);
+        if (second > 0L) {
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    refresh();
+                }
+            }, 0, second * 1000);
+        }
     }
 
 
