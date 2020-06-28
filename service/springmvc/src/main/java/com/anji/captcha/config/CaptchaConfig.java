@@ -52,6 +52,8 @@ public class CaptchaConfig {
         config.put(Const.CAPTCHA_SLIP_OFFSET, "5");
         config.put(Const.CAPTCHA_AES_STATUS, "true");
         config.put(Const.CAPTCHA_WATER_FONT, "宋体");
+        config.put(Const.CAPTCHA_CACAHE_MAX_NUMBER, "1000");
+        config.put(Const.CAPTCHA_TIMING_CLEAR_SECOND, "180");
         if ((StringUtils.isNotBlank(config.getProperty(Const.ORIGINAL_PATH_JIGSAW))
                 && config.getProperty(Const.ORIGINAL_PATH_JIGSAW).startsWith("classpath:"))
                 || (StringUtils.isNotBlank(config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK))
