@@ -27,7 +27,9 @@
 ![时序图](https://mirror.anji-plus.com/captcha-web/static/shixu.png "时序图")
 
 # 4 目录结构
-├─core    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;     java后端jar包<br>
+├─core<br>
+│&emsp;├─captcha   &emsp;&emsp;    java核心源码<br>
+│&emsp;└─captcha-spring-boot-starter    &emsp;&emsp;    springboot快速启动<br>
 ├─images    &emsp;&emsp;&emsp;&emsp;&emsp;    效果图<br>
 ├─service<br>
 │&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
@@ -62,5 +64,7 @@ I  Your application is running here: http://localhost:8081
 
 # 6 技术支持微信群
 <img src="https://mirror.anji-plus.com/captcha-web/static/weixin.png" width = "200" height = "200" div align=left />
+
+ #### 开源不易，劳烦各位star ☺
 
 
