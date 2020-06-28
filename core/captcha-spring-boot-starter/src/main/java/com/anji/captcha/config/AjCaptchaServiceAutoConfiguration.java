@@ -30,7 +30,7 @@ public class AjCaptchaServiceAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public CaptchaService captchaService(AjCaptchaProperties prop) {
-        logger.info("自定义配置项：{}", prop);
+        logger.info("自定义配置项：{}", prop.toString());
         Properties config = new Properties();
         config.put(Const.CAPTCHA_CACHETYPE, prop.getCacheType().name());
         config.put(Const.CAPTCHA_WATER_MARK, prop.getWaterMark());
@@ -42,6 +42,8 @@ public class AjCaptchaServiceAutoConfiguration {
         config.put(Const.CAPTCHA_SLIP_OFFSET, prop.getSlipOffset());
         config.put(Const.CAPTCHA_AES_STATUS, prop.getAesStatus());
         config.put(Const.CAPTCHA_WATER_FONT, prop.getWaterFont());
+        config.put(Const.CAPTCHA_CACAHE_MAX_NUMBER, prop.getCacheNumber());
+        config.put(Const.CAPTCHA_TIMING_CLEAR_SECOND, prop.getTimingClear());
         if ((StringUtils.isNotBlank(prop.getJigsaw()) && prop.getJigsaw().startsWith("classpath:"))
                 || (StringUtils.isNotBlank(prop.getPicClick()) && prop.getPicClick().startsWith("classpath:"))) {
             //自定义resources目录下初始化底图
