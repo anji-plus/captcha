@@ -57,6 +57,16 @@ public class AjCaptchaProperties {
     private String interferenceOptions = "0";
 
     /**
+     * local缓存的阈值
+     */
+    private String cacheNumber = "1000";
+
+    /**
+     * 定时清理过期local缓存(单位秒)
+     */
+    private String timingClear = "180";
+
+    /**
      * 缓存类型redis/local/....
      */
     private StorageType cacheType = local;
@@ -156,6 +166,22 @@ public class AjCaptchaProperties {
         this.interferenceOptions = interferenceOptions;
     }
 
+    public String getCacheNumber() {
+        return cacheNumber;
+    }
+
+    public void setCacheNumber(String cacheNumber) {
+        this.cacheNumber = cacheNumber;
+    }
+
+    public String getTimingClear() {
+        return timingClear;
+    }
+
+    public void setTimingClear(String timingClear) {
+        this.timingClear = timingClear;
+    }
+
     @Override
     public String toString() {
         return "AjCaptchaProperties{" +
@@ -168,6 +194,8 @@ public class AjCaptchaProperties {
                 ", slipOffset='" + slipOffset + '\'' +
                 ", aesStatus=" + aesStatus +
                 ", interferenceOptions='" + interferenceOptions + '\'' +
+                ", cacheNumber='" + cacheNumber + '\'' +
+                ", timingClear='" + timingClear + '\'' +
                 ", cacheType=" + cacheType +
                 '}';
     }

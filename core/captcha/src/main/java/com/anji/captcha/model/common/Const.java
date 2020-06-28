@@ -59,4 +59,14 @@ public interface Const {
      * 右下角水印字体(宋体)
      */
     String CAPTCHA_WATER_FONT = "captcha.water.font";
+
+    /**
+     * local缓存的阈值
+     */
+    String CAPTCHA_CACAHE_MAX_NUMBER = "captcha.cache.number";
+
+    /**
+     * 定时清理过期local缓存，秒
+     */
+    String CAPTCHA_TIMING_CLEAR_SECOND = "captcha.timing.clear";
 }

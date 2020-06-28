@@ -9,6 +9,7 @@ package com.anji.captcha.service.impl;
 import com.anji.captcha.model.common.Const;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
+import com.anji.captcha.util.CacheUtil;
 import com.anji.captcha.util.ImageUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +77,11 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         fontType = config.getProperty(Const.CAPTCHA_FONT_TYPE, "宋体");
         cacheType = config.getProperty(Const.CAPTCHA_CACHETYPE, "local");
         captchaInterferenceOptions = Integer.parseInt(config.getProperty(Const.CAPTCHA_INTERFERENCE_OPTIONS, "0"));
+        if (cacheType.equals("local")) {
+            logger.info("初始化local缓存...");
+            CacheUtil.init(Integer.parseInt(config.getProperty(Const.CAPTCHA_CACAHE_MAX_NUMBER, "1000")),
+                    Long.parseLong(config.getProperty(Const.CAPTCHA_TIMING_CLEAR_SECOND, "180")));
+        }
     }
 
 
