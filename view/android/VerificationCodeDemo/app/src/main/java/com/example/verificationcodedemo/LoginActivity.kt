@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.verificationcodedemo.widget.BlockPuzzleDialog
 import com.example.verificationcodedemo.widget.WordCaptchaDialog
 import kotlinx.android.synthetic.main.activity_login.*
@@ -24,6 +25,21 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        blockPuzzleDialog.setOnResultsListener(object : BlockPuzzleDialog.OnResultsListener{
+            override fun onResultsClick(result: String) {
+                //todo 二次校验回调结果
+                val s = result
+                Log.e("wuyan","result:"+result);
+            }
+        })
+
+        wordCaptchaDialog.setOnResultsListener(object : WordCaptchaDialog.OnResultsListener{
+            override fun onResultsClick(result: String) {
+                //todo 二次校验回调结果
+                val s = result
+                Log.e("wuyan","result:"+result);
+            }
+        })
         bGo.setOnClickListener {
             blockPuzzleDialog.show()
         }
