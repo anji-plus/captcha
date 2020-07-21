@@ -2,6 +2,7 @@ package com.example.verificationcodejavademo;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,6 +26,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         bGo_word.setOnClickListener(this);
         blockPuzzleDialog=new BlockPuzzleDialog(this);
         wordCaptchaDialog=new WordCaptchaDialog(this);
+
+        blockPuzzleDialog.setOnResultsListener(new BlockPuzzleDialog.OnResultsListener() {
+            @Override
+            public void onResultsClick(String result) {
+                //todo 二次校验回调结果
+                String s=result;
+            }
+        });
+        wordCaptchaDialog.setOnResultsListener(new WordCaptchaDialog.OnResultsListener() {
+            @Override
+            public void onResultsClick(String result) {
+                //todo 二次校验回调结果
+                String s=result;
+            }
+        });
     }
 
     @Override
