@@ -18,6 +18,7 @@ import com.example.verificationcodedemo.R
 import com.example.verificationcodedemo.model.CaptchaCheckOt
 import com.example.verificationcodedemo.model.CaptchaGetOt
 import com.example.verificationcodedemo.network.Configuration
+import com.example.verificationcodedemo.network.Configuration.token
 import com.example.verificationcodedemo.utils.AESUtil
 import com.example.verificationcodedemo.utils.ImageUtil
 import kotlinx.android.synthetic.main.dialog_word_captcha.*
@@ -155,6 +156,10 @@ class WordCaptchaDialog : Dialog {
                                 loadCaptcha()
                             }, 2000
                         )
+
+                        val result = token + "---" + pointListStr
+                        mOnResultsListener!!.onResultsClick(AESUtil.encode(result, key))
+
                     }
                     else -> {
                         bottomTitle.text = "验证失败"
@@ -198,6 +203,16 @@ class WordCaptchaDialog : Dialog {
         if (handler == null)
             handler = Handler(Looper.getMainLooper())
         handler!!.postDelayed(run, de.toLong())
+    }
+
+    var mOnResultsListener: OnResultsListener? = null
+
+    interface OnResultsListener {
+        fun onResultsClick(result: String)
+    }
+
+    fun setOnResultsListener(mOnResultsListener: OnResultsListener) {
+        this.mOnResultsListener = mOnResultsListener
     }
 
 

@@ -162,6 +162,10 @@ public class WordCaptchaDialog extends Dialog {
                         dismiss();
                     }
                 }, 1000);
+                if (mOnResultsListener!=null){
+                    String result=token+"---"+cryptedStr;
+                    mOnResultsListener.onResultsClick(AESUtil.encode(result,key));
+                }
             }
 
             @Override
@@ -188,5 +192,15 @@ public class WordCaptchaDialog extends Dialog {
                 checkCaptcha(cryptedStr);
             }
         });
+    }
+
+    private OnResultsListener mOnResultsListener;
+
+    public interface OnResultsListener {
+        void onResultsClick(String result);
+    }
+
+    public void setOnResultsListener(OnResultsListener mOnResultsListener) {
+        this.mOnResultsListener = mOnResultsListener;
     }
 }
