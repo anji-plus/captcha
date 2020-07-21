@@ -42,7 +42,7 @@ ServerApi.kt
 
 ### 校验注意事项
 ```
-请求验证码接口中会有secretKey参数，当secretKey有值， 进行as加密， 加密key为
+请求验证码接口中会有secretKey参数，当secretKey有值， 进行aes加密， 加密key为
 secretKey,不加密情况下pointJson为json系列化为字符串
 
   //secretKey有值 代表需要进行加密，否则不加密
@@ -60,8 +60,6 @@ secretKey,不加密情况下pointJson为json系列化为字符串
 
 ### 二次校验传参
 ```
-请求验证码接口中会有secretKey参数，当secretKey有值， 进行as加密， 加密key为
-secretKey,不加密情况下pointJson为json系列化为字符串
 
 BlockPuzzleDialog.kt/WordCaptchaDialog.kt
 
@@ -73,16 +71,14 @@ LoginActivity.kt
       blockPuzzleDialog.setOnResultsListener(object : BlockPuzzleDialog.OnResultsListener{
             override fun onResultsClick(result: String) {
                 //todo 二次校验回调结果
-                val s = result
-                Log.e("wuyan","result:"+result);
+                val s = result          
             }
         })
 
         wordCaptchaDialog.setOnResultsListener(object : WordCaptchaDialog.OnResultsListener{
             override fun onResultsClick(result: String) {
                 //todo 二次校验回调结果
-                val s = result
-                Log.e("wuyan","result:"+result);
+                val s = result              
             }
         })    
   
@@ -131,7 +127,7 @@ RxExceptionUtil
 
 ### 校验注意事项
 ```
-请求验证码接口中会有secretKey参数，当secretKey有值， 进行as加密， 加密key为
+请求验证码接口中会有secretKey参数，当secretKey有值， 进行aes加密， 加密key为
 secretKey,不加密情况下pointJson为json系列化为字符串
 
   //secretKey有值 代表需要进行加密，否则不加密
@@ -149,8 +145,6 @@ secretKey,不加密情况下pointJson为json系列化为字符串
 
 ### 二次校验传参
 ```
-请求验证码接口中会有secretKey参数，当secretKey有值， 进行as加密， 加密key为
-secretKey,不加密情况下pointJson为json系列化为字符串
 
 BlockPuzzleDialog.java/WordCaptchaDialog.java
 
