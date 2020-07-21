@@ -147,6 +147,11 @@ public class BlockPuzzleDialog extends Dialog {
                         dismiss();
                     }
                 }, 1500);
+
+                if (mOnResultsListener!=null){
+                    String result=token+"---"+pointStr;
+                    mOnResultsListener.onResultsClick(AESUtil.encode(result,key));
+                }
             }
 
             @Override
@@ -168,4 +173,13 @@ public class BlockPuzzleDialog extends Dialog {
         });
     }
 
+    private OnResultsListener mOnResultsListener;
+
+    public interface OnResultsListener {
+        void onResultsClick(String result);
+    }
+
+    public void setOnResultsListener(OnResultsListener mOnResultsListener) {
+        this.mOnResultsListener = mOnResultsListener;
+    }
 }

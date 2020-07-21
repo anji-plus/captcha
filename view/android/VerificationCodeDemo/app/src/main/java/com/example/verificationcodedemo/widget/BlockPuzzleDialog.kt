@@ -146,6 +146,8 @@ class BlockPuzzleDialog : Dialog {
                                 loadCaptcha()
                             }, 2000
                         )
+                        val result = Configuration.token + "---" + pointStr
+                        mOnResultsListener!!.onResultsClick(AESUtil.encode(result, key))
                     }
                     else -> {
                         dragView.fail()
@@ -176,5 +178,14 @@ class BlockPuzzleDialog : Dialog {
         handler!!.postDelayed(run, de.toLong())
     }
 
+    var mOnResultsListener: OnResultsListener? = null
+
+    interface OnResultsListener {
+        fun onResultsClick(result: String)
+    }
+
+    fun setOnResultsListener(mOnResultsListener: OnResultsListener) {
+        this.mOnResultsListener = mOnResultsListener
+    }
 
 }
