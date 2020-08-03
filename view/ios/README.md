@@ -34,7 +34,7 @@ AJBaseRequest.swift
 请求接口地址 配置在 AJBaseRequest类中 ,需要更改地址替换`kServerBaseUrl`即可
 
 ### 校验注意事项
-请求验证码接口中会有`secretKey`参数，当`secretKey`有值， 进行`as`加密， 加密key为`secretKey`,不加密情况下`pointJson`为json系列化为字符串
+请求验证码接口中会有`secretKey`参数，当`secretKey`有值， 进行`aes`加密， 加密key为`secretKey`,不加密情况下`pointJson`为json系列化为字符串
 ```
 
 CaptchaRequest.captchaAccept(currentType, success: { (model) in
@@ -107,7 +107,7 @@ pod 'JSONModel'
 请求接口地址 配置在 AFAppDotNetAPIClient类中 ,需要更改地址替换`AFAppDotNetAPIBaseURLString`即可
 
 ### 校验注意事项
-请求验证码接口中会有`secretKey`参数，当`secretKey`有值， 进行`as`加密， 加密key为`secretKey`,不加密情况下`pointJson`为json系列化为字符串
+请求验证码接口中会有`secretKey`参数，当`secretKey`有值， 进行`aes`加密， 加密key为`secretKey`,不加密情况下`pointJson`为json系列化为字符串
 ```
 NSDictionary *dic = @{@"x": @(point.x), @"y": @5};
 NSString *pointEncode = [ESConfig jsonEncode:dic];

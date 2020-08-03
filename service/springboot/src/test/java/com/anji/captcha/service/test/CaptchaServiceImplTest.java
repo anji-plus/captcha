@@ -1,4 +1,4 @@
-package com.anji.captcha.service.impl;
+package com.anji.captcha.service.test;
 
 import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.demo.StartApplication;
@@ -31,34 +31,5 @@ public class CaptchaServiceImplTest {
         CaptchaVO captchaVO1 = JSONObject.parseObject(JSONObject.toJSONString(repData), CaptchaVO.class);
         String token = captchaVO1.getToken();
         System.out.println("token:" + token);
-    }
-
-    /**
-     * 这个需要实时坐标的，用例不可用
-     */
-    @Test
-    public void check() throws Exception {
-        String token = "";
-        String pointJson = "{}";
-        pointJson = AESUtil.aesDecrypt(pointJson,"");
-        CaptchaVO captchaVO = new CaptchaVO();
-        captchaVO.setCaptchaType("blockPuzzle");
-        captchaVO.setPointJson(pointJson);
-        captchaVO.setToken(token);
-        ResponseModel check = captchaService.check(captchaVO);
-        System.out.println(check.toJsonString());
-    }
-
-    /**
-     * 这个需要实时坐标的，用例不可用
-     */
-    @Test
-    public void verification() {
-        CaptchaVO captchaVO = new CaptchaVO();
-        String token = "";
-        String pointJson = "{}";
-        captchaVO.setCaptchaVerification(token.concat("---").concat(pointJson));
-        ResponseModel verification = captchaService.verification(captchaVO);
-        System.out.println(verification.toJsonString());
     }
 }

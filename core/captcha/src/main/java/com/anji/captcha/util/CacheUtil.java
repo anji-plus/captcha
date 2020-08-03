@@ -6,18 +6,60 @@
  */
 package com.anji.captcha.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class CacheUtil {
+    private static final Logger logger = LoggerFactory.getLogger(CacheUtil.class);
 
     private static final Map<String, Object> CACHE_MAP = new ConcurrentHashMap<String, Object>();
 
-    public static void set(String key, String value){
+    /**
+     * 缓存最大个数
+     */
+    private static Integer CACHE_MAX_NUMBER = 1000;
 
+    /**
+     * 初始化
+     * @param cacheMaxNumber 缓存最大个数
+     * @param second 定时任务 秒执行清除过期缓存
+     */
+    public static void init(int cacheMaxNumber, long second) {
+        CACHE_MAX_NUMBER = cacheMaxNumber;
+        if (second > 0L) {
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    refresh();
+                }
+            }, 0, second * 1000);
+        }
     }
 
+
+    /**
+     * 缓存刷新,清除过期数据
+     */
+    public static void refresh(){
+        logger.info("local缓存刷新,清除过期数据");
+        for (String key : CACHE_MAP.keySet()) {
+            exists(key);
+        }
+    }
+
+
     public static void set(String key, String value, long expiresInSeconds){
+        //设置阈值，达到即clear缓存
+        if (CACHE_MAP.size() > CACHE_MAX_NUMBER * 2) {
+            logger.info("CACHE_MAP达到阈值，clear map");
+            clear();
+        }
         CACHE_MAP.put(key, value);
         CACHE_MAP.put(key + "_HoldTime", System.currentTimeMillis() + expiresInSeconds*1000);//缓存失效时间
     }
@@ -45,5 +87,13 @@ public final class CacheUtil {
             return (String)CACHE_MAP.get(key);
         }
         return null;
+    }
+
+    /**
+     * 删除所有缓存
+     */
+    public static void clear() {
+        logger.info("have clean all key !");
+        CACHE_MAP.clear();
     }
 }

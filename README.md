@@ -27,11 +27,13 @@
 ![时序图](https://mirror.anji-plus.com/captcha-web/static/shixu.png "时序图")
 
 # 4 目录结构
-├─core    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;     java后端jar包<br>
+├─core<br>
+│&emsp;├─captcha   &emsp;&emsp;    java核心源码<br>
+│&emsp;└─captcha-spring-boot-starter    &emsp;&emsp;    springboot快速启动<br>
 ├─images    &emsp;&emsp;&emsp;&emsp;&emsp;    效果图<br>
 ├─service<br>
 │&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
-│&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例，未完成<br>
+│&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例<br>
 └─view    &emsp;&emsp;&emsp;&emsp;&emsp;    多语言客户端示例<br>
 &emsp;├─android    &emsp;&emsp;    原生android实现示例<br>
 &emsp;├─flutter    &emsp;&emsp;    flutter实现示例<br>
@@ -61,6 +63,8 @@ I  Your application is running here: http://localhost:8081
 #### &emsp; 6.2 增加ReactNative示例
 
 # 6 技术支持微信群
-<img src="https://images.gitee.com/uploads/images/2020/0601/092152_36bed8d8_1728982.jpeg" width = "200" height = "200" div align=left />
+<img src="https://mirror.anji-plus.com/captcha-web/static/weixin.png" width = "200" height = "200" div align=left />
+
+ #### 开源不易，劳烦各位star ☺
 
 

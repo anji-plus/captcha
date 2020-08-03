@@ -64,8 +64,7 @@ public class RandomUtils {
 
     public static void main(String[] args) {
         for (int i = 0; i < 100; i++) {
-            int randomNum = RandomUtils.getRandomInt(1, 4);
-            System.out.println(randomNum);
+            System.out.print(getRandomHan());
         }
 
     }

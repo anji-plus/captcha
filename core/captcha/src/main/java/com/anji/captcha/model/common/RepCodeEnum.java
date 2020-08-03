@@ -31,6 +31,7 @@ public enum RepCodeEnum {
     API_CAPTCHA_INVALID("6110", "验证码已失效，请重新获取"),
     API_CAPTCHA_COORDINATE_ERROR("6111", "验证失败"),
     API_CAPTCHA_ERROR("6112", "获取验证码失败,请联系管理员"),
+    API_CAPTCHA_BASEMAP_NULL("6113", "底图未初始化成功，请检查路径"),
 
     ;
     private String code;
