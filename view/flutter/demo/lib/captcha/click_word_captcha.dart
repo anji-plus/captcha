@@ -332,7 +332,7 @@ class ClickWordCaptchaModel {
     ClickWordCaptchaModel captchaModel = ClickWordCaptchaModel();
     captchaModel.imgStr = map["originalImageBase64"] ?? "";
     captchaModel.token = map["token"] ?? "";
-    captchaModel.token = map["secretKey"] ?? "";
+    captchaModel.secretKey = map["secretKey"] ?? "";
     captchaModel.wordList = map["wordList"] ?? [];
 
     if (!ObjectUtils.isListEmpty(captchaModel.wordList)) {

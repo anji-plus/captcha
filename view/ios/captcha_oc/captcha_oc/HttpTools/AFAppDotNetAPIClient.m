@@ -2,7 +2,7 @@
 
 #import "AFAppDotNetAPIClient.h"
 
-static NSString * const AFAppDotNetAPIBaseURLString = @"https://mirror.anji-plus.com/api/";
+static NSString * const AFAppDotNetAPIBaseURLString = @"https://mirror.anji-plus.com/captcha-api/";
 
 //static NSString * const AFAppDotNetAPIBaseURLString = @"http://127.0.0.1:8080/";
 @implementation AFAppDotNetAPIClient
