@@ -70,7 +70,8 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
           widget.onSuccess("结果回调");
         }
         //关闭验证码
-        Navigator.pop(context, content);
+        print(content);
+        Navigator.pop(context);
       });
     });
   }
