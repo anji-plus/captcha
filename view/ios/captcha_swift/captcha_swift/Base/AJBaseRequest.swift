@@ -26,9 +26,9 @@ private var timeoutInterval: TimeInterval = 60  //请求超时时间
 //IP地址
 //let kServerBaseUrl = "https://mirror.anji-plus.com/api"
 //let kServerBaseUrl = "http://10.108.11.46:8080/api"
-//let kServerBaseUrl = "http://10.108.12.20:8080/api"
+let kServerBaseUrl = "https://mirror.anji-plus.com/captcha-api"
 //let kServerBaseUrl = "http://10.108.12.20:8086/"
-let kServerBaseUrl = "http://127.0.0.1:8080/"
+//let kServerBaseUrl = "http://127.0.0.1:8080/"
 
 
 
