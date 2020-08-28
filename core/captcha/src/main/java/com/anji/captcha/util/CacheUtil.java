@@ -47,7 +47,7 @@ public final class CacheUtil {
      * 缓存刷新,清除过期数据
      */
     public static void refresh(){
-        logger.info("local缓存刷新,清除过期数据");
+        logger.debug("local缓存刷新,清除过期数据");
         for (String key : CACHE_MAP.keySet()) {
             exists(key);
         }
@@ -93,7 +93,7 @@ public final class CacheUtil {
      * 删除所有缓存
      */
     public static void clear() {
-        logger.info("have clean all key !");
+        logger.debug("have clean all key !");
         CACHE_MAP.clear();
     }
 }
