@@ -62,8 +62,8 @@ I  Your application is running here: http://localhost:8081
 #### &emsp; 6.1 增加weex示例
 #### &emsp; 6.2 增加ReactNative示例
 
-# 6 技术支持微信群
-<img src="https://mirror.anji-plus.com/captcha-web/static/weixin.png" width = "200" height = "200" div align=left />
+# 7 技术支持QQ群
+<img src="https://mirror.anji-plus.com/captcha-web/static/qq.png" width = "200" height = "200" div align=left />
 
  #### 开源不易，劳烦各位star ☺
 
