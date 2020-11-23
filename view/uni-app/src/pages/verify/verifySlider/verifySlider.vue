@@ -1,8 +1,6 @@
 <template>
     <view style="position: relative;">
-        <!-- puzzle的情况 -->
         <view v-if="type === '2'" class="verify-img-out"
-             v-show="showImage"
              :style="{height: (parseInt(imgSize.height) + vSpace) + 'px'}"
             >
             <view class="verify-img-panel" :style="{width: imgSize.width,
@@ -34,11 +32,11 @@
                        :style="{color: iconColor}"></text>
                     <view v-if="type === '2'"
                          class="verify-sub-block"
-                         :style="{'width':Math.ceil(parseInt(imgSize.width)*50/310)+ 'px' ,
+                         :style="{'width':Math.floor(parseInt(imgSize.width)*47/310)+ 'px' ,
                                   'height': imgSize.height,
                                   'top':'-' + (parseInt(imgSize.height) + vSpace) + 'px',
                                   }"
-                         v-show=" showImage">
+                         >
                          <image :src="'data:image/png;base64,'+blockBackImgBase" alt=""  style="width:100%;height:100%;display:block"></image>
                          </view>
                 </view>
@@ -51,7 +49,7 @@
      * VerifySlide
      * @description 滑块
      * */
-    import CryptoJS from 'crypto-js'
+    import {aesEncrypt} from "./../utils/ase.js"
 	import {myRequest} from "../utils/request.js"
     export default {
         name: 'VerifySlide',
@@ -67,10 +65,6 @@
             mode: {
                 type: String,
                 default: 'fixed'
-            },
-            vOffset: {
-                type: Number,
-                default: 5
             },
             vSpace: {
                 type: Number,
@@ -110,6 +104,7 @@
         },
         data() {
             return {
+                secretKey:'',        //后端返回的加密秘钥 字段
 				passFalg:false,      //请求通过与否
                 backImgBase:'',      //验证码背景图片
                 blockBackImgBase:'', //验证滑块的背景图片
@@ -118,7 +113,6 @@
                 endMovetime:'',      //移动结束的时间
                 tipsBackColor:'',    //提示词的北京颜色
                 tipWords:'',
-                imgRand: 0,
                 text: '',
                 finishText:'',
                 setSize: {
@@ -129,7 +123,6 @@
                 },
                 top: 0,
                 left: 0,
-                showImage: true,
                 moveBlockLeft: undefined,
                 leftBarWidth: undefined,
                 // 移动中样式
@@ -137,7 +130,7 @@
                 leftBarBorderColor: '#ddd',
                 iconColor: undefined,
                 iconClass: 'icon-right',
-                status: false,	//鼠标状态
+                status: false,	    //鼠标状态
                 isEnd: false,		//是够验证完成
                 showRefresh: true,
                 transitionLeft: '',
@@ -187,14 +180,8 @@
                         if (move_block_left >= barArea_offsetWidth - parseInt(parseInt(this.blockSize.width) / 2) - 2) {
                             move_block_left = barArea_offsetWidth - parseInt(parseInt(this.blockSize.width) / 2) - 2;
                         }
-                    } else {		//普通滑动
-                        if (move_block_left >= barArea_offsetWidth - parseInt(parseInt(this.barSize.height) / 2) + 3) {
-                            this.finishText = '松开验证'
-                            move_block_left = barArea_offsetWidth - parseInt(parseInt(this.barSize.height) / 2) + 3;
-                        } else {
-                            this.finishText = ''
-                        }
-                    }
+                    } 
+
                     if (move_block_left <= 0) {
                         move_block_left = parseInt(parseInt(this.blockSize.width) / 2);
                     }
@@ -218,14 +205,14 @@
                         
                         moveLeftDistance = moveLeftDistance * 310/ parseInt(this.imgSize.width)
 
-                        var captchaVerification = this.aesEncrypt(this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0}))
+                        var captchaVerification = this.secretKey ?aesEncrypt(this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0}),this.secretKey):this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0})
                         let data = {
                             captchaType:this.captchaType,
-                            "pointJson":this.aesEncrypt(JSON.stringify({x:moveLeftDistance,y:5.0})),
+                            "pointJson":this.secretKey ? aesEncrypt(JSON.stringify({x:moveLeftDistance,y:5.0}),this.secretKey):JSON.stringify({x:moveLeftDistance,y:5.0}),
                             "token":this.backToken
                         }
                         myRequest({
-                            url: `/captcha/check`, //仅为示例，并非真实接口地址。
+                            url: `/captcha/check`,
                             data,
                             method:"POST",
                         }).then((result) => {
@@ -243,8 +230,6 @@
 									}
 									this.refresh();
 								},1500)
-								// this.tipsBackColor = '#5cb85c'
-								// this.tipsBackColor = 'rgba(92, 184, 92,.5)'
 								this.passFalg = true
 								this.tipWords = `${((this.endMovetime-this.startMoveTime)/1000).toFixed(2)}s验证成功`
 								setTimeout(()=>{
@@ -256,8 +241,6 @@
 								this.leftBarBorderColor = '#d9534f'
 								this.iconColor = '#fff'
 								this.iconClass = 'icon-close'
-								// this.tipsBackColor = '#d9534f'
-								// this.tipsBackColor = 'rgba(217, 83, 79,.5)'
 								this.passFalg = false
 								setTimeout(()=>{
 									this.refresh();
@@ -269,35 +252,7 @@
 								},1000)
 							}
 						})
-                    } else {		//普通滑动
-
-                        if (parseInt((this.moveBlockLeft || '').replace('upx', '')) >= (parseInt(this.setSize.barWidth) - parseInt(this.barSize.height) - parseInt(this.vOffset))) {
-                            this.moveBlockBackgroundColor = '#5cb85c'
-                            this.leftBarBorderColor = '#5cb85c'
-                            this.iconColor = '#fff'
-                            this.iconClass = 'icon-check'
-                            this.showRefresh = false
-                            this.finishText = '验证成功'
-                            this.isEnd = true;
-                            this.$parent.$emit('success', this)
-                        } else {
-                            this.finishText = ''
-                            this.moveBlockBackgroundColor = '#d9534f'
-                            this.leftBarBorderColor = '#d9534f'
-                            this.iconColor = '#fff'
-                            this.iconClass = 'icon-close'
-                            this.isEnd = true;
-
-                            setTimeout(function () {
-                                _this.finishText = ''
-                                _this.refresh()
-                                _this.isEnd = false
-                            }, 400);
-
-                            this.$parent.$emit('error', this)
-                        }
-                    }
-
+                    } 
                     this.status = false;
                 }
             },
@@ -347,14 +302,9 @@
                             this.backImgBase = res.repData.originalImageBase64
                             this.blockBackImgBase = res.repData.jigsawImageBase64
                             this.backToken = res.repData.token
+                            this.secretKey = res.repData.secretKey
                         }
                     })
-            },
-            aesEncrypt(word){
-                var key = CryptoJS.enc.Utf8.parse("XwKsGlMcdPMEhR1B");
-                var srcs = CryptoJS.enc.Utf8.parse(word);
-                var encrypted = CryptoJS.AES.encrypt(srcs, key, {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
-                return encrypted.toString();
             },
         },
         watch: {

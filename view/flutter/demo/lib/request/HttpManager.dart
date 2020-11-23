@@ -40,32 +40,34 @@ class HttpManager {
     if (header != null) {
       headers.addAll(header);
     }
-//
-//    //请求协议 post 、get
+
+    //请求协议 post 、get
     Options option = new Options(method: optionMetod);
-//
-//    ///设置头部
+
+    ///设置头部
     if (option != null) {
       option.headers = headers;
     }
-//
+
     option.sendTimeout = 15000;
-//
-//    //获取token
-//    var mirrorToken = "";
-//
-//
-//    var params = param;
+
+    //获取token
+    var mirrorToken = "";
+
+
+    var params = param;
 //    if (needSign) {
 //      //获取加密的请求参数
 //      params = await SignConfig.signData(param, mirrorToken);
 //    }
 
     Response response;
+    print("$baseUrl$url");
+    print(params);
 
     try {
       ///开始请求
-      response = await dio.request("$baseUrl$url", data: param, options: option);
+      response = await dio.request("$baseUrl$url", data: params, options: option);
     } on DioError catch (e) {
       Response errorResponse;
       if (e.response != null) {
@@ -83,6 +85,7 @@ class HttpManager {
 
     try {
       var responseJson = response.data;
+      print(responseJson);
 
       if (response.statusCode == 200) {
         ///请求链接成功
