@@ -1,16 +1,7 @@
 <template>
-         <!-- @mouseover="mode === 'pop'?(showImage = true):undefined"
-         @mouseout="mode === 'pop'?(showImage = false):undefined"
-         @mouseover="mode === 'pop'?(showImage = true):undefined"
-             @mouseout="mode === 'pop'?(showImage = false):undefined"
-         :style="mode === 'pop' ?
-         {display: 'none', position: 'absolute', bottom: '42px', height: parseInt(setSize.imgHeight) + vSpace + 'px'} :
-          {position: 'relative', height: parseInt(setSize.imgHeight) + vSpace + 'px'}" -->
     <div style="position: relative"
         >
-        <div class="verify-img-out"
-             v-show="showImage"
-             >
+        <div class="verify-img-out">
             <div class="verify-img-panel" :style="{'width': setSize.imgWidth,
                                                    'height': setSize.imgHeight,
                                                    'background-size' : setSize.imgWidth + ' '+ setSize.imgHeight,
@@ -19,9 +10,6 @@
                 <div class="verify-refresh" style="z-index:3" @click="refresh" v-show="showRefresh">
                     <i class="iconfont icon-refresh"></i>
                 </div>
-                <!-- <canvas :width="setSize.imgWidth" :height="setSize.imgHeight"
-                        ref="canvas"
-                        @click="bindingClick?canvasClick($event):undefined"></canvas> -->
                 <img :src="'data:image/png;base64,'+pointBackImgBase" 
                 ref="canvas"
                 alt=""  style="width:100%;height:100%;display:block"
@@ -60,21 +48,7 @@
      * VerifyPoints
      * @description 点选
      * */
-   
-
     import {resetSize, _code_chars, _code_color1, _code_color2} from './../utils/util'
-
-    function getOffset(Node, offset = {top: 0, left: 0}) {
-        if (Node == document.body) {//当该节点为body节点时，结束递归
-            return offset;
-        }
-
-        offset.top += Node.offsetTop;
-        offset.left += Node.offsetLeft;
-
-        return getOffset(Node.parentNode, offset);//向上累加offset里的值
-    }
-
     import {aesEncrypt} from "./../utils/ase"
     import {reqGet,reqCheck}  from "./../api/index"
 
@@ -89,30 +63,10 @@
             captchaType:{
                 type:String,
             },
-            //默认的文字数量
-            defaultNum: {
-                type: Number,
-                default: 4
-            },
-            //校对的文字数量
-            checkNum: {
-                type: Number,
-                default: 3
-            },
             //间隔
             vSpace: {
                 type: Number,
                 default: 5
-            },
-            imgUrl: {
-                type: String,
-                default: 'http://via.placeholder.com/'
-            },
-            imgName: {
-                type: Array,
-                default() {
-                    return ['350x150', '350x450']
-                }
             },
             imgSize: {
                 type: Object,
@@ -135,20 +89,20 @@
         },
         data() {
             return {
-                fontPos: [], // 选中的坐标信息
-                checkPosArr: [], //用户点击的坐标
-                num: 1,//点击的记数
+                secretKey:'',           //后端返回的ase加密秘钥
+                checkNum:3,             //默认需要点击的字数
+                fontPos: [],            //选中的坐标信息
+                checkPosArr: [],        //用户点击的坐标
+                num: 1,                 //点击的记数
                 pointBackImgBase:'',    //后端获取到的背景图片
-                poinTextList:[],       //后端返回的点击字体顺序
+                poinTextList:[],        //后端返回的点击字体顺序
                 backToken:'',           //后端返回的token值
-                imgRand: 0, // //随机的背景图片
                 setSize: {
                     imgHeight: 0,
                     imgWidth: 0,
                     barHeight: 0,
                     barWidth: 0
                 },
-                showImage: true,
                 tempPoints: [],
                 text: '',
                 barAreaColor: undefined,
@@ -168,12 +122,9 @@
                 this.fontPos.splice(0, this.fontPos.length)
                 this.checkPosArr.splice(0, this.checkPosArr.length)
                 this.num = 1
-                // this.imgRand = Math.floor(Math.random() * this.imgName.length)
                 this.getPictrue();
-
                 this.$nextTick(() => {
                     this.setSize = this.resetSize(this)	//重新设置宽度高度
-                    this.refresh();
                     this.$parent.$emit('ready', this)
                 })
             },
@@ -181,18 +132,16 @@
                 this.checkPosArr.push(this.getMousePos(this.$refs.canvas, e));
                 if (this.num == this.checkNum) {
                     this.num = this.createPoint(this.getMousePos(this.$refs.canvas, e));
-                    console.log(this.checkPosArr,"this.checkPosArr");
                     //按比例转换坐标值
                     this.checkPosArr = this.pointTransfrom(this.checkPosArr,this.setSize);
-
                     //等创建坐标执行完
                     setTimeout(() => {
                         // var flag = this.comparePos(this.fontPos, this.checkPosArr);
                         //发送后端请求
-                        var captchaVerification = aesEncrypt(this.backToken+'---'+JSON.stringify(this.checkPosArr))
+                        var captchaVerification = this.secretKey? aesEncrypt(this.backToken+'---'+JSON.stringify(this.checkPosArr),this.secretKey):this.backToken+'---'+JSON.stringify(this.checkPosArr)
                         let data = {
                             captchaType:this.captchaType,
-                            "pointJson":aesEncrypt(JSON.stringify(this.checkPosArr)),
+                            "pointJson":this.secretKey? aesEncrypt(JSON.stringify(this.checkPosArr),this.secretKey):JSON.stringify(this.checkPosArr),
                             "token":this.backToken
                         }
                         reqCheck(data).then(res=>{
@@ -200,7 +149,6 @@
                                 this.barAreaColor = '#4cae4c'
                                 this.barAreaBorderColor = '#5cb85c'
                                 this.text = '验证成功'
-                                this.showRefresh = false
                                 this.bindingClick = false
                                 if (this.mode=='pop') {
                                     setTimeout(()=>{
@@ -220,140 +168,32 @@
                             }
                         })
                     }, 400);
-
                 }
-
                 if (this.num < this.checkNum) {
                     this.num = this.createPoint(this.getMousePos(this.$refs.canvas, e));
                 }
-
             },
-            //绘制合成的图片
-            drawImg: function (obj, img) {
-                //准备canvas环境
-                var canvas = this.$refs.canvas;
-                // var ctx = canvas.getContext("2d");
-
-                // 绘制图片
-                ctx.drawImage(img, 0, 0, parseInt(this.setSize.imgWidth), parseInt(this.setSize.imgHeight));
-
-                // 绘制水印
-                var fontSizeArr = ['italic small-caps bold 20px microsoft yahei', 'small-caps normal 25px arial', '34px microsoft yahei'];
-                var fontStr = '天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳云腾致雨露结为霜金生丽水玉出昆冈剑号巨阙珠称夜光果珍李柰菜重芥姜海咸河淡鳞潜羽翔龙师火帝鸟官人皇始制文字乃服衣裳推位让国有虞陶唐吊民伐罪周发殷汤坐朝问道垂拱平章爱育黎首臣伏戎羌遐迩体率宾归王';	//不重复的汉字
-
-
-                var fontChars = [];
-
-                var avg = Math.floor(parseInt(this.setSize.imgWidth) / (parseInt(this.defaultNum) + 1));
-                var tmp_index = '';
-                var color2Num = Math.floor(Math.random() * 5);
-
-                for (var i = 1; i <= this.defaultNum; i++) {
-
-                    fontChars[i - 1] = this.getChars(fontStr, fontChars);
-
-                    tmp_index = Math.floor(Math.random() * 3);
-                    ctx.font = fontSizeArr[tmp_index];
-                    ctx.fillStyle = _code_color2[color2Num];
-
-                    if (Math.floor(Math.random() * 2) == 1) {
-                        var tmp_y = Math.floor(parseInt(this.setSize.imgHeight) / 2) + tmp_index * 20 + 20
-                    } else {
-                        var tmp_y = Math.floor(parseInt(this.setSize.imgHeight) / 2) - tmp_index * 20
-                    }
-
-                    ctx.fillText(fontChars[i - 1], avg * i, tmp_y);
-                    this.fontPos[i - 1] = {'char': fontChars[i - 1], 'x': avg * i, 'y': tmp_y}
-                }
-
-                for (var i = 0; i < (this.defaultNum - this.checkNum); i++) {
-                    this.shuffle(this.fontPos).pop();
-                }
-
-                var msgStr = '';
-                for (var i = 0; i < this.fontPos.length; i++) {
-                    msgStr += this.fontPos[i].char + ',';
-                }
-
-                this.text = '请顺序点击【' + this.poinTextList.join(",") + '】'
-
-                return this.fontPos;
-            },
+        
             //获取坐标
             getMousePos: function (obj, e) {
-                // console.log(e);
-                
                 var x = e.offsetX 
                 var y = e.offsetY 
-
                 return {x, y}
-            },
-            //递归去重
-            getChars: function (fontStr, fontChars) {
-
-                var tmp_rand = parseInt(Math.floor(Math.random() * fontStr.length));
-                if (tmp_rand > 0) {
-                    tmp_rand = tmp_rand - 1;
-                }
-
-                var tmp_char = fontStr.charAt(tmp_rand);
-                if (fontChars.indexOf(tmp_char) == -1) {
-                    return tmp_char;
-                } else {
-                    return this.getChars(fontStr, fontChars);
-                }
-            },
-            //洗牌数组
-            shuffle: function (arr) {
-                var m = arr.length, i;
-                var tmpF;
-                while (m) {
-                    i = (Math.random() * m--) >>> 0;
-                    tmpF = arr[m];
-                    arr[m] = arr[i];
-                    arr[i] = tmpF;
-                    //[arr[m], arr[i]] = [arr[i], arr[m]];	//低版本浏览器不支持此写法
-                }
-                return arr;
             },
             //创建坐标点
             createPoint: function (pos) {
                 this.tempPoints.push(Object.assign({}, pos))
                 return ++this.num;
             },
-            comparePos: function (fontPos, checkPosArr) {
-                var flag = true;
-                for (var i = 0; i < fontPos.length; i++) {
-                    if (!(parseInt(checkPosArr[i].x) + 40 > fontPos[i].x && parseInt(checkPosArr[i].x) - 40 < fontPos[i].x && parseInt(checkPosArr[i].y) + 40 > fontPos[i].y && parseInt(checkPosArr[i].y) - 40 < fontPos[i].y)) {
-                        flag = false;
-                        break;
-                    }
-                }
-                return flag;
-            },
             refresh: function () {
                 this.tempPoints.splice(0, this.tempPoints.length)
                 this.barAreaColor = '#000'
                 this.barAreaBorderColor = '#ddd'
                 this.bindingClick = true
-
                 this.fontPos.splice(0, this.fontPos.length)
                 this.checkPosArr.splice(0, this.checkPosArr.length)
                 this.num = 1
-
-                // this.imgRand = Math.floor(Math.random() * this.imgName.length);			//随机的背景图片
                 this.getPictrue();
-
-                // var img = new Image();
-                // img.src = this.imgUrl + this.imgName[this.imgRand];
-                // // 加载完成开始绘制
-                // var _this = this
-                // img.onload = function (e) {
-                //     _this.$nextTick(() => {
-                //         _this.fontPos = _this.drawImg(_this.$el, this)
-                //     })
-                // }
-
                 this.text = '验证失败'
                 this.showRefresh = true
             },
@@ -367,6 +207,7 @@
                     if (res.repCode == "0000") {
                         this.pointBackImgBase = res.repData.originalImageBase64
                         this.backToken = res.repData.token
+                        this.secretKey = res.repData.secretKey
                         this.poinTextList = res.repData.wordList
                         this.text = '请依次点击【' + this.poinTextList.join(",") + '】'
                     }else{
@@ -400,11 +241,5 @@
                 return false
             }
         },
-        i18n: {
-            messages: {
-                'en-US': {},
-                'zh-CN': {}
-            }
-        }
     }
 </script>

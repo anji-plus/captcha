@@ -27,7 +27,7 @@ class CaptchaRequest {
         ];
         AJBaseRequest.sharedInstance.baseRequest(url: url, reqData: params, success: { (response) in
             let res = JSON(response!)
-            let s = CaptchaResponseData(originalImageBase64: res["originalImageBase64"].stringValue, jigsawImageBase64: res["jigsawImageBase64"].stringValue, token: res["token"].stringValue, result: res["result"].stringValue, wordList: res["wordList"].arrayObject ?? [])
+            let s = CaptchaResponseData(originalImageBase64: res["originalImageBase64"].stringValue, jigsawImageBase64: res["jigsawImageBase64"].stringValue, token: res["token"].stringValue, secretKey: res["secretKey"].stringValue , result: res["result"].stringValue, wordList: res["wordList"].arrayObject ?? [])
                             success(s)
 
         }) { (error) in
@@ -66,6 +66,7 @@ struct CaptchaResponseData {
     var originalImageBase64: String = ""
     var jigsawImageBase64: String = ""
     var token: String = ""
+    var secretKey: String = ""
     var result: String = ""
     //点选文字
     var wordList: [Any] = []

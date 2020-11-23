@@ -73,7 +73,9 @@ class CaptchaView: UIView {
     let contentView     = UIView() // 容器视图
     let shadowView      = UIView() // 背景视图
     
-    
+    var needEncryption = false;
+
+
     //========puzzle============
     //滑块父view
     let sliderView = UIView()
@@ -170,8 +172,15 @@ class CaptchaView: UIView {
         }
         CaptchaRequest.captchaAccept(currentType, success: { (model) in
             self.repModel = model
+            //secretKey有值 代表需要进行加密
+            if(self.repModel.secretKey.count > 0){
+                self.needEncryption = true
+            } else {
+                self.needEncryption = false
+            }
             self.getRequestView(self.currentType)
         }) { (error) in
+            self.needEncryption = false
             self.repModel = CaptchaResponseData()
             self.getRequestView(self.currentType)
         }
@@ -192,12 +201,17 @@ class CaptchaView: UIView {
     }
     
     /// 请求校验接口
-    func requestCheckData(pointJson: String = ""){
+    func requestCheckData(pointJson: String = "", token: String, pointStr: String){
         CaptchaRequest.captchaCheck(currentType, pointJson: pointJson, token: self.repModel.token, success: { (model) in
-            self.showResult(true)
+            
+            var successStr = "\(token)---\(pointStr)";
+            if(self.repModel.secretKey.count > 0){
+                successStr = ESConfig.aesEncrypt(successStr, self.repModel.secretKey)
+            }
+            self.showResult(true, successStr: successStr)
             
         }) { (error) in
-            self.showResult(false)
+            self.showResult(false, successStr: "")
         }
         
     }
@@ -245,9 +259,16 @@ class CaptchaView: UIView {
     func checkResult(_ point:CGPoint){
         switch currentType {
         case .puzzle:
+            
+            var pointJson = "";
             let pointEncode = ESConfig.jsonEncode(CaptchaRequestModel(x: point.x, y: 5))
-            let pointJson = ESConfig.aesEncrypt(pointEncode)
-            requestCheckData(pointJson: pointJson);
+            //请求数据有secretKey 走加密  否则不走加密
+            if(self.needEncryption){
+                pointJson = ESConfig.aesEncrypt(pointEncode, self.repModel.secretKey)
+            } else {
+                pointJson = pointEncode;
+            }
+            requestCheckData(pointJson: pointJson, token: self.repModel.token, pointStr: pointEncode);
         case .clickword:
             
             var pointsList: [Any] = []
@@ -255,8 +276,14 @@ class CaptchaView: UIView {
                 pointsList.append(["x": item.x, "y": item.y])
             }
             let pointEncode = ESConfig.jsonClickWordEncode(pointsList)
-            let pointJson = ESConfig.aesEncrypt(pointEncode)
-            requestCheckData(pointJson: pointJson);
+            var pointJson = "";
+            //请求数据有secretKey 走加密  否则不走加密
+            if(self.needEncryption){
+                pointJson = ESConfig.aesEncrypt(pointEncode, self.repModel.secretKey)
+            } else {
+                pointJson = pointEncode;
+            }
+            requestCheckData(pointJson: pointJson,token: self.repModel.token, pointStr: pointEncode);
         }
         
     }
@@ -265,9 +292,9 @@ class CaptchaView: UIView {
     ///
     /// - Parameter isSuccess: 是否正确
     /// - note: 暂时只有错误时,才显示
-    func showResult(_ isSuccess: Bool) {
+    func showResult(_ isSuccess: Bool, successStr: String) {
         if let block = completeBlock {
-            block("isSuccess\(isSuccess)")
+            block(successStr)
         }
         switch currentType {
         case .puzzle:

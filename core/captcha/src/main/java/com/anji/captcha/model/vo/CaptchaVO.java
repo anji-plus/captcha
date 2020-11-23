@@ -30,6 +30,8 @@ public class CaptchaVO implements Serializable {
 
     private Integer captchaFontSize;
 
+    private String secretKey;
+
     /**
      * 原生图片base64
      */
@@ -38,7 +40,7 @@ public class CaptchaVO implements Serializable {
     /**
      * 滑块点选坐标
      */
-    private Point point;
+    private PointVO point;
 
     /**
      * 滑块图片base64
@@ -134,11 +136,11 @@ public class CaptchaVO implements Serializable {
         this.originalImageBase64 = originalImageBase64;
     }
 
-    public Point getPoint() {
+    public PointVO getPoint() {
         return point;
     }
 
-    public void setPoint(Point point) {
+    public void setPoint(PointVO point) {
         this.point = point;
     }
 
@@ -196,5 +198,13 @@ public class CaptchaVO implements Serializable {
 
     public void setCaptchaVerification(String captchaVerification) {
         this.captchaVerification = captchaVerification;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 }

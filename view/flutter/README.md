@@ -61,4 +61,32 @@ static void loadingBlockPuzzle(BuildContext context, {barrierDismissible = true}
 import 'package:captcha/request/HttpManager.dart';
 ```
 请求接口地址 配置在 HttpManager类中 ,需要更改地址替换`baseUrl`即可
+### 请求注意
+请求验证码接口中会有`secretKey`参数，当`secretKey`有值， 进行`as`加密， 加密key为`secretKey`,不加密情况下`pointJson`为json系列化为字符串
+```
+{
+  "pointJson": cryptedStr,
+  "captchaType": "clickWord",
+  "token": _clickWordCaptchaModel.token
+}
+```
 
+```
+// secretKey 不为空 进行as加密
+if(!ObjectUtils.isEmpty(_clickWordCaptchaModel.secretKey)){
+  var aesEncrypter = AesCrypt(_clickWordCaptchaModel.secretKey, 'ecb', 'pkcs7');
+  cryptedStr = aesEncrypter.encrypt(pointStr);
+  var dcrypt = aesEncrypter.decrypt(cryptedStr);
+}
+```
+
+### 二次校验传出的参数
+```
+//如果不加密  将  token  和 坐标序列化 通过  --- 链接成字符串
+var captchaVerification = "$captchaToken---$pointStr";
+if(!ObjectUtils.isEmpty(secretKey)){
+  //如果加密  将  token  和 坐标序列化 通过  --- 链接成字符串 进行加密  加密密钥为 _clickWordCaptchaModel.secretKey
+  captchaVerification = EncryptUtil.aesEncode(key: secretKey, content: captchaVerification);
+}
+checkSuccess(captchaVerification);
+```

@@ -18,6 +18,7 @@ import com.example.verificationcodedemo.R
 import com.example.verificationcodedemo.model.CaptchaCheckOt
 import com.example.verificationcodedemo.model.CaptchaGetOt
 import com.example.verificationcodedemo.network.Configuration
+import com.example.verificationcodedemo.network.Configuration.token
 import com.example.verificationcodedemo.utils.AESUtil
 import com.example.verificationcodedemo.utils.ImageUtil
 import kotlinx.android.synthetic.main.dialog_word_captcha.*
@@ -48,6 +49,7 @@ class WordCaptchaDialog : Dialog {
 
     var baseImageBase64: String = ""//背景图片
     var handler: Handler? = null
+    var key: String = ""//ase加密秘钥
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +91,7 @@ class WordCaptchaDialog : Dialog {
                     "0000" -> {
                         baseImageBase64 = b.repData!!.originalImageBase64
                         Configuration.token = b.repData!!.token
+                        key= b.repData!!.secretKey
                         var wordStr: String = ""
                         var i = 0;
                         b.repData!!.wordList!!.forEach {
@@ -132,12 +135,12 @@ class WordCaptchaDialog : Dialog {
 
     //检查验证码
     private fun checkCaptcha(pointListStr: String) {
-        Log.e("wuyan", AESUtil.encode(pointListStr))
+        Log.e("wuyan", AESUtil.encode(pointListStr,key))
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val o = CaptchaCheckOt(
                     captchaType = "clickWord",
-                    pointJson = AESUtil.encode(pointListStr),
+                    pointJson = AESUtil.encode(pointListStr,key),
                     token = Configuration.token
                 )
                 val b = Configuration.server.checkAsync(o).await().body()
@@ -153,6 +156,10 @@ class WordCaptchaDialog : Dialog {
                                 loadCaptcha()
                             }, 2000
                         )
+
+                        val result = token + "---" + pointListStr
+                        mOnResultsListener!!.onResultsClick(AESUtil.encode(result, key))
+
                     }
                     else -> {
                         bottomTitle.text = "验证失败"
@@ -196,6 +203,16 @@ class WordCaptchaDialog : Dialog {
         if (handler == null)
             handler = Handler(Looper.getMainLooper())
         handler!!.postDelayed(run, de.toLong())
+    }
+
+    var mOnResultsListener: OnResultsListener? = null
+
+    interface OnResultsListener {
+        fun onResultsClick(result: String)
+    }
+
+    fun setOnResultsListener(mOnResultsListener: OnResultsListener) {
+        this.mOnResultsListener = mOnResultsListener
     }
 
 
