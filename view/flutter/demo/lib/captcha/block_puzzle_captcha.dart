@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:captcha/request/HttpManager.dart';
+import 'package:captcha/request/encrypt_util.dart';
+import 'package:captcha/tools/object_utils.dart';
 import 'package:captcha/tools/widget_util.dart';
 import 'package:flutter/material.dart';
 import 'package:steel_crypt/steel_crypt.dart';
@@ -22,8 +25,11 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
   String baseImageBase64 = "";
   String slideImageBase64 = "";
   String captchaToken = "";
+  String secretKey = "";//加密key
+
   Size baseSize = Size.zero; //底部基类图片
   Size slideSize = Size.zero; //滑块图片
+
 
   var sliderColor = Colors.white; //滑块的背景色
   var sliderIcon = Icons.arrow_forward; //滑块的图标
@@ -42,10 +48,19 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
   //高度动画
   Animation<double> offsetAnimation;
 
+  //底部部件key
+  GlobalKey _containerKey = new GlobalKey();
+  //背景图key
+  GlobalKey _baseImageKey = new GlobalKey();
+  //滑块
+  GlobalKey _slideImageKey = new GlobalKey();
+  double _bottomSliderSize = 60;
+
+
   //------------动画------------
 
   //校验通过
-  void checkSuccess() {
+  void checkSuccess(String content) {
     setState(() {
       checkResultAfterDrag = true;
       _checkSuccess = true;
@@ -65,6 +80,7 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
           widget.onSuccess("结果回调");
         }
         //关闭验证码
+        print(content);
         Navigator.pop(context);
       });
     });
@@ -97,9 +113,9 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
 
   //重设滑动颜色与图标
   void updateSliderColorIcon() {
-    var _sliderColor = null; //滑块的背景色
-    var _sliderIcon = null; //滑块的图标
-    var _movedXBorderColor = null; //滑块拖动时，左边已滑的区域边框颜色
+    var _sliderColor; //滑块的背景色
+    var _sliderIcon; //滑块的图标
+    var _movedXBorderColor; //滑块拖动时，左边已滑的区域边框颜色
 
     //滑块的背景色
     if (sliderMoveFinish) {
@@ -134,6 +150,9 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
             '/captcha/get', {"captchaType": "blockPuzzle"}, {})
         .then((res) async {
       if (res['repCode'] != '0000' || res['repData'] == null) {
+        setState(() {
+          secretKey = "";
+        });
         return;
       }
 
@@ -144,6 +163,8 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
       checkResultAfterDrag = false;
 
       baseImageBase64 = repData["originalImageBase64"];
+      baseImageBase64 = repData["originalImageBase64"];
+      secretKey = repData["secretKey"] ?? "";
       baseImageBase64 = baseImageBase64.replaceAll('\n', '');
       slideImageBase64 = repData["jigsawImageBase64"];
       slideImageBase64 = slideImageBase64.replaceAll('\n', '');
@@ -176,12 +197,17 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
 //    MediaQueryData mediaQuery = MediaQuery.of(myContext);
     var pointMap = {"x": sliderXMoved, "y": 5};
     var pointStr = json.encode(pointMap);
+    var cryptedStr = pointStr;
 
-    var aesEncrypter = AesCrypt('XwKsGlMcdPMEhR1B', 'ecb', 'pkcs7');
-    var cryptedStr = aesEncrypter.encrypt(pointStr);
-    var dcrypt = aesEncrypter.decrypt(cryptedStr);
+    // secretKey 不为空 进行as加密
+    if(!ObjectUtils.isEmpty(secretKey)){
+      var aesEncrypter = AesCrypt(secretKey, 'ecb', 'pkcs7');
+      cryptedStr = aesEncrypter.encrypt(pointStr);
+      var dcrypt = aesEncrypter.decrypt(cryptedStr);
+      Map _map = json.decode(dcrypt);
 
-    Map _map = json.decode(dcrypt);
+    }
+
 
     HttpManager.requestData('/captcha/check', {
       "pointJson": cryptedStr,
@@ -195,7 +221,13 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
 
       Map<String, dynamic> repData = res['repData'];
       if (repData["result"] != null && repData["result"] == true) {
-        checkSuccess();
+        //如果不加密  将  token  和 坐标序列化 通过  --- 链接成字符串
+        var captchaVerification = "$captchaToken---$pointStr";
+        if(!ObjectUtils.isEmpty(secretKey)){
+          //如果加密  将  token  和 坐标序列化 通过  --- 链接成字符串 进行加密  加密密钥为 _clickWordCaptchaModel.secretKey
+          captchaVerification = EncryptUtil.aesEncode(key: secretKey, content: captchaVerification);
+        }
+        checkSuccess(captchaVerification);
       } else {
         checkFail();
       }
@@ -248,261 +280,267 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
 
   @override
   Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.of(context);
+    return MaxScaleTextWidget(
+      child: buildContent(context),
+    );
+  }
 
+  Widget buildContent(BuildContext context) {
+    var mediaQuery = MediaQuery.of(context);
     var dialogWidth = 0.9 * mediaQuery.size.width;
-    var isRatioCross = false;
-    if(dialogWidth < 320.0 ){
+    if (dialogWidth < 330) {
       dialogWidth = mediaQuery.size.width;
-      isRatioCross = true;
     }
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
+          key: _containerKey,
           width: dialogWidth,
-          height: 320,
+          height: 340,
           color: Colors.white,
-          child: Stack(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  //顶部，提示+关闭
-                  Container(
-                    height: 50,
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    decoration: BoxDecoration(
-                      border: Border(
-                          bottom:
-                              BorderSide(width: 1, color: Color(0xffe5e5e5))),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          '请完成安全验证',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        IconButton(
-                            icon: Icon(Icons.highlight_off),
-                            iconSize: 35,
-                            color: Colors.black54,
-                            onPressed: () {
-                              //退出
-                              Navigator.pop(context);
-                            }),
-                      ],
-                    ),
-                  ),
-
-                  //显示验证码
-                  Container(
-                    margin: isRatioCross ? EdgeInsets.zero: EdgeInsets.all(10),
-                    child: Stack(
-                      children: <Widget>[
-                        //底图 310*155
-                        baseImageBase64.length > 0
-                            ? Image.memory(
-                                Base64Decoder().convert(baseImageBase64),
-                        width: baseSize.width,
-                                fit: BoxFit.fitWidth,
-                                gaplessPlayback: true,
-                              )
-                            : Container(
-                                width: dialogWidth - 20,
-                                height: 155,
-                                alignment: Alignment.center,
-                                child: CircularProgressIndicator(),
-                              ),
-
-                        //滑块图
-                        slideImageBase64.length > 0
-                            ? Container(
-                                margin:
-                                    EdgeInsets.fromLTRB(sliderXMoved, 0, 0, 0),
-                                child: Image.memory(
-                                  Base64Decoder().convert(slideImageBase64),
-                                  fit: BoxFit.fitHeight,
-                                  height: slideSize.height,
-                                  gaplessPlayback: true,
-                                ),
-                              )
-                            : Container(),
-
-                        //刷新按钮
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: IconButton(
-                              icon: Icon(Icons.refresh),
-                              iconSize: 30,
-                              color: Colors.black54,
-                              onPressed: () {
-                                //刷新
-                                loadCaptcha();
-                              }),
-                        ),
-                        Positioned(
-                            bottom: 0,
-                            left: -10,
-                            right: -10,
-                            child: Offstage(
-                              offstage: !_showTimeLine,
-                              child: FractionalTranslation(
-                                translation: Offset(0, offsetAnimation.value),
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 10, right: 10),
-                                  height: 40,
-                                  color: _checkSuccess
-                                      ? Color(0x7F66BB6A)
-                                      : Color.fromRGBO(200, 100, 100, 0.4),
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    _checkSuccess
-                                        ? "${(_checkMilliseconds / (60.0 * 12)).toStringAsFixed(2)}s验证成功"
-                                        : "验证失败",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            )),
-                        Positioned(
-                            bottom: -20,
-                            left: 0,
-                            right: 0,
-                            child: Offstage(
-                              offstage: !_showTimeLine,
-                              child: Container(
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                height: 20,
-                                color: Colors.white,
-                              ),
-                            ))
-                      ],
-                    ),
-                  ),
-
-                  //底部，滑动区域
-                  baseSize.width > 0
-                      ? Container(
-                          height: 70,
-                          width: baseSize.width,
-                          child: Stack(
-                            alignment: AlignmentDirectional.centerStart,
-                            children: <Widget>[
-                              Container(
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 1,
-                                    color: Color(0xffe5e5e5),
-                                  ),
-                                  color: Color(0xfff8f9fb),
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  '向右拖动滑块填充拼图',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                              Container(
-                                width: sliderXMoved,
-                                height: 58,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: sliderXMoved > 0 ? 1 : 0,
-                                    color: movedXBorderColor,
-                                  ),
-                                  color: Color(0xfff3fef1),
-                                ),
-                              ),
-                              GestureDetector(
-                                onPanStart: (startDetails) {
-                                  _checkMilliseconds =
-                                      new DateTime.now().millisecondsSinceEpoch;
-//                                  print("startDetails");
-//                                  print(startDetails.globalPosition);
-
-                                  sliderStartX = startDetails.globalPosition.dx;
-//                                  print(
-//                                      "startDetails --- sliderStartX ${sliderStartX} ");
-                                },
-                                onPanUpdate: (updateDetails) {
-//                                  print("updateDetails");
-//                                  print(updateDetails.globalPosition);
-//
-                                  double offset =
-                                      updateDetails.globalPosition.dx -
-                                          sliderStartX;
-//                          print("updateDetails.offet  ${offset * (dialogWidth - 20) / 310.0}");
-//                          print("updateDetails.offet11 ${offset} ${offset + 60}   ${dialogWidth - 20}");
-                                  double _w1 = baseSize.width - 60;
-                                  if (offset < 0) {
-                                    offset = 0;
-                                  } else if ((offset > _w1)) {
-                                    offset = _w1;
-                                  }
-                                  setState(() {
-                                    sliderXMoved = offset;
-                                  });
-                                  //滑动过程，改变滑块左边框颜色
-                                  updateSliderColorIcon();
-                                },
-                                onPanEnd: (endDetails) {
-//                                  print("endDetails");
-                                  checkCaptcha(sliderXMoved, captchaToken);
-                                  int _nowTime =
-                                      new DateTime.now().millisecondsSinceEpoch;
-                                  _checkMilliseconds =
-                                      _nowTime - _checkMilliseconds;
-
-                                  //滑动结束
-                                },
-                                child: Container(
-                                  width: 60,
-                                  height: 60,
-                                  margin: EdgeInsets.fromLTRB(
-                                      sliderXMoved > 0 ? sliderXMoved : 1,
-                                      0,
-                                      0,
-                                      0),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      top: BorderSide(
-                                        width: 1,
-                                        color: Color(0xffe5e5e5),
-                                      ),
-                                      right: BorderSide(
-                                        width: 1,
-                                        color: Color(0xffe5e5e5),
-                                      ),
-                                      bottom: BorderSide(
-                                        width: 1,
-                                        color: Color(0xffe5e5e5),
-                                      ),
-                                    ),
-                                    color: sliderColor,
-                                  ),
-                                  child: IconButton(
-                                    icon: Icon(sliderIcon),
-                                    iconSize: 30,
-                                    color: Colors.black54,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ))
-                      : Container(),
-                ],
-              ),
+              _topContainer(),
+              _middleContainer(),
+              _bottomContainer(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  ///顶部，提示+关闭
+  _topContainer() {
+    return Container(
+      height: 50,
+      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(width: 1, color: Color(0xffe5e5e5))),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            '请完成安全验证',
+            style: TextStyle(fontSize: 18),
+          ),
+          IconButton(
+              icon: Icon(Icons.highlight_off),
+              iconSize: 30,
+              color: Colors.black38,
+              onPressed: () {
+                //退出
+                Navigator.pop(context);
+              }),
+        ],
+      ),
+    );
+  }
+
+  _middleContainer() {
+    ////显示验证码
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Stack(
+        children: <Widget>[
+          ///底图 310*155
+          baseImageBase64.length > 0
+              ? Image.memory(
+            Base64Decoder().convert(baseImageBase64),
+            fit: BoxFit.fitWidth,
+            key: _baseImageKey,
+            gaplessPlayback: true,
+          )
+              : Container(
+            width: 310,
+            height: 155,
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(),
+          ),
+
+          ///滑块图
+          slideImageBase64.length > 0
+              ? Container(
+            margin: EdgeInsets.fromLTRB(sliderXMoved, 0, 0, 0),
+            child: Image.memory(
+              Base64Decoder().convert(slideImageBase64),
+              fit: BoxFit.fitHeight,
+              key: _slideImageKey,
+              gaplessPlayback: true,
+            ),
+          )
+              : Container(),
+
+          //刷新按钮
+          Positioned(
+            top: 0,
+            right: 0,
+            child: IconButton(
+                icon: Icon(Icons.refresh),
+                iconSize: 30,
+                color: Colors.black54,
+                onPressed: () {
+                  //刷新
+                  loadCaptcha();
+                }),
+          ),
+          Positioned(
+              bottom: 0,
+              left: -10,
+              right: -10,
+              child: Offstage(
+                offstage: !_showTimeLine,
+                child: FractionalTranslation(
+                  translation: Offset(0, offsetAnimation.value),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    height: 40,
+                    color: _checkSuccess
+                        ? Color(0x7F66BB6A)
+                        : Color.fromRGBO(200, 100, 100, 0.4),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      _checkSuccess
+                          ? "${(_checkMilliseconds / (60.0 * 12)).toStringAsFixed(2)}s验证成功"
+                          : "验证失败",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              )),
+          Positioned(
+              bottom: -20,
+              left: 0,
+              right: 0,
+              child: Offstage(
+                offstage: !_showTimeLine,
+                child: Container(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  height: 20,
+                  color: Colors.white,
+                ),
+              ))
+        ],
+      ),
+    );
+  }
+  ///底部，滑动区域
+  _bottomContainer() {
+    return baseSize.width >0
+        ? Container(
+        height: 70,
+        width: baseSize.width,
+//            color: Colors.cyanAccent,
+        child: Stack(
+          alignment: AlignmentDirectional.centerStart,
+          children: <Widget>[
+            Container(
+              height: _bottomSliderSize,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1,
+                  color: Color(0xffe5e5e5),
+                ),
+                color: Color(0xfff8f9fb),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                '向右拖动滑块填充拼图',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            Container(
+              width: sliderXMoved,
+              height: _bottomSliderSize-2,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: sliderXMoved > 0 ? 1 : 0,
+                  color: movedXBorderColor,
+                ),
+                color: Color(0xfff3fef1),
+              ),
+            ),
+            GestureDetector(
+              onPanStart: (startDetails) {///开始
+                _checkMilliseconds = new DateTime.now().millisecondsSinceEpoch;
+                print(startDetails.localPosition);
+                sliderStartX = startDetails.localPosition.dx;
+              },
+              onPanUpdate: (updateDetails) { ///更新
+                print(updateDetails.localPosition);
+                double _w1 = _baseImageKey.currentContext.size.width - _slideImageKey.currentContext.size.width;
+                double offset = updateDetails.localPosition.dx - sliderStartX;
+                if(offset < 0){
+                  offset = 0;
+                }
+                if(offset > _w1){
+                  offset = _w1;
+                }
+                print("offset ------ $offset");
+                setState(() {
+                  sliderXMoved = offset;
+                });
+                //滑动过程，改变滑块左边框颜色
+                updateSliderColorIcon();
+              },
+              onPanEnd: (endDetails) { //结束
+                print("endDetails");
+                checkCaptcha(sliderXMoved, captchaToken);
+                int _nowTime = new DateTime.now().millisecondsSinceEpoch;
+                _checkMilliseconds = _nowTime - _checkMilliseconds;
+              },
+              child: Container(
+                width: _bottomSliderSize,
+                height: _bottomSliderSize,
+                margin: EdgeInsets.only(left: sliderXMoved > 0 ? sliderXMoved : 1),
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      width: 1,
+                      color: Color(0xffe5e5e5),
+                    ),
+                    right: BorderSide(
+                      width: 1,
+                      color: Color(0xffe5e5e5),
+                    ),
+                    bottom: BorderSide(
+                      width: 1,
+                      color: Color(0xffe5e5e5),
+                    ),
+                  ),
+                  color: sliderColor,
+                ),
+                child: IconButton(
+                  icon: Icon(sliderIcon),
+                  iconSize: 30,
+                  color: Colors.black54,
+                ),
+              ),
+            )
+          ],
+        ))
+        : Container();
+  }
+}
+
+
+class MaxScaleTextWidget extends StatelessWidget {
+  final double max;
+  final Widget child;
+
+  MaxScaleTextWidget({Key key, this.max = 1.0, this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var data = MediaQuery.of(context);
+    var textScaleFactor = min(max, data.textScaleFactor);
+    return MediaQuery(data: data.copyWith(textScaleFactor: textScaleFactor), child: child);
   }
 }

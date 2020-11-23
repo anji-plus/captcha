@@ -1,5 +1,6 @@
 package com.example.verificationcodedemo.utils
 
+import android.provider.Contacts.SettingsColumns.KEY
 import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
@@ -13,18 +14,23 @@ import javax.crypto.spec.SecretKeySpec
  * author:wuyan
  */
 object AESUtil {
-
-    private val KEY: String = "XwKsGlMcdPMEhR1B"
     private val ALGORITHMSTR: String = "AES/ECB/PKCS7Padding"
     private val ALGORITHM: String = "AES"
 
-    fun encode(content: String): String {
+    fun encode(content: String, key: String): String {
         if (TextUtils.isEmpty(content)) {
             return content
         }
+        if (key.isEmpty()) {
+            return content
+        }
         try {
-            val result = encrypt(KEY, content)
-            return String(Base64.encode(result, Base64.DEFAULT))
+            val result = encrypt(key, content)
+            var s = String(Base64.encode(result, Base64.DEFAULT))
+            if (s.contains("\n")) {
+                return s.replace("\n", "")
+            }
+            return s
         } catch (e: Exception) {
             e.printStackTrace()
         }

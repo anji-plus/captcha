@@ -10,5 +10,6 @@ class CaptchaGetIt(
     val jigsawImageBase64: String,
     val token: String,// 获取的token 用于校验
     val result: Boolean,
-    val opAdmin: Boolean
+    val opAdmin: Boolean,
+    val secretKey:String //ase密钥
 )

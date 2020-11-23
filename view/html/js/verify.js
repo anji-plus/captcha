@@ -43,6 +43,7 @@
 		this.$element = ele,
 		this.backToken = null,
 		this.moveLeftDistance = 0,
+		this.secretKey = '',
         this.defaults = {
 			baseUrl:"https://mirror.anji-plus.com/captcha-api",
 			containerId:'',
@@ -63,7 +64,8 @@
 	        barSize : {
 	        	width : '310px',
 	        	height : '50px',
-	        },
+			},
+			beforeCheck(){ return true},
             ready : function(){},
         	success : function(){},
             error : function(){}
@@ -95,7 +97,9 @@
 				
 				let clickBtn = document.getElementById(this.options.containerId);
 				clickBtn && (clickBtn.onclick = function(){
-					_this.$element.find(".mask").css("display","block");
+					if (_this.options.beforeCheck()) {
+						_this.$element.find(".mask").css("display","block");
+					}
 				})
         	}
         	
@@ -205,7 +209,7 @@
         	
         	this.$element.css('position', 'relative');
 
-			this.htmlDoms.sub_block.css({'height':this.setSize.img_height,'width':Math.ceil(parseInt(this.setSize.img_width)*50/310)+ 'px',
+			this.htmlDoms.sub_block.css({'height':this.setSize.img_height,'width':Math.floor(parseInt(this.setSize.img_width)*47/310)+ 'px',
 									'top':-(parseInt(this.setSize.img_height) + this.options.vSpace) + 'px'})
 			this.htmlDoms.out_panel.css('height', parseInt(this.setSize.img_height) + this.options.vSpace + 'px');
 			this.htmlDoms.img_panel.css({'width': this.setSize.img_width, 'height': this.setSize.img_height});
@@ -217,6 +221,12 @@
 
         //鼠标按下
         start: function(e) {
+			if(!e.touches) {    //兼容移动端
+				var x = e.clientX;
+			}else {     //兼容PC端
+				var x = e.touches[0].pageX;
+			}
+			this.startLeft = Math.floor(x - this.htmlDoms.bar_area[0].getBoundingClientRect().left);
 			this.startMoveTime = new Date().getTime();
         	if(this.isEnd == false) {
 	        	this.htmlDoms.msg.text('');
@@ -237,7 +247,7 @@
 	                var x = e.touches[0].pageX;
 	            }
 				var bar_area_left = this.htmlDoms.bar_area[0].getBoundingClientRect().left;
-                var move_block_left = x - bar_area_left; //小方块相对于父元素的left值
+				var move_block_left = x - bar_area_left; //小方块相对于父元素的left值
 				if(move_block_left >= (this.htmlDoms.bar_area[0].offsetWidth - parseInt(this.setSize.bar_height) + parseInt(parseInt(this.setSize.block_width)/2) - 2) ) {
 					move_block_left = (this.htmlDoms.bar_area[0].offsetWidth - parseInt(this.setSize.bar_height) + parseInt(parseInt(this.setSize.block_width)/2)- 2);
 				}
@@ -245,12 +255,10 @@
             		move_block_left = parseInt(parseInt(this.setSize.block_width)/2);
             	}
 				//拖动后小方块的left值
-
-	            this.htmlDoms.move_block.css('left', move_block_left-parseInt(parseInt(this.setSize.block_width)/2) + "px");
-	            this.htmlDoms.left_bar.css('width', move_block_left-parseInt(parseInt(this.setSize.block_width)/2) + "px");
+	            this.htmlDoms.move_block.css('left', move_block_left-this.startLeft + "px");
+	            this.htmlDoms.left_bar.css('width', move_block_left-this.startLeft + "px");
 				this.htmlDoms.sub_block.css('left', "0px");
-				
-				this.moveLeftDistance = move_block_left-parseInt(parseInt(this.setSize.block_width)/2)
+				this.moveLeftDistance = move_block_left - this.startLeft
 	        }
         },
         
@@ -263,12 +271,13 @@
 				var vOffset = parseInt(this.options.vOffset);
 				this.moveLeftDistance = this.moveLeftDistance * 310/ parseInt(this.setSize.img_width)
 				//图片滑动
+
 				let data = {
 					captchaType:this.options.captchaType,
-					"pointJson":aesEncrypt(JSON.stringify({x:this.moveLeftDistance,y:5.0})),
+					"pointJson": this.secretKey ? aesEncrypt(JSON.stringify({x:this.moveLeftDistance,y:5.0}),this.secretKey):JSON.stringify({x:this.moveLeftDistance,y:5.0}),
 					"token":this.backToken
 				}
-				var captchaVerification = aesEncrypt(this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0}))
+				var captchaVerification = this.secretKey ? aesEncrypt(this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0}),this.secretKey):this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0})
 				checkPictrue(data,this.options.baseUrl).then(res=>{
 					// 请求反正成功的判断
 					if (res.repCode=="0000") {
@@ -277,12 +286,10 @@
 						this.htmlDoms.icon.css('color', '#fff');
 						this.htmlDoms.icon.removeClass('icon-right');
 						this.htmlDoms.icon.addClass('icon-check');
-
 						//提示框
 						this.htmlDoms.tips.addClass('suc-bg').removeClass('err-bg')
 						this.htmlDoms.tips.css({"display":"block",animation:"move 1s cubic-bezier(0, 0, 0.39, 1.01)"});
 						this.htmlDoms.tips.text(`${((this.endMovetime-this.startMoveTime)/1000).toFixed(2)}s验证成功`)
-
 						this.isEnd = true;
 						setTimeout(res=>{
 							_this.$element.find(".mask").css("display","none");
@@ -298,16 +305,15 @@
 						this.htmlDoms.icon.addClass('icon-close');
 
 						this.htmlDoms.tips.addClass('err-bg').removeClass('suc-bg')
-						this.htmlDoms.tips.css({"display":"block",animation:"move 1s cubic-bezier(0, 0, 0.39, 1.01)"});
-						this.htmlDoms.tips.text(`验证失败`)
-
+						this.htmlDoms.tips.css({"display":"block",animation:"move 1.3s cubic-bezier(0, 0, 0.39, 1.01)"});
+						this.htmlDoms.tips.text(res.repMsg)
 						setTimeout(function () { 
 							_this.refresh();
 						}, 400);
 
 						setTimeout(()=>{
 							this.htmlDoms.tips.css({"display":"none",animation:"none"});
-						},1000)
+						},1300)
 						this.options.error(this);
 					}
 				})
@@ -390,6 +396,7 @@
 				if (res.repCode=="0000") {
 					this.$element.find(".backImg")[0].src = 'data:image/png;base64,'+res.repData.originalImageBase64
 					this.$element.find(".bock-backImg")[0].src = 'data:image/png;base64,'+res.repData.jigsawImageBase64
+					this.secretKey = res.repData.secretKey
 					this.backToken = res.repData.token
 				}
 			});
@@ -402,6 +409,7 @@
     var Points = function(ele, opt) {
 		this.$element = ele,
 		this.backToken = null,
+		this.secretKey = '',
         this.defaults = {
 			baseUrl:"https://mirror.anji-plus.com/captcha-api",
 			captchaType:"clickWord",
@@ -416,7 +424,8 @@
 	        barSize : {
 	        	width : '310px',
 	        	height : '50px',
-	        },
+			},
+			beforeCheck(){ return true},
 	        ready : function(){},
         	success : function(){},
             error : function(){}
@@ -426,9 +435,7 @@
     
     //定义Points的方法
     Points.prototype = {
-
     	init : function() {
-			
 			var _this = this;
 			//加载页面
         	_this.loadDom();
@@ -448,11 +455,12 @@
 				
 				let clickBtn = document.getElementById(this.options.containerId);
 				clickBtn && (clickBtn.onclick = function(){
-					_this.$element.find(".mask").css("display","block");
+					if (_this.options.beforeCheck()) {
+						_this.$element.find(".mask").css("display","block");
+					}
 				})
 				
         	}
-   	
 		 	// 注册点击验证事件
         	_this.$element.find('.back-img').on('click', function(e) {
         		
@@ -465,11 +473,10 @@
 					setTimeout(()=>{ 
 						let data = {
 							captchaType:_this.options.captchaType,
-							"pointJson":aesEncrypt(JSON.stringify(_this.checkPosArr)),
+							"pointJson":_this.secretKey ? aesEncrypt(JSON.stringify(_this.checkPosArr),_this.secretKey):JSON.stringify(_this.checkPosArr),
 							"token":_this.backToken
 						}
-
-						var captchaVerification = aesEncrypt(_this.backToken+'---'+JSON.stringify(_this.checkPosArr))
+						var captchaVerification = _this.secretKey ? aesEncrypt(_this.backToken+'---'+JSON.stringify(_this.checkPosArr),_this.secretKey):_this.backToken+'---'+JSON.stringify(_this.checkPosArr)
 						checkPictrue(data, _this.options.baseUrl).then(res=>{
 							if (res.repCode=="0000") {
 								_this.$element.find('.verify-bar-area').css({'color': '#4cae4c', 'border-color': '#5cb85c'});
@@ -598,6 +605,7 @@
 				if (res.repCode=="0000") {
 					this.htmlDoms.back_img[0].src ='data:image/png;base64,'+ res.repData.originalImageBase64
 					this.backToken = res.repData.token
+					this.secretKey = res.repData.secretKey
 					let text = '请依次点击【' + res.repData.wordList.join(",") + '】'
 					_this.$element.find('.verify-msg').text(text);
 				}
@@ -615,14 +623,22 @@
     };
     //在插件中使用slideVerify对象
     $.fn.slideVerify = function(options, callbacks) {
-        var slide = new Slide(this, options);
-        slide.init();
+		var slide = new Slide(this, options);
+		if (slide.options.mode=="pop" && slide.options.beforeCheck()) {
+			slide.init();
+		}else if (slide.options.mode=="fixed") {
+			slide.init();
+		}
     };
     
     //在插件中使用clickVerify对象
     $.fn.pointsVerify = function(options, callbacks) {
         var points = new Points(this, options);
-        points.init();
+		if (points.options.mode=="pop" && points.options.beforeCheck()) {
+			points.init();
+		}else if (points.options.mode=="fixed") {
+			points.init();
+		}
     };
    
 })(jQuery, window, document);
