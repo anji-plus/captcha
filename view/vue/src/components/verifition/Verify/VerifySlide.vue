@@ -27,15 +27,14 @@
                      :style="{width: barSize.height, height: barSize.height, 'background-color': moveBlockBackgroundColor, left: moveBlockLeft, transition: transitionLeft}">
                     <i :class="['verify-icon iconfont', iconClass]"
                        :style="{color: iconColor}"></i>
-                    <div v-if="type === '2'"
-                         class="verify-sub-block"
-                         :style="{'width':Math.floor(parseInt(setSize.imgWidth)*47/310)+ 'px',
+                    <div v-if="type === '2'" class="verify-sub-block"
+                        :style="{'width':Math.floor(parseInt(setSize.imgWidth)*47/310)+ 'px',
                                   'height': setSize.imgHeight,
                                   'top':'-' + (parseInt(setSize.imgHeight) + vSpace) + 'px',
                                   'background-size': setSize.imgWidth + ' ' + setSize.imgHeight,
                                   }">
-                         <img :src="'data:image/png;base64,'+blockBackImgBase" alt=""  style="width:100%;height:100%;display:block">
-                         </div>
+                        <img :src="'data:image/png;base64,'+blockBackImgBase" alt=""  style="width:100%;height:100%;display:block">
+                    </div>
                 </div>
             </div>
         </div>
