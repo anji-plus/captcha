@@ -124,7 +124,7 @@ public ResponseModel get(@RequestBody CaptchaVO captchaVO) {
 ### 3.1.1 字体乱码问题
 点选文字中所用字体默认为宋体，linux不支持该字体，所以可能会出现以下图中情况，如图3-1所示。
 
-![字体错误](https://mirror.anji-plus.com/captcha-web/static/font-error.png "字体错误")
+![字体错误](https://captcha.anji-plus.com/captcha-web/static/font-error.png "字体错误")
  
 图3-1  点选文字字体乱码
 ### 3.1.2 乱码解决方案

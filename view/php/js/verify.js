@@ -45,7 +45,7 @@
 		this.moveLeftDistance = 0,
 		this.secretKey = '',
         this.defaults = {
-			baseUrl:"https://mirror.anji-plus.com/captcha-api",
+			baseUrl:"https://captcha.anji-plus.com/captcha-api",
 			containerId:'',
         	captchaType:"blockPuzzle",
         	mode : 'fixed',	//弹出式pop，固定fixed
@@ -411,7 +411,7 @@
 		this.backToken = null,
 		this.secretKey = '',
         this.defaults = {
-			baseUrl:"https://mirror.anji-plus.com/captcha-api",
+			baseUrl:"https://captcha.anji-plus.com/captcha-api",
 			captchaType:"clickWord",
 			containerId:'',
         	mode : 'fixed',	//弹出式pop，固定fixed

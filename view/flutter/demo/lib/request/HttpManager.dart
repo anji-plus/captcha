@@ -15,7 +15,7 @@ class HttpManager {
   };
   //请求base url
 //  static String baseUrl = "http://10.108.11.46:8080/api";
-  static String baseUrl = "https://mirror.anji-plus.com/captcha-api";
+  static String baseUrl = "https://captcha.anji-plus.com/captcha-api";
 
   ///发起网络请求
   ///[ url] 请求url

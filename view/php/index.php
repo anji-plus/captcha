@@ -6,17 +6,17 @@ if($requestUri == '/captcha/get'){
     $payload = file_get_contents('php://input');
     header('Content-Type: application/json;charset=UTF-8');
     header('Transfer-Encoding: chunked');
-    echo AjCaptcharHelper::postRequest('https://mirror.anji-plus.com/captcha-api/captcha/get', $payload);
+    echo AjCaptcharHelper::postRequest('https://captcha.anji-plus.com/captcha-api/captcha/get', $payload);
 }elseif($requestUri == '/captcha/check'){
     $payload = file_get_contents('php://input');
     header('Content-Type: application/json;charset=UTF-8');
     header('Transfer-Encoding: chunked');
-    echo AjCaptcharHelper::ostRequest('https://mirror.anji-plus.com/captcha-api/captcha/check', $payload);
+    echo AjCaptcharHelper::ostRequest('https://captcha.anji-plus.com/captcha-api/captcha/check', $payload);
 }elseif($requestUri == '/captcha/verify'){
     $payload = file_get_contents('php://input');
     header('Content-Type: application/json;charset=UTF-8');
     header('Transfer-Encoding: chunked');
-    echo AjCaptcharHelper::postRequest('https://mirror.anji-plus.com/captcha-api/captcha/verify', $payload);
+    echo AjCaptcharHelper::postRequest('https://captcha.anji-plus.com/captcha-api/captcha/verify', $payload);
 }else{
 ?>
 <!DOCTYPE html>
