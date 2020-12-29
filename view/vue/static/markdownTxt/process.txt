@@ -2,13 +2,13 @@
 #### &emsp; 1.1 电脑在线体验:[https://captcha.anji-plus.com/captcha-web/](https://captcha.anji-plus.com/captcha-web/ "链接")
 #### &emsp; 1.2 微信小程序和H5在线体验（基于uni-app实现）
  &emsp;&emsp; 如果图片未能正常展示，可查看码云，和github同步 [码云]( https://gitee.com/anji-plus/captcha "码云")<br>
- &emsp;&emsp; ![微信小程序](https://captcha.anji-plus.com/captcha-web/static/8cm.jpg "微信小程序")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")<br>
+ &emsp;&emsp; ![微信小程序](https://captcha.anji-plus.com/static/8cm.jpg "微信小程序")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")<br>
  &emsp;&emsp;&emsp;&emsp;&emsp;微信小程序Demo&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;uni-app H5 demo
 
 # 2 功能概述
 #### &emsp; 2.1 组件介绍
  &emsp;&emsp; 行为验证码采用嵌入式集成方式，接入方便，安全，高效。抛弃了传统字符型验证码展示-填写字符-比对答案的流程，采用验证码展示-采集用户行为-分析用户行为流程，用户只需要产生指定的行为轨迹，不需要键盘手动输入，极大优化了传统验证码用户体验不佳的问题；同时，快速、准确的返回人机判定结果。目前对外提供两种类型的验证码，其中包含滑动拼图、文字点选。如图1-1、1-2所示。若希望不影响原UI布局，可采用弹出式交互。<br>
- &emsp;&emsp; ![滑动拼图](https://captcha.anji-plus.com/captcha-web/static/blockPuzzle.png "滑动拼图")&emsp;&emsp;&emsp;&emsp;&emsp;![点选文字](https://captcha.anji-plus.com/captcha-web/static/clickWord.png "点选文字")<br>
+ &emsp;&emsp; ![滑动拼图](https://captcha.anji-plus.com/static/blockPuzzle.png "滑动拼图")&emsp;&emsp;&emsp;&emsp;&emsp;![点选文字](https://captcha.anji-plus.com/static/clickWord.png "点选文字")<br>
  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;  图1-1 滑动拼图(水印自定义)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;图1-2 文字点选(水印自定义)
 
 #### &emsp; 2.2 概念术语描述
@@ -24,7 +24,7 @@
 ③	用户提交表单，前端将第二步的输出一同提交到后台<br>
 ④	验证数据随表单提交到后台后，后台需要调用captchaService.verification做二次校验。<br>
 ⑤	第4步返回校验通过/失败到产品应用后端，再返回到前端。如下图所示。
-![时序图](https://captcha.anji-plus.com/captcha-web/static/shixu.png "时序图")
+![时序图](https://captcha.anji-plus.com/static/shixu.png "时序图")
 
 # 4 目录结构
 ├─core    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;     java后端jar包<br>
