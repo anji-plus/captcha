@@ -25,7 +25,7 @@ export default {
     watch: {
         'filePath':{
             handler(){
-                this.newFilePath = 'https://mirror.anji-plus.com/captcha-web' + this.filePath
+                this.newFilePath = 'https://captcha.anji-plus.com/' + this.filePath
                 this.loadFile();
             },
             immediate:true

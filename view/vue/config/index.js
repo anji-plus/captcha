@@ -46,8 +46,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/captcha-web/',
-    // assetsPublicPath: './',
+    assetsPublicPath: '/',
 
     /**
      * Source Maps
