@@ -6,7 +6,7 @@ import {Headers, Http} from '@angular/http';
 @Injectable()
 export class VerifyService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  private VerifyesUrl = 'https://mirror.anji-plus.com/captcha-api';  // URL to web api
+  private VerifyesUrl = 'https://captcha.anji-plus.com/captcha-api';  // URL to web api
 
   constructor(private http: Http){}
   //请求图片get事件
