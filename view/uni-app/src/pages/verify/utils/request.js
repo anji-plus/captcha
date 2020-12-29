@@ -1,5 +1,5 @@
 
-let baseUrl = "https://mirror.anji-plus.com/captcha-api"
+let baseUrl = "https://captcha.anji-plus.com/captcha-api"
 // let baseUrl = "http://10.108.12.13:8080"
 
 export const myRequest = (option={})=>{

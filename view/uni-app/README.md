@@ -47,7 +47,7 @@ export default {
 ### 注意事项
 	后端请求地址根据部署情况到:\view\uni-app\src\pages\verify\utils\request.js  第二行 修改路劲
 ```javascript
-let baseUrl = "https://mirror.anji-plus.com/captcha-api"
+let baseUrl = "https://captcha.anji-plus.com/captcha-api"
 ```
 
 ### 3.回调事件
