@@ -229,7 +229,6 @@ class VerifySlide extends Component{
             <div
               className='verify-refresh'
               onClick={() => this.refresh()}
-              style={{ display: showRefresh ? 'block' : 'none' }}
             >
               <i className='iconfont icon-refresh'></i>
             </div>
