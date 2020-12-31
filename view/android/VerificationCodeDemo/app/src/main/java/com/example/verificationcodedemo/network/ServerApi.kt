@@ -13,7 +13,7 @@ import retrofit2.http.POST
 interface ServerApi {
 
     companion object {
-        const val urlDefault: String = "https://mirror.anji-plus.com/captcha-api/"
+        const val urlDefault: String = "https://captcha.anji-plus.com/captcha-api/"
     }
 
     //获取验证码
