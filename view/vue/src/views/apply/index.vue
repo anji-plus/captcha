@@ -22,6 +22,7 @@
                                 <h2>WHO IS<span> USING </span> US</h2>
                                 <h4>谁在使用</h4>
                               </div>
+                              <el-button type="primary" round class="push-logo" @click="addLogo">我要提交</el-button>
                               <div class="apply-logo">
                                 <el-row>
                                   <el-col :span="22" :offset="1">
@@ -29,18 +30,19 @@
                                     <li><img src="../../../static/7.png" width="100%"></li>
                                     <li><img src="../../../static/3.png" width="100%"></li>
                                     <li><img src="../../../static/11.png" width="100%"></li> 
+                                    <li><img src="../../../static/12.png" width="100%"></li> 
                                     
-                                    <li><img src="../../../static/8.png" width="100%"></li>
                                     <li><img src="../../../static/5.png" width="100%"></li>
                                     <li><img src="../../../static/1.png" width="100%"></li>
                                     <li><img src="../../../static/2.png" width="100%"></li>
                                     <li><img src="../../../static/4.png" width="100%"></li>
                                     <li>安吉智行TMS</li>
+
                                     <li><img src="../../../static/10.png" width="100%"></li> 
                                     <li>上汽红岩VLS</li>
+                                    <li><img src="../../../static/8.png" width="100%"></li>
+                                    <li><img src="../../../static/6.png" width="100%"></li>
                                     <li style="background:rgb(121 143 222)">智行库位专家</li>
-                                    <li><img src="../../../static/6.png" width="100%"></li> 
-                                    <li style="color:#03afff" @click="addLogo">我要提交</li>
                                   </el-col>
                                 </el-row>
                               </div>
@@ -174,6 +176,13 @@ export default {
         height: 100%;
       }
     }
+  }
+  .push-logo{
+    float: right;
+    margin-top: -1px;
+    display: block;
+    margin-top: -45px;
+    margin-right: 10px;
   }
 </style>
 
