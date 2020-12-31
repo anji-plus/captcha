@@ -8,8 +8,8 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.9.2",
-	"appid": "wxdb2c7ac2f09808bd",
-	"projectname": "uni-app",
+	"appid": "wxaeff35d66e01cddb",
+	"projectname": "mp-weixin",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {
