@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group';
 import '../assets/index.css';
 import {aesEncrypt} from "../api/ase.js";
 
-class VerifySlide extends Component{
+class VerifySlideFixed extends Component{
   constructor(props) {
     super(props)
     this.state = {
@@ -244,7 +244,6 @@ class VerifySlide extends Component{
               <div
                 className='verify-refresh'
                 onClick={() => this.refresh()}
-                style={{ display: showRefresh ? 'block' : 'none' }}
               >
                 <i className='iconfont icon-refresh'></i>
               </div>
@@ -321,7 +320,7 @@ class VerifySlide extends Component{
   }
 }
 
-VerifySlide.defaultProps = {
+VerifySlideFixed.defaultProps = {
   mode: 'fixed',
   vSpace: 5,
   imgSize: {
@@ -340,4 +339,4 @@ VerifySlide.defaultProps = {
   }
 };
 
-export default VerifySlide
+export default VerifySlideFixed
