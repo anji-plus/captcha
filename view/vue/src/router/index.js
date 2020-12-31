@@ -30,13 +30,14 @@ export default new Router({
       redirect:'/helpCenter/admin/1',
       children:[
         {path:'admin/:id',name:"admin",component:()=>import("./../views/helpCenter/HelpAdmin.vue")},
-        // {path:'web',name:"helpWeb",component:()=>import("./../views/helpCenter/HelpWeb.vue")},
         {path:'desc',name:"helpDesc",component:()=>import("./../views/helpCenter/HelpDesc.vue")},
-        // {path:'process',name:"helpProcess",component:()=>import("./../views/helpCenter/HelpProcess.vue")},
         {path:'question',name:"question",component:()=>import("./../views/helpCenter/Question.vue")},
-        // {path:'uniApp',name:"uniApp",component:()=>import("./../views/helpCenter/HelpUniApp.vue")},
-        // {path:'webHtml',name:"webHtml",component:()=>import("./../views/helpCenter/WebHtml.vue")}
       ]
+    },
+    {
+      path: '/apply',
+      name: 'apply',
+      component: ()=> import("./../views/apply/index.vue")
     },
     {
       path: '/login',
