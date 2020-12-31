@@ -2,6 +2,23 @@
 
 ;(function($, window, document,undefined) {
 	
+	// 设备检测
+	function detectmob() {  
+			if( navigator.userAgent.match(/Android/i)  
+			|| navigator.userAgent.match(/webOS/i)  
+			|| navigator.userAgent.match(/iPhone/i)  
+			|| navigator.userAgent.match(/iPad/i)  
+			|| navigator.userAgent.match(/iPod/i)  
+			|| navigator.userAgent.match(/BlackBerry/i)  
+			|| navigator.userAgent.match(/Windows Phone/i)  
+			){  
+					return true;  
+			}  
+			else {  
+					return false;  
+			}  
+	}
+	
     //请求图片get事件
     function getPictrue(data,baseUrl){
 		return new Promise((resolve,reject)=>{
@@ -221,12 +238,13 @@
 
         //鼠标按下
         start: function(e) {
-			if(!e.touches) {    //兼容移动端
-				var x = e.clientX;
-			}else {     //兼容PC端
-				var x = e.touches[0].pageX;
-			}
+					if(detectmob()) { // 手机端
+            var x = e.target.offsetLeft
+					} else {
+						var x = e.clientX;
+					}
 			this.startLeft = Math.floor(x - this.htmlDoms.bar_area[0].getBoundingClientRect().left);
+			console.log(this.startLeft)
 			this.startMoveTime = new Date().getTime();
         	if(this.isEnd == false) {
 	        	this.htmlDoms.msg.text('');
