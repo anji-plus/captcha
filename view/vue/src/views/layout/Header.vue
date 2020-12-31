@@ -31,6 +31,7 @@ export default {
       activeIndex: "1",
       userManageCode:[],
       navList:[
+        { name: "/apply", navItem: "谁在使用",manage:"applyManage"},
         { name: "/helpCenter", navItem: "帮助中心",manage:"platformManage"},
         { name: "/useOnline", navItem: "在线体验",manage:"chartManage"},
       ]
