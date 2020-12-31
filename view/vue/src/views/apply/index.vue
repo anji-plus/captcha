@@ -25,19 +25,22 @@
                               <div class="apply-logo">
                                 <el-row>
                                   <el-col :span="22" :offset="1">
-                                    <li><img src="../../../static/8.png" width="100%"></li>
-                                    <li><img src="../../../static/2.png" width="100%"></li>
-                                    <li><img src="../../../static/1.png" width="100%"></li>
-                                    <li><img src="../../../static/6.png" width="100%"></li> 
                                     <li><img src="../../../static/9.png" width="100%"></li>
-                                    <li><img src="../../../static/5.png" width="100%"></li>
-                                    <li><img src="../../../static/3.png" width="100%"></li>
                                     <li><img src="../../../static/7.png" width="100%"></li>
+                                    <li><img src="../../../static/3.png" width="100%"></li>
+                                    <li><img src="../../../static/11.png" width="100%"></li> 
+                                    
+                                    <li><img src="../../../static/8.png" width="100%"></li>
+                                    <li><img src="../../../static/5.png" width="100%"></li>
+                                    <li><img src="../../../static/1.png" width="100%"></li>
+                                    <li><img src="../../../static/2.png" width="100%"></li>
                                     <li><img src="../../../static/4.png" width="100%"></li>
                                     <li>安吉智行TMS</li>
                                     <li><img src="../../../static/10.png" width="100%"></li> 
                                     <li>上汽红岩VLS</li>
                                     <li style="background:rgb(121 143 222)">智行库位专家</li>
+                                    <li><img src="../../../static/6.png" width="100%"></li> 
+                                    <li style="color:#03afff" @click="addLogo">我要提交</li>
                                   </el-col>
                                 </el-row>
                               </div>
@@ -71,7 +74,25 @@ export default {
     components:{
        myHeader,
        MenuItem 
-    }
+    },
+    methods: {
+      addLogo(){
+        let html ='<div>我们希望您能提供的信息</div>'+
+          '<div>您所在公司、学校或组织和首页，公司logo</div>'+
+          '<div>您的联系方式: 微博、邮箱、微信 (至少一个)</div>'+
+          '<div>您将AJ-Captcha用于哪些业务场景</div>'+
+          '<div>有何改进优化建议</div>'+
+          '<div>将以上信息发送到：MS@anji-plus.com</div>'+
+          '<a href="https://gitee.com/anji-plus/captcha/issues/I2ACRL" style="color:#03afff" target="_blank">了解更多</a>'; 
+        this.$alert(html, '我要提交', {
+          dangerouslyUseHTMLString: true,
+          confirmButtonText: '确定',
+          callback: action => {
+            window.open("mailto:MS@anji-plus.com&Subject=我要提交宣传栏&Body="+html)
+          }
+        });
+      }
+    },
 }
 </script>
 
