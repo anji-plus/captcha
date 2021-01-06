@@ -13,7 +13,7 @@
     "build:prod": "cross-env NODE_ENV=production node build/build.js"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "crypto-js": "^4.0.0",
     "element-ui": "^2.13.0",
     "less": "^3.11.1",
