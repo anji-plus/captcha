@@ -43,6 +43,8 @@
                                     <li><img src="../../../static/8.png" width="100%"></li>
                                     <li><img src="../../../static/6.png" width="100%"></li>
                                     <li style="background:rgb(121 143 222)">智行库位专家</li>
+
+                                    <li><img src="../../../static/13.png" width="100%"></li>
                                   </el-col>
                                 </el-row>
                               </div>
