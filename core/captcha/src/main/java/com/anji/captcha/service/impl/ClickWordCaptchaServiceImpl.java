@@ -6,16 +6,12 @@
  */
 package com.anji.captcha.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.model.vo.PointVO;
-import com.anji.captcha.util.AESUtil;
-import com.anji.captcha.util.ImageUtils;
-import com.anji.captcha.util.RandomUtils;
-import com.anji.captcha.util.StringUtils;
+import com.anji.captcha.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
