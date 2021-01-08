@@ -40,7 +40,7 @@ public class AjCaptchaServiceAutoConfiguration {
         config.put(Const.ORIGINAL_PATH_JIGSAW, prop.getJigsaw());
         config.put(Const.ORIGINAL_PATH_PIC_CLICK, prop.getPicClick());
         config.put(Const.CAPTCHA_SLIP_OFFSET, prop.getSlipOffset());
-        config.put(Const.CAPTCHA_AES_STATUS, prop.getAesStatus());
+        config.put(Const.CAPTCHA_AES_STATUS, String.valueOf(prop.getAesStatus()));
         config.put(Const.CAPTCHA_WATER_FONT, prop.getWaterFont());
         config.put(Const.CAPTCHA_CACAHE_MAX_NUMBER, prop.getCacheNumber());
         config.put(Const.CAPTCHA_TIMING_CLEAR_SECOND, prop.getTimingClear());
