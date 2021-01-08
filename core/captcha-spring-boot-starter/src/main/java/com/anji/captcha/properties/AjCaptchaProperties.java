@@ -79,7 +79,11 @@ public class AjCaptchaProperties {
         /**
          * redis.
          */
-        redis
+        redis,
+        /**
+         * 其他.
+         */
+        other,
     }
 
     public static String getPREFIX() {
