@@ -6,7 +6,6 @@
  */
 package com.anji.captcha.util;
 
-import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.model.common.CaptchaBaseMapEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
