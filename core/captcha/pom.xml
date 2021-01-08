@@ -6,7 +6,7 @@
 
     <groupId>com.github.anji-plus</groupId>
     <artifactId>captcha</artifactId>
-    <version>1.2.4</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>anji-plus captcha.jar</description>
@@ -25,13 +25,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.70</version>
             <scope>provided</scope>
         </dependency>
 
