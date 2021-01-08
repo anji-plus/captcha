@@ -62,7 +62,7 @@ I  Your application is running here: http://localhost:8081
 
 # 6 近期计划
 #### &emsp; 6.1 增加weex示例
-#### &emsp; 6.2 增加ReactNative示例
+#### &emsp; 6.2 增加ReactNative示例(已添加)
 
 # 7 技术支持微信群
 微信一群已满，现开放二群。github可能有缓存，不会自动更新。
