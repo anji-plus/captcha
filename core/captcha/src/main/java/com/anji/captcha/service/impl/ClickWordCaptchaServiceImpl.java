@@ -15,7 +15,6 @@ import com.anji.captcha.model.vo.PointVO;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.RandomUtils;
-
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +22,8 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * 点选文字验证码

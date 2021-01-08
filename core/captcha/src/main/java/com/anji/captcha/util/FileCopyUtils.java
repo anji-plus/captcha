@@ -3,16 +3,9 @@ package com.anji.captcha.util;
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by Fernflower decompiler)
 //
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.nio.file.Files;;
+
+import java.io.*;
+import java.nio.file.Files;
 
 public abstract class FileCopyUtils {
     public static final int BUFFER_SIZE = 4096;
