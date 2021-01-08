@@ -1,6 +1,8 @@
 package com.anji.captcha.util;
 
 import com.anji.captcha.model.vo.PointVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.Map;
  *@date 2021/1/8
  */
 public class JSONObject {
+	private static Logger logger = LoggerFactory.getLogger(JSONObject.class);
 	public static List<PointVO> parseArray(String text, Class<PointVO> clazz) {
 		if (text == null) {
 			return null;
@@ -39,7 +42,8 @@ public class JSONObject {
 			PointVO ret = clazz.newInstance();
 			return ret.parse(text);
 		}catch (Exception ex){
-			// ignore
+			logger.error("json解析异常", ex);
+
 		}
 		return null;
 	}
