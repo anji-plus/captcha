@@ -25,7 +25,8 @@ public final class CacheUtil {
     private static Integer CACHE_MAX_NUMBER = 1000;
 
     /**
-     * 初始化
+     * 初始化 
+     * todo 需要优化的地方，有无必要?多次调用会有什么问题？
      * @param cacheMaxNumber 缓存最大个数
      * @param second 定时任务 秒执行清除过期缓存
      */

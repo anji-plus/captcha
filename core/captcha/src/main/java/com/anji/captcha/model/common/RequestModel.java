@@ -19,10 +19,10 @@ public class RequestModel implements Serializable {
     /**当前请求接口路径 /business/accessUser/login */
     private String servletPath;
 
-    /** {"reqData":{"password":"123456","userName":"admin"},"sign":"a304a7f296f565b6d2009797f68180f0","time":"1542456453355","token":""} */
+    /** {"reqData":{"password":"*****","userName":"admin"},"sign":"a304a7f296f565b6d2009797f68180f0","time":"1542456453355","token":""} */
     private String requestString;
 
-    /** {"password":"123456","userName":"admin"} */
+    /** {"password":"****","userName":"admin"} */
     private JSONObject reqData;
 
     private String token;
