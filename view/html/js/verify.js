@@ -1,4 +1,5 @@
 /*! Verify&admin MIT License by anji-plus*/
+/*! J2eeFAST 优化兼容IE浏览器*/
 
 ;(function($, window, document,undefined) {
 
@@ -21,38 +22,33 @@
 		},{passive:false});
 		
     //请求图片get事件
-    function getPictrue(data,baseUrl){
-		return new Promise((resolve,reject)=>{
-			$.ajax({
-				type : "post",
-				contentType: "application/json;charset=UTF-8",
-				url : baseUrl + "/captcha/get",
-				data :JSON.stringify(data),  
-				success:function(res){
-					resolve(res)
-				},
-				fail: function(err) {
-					reject(err)
-				}
-			})
+    function getPictrue(data,baseUrl,resolve,reject){
+		$.ajax({
+			type : "post",
+			contentType: "application/json;charset=UTF-8",
+			url : baseUrl + "/captcha/get",
+			data :JSON.stringify(data),
+			success:function(res){
+				resolve(res)
+			},
+			fail: function(err) {
+				reject(err)
+			}
 		})
-        
 	}
 	//验证图片check事件
-	function checkPictrue(data,baseUrl){
-		return new Promise((resolve,reject)=>{
-			$.ajax({
-				type : "post",
-				contentType: "application/json;charset=UTF-8",
-				url : baseUrl + "/captcha/check",
-				data :JSON.stringify(data),   
-				success:function(res){
-					resolve(res)
-				},
-				fail: function(err) {
-					reject(err)
-				}
-			})
+	function checkPictrue(data,baseUrl,resolve,reject){
+		$.ajax({
+			type : "post",
+			contentType: "application/json;charset=UTF-8",
+			url : baseUrl + "/captcha/check",
+			data :JSON.stringify(data),
+			success:function(res){
+				resolve(res)
+			},
+			fail: function(err) {
+				reject(err)
+			}
 		})
 	}
    
@@ -83,7 +79,7 @@
 	        	width : '310px',
 	        	height : '50px',
 			},
-			beforeCheck(){ return true},
+			beforeCheck:function(){ return true},
             ready : function(){},
         	success : function(){},
             error : function(){}
@@ -113,7 +109,7 @@
 					_this.refresh();
 				});
 				
-				let clickBtn = document.getElementById(this.options.containerId);
+				var clickBtn = document.getElementById(this.options.containerId);
 				clickBtn && (clickBtn.onclick = function(){
 					if (_this.options.beforeCheck()) {
 						_this.$element.find(".mask").css("display","block");
@@ -166,46 +162,46 @@
         	var wrapHtml = '';
 			this.lengthPercent = (parseInt(this.setSize.img_width)-parseInt(this.setSize.block_width)- parseInt(this.setSize.circle_radius) - parseInt(this.setSize.circle_radius) * 0.8)/(parseInt(this.setSize.img_width)-parseInt(this.setSize.bar_height));
 			
-			wrapStartHtml = `<div class="mask">
-								<div class="verifybox" style="width:${parseInt(this.setSize.img_width)+30}px">
-									<div class="verifybox-top">
-										请完成安全验证
-										<span class="verifybox-close">
-											<i class="iconfont icon-close"></i>
-										</span>
-									</div>
-									<div class="verifybox-bottom" style="padding:15px">
-										<div style="position: relative;">`
+			wrapStartHtml = '<div class="mask">'+
+								'<div class="verifybox" style="width:'+(parseInt(this.setSize.img_width)+30)+'px">'+
+									'<div class="verifybox-top">'+
+										'请完成安全验证'+
+										'<span class="verifybox-close">'+
+											'<i class="iconfont icon-close"></i>'+
+										'</span>'+
+									'</div>'+
+									'<div class="verifybox-bottom" style="padding:15px">'+
+										'<div style="position: relative;">';
 
 			if (this.options.mode == 'pop') {
 				panelHtml = wrapStartHtml
 			}
-			panelHtml += `<div class="verify-img-out">
-							<div class="verify-img-panel">
-								<div class="verify-refresh" style="z-index:3">
-									<i class="iconfont icon-refresh"></i>
-								</div>
-								<span class="verify-tips"  class="suc-bg"></span>
-								<img src="" class="backImg" style="width:100%;height:100%;display:block">
-							</div>
-						</div>`;
+			panelHtml += '<div class="verify-img-out">'+
+							'<div class="verify-img-panel">'+
+								'<div class="verify-refresh" style="z-index:3">'+
+									'<i class="iconfont icon-refresh"></i>'+
+								'</div>'+
+								'<span class="verify-tips"  class="suc-bg"></span>'+
+								'<img src="" class="backImg" style="width:100%;height:100%;display:block">'+
+							'</div>'+
+						'</div>';
 
 			this.plusWidth = parseInt(this.setSize.block_width) + parseInt(this.setSize.circle_radius) * 2 - parseInt(this.setSize.circle_radius) * 0.2;
 			this.plusHeight = parseInt(this.setSize.block_height) + parseInt(this.setSize.circle_radius) * 2 - parseInt(this.setSize.circle_radius) * 0.2;
 			
-			panelHtml +=`<div class="verify-bar-area" style="{width:${this.setSize.img_width},height:${this.setSize.bar_height},'line-height':${this.setSize.bar_height}">
-									<span  class="verify-msg">${this.options.explain}</span>
-									<div class="verify-left-bar">
-										<span class="verify-msg"></span>
-										<div  class="verify-move-block">
-											<i  class="verify-icon iconfont icon-right"></i>
-											<div class="verify-sub-block">
-												<img src="" class="bock-backImg" alt=""  style="width:100%;height:100%;display:block">
-											</div>
-										</div>
-									</div>
-								</div>`;
-			wrapEndHtml = `</div></div></div></div>`
+			panelHtml +='<div class="verify-bar-area" style="width:'+this.setSize.img_width+',height:'+this.setSize.bar_height+',line-height:'+this.setSize.bar_height+'">'+
+									'<span  class="verify-msg">'+this.options.explain+'</span>'+
+									'<div class="verify-left-bar">'+
+										'<span class="verify-msg"></span>'+
+										'<div  class="verify-move-block">'+
+											'<i  class="verify-icon iconfont icon-right"></i>'+
+											'<div class="verify-sub-block">'+
+												'<img src="" class="bock-backImg" alt=""  style="width:100%;height:100%;display:block">'+
+											'</div>'+
+										'</div>'+
+									'</div>'+
+								'</div>';
+			wrapEndHtml = '</div></div></div></div>';
 			if (this.options.mode == 'pop') {
 				panelHtml += wrapEndHtml
 			}
@@ -295,49 +291,49 @@
 				this.moveLeftDistance = this.moveLeftDistance * 310/ parseInt(this.setSize.img_width)
 				//图片滑动
 
-				let data = {
+				var data = {
 					captchaType:this.options.captchaType,
 					"pointJson": this.secretKey ? aesEncrypt(JSON.stringify({x:this.moveLeftDistance,y:5.0}),this.secretKey):JSON.stringify({x:this.moveLeftDistance,y:5.0}),
 					"token":this.backToken
 				}
 				var captchaVerification = this.secretKey ? aesEncrypt(this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0}),this.secretKey):this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0})
-				checkPictrue(data,this.options.baseUrl).then(res=>{
+				checkPictrue(data,this.options.baseUrl,function(res){
 					// 请求反正成功的判断
 					if (res.repCode=="0000") {
-						this.htmlDoms.move_block.css('background-color', '#5cb85c');
-						this.htmlDoms.left_bar.css({'border-color': '#5cb85c', 'background-color': '#fff'});
-						this.htmlDoms.icon.css('color', '#fff');
-						this.htmlDoms.icon.removeClass('icon-right');
-						this.htmlDoms.icon.addClass('icon-check');
+						_this.htmlDoms.move_block.css('background-color', '#5cb85c');
+						_this.htmlDoms.left_bar.css({'border-color': '#5cb85c', 'background-color': '#fff'});
+						_this.htmlDoms.icon.css('color', '#fff');
+						_this.htmlDoms.icon.removeClass('icon-right');
+						_this.htmlDoms.icon.addClass('icon-check');
 						//提示框
-						this.htmlDoms.tips.addClass('suc-bg').removeClass('err-bg')
-						this.htmlDoms.tips.css({"display":"block",animation:"move 1s cubic-bezier(0, 0, 0.39, 1.01)"});
-						this.htmlDoms.tips.text(`${((this.endMovetime-this.startMoveTime)/1000).toFixed(2)}s验证成功`)
-						this.isEnd = true;
-						setTimeout(res=>{
+						_this.htmlDoms.tips.addClass('suc-bg').removeClass('err-bg')
+						_this.htmlDoms.tips.css({"display":"block",animation:"move 1s cubic-bezier(0, 0, 0.39, 1.01)"});
+						_this.htmlDoms.tips.text(((_this.endMovetime-_this.startMoveTime)/1000).toFixed(2) + 's验证成功');
+						_this.isEnd = true;
+						setTimeout(function(){
 							_this.$element.find(".mask").css("display","none");
-							this.htmlDoms.tips.css({"display":"none",animation:"none"});
+							_this.htmlDoms.tips.css({"display":"none",animation:"none"});
 							_this.refresh();
 						},1000)
-						this.options.success({captchaVerification});
+						_this.options.success({'captchaVerification':captchaVerification});
 					}else{
-						this.htmlDoms.move_block.css('background-color', '#d9534f');
-						this.htmlDoms.left_bar.css('border-color', '#d9534f');
-						this.htmlDoms.icon.css('color', '#fff');
-						this.htmlDoms.icon.removeClass('icon-right');
-						this.htmlDoms.icon.addClass('icon-close');
+						_this.htmlDoms.move_block.css('background-color', '#d9534f');
+						_this.htmlDoms.left_bar.css('border-color', '#d9534f');
+						_this.htmlDoms.icon.css('color', '#fff');
+						_this.htmlDoms.icon.removeClass('icon-right');
+						_this.htmlDoms.icon.addClass('icon-close');
 
-						this.htmlDoms.tips.addClass('err-bg').removeClass('suc-bg')
-						this.htmlDoms.tips.css({"display":"block",animation:"move 1.3s cubic-bezier(0, 0, 0.39, 1.01)"});
-						this.htmlDoms.tips.text(res.repMsg)
+						_this.htmlDoms.tips.addClass('err-bg').removeClass('suc-bg')
+						_this.htmlDoms.tips.css({"display":"block",animation:"move 1.3s cubic-bezier(0, 0, 0.39, 1.01)"});
+						_this.htmlDoms.tips.text(res.repMsg)
 						setTimeout(function () { 
 							_this.refresh();
 						}, 400);
 
-						setTimeout(()=>{
-							this.htmlDoms.tips.css({"display":"none",animation:"none"});
+						setTimeout(function () {
+							_this.htmlDoms.tips.css({"display":"none",animation:"none"});
 						},1300)
-						this.options.error(this);
+						_this.options.error(this);
 					}
 				})
 	            this.status = false;
@@ -415,19 +411,19 @@
 			this.htmlDoms.icon.addClass('icon-right');
 			this.$element.find('.verify-msg:eq(0)').text(this.options.explain);
 			this.isEnd = false;
-			getPictrue({captchaType:"blockPuzzle"},this.options.baseUrl).then(res=>{
+			getPictrue({captchaType:"blockPuzzle"},this.options.baseUrl,function (res) {
 				if (res.repCode=="0000") {
-					this.$element.find(".backImg")[0].src = 'data:image/png;base64,'+res.repData.originalImageBase64
-					this.$element.find(".bock-backImg")[0].src = 'data:image/png;base64,'+res.repData.jigsawImageBase64
-					this.secretKey = res.repData.secretKey
-					this.backToken = res.repData.token
+					_this.$element.find(".backImg")[0].src = 'data:image/png;base64,'+res.repData.originalImageBase64
+					_this.$element.find(".bock-backImg")[0].src = 'data:image/png;base64,'+res.repData.jigsawImageBase64
+					_this.secretKey = res.repData.secretKey
+					_this.backToken = res.repData.token
 				}
 			});
 			this.htmlDoms.sub_block.css('left', "0px");
         },
     };
-    
-    
+
+
     //定义Points的构造函数
     var Points = function(ele, opt) {
 		this.$element = ele,
@@ -448,7 +444,7 @@
 	        	width : '310px',
 	        	height : '50px',
 			},
-			beforeCheck(){ return true},
+			beforeCheck: function(){ return true},
 	        ready : function(){},
         	success : function(){},
             error : function(){}
@@ -476,7 +472,7 @@
 					_this.$element.find(".mask").css("display","none");
 				});
 				
-				let clickBtn = document.getElementById(this.options.containerId);
+				var clickBtn = document.getElementById(this.options.containerId);
 				clickBtn && (clickBtn.onclick = function(){
 					if (_this.options.beforeCheck()) {
 						_this.$element.find(".mask").css("display","block");
@@ -493,24 +489,24 @@
 					_this.num = _this.createPoint(_this.getMousePos(this, e));
 					 //按比例转换坐标值
 					 _this.checkPosArr = _this.pointTransfrom(_this.checkPosArr,_this.setSize);
-					setTimeout(()=>{ 
-						let data = {
+					setTimeout(function(){
+						var data = {
 							captchaType:_this.options.captchaType,
 							"pointJson":_this.secretKey ? aesEncrypt(JSON.stringify(_this.checkPosArr),_this.secretKey):JSON.stringify(_this.checkPosArr),
 							"token":_this.backToken
 						}
 						var captchaVerification = _this.secretKey ? aesEncrypt(_this.backToken+'---'+JSON.stringify(_this.checkPosArr),_this.secretKey):_this.backToken+'---'+JSON.stringify(_this.checkPosArr)
-						checkPictrue(data, _this.options.baseUrl).then(res=>{
+						checkPictrue(data, _this.options.baseUrl,function(res){
 							if (res.repCode=="0000") {
 								_this.$element.find('.verify-bar-area').css({'color': '#4cae4c', 'border-color': '#5cb85c'});
 								_this.$element.find('.verify-msg').text('验证成功');
 								// _this.$element.find('.verify-refresh').hide();
 								_this.$element.find('.verify-img-panel').unbind('click');
-								setTimeout(res=>{
+								setTimeout(function(){
 									_this.$element.find(".mask").css("display","none");
 									_this.refresh();
 								},1000)
-								_this.options.success({captchaVerification});
+								_this.options.success({'captchaVerification':captchaVerification});
 							}else{
 								_this.options.error(_this);
 								_this.$element.find('.verify-bar-area').css({'color': '#d9534f', 'border-color': '#d9534f'});
@@ -548,34 +544,34 @@
         	
 			this.setSize = Slide.prototype.resetSize(this);	//重新设置宽度高度
 			
-			wrapStartHtml = `<div class="mask">
-								<div class="verifybox" style="width:${parseInt(this.setSize.img_width)+30}px">
-									<div class="verifybox-top">
-										请完成安全验证
-										<span class="verifybox-close">
-											<i class="iconfont icon-close"></i>
-										</span>
-									</div>
-									<div class="verifybox-bottom" style="padding:15px">
-										<div style="position: relative;">`
+			wrapStartHtml = '<div class="mask">'+
+								'<div class="verifybox" style="width:'+(parseInt(this.setSize.img_width)+30)+'px">'+
+									'<div class="verifybox-top">'+
+										'请完成安全验证'+
+										'<span class="verifybox-close">'+
+											'<i class="iconfont icon-close"></i>'+
+										'</span>'+
+									'</div>'+
+									'<div class="verifybox-bottom" style="padding:15px">'+
+										'<div style="position: relative;">';
 
 			if (this.options.mode == 'pop') {
 				panelHtml = wrapStartHtml
 			}
         	
-			panelHtml += `<div class="verify-img-out">
-							<div class="verify-img-panel">
-								<div class="verify-refresh" style="z-index:3">
-									<i class="iconfont icon-refresh"></i>
-								</div>
-								<img src='' class="back-img" width="${this.setSize.img_width}" height="${this.setSize.img_height}">
-							</div>
-						</div>
-						<div class="verify-bar-area" style="{width:${this.setSize.img_width},height:${this.setSize.bar_height},'line-height':${this.setSize.bar_height}">
-							<span  class="verify-msg"></span>
-						</div>`;
+			panelHtml += '<div class="verify-img-out">'+
+							'<div class="verify-img-panel">'+
+								'<div class="verify-refresh" style="z-index:3">'+
+									'<i class="iconfont icon-refresh"></i>'+
+								'</div>'+
+								'<img src="" class="back-img" width="'+this.setSize.img_width+'" height="'+this.setSize.img_height+'">'+
+							'</div>'+
+						'</div>'+
+						'<div class="verify-bar-area" style="width:'+this.setSize.img_width+',height:'+this.setSize.bar_height+',line-height:'+this.setSize.bar_height+'">'+
+							'<span  class="verify-msg"></span>'+
+						'</div>';
 			
-			wrapEndHtml = `</div></div></div></div>`
+			wrapEndHtml = '</div></div></div></div>';
 
 			if (this.options.mode == 'pop') {
 				panelHtml += wrapEndHtml
@@ -612,8 +608,8 @@
      	
        	//创建坐标点
        	createPoint : function (pos) {
-			   this.htmlDoms.img_panel.append(`<div class="point-area" style="background-color:#1abd6c;color:#fff;z-index:9999;width:20px;height:20px;text-align:center;line-height:20px;border-radius: 50%;position:absolute;
-			   										top:${parseInt(pos.y-10)}px;left:${parseInt(pos.x-10)}px;">${this.num}</div>`);
+			   this.htmlDoms.img_panel.append('<div class="point-area" style="background-color:#1abd6c;color:#fff;z-index:9999;width:20px;height:20px;text-align:center;line-height:20px;border-radius: 50%;position:absolute;'
+			   										+'top:'+parseInt(pos.y-10)+'px;left:'+parseInt(pos.x-10)+'px;">'+this.num+'</div>');
        		return ++this.num;
        	},
  
@@ -624,22 +620,22 @@
         	this.fontPos = [];
         	this.checkPosArr = [];
         	this.num = 1;
-			getPictrue({captchaType:"clickWord"},_this.options.baseUrl).then(res=>{
+			getPictrue({captchaType:"clickWord"},_this.options.baseUrl,function(res){
 				if (res.repCode=="0000") {
-					this.htmlDoms.back_img[0].src ='data:image/png;base64,'+ res.repData.originalImageBase64
-					this.backToken = res.repData.token
-					this.secretKey = res.repData.secretKey
-					let text = '请依次点击【' + res.repData.wordList.join(",") + '】'
+					_this.htmlDoms.back_img[0].src ='data:image/png;base64,'+ res.repData.originalImageBase64;
+					_this.backToken = res.repData.token;
+					_this.secretKey = res.repData.secretKey;
+					var text = '请依次点击【' + res.repData.wordList.join(",") + '】';
 					_this.$element.find('.verify-msg').text(text);
 				}
 			})
         
 		},
 		pointTransfrom:function(pointArr,imgSize){
-			var newPointArr = pointArr.map(p=>{
-				let x = Math.round(310 * p.x/parseInt(imgSize.img_width)) 
-				let y =Math.round(155 * p.y/parseInt(imgSize.img_height)) 
-				return {x,y}
+			var newPointArr = pointArr.map(function(p){
+				var x = Math.round(310 * p.x/parseInt(imgSize.img_width))
+				var y =Math.round(155 * p.y/parseInt(imgSize.img_height))
+				return {'x':x,'y':y}
 			})
 			return newPointArr
 		}
