@@ -17,21 +17,21 @@ a.引入jar，已上传至maven中央仓库。
 b.修改application.properties，自定义底图和水印，启动后前端就可以请求接口了。[社区底图库](https://gitee.com/anji-plus/AJ-Captcha-Images)
 ```properties
 ....
-#滑动验证，底图路径，不配置将使用默认图片
+# 滑动验证，底图路径，不配置将使用默认图片
 #captcha.captchaOriginalPath.jigsaw=/app/product/dist/captchabg
-#滑动验证，底图路径，不配置将使用默认图片
+# 滑动验证，底图路径，不配置将使用默认图片
 #captcha.captchaOriginalPath.pic-click=/app/product/dist/captchabg
 
-#汉字统一使用Unicode,保证程序通过@value读取到是中文，可通过这个在线转换 https://tool.chinaz.com/tools/unicode.aspx 中文转Unicode
-#右下角水印文字(我的水印)
+# 汉字统一使用Unicode,保证程序通过@value读取到是中文，可通过这个在线转换 https://tool.chinaz.com/tools/unicode.aspx 中文转Unicode
+# 右下角水印文字(我的水印)
 captcha.water.mark=\u6211\u7684\u6c34\u5370
-#右下角水印字体(宋体)
+# 右下角水印字体(宋体)
 captcha.water.font=\u5b8b\u4f53
-#点选文字验证码的文字字体(宋体)
+# 点选文字验证码的文字字体(宋体)
 captcha.font.type=\u5b8b\u4f53
-#校验滑动拼图允许误差偏移量(默认5像素)
+# 校验滑动拼图允许误差偏移量(默认5像素)
 captcha.slip.offset=5
-#aes.key(16位，和前端加密保持一致)
+# aes.key(16位，和前端加密保持一致)
 #captcha.aes.key=XwKsGlMcdPMEhR1B
 ```
 c.`非常重要`。对于分布式多实例部署的应用，应用必须自己实现CaptchaCacheService，比如用Redis或者memcache，参考service/springboot/src/.../CaptchaCacheServiceRedisImpl.java<br>

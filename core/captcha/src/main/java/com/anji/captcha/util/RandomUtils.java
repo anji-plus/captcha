@@ -71,14 +71,6 @@ public class RandomUtils {
         return new Random().nextInt(endNum-startNum) + startNum;
     }
 
-    public static void main(String[] args) {
-        for (int i = 0; i < 100; i++) {
-            System.out.print(getRandomHan());
-        }
-
-    }
-
-
     /**
      * 获取随机字符串
      * @param length
