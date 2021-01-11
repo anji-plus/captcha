@@ -102,7 +102,7 @@ html{
 
 .verify-tips{
     position: absolute;
-    display: none;
+    /* display: none; */
     left: 0px;
     bottom:-35px;
     width: 100%;

@@ -28,6 +28,8 @@
 			contentType: "application/json;charset=UTF-8",
 			url : baseUrl + "/captcha/get",
 			data :JSON.stringify(data),
+			cache: false,
+      crossDomain: true == !(document.all),
 			success:function(res){
 				resolve(res)
 			},
@@ -43,6 +45,8 @@
 			contentType: "application/json;charset=UTF-8",
 			url : baseUrl + "/captcha/check",
 			data :JSON.stringify(data),
+			cache: false,
+      crossDomain: true == !(document.all),
 			success:function(res){
 				resolve(res)
 			},
@@ -307,12 +311,14 @@
 						_this.htmlDoms.icon.addClass('icon-check');
 						//提示框
 						_this.htmlDoms.tips.addClass('suc-bg').removeClass('err-bg')
-						_this.htmlDoms.tips.css({"display":"block",animation:"move 1s cubic-bezier(0, 0, 0.39, 1.01)"});
+						// _this.htmlDoms.tips.css({"display":"block",animation:"move 1s cubic-bezier(0, 0, 0.39, 1.01)"});
+						_this.htmlDoms.tips.animate({"bottom":"0px"});
 						_this.htmlDoms.tips.text(((_this.endMovetime-_this.startMoveTime)/1000).toFixed(2) + 's验证成功');
 						_this.isEnd = true;
 						setTimeout(function(){
 							_this.$element.find(".mask").css("display","none");
-							_this.htmlDoms.tips.css({"display":"none",animation:"none"});
+							// _this.htmlDoms.tips.css({"display":"none",animation:"none"});
+							_this.htmlDoms.tips.animate({"bottom":"-35px"});
 							_this.refresh();
 						},1000)
 						_this.options.success({'captchaVerification':captchaVerification});
@@ -324,15 +330,17 @@
 						_this.htmlDoms.icon.addClass('icon-close');
 
 						_this.htmlDoms.tips.addClass('err-bg').removeClass('suc-bg')
-						_this.htmlDoms.tips.css({"display":"block",animation:"move 1.3s cubic-bezier(0, 0, 0.39, 1.01)"});
+						// _this.htmlDoms.tips.css({"display":"block",animation:"move 1.3s cubic-bezier(0, 0, 0.39, 1.01)"});
+						_this.htmlDoms.tips.animate({"bottom":"0px"});
 						_this.htmlDoms.tips.text(res.repMsg)
 						setTimeout(function () { 
 							_this.refresh();
-						}, 400);
+							_this.htmlDoms.tips.animate({"bottom":"-35px"});
+						}, 1000);
 
-						setTimeout(function () {
-							_this.htmlDoms.tips.css({"display":"none",animation:"none"});
-						},1300)
+						// setTimeout(function () {
+						// 	// _this.htmlDoms.tips.css({"display":"none",animation:"none"});
+						// },1300)
 						_this.options.error(this);
 					}
 				})
