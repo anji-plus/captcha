@@ -69,4 +69,9 @@ public interface Const {
      * 定时清理过期local缓存，秒
      */
     String CAPTCHA_TIMING_CLEAR_SECOND = "captcha.timing.clear";
+
+	/**
+	 * 历史资源清除开关
+	 */
+	String CAPTCHA_HISTORY_DATA_CLEAR = "captcha.history.data.clear";
 }

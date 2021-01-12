@@ -51,4 +51,10 @@ public interface CaptchaService {
      */
     String captchaType();
 
+	/**
+	 * 历史资源清除(过期的图片文件，生成的临时图片...)
+	 * @param config 配置项 控制资源清理的粒度
+	 * @throws Exception
+	 */
+	void destroy(Properties config);
 }

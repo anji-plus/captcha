@@ -10,9 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
 
 public final class CacheUtil {
     private static final Logger logger = LoggerFactory.getLogger(CacheUtil.class);
@@ -25,24 +23,36 @@ public final class CacheUtil {
     private static Integer CACHE_MAX_NUMBER = 1000;
 
     /**
-     * 初始化 
-     * todo 需要优化的地方，有无必要?多次调用会有什么问题？
+     * 初始化
      * @param cacheMaxNumber 缓存最大个数
      * @param second 定时任务 秒执行清除过期缓存
      */
     public static void init(int cacheMaxNumber, long second) {
         CACHE_MAX_NUMBER = cacheMaxNumber;
         if (second > 0L) {
-            Timer timer = new Timer();
+            /*Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     refresh();
                 }
-            }, 0, second * 1000);
+            }, 0, second * 1000);*/
+            scheduledExecutor = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
+				@Override
+				public Thread newThread(Runnable r) {
+					return new Thread(r,"thd-captcha-cache-clean");
+				}
+			},new ThreadPoolExecutor.CallerRunsPolicy());
+            scheduledExecutor.scheduleAtFixedRate(new Runnable() {
+				@Override
+				public void run() {
+					refresh();
+				}
+			},10,second,TimeUnit.SECONDS);
         }
     }
 
+    private static ScheduledExecutorService scheduledExecutor;
 
     /**
      * 缓存刷新,清除过期数据

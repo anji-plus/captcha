@@ -62,7 +62,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
 
     //判断应用是否实现了自定义缓存，没有就使用内存
     @Override
-    public void init(Properties config) {
+    public void init(final Properties config) {
         //初始化底图
         boolean aBoolean = Boolean.parseBoolean(config.getProperty(Const.CAPTCHA_INIT_ORIGINAL));
         if (!aBoolean) {
@@ -76,14 +76,28 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         captchaAesStatus = Boolean.parseBoolean(config.getProperty(Const.CAPTCHA_AES_STATUS, "true"));
         fontType = config.getProperty(Const.CAPTCHA_FONT_TYPE, "宋体");
         cacheType = config.getProperty(Const.CAPTCHA_CACHETYPE, "local");
-        captchaInterferenceOptions = Integer.parseInt(config.getProperty(Const.CAPTCHA_INTERFERENCE_OPTIONS, "0"));
+        captchaInterferenceOptions = Integer.parseInt(
+        		config.getProperty(Const.CAPTCHA_INTERFERENCE_OPTIONS, "0"));
         if (cacheType.equals("local")) {
             logger.info("初始化local缓存...");
-            CacheUtil.init(Integer.parseInt(config.getProperty(Const.CAPTCHA_CACAHE_MAX_NUMBER, "1000")),
+            CacheUtil.init(Integer.parseInt(
+            		config.getProperty(Const.CAPTCHA_CACAHE_MAX_NUMBER, "1000")),
                     Long.parseLong(config.getProperty(Const.CAPTCHA_TIMING_CLEAR_SECOND, "180")));
         }
+        if(config.getProperty(Const.CAPTCHA_HISTORY_DATA_CLEAR,"0").equals("1")){
+        	Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+				@Override
+				public void run() {
+					destroy(config);
+				}
+			}));
+		}
     }
 
+	@Override
+	public void destroy(Properties config) {
+
+	}
 
     public String getJigsawUrlOrPath() {
         return jigsawUrlOrPath;

@@ -33,7 +33,17 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
         super.init(config);
     }
 
-    private CaptchaService getService(String captchaType){
+	@Override
+	public void destroy(Properties config) {
+		for (String s : CaptchaServiceFactory.instances.keySet()) {
+			if(captchaType().equals(s)){
+				continue;
+			}
+			getService(s).destroy(config);
+		}
+	}
+
+	private CaptchaService getService(String captchaType){
         return CaptchaServiceFactory.instances.get(captchaType);
     }
 

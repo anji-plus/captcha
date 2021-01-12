@@ -39,6 +39,11 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
         super.init(config);
     }
 
+	@Override
+	public void destroy(Properties config) {
+
+	}
+
     @Override
     public String captchaType() {
         return CaptchaTypeEnum.BLOCKPUZZLE.getCodeValue();

@@ -40,6 +40,11 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
         super.init(config);
     }
 
+	@Override
+	public void destroy(Properties config) {
+
+	}
+
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
         BufferedImage bufferedImage = ImageUtils.getPicClick();

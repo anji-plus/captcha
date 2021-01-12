@@ -6,10 +6,10 @@
  */
 package com.anji.captcha.model.common;
 
-import com.anji.captcha.util.JSONObject;
 import com.anji.captcha.util.StringUtils;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 public class RequestModel implements Serializable {
@@ -23,7 +23,7 @@ public class RequestModel implements Serializable {
     private String requestString;
 
     /** {"password":"****","userName":"admin"} */
-    private JSONObject reqData;
+    private HashMap reqData;
 
     private String token;
 
@@ -139,11 +139,11 @@ public class RequestModel implements Serializable {
         this.requestString = requestString;
     }
 
-    public JSONObject getReqData() {
+    public HashMap getReqData() {
         return reqData;
     }
 
-    public void setReqData(JSONObject reqData) {
+    public void setReqData(HashMap reqData) {
         this.reqData = reqData;
     }
 
