@@ -11,15 +11,29 @@
 <dependency>
    <groupId>com.github.anji-plus</groupId>
    <artifactId>captcha</artifactId>
-   <version>1.1.8</version>
+   <version>1.2.6</version>
 </dependency>
 ```
-### 2.2.2 启动类上添加相应注解
+### 2.2.2 缓存实现
 ```java
-@ComponentScan(basePackages = {
-      "com.anji.captcha",
-      "产品自身对应的包路径…"
-})
+#分布式环境要自己实现，参考service\springboot示例中CaptchaCacheServiceRedisImpl。默认使用内存。
+public interface CaptchaCacheService {
+
+	void set(String key, String value, long expiresInSeconds);
+
+	boolean exists(String key);
+
+	void delete(String key);
+
+	String get(String key);
+
+	/**
+	 * 缓存类型-local/redis/memcache/..
+	 * 通过java SPI机制，接入方可自定义实现类
+	 * @return
+	 */
+	String type();
+}
 ```
 
 ### 2.2.3 二次校验接口
@@ -166,13 +180,27 @@ export default {
 # 3  Q & A
 ## 3.1 linux部署注意事项点选文字
 ### 3.1.1 字体乱码问题
-点选文字中所用字体默认为宋体，linux不支持该字体，所以可能会出现以下图中情况，如图3-1所示。
+点选文字中所用字体默认为思源黑体，Windows\Linux服务器均正常显示中文。需指定自己特殊字体，linux不支持的，可能会出现以下图中情况，如图3-1所示。
 
 ![字体错误](https://captcha.anji-plus.com/static/font-error.png "字体错误")
  
 图3-1  点选文字字体乱码
 ### 3.1.2 乱码解决方案
-宋体黑体为例
+从1.2.6+开始，我们在核心包中内置了开源中文字体[思源黑体]，无需安装配置就可正常显示。支持两种自定义字体方式：
+##### 方式一：自定义特定字体，请将字体放到工程resources下fonts文件夹，支持ttf\ttc\otf字体，通过配置项water-font和font-type激活。
+```
+# 水印字体
+aj.captcha.water-font=SourceHanSansCN-Normal.otf
+# 点选文字验证码的文字字体(思源黑体)
+aj.captcha.font-type=SourceHanSansCN-Normal.otf
+```
+##### 方式二：直接配置OS层的现有的字体名称，比如：宋体，因宋体等商业使用需要授权，请开发人员在取得授权后使用，Linux安装字体步骤如下：
+```
+# 水印字体
+aj.captcha.water-font=宋体
+# 点选文字验证码的文字字体
+aj.captcha.font-type=宋体
+```
 #### 1、安装字体库
 在CentOS 4.x开始用fontconfig来安装字体库，所以输入以下命令即可：
 ```shell
