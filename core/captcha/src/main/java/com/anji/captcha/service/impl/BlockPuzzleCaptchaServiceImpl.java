@@ -62,8 +62,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
         Graphics backgroundGraphics = originalImage.getGraphics();
         int width = originalImage.getWidth();
         int height = originalImage.getHeight();
-        Font watermark = new Font(waterMarkFont, Font.BOLD, HAN_ZI_SIZE / 2);
-        backgroundGraphics.setFont(watermark);
+        backgroundGraphics.setFont(waterMarkFont);
         backgroundGraphics.setColor(Color.white);
         backgroundGraphics.drawString(waterMark, width - getEnOrChLength(waterMark), height - (HAN_ZI_SIZE / 2) + 7);
 
