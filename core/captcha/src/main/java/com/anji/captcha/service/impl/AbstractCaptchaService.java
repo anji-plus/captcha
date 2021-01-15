@@ -11,9 +11,11 @@ import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.CacheUtil;
 import com.anji.captcha.util.ImageUtils;
+import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -48,13 +50,17 @@ public abstract class AbstractCaptchaService implements CaptchaService {
 
     protected static String waterMark = "我的水印";
 
-    protected static String waterMarkFont = "宋体";
+    protected static String waterMarkFontStr = "NotoSerif-Light.ttf";
+
+    protected Font waterMarkFont;//水印字体
 
     protected static String slipOffset = "5";
 
     protected static Boolean captchaAesStatus = true;
 
-    protected static String fontType = "宋体";
+    protected static String clickWordFontStr = "NotoSerif-Light.ttf";
+
+    protected Font clickWordFont;//点选文字字体
 
     protected static String cacheType = "local";
 
@@ -72,12 +78,16 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         logger.info("--->>>初始化验证码底图<<<---");
         waterMark = config.getProperty(Const.CAPTCHA_WATER_MARK, "我的水印");
         slipOffset = config.getProperty(Const.CAPTCHA_SLIP_OFFSET, "5");
-        waterMarkFont = config.getProperty(Const.CAPTCHA_WATER_FONT, "宋体");
+        waterMarkFontStr = config.getProperty(Const.CAPTCHA_WATER_FONT, "SourceHanSansCN-Normal.otf");
         captchaAesStatus = Boolean.parseBoolean(config.getProperty(Const.CAPTCHA_AES_STATUS, "true"));
-        fontType = config.getProperty(Const.CAPTCHA_FONT_TYPE, "宋体");
+        clickWordFontStr = config.getProperty(Const.CAPTCHA_FONT_TYPE, "SourceHanSansCN-Normal.otf");
         cacheType = config.getProperty(Const.CAPTCHA_CACHETYPE, "local");
         captchaInterferenceOptions = Integer.parseInt(
         		config.getProperty(Const.CAPTCHA_INTERFERENCE_OPTIONS, "0"));
+
+        //部署在linux中，如果没有安装中文字段，水印和点选文字，中文无法显示，通过加载resources下的font字体解决，无需在linux中安装字体
+        loadWaterMarkFont();
+
         if (cacheType.equals("local")) {
             logger.info("初始化local缓存...");
             CacheUtil.init(Integer.parseInt(
@@ -98,6 +108,31 @@ public abstract class AbstractCaptchaService implements CaptchaService {
 	public void destroy(Properties config) {
 
 	}
+
+    /**
+     * 加载resources下的font字体，add by lide1202@hotmail.com
+     * 部署在linux中，如果没有安装中文字段，水印和点选文字，中文无法显示，
+     * 通过加载resources下的font字体解决，无需在linux中安装字体
+     */
+	private void loadWaterMarkFont(){
+
+        try{
+            if(waterMarkFontStr.toLowerCase().endsWith(".ttf") || waterMarkFontStr.toLowerCase().endsWith(".ttc") || waterMarkFontStr.toLowerCase().endsWith(".otf")){
+                this.waterMarkFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/" + waterMarkFontStr))
+                        .deriveFont(Font.BOLD, HAN_ZI_SIZE / 2);
+            }else{
+                this.waterMarkFont = new Font(waterMarkFontStr, Font.BOLD, HAN_ZI_SIZE / 2);
+            }
+            if(clickWordFontStr.toLowerCase().endsWith(".ttf") || clickWordFontStr.toLowerCase().endsWith(".ttc") || clickWordFontStr.toLowerCase().endsWith(".otf")){
+                this.clickWordFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/" + clickWordFontStr))
+                        .deriveFont(Font.BOLD, HAN_ZI_SIZE);
+            }else {
+                this.clickWordFont = new Font(clickWordFontStr, Font.BOLD, HAN_ZI_SIZE);
+            }
+        }catch (Exception e){
+            logger.error("load font error:{}", e);
+        }
+    }
 
     public String getJigsawUrlOrPath() {
         return jigsawUrlOrPath;
