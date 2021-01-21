@@ -160,7 +160,6 @@ public abstract class AbstractCaptchaService implements CaptchaService {
     	return resp == null || resp.isSuccess();
 	}
 
-	public String getJigsawUrlOrPath() {
     /**
      * 加载resources下的font字体，add by lide1202@hotmail.com
      * 部署在linux中，如果没有安装中文字段，水印和点选文字，中文无法显示，
