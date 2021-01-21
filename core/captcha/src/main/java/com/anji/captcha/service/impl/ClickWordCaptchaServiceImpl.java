@@ -165,7 +165,6 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
         int width = backgroundImage.getWidth();
         int height = backgroundImage.getHeight();
 
-        Font font = new Font(fontType, Font.BOLD, HAN_ZI_SIZE);
         int wordCount = getWordTotalCount();
         //定义随机1到arr.length某一个字不参与校验
         int num = RandomUtils.getRandomInt(1, wordCount);
@@ -193,7 +192,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
             //设置角度
             AffineTransform affineTransform = new AffineTransform();
             affineTransform.rotate(Math.toRadians(RandomUtils.getRandomInt(-45, 45)), 0, 0);
-            Font rotatedFont = font.deriveFont(affineTransform);
+            Font rotatedFont = clickWordFont.deriveFont(affineTransform);
             backgroundGraphics.setFont(rotatedFont);
             backgroundGraphics.drawString(word, point.getX(), point.getY());
 
@@ -203,9 +202,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
             }
         }
 
-
-        Font watermark = new Font(waterMarkFont, Font.BOLD, HAN_ZI_SIZE / 2);
-        backgroundGraphics.setFont(watermark);
+        backgroundGraphics.setFont(waterMarkFont);
         backgroundGraphics.setColor(Color.white);
         backgroundGraphics.drawString(waterMark, width - getEnOrChLength(waterMark), height - (HAN_ZI_SIZE / 2) + 7);
 
