@@ -27,4 +27,15 @@ public interface CaptchaCacheService {
 	 * @return
 	 */
 	String type();
+
+	/***
+	 *
+	 * @param key
+	 * @param val
+	 * @return
+	 */
+	default Long increment(String key, long val){
+		return 0L;
+	};
+
 }

@@ -51,7 +51,10 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
 
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
-
+		ResponseModel r = super.get(captchaVO);
+		if(!validatedReq(r)){
+			return r;
+		}
         //原生图片
         BufferedImage originalImage = ImageUtils.getOriginal();
         if (null == originalImage) {
@@ -85,6 +88,10 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
 
     @Override
     public ResponseModel check(CaptchaVO captchaVO) {
+		ResponseModel r = super.check(captchaVO);
+		if(!validatedReq(r)){
+			return r;
+		}
         //取坐标信息
         String codeKey = String.format(REDIS_CAPTCHA_KEY, captchaVO.getToken());
         if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
@@ -127,12 +134,11 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
 
     @Override
     public ResponseModel verification(CaptchaVO captchaVO) {
-        if (captchaVO == null) {
-            return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
-        }
-        if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
-            return RepCodeEnum.NULL_ERROR.parseError("captchaVerification");
-        }
+
+		ResponseModel r = super.verification(captchaVO);
+		if(!validatedReq(r)){
+			return r;
+		}
         try {
             String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getCaptchaVerification());
             if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {

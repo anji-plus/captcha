@@ -79,6 +79,14 @@ public class CaptchaVO implements Serializable {
      */
     private String captchaVerification;
 
+	/***
+	 * 客户端UI组件id,组件初始化时设置一次，UUID
+	 */
+	private String clientUid;
+	/***
+	 * 客户端的请求时间，预留字段
+	 */
+	private long ts;
 
     public String getCaptchaId() {
         return captchaId;
@@ -207,4 +215,20 @@ public class CaptchaVO implements Serializable {
     public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
     }
+
+	public String getClientUid() {
+		return clientUid;
+	}
+
+	public void setClientUid(String clientUid) {
+		this.clientUid = clientUid;
+	}
+
+	public long getTs() {
+		return ts;
+	}
+
+	public void setTs(long ts) {
+		this.ts = ts;
+	}
 }

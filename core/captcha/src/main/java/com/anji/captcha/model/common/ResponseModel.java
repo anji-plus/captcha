@@ -70,24 +70,14 @@ public class ResponseModel implements Serializable {
         return responseModel;
     }
 
-//    @Override
-//    public String toString() {
-//        return ToStringBuilder.reflectionToString(this);
-//    }
+	@Override
+	public String toString() {
+		return "ResponseModel{" + "repCode='" + repCode + '\'' + ", repMsg='"
+				+ repMsg + '\'' + ", repData=" + repData + '}';
+	}
 
-    public String toJsonString() {
-        return JSONObject.toJSONString(this);
-    }
-
-    public boolean isError(){
-        return ! isSuccess();
-    }
-
-    public boolean isSuccess(){
-        if(this == null){
-            return false;
-        }
-        return StringUtils.equals(this.repCode, RepCodeEnum.SUCCESS.getCode());
+	public boolean isSuccess(){
+        return StringUtils.equals(repCode, RepCodeEnum.SUCCESS.getCode());
     }
 
     public String getRepCode() {

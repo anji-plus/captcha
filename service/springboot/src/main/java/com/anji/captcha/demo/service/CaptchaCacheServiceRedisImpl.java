@@ -45,4 +45,9 @@ public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
     public String get(String key) {
         return stringRedisTemplate.opsForValue().get(key);
     }
+
+	@Override
+	public Long increment(String key, long val) {
+		return stringRedisTemplate.opsForValue().increment(key,val);
+	}
 }

@@ -7,10 +7,15 @@
 package com.anji.captcha.service.impl;
 
 import com.anji.captcha.model.common.Const;
+import com.anji.captcha.model.common.RepCodeEnum;
+import com.anji.captcha.model.common.ResponseModel;
+import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.CacheUtil;
 import com.anji.captcha.util.ImageUtils;
+import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,6 +90,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
                     Long.parseLong(config.getProperty(Const.CAPTCHA_TIMING_CLEAR_SECOND, "180")));
         }
         if(config.getProperty(Const.CAPTCHA_HISTORY_DATA_CLEAR,"0").equals("1")){
+			logger.info("历史资源清除开关=1，开启...");
         	Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -92,14 +98,60 @@ public abstract class AbstractCaptchaService implements CaptchaService {
 				}
 			}));
 		}
+		if(config.getProperty(Const.CAPTCHA_REQ_FREQUENCY_LIMIT,"0").equals("1")){
+        	if(limitHandler == null) {
+				logger.info("开启接口限流开关..");
+				limitHandler = new FrequencyLimitHandler.DefaultLimitHandler(config, getCacheService(cacheType));
+			}
+		}
     }
+
+    protected CaptchaCacheService getCacheService(String cacheType){
+    	return CaptchaServiceFactory.getCache(cacheType);
+	}
 
 	@Override
 	public void destroy(Properties config) {
 
 	}
 
-    public String getJigsawUrlOrPath() {
+	private static FrequencyLimitHandler limitHandler;
+
+	@Override
+	public ResponseModel get(CaptchaVO captchaVO) {
+		if(limitHandler!=null){
+			return limitHandler.validateGet(captchaVO);
+		}
+		return null;
+	}
+
+	@Override
+	public ResponseModel check(CaptchaVO captchaVO) {
+		if(limitHandler!=null){
+			return limitHandler.validateCheck(captchaVO);
+		}
+    	return null;
+	}
+
+	@Override
+	public ResponseModel verification(CaptchaVO captchaVO) {
+		if (captchaVO == null) {
+			return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
+		}
+		if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
+			return RepCodeEnum.NULL_ERROR.parseError("captchaVerification");
+		}
+		if(limitHandler!=null){
+			return limitHandler.validateVerify(captchaVO);
+		}
+    	return null;
+	}
+
+	protected boolean validatedReq(ResponseModel resp){
+    	return resp == null || resp.isSuccess();
+	}
+
+	public String getJigsawUrlOrPath() {
         return jigsawUrlOrPath;
     }
 

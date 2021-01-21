@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * 替换掉fastjson，自定义实现相关方法
+ * note: 该实现不具有通用性，仅用于本项目。
  *
  *@author WongBin
  *@date 2021/1/8
