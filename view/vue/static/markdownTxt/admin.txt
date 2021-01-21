@@ -11,7 +11,7 @@ a.引入jar，已上传至maven中央仓库。
 <dependency>
    <groupId>com.github.anji-plus</groupId>
    <artifactId>captcha</artifactId>
-   <version>1.1.8</version>
+   <version>1.2.6</version>
 </dependency>
 ```
 b.修改application.properties，自定义底图和水印，启动后前端就可以请求接口了。
@@ -19,16 +19,16 @@ b.修改application.properties，自定义底图和水印，启动后前端就�
 ....
 #滑动验证，底图路径，不配置将使用默认图片
 #captcha.captchaOriginalPath.jigsaw=/app/product/dist/captchabg
-#滑动验证，底图路径，不配置将使用默认图片
+#点选验证，底图路径，不配置将使用默认图片
 #captcha.captchaOriginalPath.pic-click=/app/product/dist/captchabg
 
 #汉字统一使用Unicode,保证程序通过@value读取到是中文，可通过这个在线转换 https://tool.chinaz.com/tools/unicode.aspx 中文转Unicode
 #右下角水印文字(我的水印)
 captcha.water.mark=\u6211\u7684\u6c34\u5370
-#右下角水印字体(宋体)
-captcha.water.font=\u5b8b\u4f53
-#点选文字验证码的文字字体(宋体)
-captcha.font.type=\u5b8b\u4f53
+#右下角水印字体(思源黑体)
+#captcha.water.font=SourceHanSansCN-Normal.otf
+#点选文字验证码的文字字体(思源黑体)
+#captcha.font.type=SourceHanSansCN-Normal.otf
 #校验滑动拼图允许误差偏移量(默认5像素)
 captcha.slip.offset=5
 #aes.key(16位，和前端加密保持一致)
@@ -122,13 +122,28 @@ public ResponseModel get(@RequestBody CaptchaVO captchaVO) {
 # 2  Q & A
 ## 2.1 linux部署注意事项点选文字
 ### 2.1.1 字体乱码问题
-点选文字中所用字体默认为宋体，linux不支持该字体，所以可能会出现以下图中情况，如图3-1所示。
+点选文字中所用字体默认为思源黑体，Windows\Linux服务器均正常显示中文。需指定自己特殊字体，linux不支持的，可能会出现以下图中情况，如图3-1所示。
 
 ![字体错误](https://captcha.anji-plus.com/static/font-error.png "字体错误")
-
-图3-1  点选文字字体乱码
+ 
+图2-1  点选文字字体乱码
 ### 2.1.2 乱码解决方案
-宋体黑体为例
+从1.2.6+开始，我们在核心包中内置了开源中文字体[思源黑体]，无需安装配置就可正常显示。支持两种自定义字体方式：
+##### 方式一：自定义特定字体，请将字体放到工程resources下fonts文件夹，支持ttf\ttc\otf字体，通过配置项water-font和font-type激活。
+```
+# 水印字体
+aj.captcha.water-font=SourceHanSansCN-Normal.otf
+# 点选文字验证码的文字字体(思源黑体)
+aj.captcha.font-type=SourceHanSansCN-Normal.otf
+```
+##### 方式二：直接配置OS层的现有的字体名称，比如：宋体，因宋体等商业使用需要授权，请开发人员在取得授权后使用，Linux安装字体步骤如下：
+```
+# 水印字体
+aj.captcha.water-font=宋体
+# 点选文字验证码的文字字体
+aj.captcha.font-type=宋体
+```
+
 #### 1、安装字体库
 在CentOS 4.x开始用fontconfig来安装字体库，所以输入以下命令即可：
 ```shell
