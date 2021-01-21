@@ -133,7 +133,6 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
 
     @Override
     public ResponseModel verification(CaptchaVO captchaVO) {
-
 		ResponseModel r = super.verification(captchaVO);
 		if(!validatedReq(r)){
 			return r;

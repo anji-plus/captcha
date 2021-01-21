@@ -44,6 +44,14 @@ public class AjCaptchaServiceAutoConfiguration {
         config.put(Const.CAPTCHA_WATER_FONT, prop.getWaterFont());
         config.put(Const.CAPTCHA_CACAHE_MAX_NUMBER, prop.getCacheNumber());
         config.put(Const.CAPTCHA_TIMING_CLEAR_SECOND, prop.getTimingClear());
+
+        config.put(Const.CAPTCHA_REQ_FREQUENCY_LIMIT,prop.getReqFrequencyLimitEnable()?"1":"0");
+        config.put(Const.CAPTCHA_REQ_GET_LOCK_LIMIT,prop.getReqGetLockLimit()+"");
+        config.put(Const.CAPTCHA_REQ_GET_LOCK_SECONDS,prop.getReqGetLockSeconds()+"");
+        config.put(Const.CAPTCHA_REQ_GET_MINUTE_LIMIT,prop.getReqGetMinuteLimit()+"");
+        config.put(Const.CAPTCHA_REQ_CHECK_MINUTE_LIMIT,prop.getReqCheckMinuteLimit()+"");
+        config.put(Const.CAPTCHA_REQ_VALIDATE_MINUTE_LIMIT,prop.getReqVerifyMinuteLimit()+"");
+
         if ((StringUtils.isNotBlank(prop.getJigsaw()) && prop.getJigsaw().startsWith("classpath:"))
                 || (StringUtils.isNotBlank(prop.getPicClick()) && prop.getPicClick().startsWith("classpath:"))) {
             //自定义resources目录下初始化底图

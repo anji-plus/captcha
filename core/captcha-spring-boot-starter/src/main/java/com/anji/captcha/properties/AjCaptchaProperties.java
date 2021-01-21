@@ -70,6 +70,60 @@ public class AjCaptchaProperties {
      * 缓存类型redis/local/....
      */
     private StorageType cacheType = local;
+    private boolean reqFrequencyLimitEnable = false;
+    private int reqGetLockLimit = 5;
+    private int reqGetLockSeconds = 300;
+    private int reqGetMinuteLimit = 120;
+    private int reqCheckMinuteLimit = 60;
+    private int reqVerifyMinuteLimit = 60;
+
+    public boolean getReqFrequencyLimitEnable() {
+        return reqFrequencyLimitEnable;
+    }
+
+    public void setReqFrequencyLimitEnable(boolean reqFrequencyLimitEnable) {
+        this.reqFrequencyLimitEnable = reqFrequencyLimitEnable;
+    }
+
+    public int getReqGetLockLimit() {
+        return reqGetLockLimit;
+    }
+
+    public void setReqGetLockLimit(int reqGetLockLimit) {
+        this.reqGetLockLimit = reqGetLockLimit;
+    }
+
+    public int getReqGetLockSeconds() {
+        return reqGetLockSeconds;
+    }
+
+    public void setReqGetLockSeconds(int reqGetLockSeconds) {
+        this.reqGetLockSeconds = reqGetLockSeconds;
+    }
+
+    public int getReqGetMinuteLimit() {
+        return reqGetMinuteLimit;
+    }
+
+    public void setReqGetMinuteLimit(int reqGetMinuteLimit) {
+        this.reqGetMinuteLimit = reqGetMinuteLimit;
+    }
+
+    public int getReqCheckMinuteLimit() {
+        return reqGetMinuteLimit;
+    }
+
+    public void setReqCheckMinuteLimit(int reqCheckMinuteLimit) {
+        this.reqCheckMinuteLimit = reqCheckMinuteLimit;
+    }
+
+    public int getReqVerifyMinuteLimit() {
+        return reqVerifyMinuteLimit;
+    }
+
+    public void setReqVerifyMinuteLimit(int reqVerifyMinuteLimit) {
+        this.reqVerifyMinuteLimit = reqVerifyMinuteLimit;
+    }
 
     public enum StorageType {
         /**
@@ -188,7 +242,7 @@ public class AjCaptchaProperties {
 
     @Override
     public String toString() {
-        return "AjCaptchaProperties{" +
+        return "\nAjCaptchaProperties{" +
                 "type=" + type +
                 ", jigsaw='" + jigsaw + '\'' +
                 ", picClick='" + picClick + '\'' +
@@ -201,6 +255,12 @@ public class AjCaptchaProperties {
                 ", cacheNumber='" + cacheNumber + '\'' +
                 ", timingClear='" + timingClear + '\'' +
                 ", cacheType=" + cacheType +
+                ", reqFrequencyLimitEnable=" + reqFrequencyLimitEnable +
+                ", reqGetLockLimit=" + reqGetLockLimit +
+                ", reqGetLockSeconds=" + reqGetLockSeconds +
+                ", reqGetMinuteLimit=" + reqGetMinuteLimit +
+                ", reqCheckMinuteLimit=" + reqCheckMinuteLimit +
+                ", reqVerifyMinuteLimit=" + reqVerifyMinuteLimit +
                 '}';
     }
 }
