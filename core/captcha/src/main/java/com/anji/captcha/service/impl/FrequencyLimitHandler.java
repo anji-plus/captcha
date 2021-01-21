@@ -90,10 +90,12 @@ public interface FrequencyLimitHandler {
 			if(Objects.isNull(v)) {
 				return null;
 			}
+			// 1分钟内失败5次
 			if(Long.valueOf(v)>=Long.valueOf(
 					config.getProperty(Const.CAPTCHA_REQ_GET_LOCK_LIMIT,"5"))){
+				// get接口锁定5分钟
 				cacheService.set(lockKey,"1",Long.valueOf(
-						config.getProperty(Const.CAPTCHA_REQ_GET_LOCK_LIMIT,"300")));
+						config.getProperty(Const.CAPTCHA_REQ_GET_LOCK_SECONDS,"300")));
 				return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LOCK_GET_ERROR);
 			}
 			return null;
