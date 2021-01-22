@@ -41,7 +41,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
 
 	@Override
 	public void destroy(Properties config) {
-
+        logger.info("start-clear-history-data-",captchaType());
 	}
 
     @Override
@@ -109,11 +109,13 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
             point1 = JSONObject.parseObject(pointJson, PointVO.class);
         } catch (Exception e) {
             logger.error("验证码坐标解析失败", e);
+            afterValidateFail(captchaVO);
             return ResponseModel.errorMsg(e.getMessage());
         }
         if (point.x - Integer.parseInt(slipOffset) > point1.x
                 || point1.x > point.x + Integer.parseInt(slipOffset)
                 || point.y != point1.y) {
+            afterValidateFail(captchaVO);
             return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_COORDINATE_ERROR);
         }
         //校验成功，将信息存入缓存
@@ -123,6 +125,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
             value = AESUtil.aesEncrypt(captchaVO.getToken().concat("---").concat(pointJson), secretKey);
         } catch (Exception e) {
             logger.error("AES加密失败", e);
+            afterValidateFail(captchaVO);
             return ResponseModel.errorMsg(e.getMessage());
         }
         String secondKey = String.format(REDIS_SECOND_CAPTCHA_KEY, value);

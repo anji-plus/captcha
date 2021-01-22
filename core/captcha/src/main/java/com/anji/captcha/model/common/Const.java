@@ -73,34 +73,34 @@ public interface Const {
 	/**
 	 * 历史资源清除开关 0禁用,1 开启
 	 */
-	String CAPTCHA_HISTORY_DATA_CLEAR = "captcha.history.data.clear.enable";
+	String HISTORY_DATA_CLEAR_ENABLE = "captcha.history.data.clear.enable";
 
 	/**
 	 * 接口限流开关 0禁用 1启用
 	 */
-	String CAPTCHA_REQ_FREQUENCY_LIMIT = "captcha.req.frequency.limit.enable";
+	String REQ_FREQUENCY_LIMIT_ENABLE = "captcha.req.frequency.limit.enable";
 
 	/**
 	 * get 接口 一分钟请求次数限制
 	 */
-	String CAPTCHA_REQ_GET_MINUTE_LIMIT = "captcha.req.get.minute.limit";
+	String REQ_GET_MINUTE_LIMIT = "captcha.req.get.minute.limit";
 
 	/**
 	 * 验证失败后，get接口锁定时间
 	 */
-	String CAPTCHA_REQ_GET_LOCK_LIMIT = "captcha.req.get.lock.limit";
+	String REQ_GET_LOCK_LIMIT = "captcha.req.get.lock.limit";
 	/**
 	 * 验证失败后，get接口锁定时间
 	 */
-	String CAPTCHA_REQ_GET_LOCK_SECONDS = "captcha.req.get.lock.seconds";
+	String REQ_GET_LOCK_SECONDS = "captcha.req.get.lock.seconds";
 
 	/**
 	 * verify 接口 一分钟请求次数限制
 	 */
-	String CAPTCHA_REQ_VALIDATE_MINUTE_LIMIT = "captcha.req.verify.minute.limit";
+	String REQ_VALIDATE_MINUTE_LIMIT = "captcha.req.verify.minute.limit";
 	/**
 	 * check接口 一分钟请求次数限制
 	 */
-	String CAPTCHA_REQ_CHECK_MINUTE_LIMIT = "captcha.req.check.minute.limit";
+	String REQ_CHECK_MINUTE_LIMIT = "captcha.req.check.minute.limit";
 
 }

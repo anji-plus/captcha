@@ -89,17 +89,17 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         captchaInterferenceOptions = Integer.parseInt(
                 config.getProperty(Const.CAPTCHA_INTERFERENCE_OPTIONS, "0"));
 
-        //部署在linux中，如果没有安装中文字段，水印和点选文字，中文无法显示，通过加载resources下的font字体解决，无需在linux中安装字体
+        // 部署在linux中，如果没有安装中文字段，水印和点选文字，中文无法显示，
+        // 通过加载resources下的font字体解决，无需在linux中安装字体
         loadWaterMarkFont();
 
         if (cacheType.equals("local")) {
             logger.info("初始化local缓存...");
-            CacheUtil.init(Integer.parseInt(
-                    config.getProperty(Const.CAPTCHA_CACAHE_MAX_NUMBER, "1000")),
+            CacheUtil.init(Integer.parseInt(config.getProperty(Const.CAPTCHA_CACAHE_MAX_NUMBER, "1000")),
                     Long.parseLong(config.getProperty(Const.CAPTCHA_TIMING_CLEAR_SECOND, "180")));
         }
-        if (config.getProperty(Const.CAPTCHA_HISTORY_DATA_CLEAR, "0").equals("1")) {
-            logger.info("历史资源清除开关=1，开启...");
+        if (config.getProperty(Const.HISTORY_DATA_CLEAR_ENABLE, "0").equals("1")) {
+            logger.info("历史资源清除开关...开启...");
             Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -107,9 +107,9 @@ public abstract class AbstractCaptchaService implements CaptchaService {
                 }
             }));
         }
-        if (config.getProperty(Const.CAPTCHA_REQ_FREQUENCY_LIMIT, "0").equals("1")) {
+        if (config.getProperty(Const.REQ_FREQUENCY_LIMIT_ENABLE, "0").equals("1")) {
             if (limitHandler == null) {
-                logger.info("开启接口限流开关..");
+                logger.info("接口分钟内限流开关...开启...");
                 limitHandler = new FrequencyLimitHandler.DefaultLimitHandler(config, getCacheService(cacheType));
             }
         }
@@ -160,10 +160,15 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         return resp == null || resp.isSuccess();
     }
 
-    protected void afterValidate(CaptchaVO data, ResponseModel ret) {
-        if (ret != null && !ret.isSuccess() && limitHandler != null) {
-            String lockKey = String.format(FrequencyLimitHandler.LIMIT_KEY, "LOCK", data.getClientUid());
-            getCacheService(captchaType()).increment(lockKey, 1);
+    protected void afterValidateFail(CaptchaVO data) {
+        if (limitHandler != null) {
+            // 验证失败 分钟内计数
+            String fails = String.format(FrequencyLimitHandler.LIMIT_KEY, "FAIL", data.getClientUid());
+            CaptchaCacheService cs = getCacheService(captchaType());
+            if (!cs.exists(fails)) {
+                cs.set(fails, "1", 60);
+            }
+            cs.increment(fails, 1);
         }
     }
 
@@ -173,16 +178,19 @@ public abstract class AbstractCaptchaService implements CaptchaService {
      * 通过加载resources下的font字体解决，无需在linux中安装字体
      */
     private void loadWaterMarkFont() {
-
         try {
-            if (waterMarkFontStr.toLowerCase().endsWith(".ttf") || waterMarkFontStr.toLowerCase().endsWith(".ttc") || waterMarkFontStr.toLowerCase().endsWith(".otf")) {
-                this.waterMarkFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/" + waterMarkFontStr))
+            if (waterMarkFontStr.toLowerCase().endsWith(".ttf") || waterMarkFontStr.toLowerCase().endsWith(".ttc")
+                    || waterMarkFontStr.toLowerCase().endsWith(".otf")) {
+                this.waterMarkFont = Font.createFont(Font.TRUETYPE_FONT,
+                        getClass().getResourceAsStream("/fonts/" + waterMarkFontStr))
                         .deriveFont(Font.BOLD, HAN_ZI_SIZE / 2);
             } else {
                 this.waterMarkFont = new Font(waterMarkFontStr, Font.BOLD, HAN_ZI_SIZE / 2);
             }
-            if (clickWordFontStr.toLowerCase().endsWith(".ttf") || clickWordFontStr.toLowerCase().endsWith(".ttc") || clickWordFontStr.toLowerCase().endsWith(".otf")) {
-                this.clickWordFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/" + clickWordFontStr))
+            if (clickWordFontStr.toLowerCase().endsWith(".ttf") || clickWordFontStr.toLowerCase().endsWith(".ttc")
+                    || clickWordFontStr.toLowerCase().endsWith(".otf")) {
+                this.clickWordFont = Font.createFont(Font.TRUETYPE_FONT,
+                        getClass().getResourceAsStream("/fonts/" + clickWordFontStr))
                         .deriveFont(Font.BOLD, HAN_ZI_SIZE);
             } else {
                 this.clickWordFont = new Font(clickWordFontStr, Font.BOLD, HAN_ZI_SIZE);

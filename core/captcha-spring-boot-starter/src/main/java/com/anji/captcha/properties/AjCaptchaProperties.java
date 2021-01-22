@@ -70,12 +70,43 @@ public class AjCaptchaProperties {
      * 缓存类型redis/local/....
      */
     private StorageType cacheType = local;
+    /**
+     * 历史数据清除开关
+     */
+    private boolean historyDataClearEnable = false;
+
+    /**
+     * 一分钟内接口请求次数限制 开关
+     */
     private boolean reqFrequencyLimitEnable = false;
+
+    /***
+     * 一分钟内check接口失败次数
+     */
     private int reqGetLockLimit = 5;
+    /**
+     *
+     */
     private int reqGetLockSeconds = 300;
-    private int reqGetMinuteLimit = 120;
-    private int reqCheckMinuteLimit = 60;
-    private int reqVerifyMinuteLimit = 60;
+
+    /***
+     * get接口一分钟内限制访问数
+     */
+    private int reqGetMinuteLimit = 100;
+    private int reqCheckMinuteLimit = 100;
+    private int reqVerifyMinuteLimit = 100;
+
+    public boolean isHistoryDataClearEnable() {
+        return historyDataClearEnable;
+    }
+
+    public void setHistoryDataClearEnable(boolean historyDataClearEnable) {
+        this.historyDataClearEnable = historyDataClearEnable;
+    }
+
+    public boolean isReqFrequencyLimitEnable() {
+        return reqFrequencyLimitEnable;
+    }
 
     public boolean getReqFrequencyLimitEnable() {
         return reqFrequencyLimitEnable;

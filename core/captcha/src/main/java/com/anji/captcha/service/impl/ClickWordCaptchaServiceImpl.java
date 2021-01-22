@@ -42,7 +42,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
 
 	@Override
 	public void destroy(Properties config) {
-
+        logger.info("start-clear-history-data-",captchaType());
 	}
 
     @Override
@@ -104,6 +104,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
             point1 = JSONObject.parseArray(pointJson, PointVO.class);
         } catch (Exception e) {
             logger.error("验证码坐标解析失败", e);
+            afterValidateFail(captchaVO);
             return ResponseModel.errorMsg(e.getMessage());
         }
         for (int i = 0; i < point.size(); i++) {
@@ -111,6 +112,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
                     || point1.get(i).x > point.get(i).x + HAN_ZI_SIZE
                     || point.get(i).y - HAN_ZI_SIZE > point1.get(i).y
                     || point1.get(i).y > point.get(i).y + HAN_ZI_SIZE) {
+                afterValidateFail(captchaVO);
                 return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_COORDINATE_ERROR);
             }
         }
@@ -121,6 +123,7 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
             value = AESUtil.aesEncrypt(captchaVO.getToken().concat("---").concat(pointJson), secretKey);
         } catch (Exception e) {
             logger.error("AES加密失败", e);
+            afterValidateFail(captchaVO);
             return ResponseModel.errorMsg(e.getMessage());
         }
         String secondKey = String.format(REDIS_SECOND_CAPTCHA_KEY, value);

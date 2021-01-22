@@ -83,8 +83,7 @@ public interface FrequencyLimitHandler {
             }
             cacheService.increment(getKey, 1);
             // 1分钟内请求次数过多
-            if (Long.valueOf(getCnts) > Long.valueOf(
-                    config.getProperty(Const.CAPTCHA_REQ_GET_MINUTE_LIMIT, "120"))) {
+            if (Long.valueOf(getCnts) > Long.parseLong(config.getProperty(Const.REQ_GET_MINUTE_LIMIT, "120"))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LIMIT_GET_ERROR);
             }
 
@@ -96,11 +95,9 @@ public interface FrequencyLimitHandler {
                 return null;
             }
             // 1分钟内失败5次
-            if (Long.valueOf(failCnts) > Long.valueOf(
-                    config.getProperty(Const.CAPTCHA_REQ_GET_LOCK_LIMIT, "5"))) {
+            if (Long.valueOf(failCnts) > Long.parseLong(config.getProperty(Const.REQ_GET_LOCK_LIMIT, "5"))) {
                 // get接口锁定5分钟
-                cacheService.set(lockKey, "1", Long.valueOf(
-                        config.getProperty(Const.CAPTCHA_REQ_GET_LOCK_SECONDS, "300")));
+                cacheService.set(lockKey, "1", Long.valueOf(config.getProperty(Const.REQ_GET_LOCK_SECONDS, "300")));
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LOCK_GET_ERROR);
             }
             return null;
@@ -119,8 +116,7 @@ public interface FrequencyLimitHandler {
                 v = "1";
             }
             cacheService.increment(key, 1);
-            if (Long.valueOf(v) > Long.valueOf(
-                    config.getProperty(Const.CAPTCHA_REQ_CHECK_MINUTE_LIMIT, "600"))) {
+            if (Long.valueOf(v) > Long.valueOf(config.getProperty(Const.REQ_CHECK_MINUTE_LIMIT, "600"))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LIMIT_CHECK_ERROR);
             }
             return null;
@@ -139,8 +135,7 @@ public interface FrequencyLimitHandler {
                 v = "1";
             }
             cacheService.increment(key, 1);
-            if (Long.valueOf(v) > Long.valueOf(
-                    config.getProperty(Const.CAPTCHA_REQ_VALIDATE_MINUTE_LIMIT, "600"))) {
+            if (Long.valueOf(v) > Long.valueOf(config.getProperty(Const.REQ_VALIDATE_MINUTE_LIMIT, "600"))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LIMIT_VERIFY_ERROR);
             }
             return null;
