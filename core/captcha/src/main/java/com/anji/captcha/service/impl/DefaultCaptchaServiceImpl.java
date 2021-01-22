@@ -30,7 +30,12 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
 
     @Override
     public void init(Properties config) {
-        super.init(config);
+        for (String s : CaptchaServiceFactory.instances.keySet()) {
+            if(captchaType().equals(s)){
+                continue;
+            }
+            getService(s).init(config);
+        }
     }
 
 	@Override

@@ -20,19 +20,20 @@ public class CaptchaServiceFactory {
 
     public static CaptchaService getInstance(Properties config) {
         //先把所有CaptchaService初始化，通过init方法，实例字体等，add by lide1202@hotmail.com
-        try{
+        /*try{
             for(CaptchaService item: instances.values()){
                 item.init(config);
             }
         }catch (Exception e){
             logger.warn("init captchaService fail:{}", e);
-        }
+        }*/
 
         String captchaType = config.getProperty(Const.CAPTCHA_TYPE, "default");
         CaptchaService ret = instances.get(captchaType);
         if (ret == null) {
             throw new RuntimeException("unsupported-[captcha.type]=" + captchaType);
         }
+        ret.init(config);
         return ret;
     }
 
