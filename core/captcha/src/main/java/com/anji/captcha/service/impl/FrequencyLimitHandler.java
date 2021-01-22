@@ -41,7 +41,8 @@ public interface FrequencyLimitHandler {
 
 
     /***
-     * 验证码接口限流: 客户端ClientUid 组件实例化时初始化一次，如UUID
+     * 验证码接口限流:
+     *      客户端ClientUid 组件实例化时设置一次，如：场景码+UUID，客户端可以本地缓存,保证一个组件只有一个值
      *
      * 针对同一个客户端的请求，做如下限制:
      * get
@@ -103,6 +104,10 @@ public interface FrequencyLimitHandler {
 
         @Override
         public ResponseModel validateCheck(CaptchaVO d) {
+            /*String getKey = getClientCId(d, "GET");
+            if(Objects.isNull(cacheService.get(getKey))){
+                return ResponseModel.errorMsg(RepCodeEnum.API_REQ_INVALID);
+            }*/
             String key = getClientCId(d, "CHECK");
             String v = cacheService.get(key);
             if (Objects.isNull(v)) {
@@ -119,6 +124,10 @@ public interface FrequencyLimitHandler {
 
         @Override
         public ResponseModel validateVerify(CaptchaVO d) {
+            /*String getKey = getClientCId(d, "GET");
+            if(Objects.isNull(cacheService.get(getKey))){
+                return ResponseModel.errorMsg(RepCodeEnum.API_REQ_INVALID);
+            }*/
             String key = getClientCId(d, "VERIFY");
             String v = cacheService.get(key);
             if (Objects.isNull(v)) {

@@ -33,10 +33,11 @@ public enum RepCodeEnum {
     API_CAPTCHA_ERROR("6112", "获取验证码失败,请联系管理员"),
     API_CAPTCHA_BASEMAP_NULL("6113", "底图未初始化成功，请检查路径"),
 
-	API_REQ_LIMIT_GET_ERROR("6201", "get接口请求次数超限，请检查配置"),
+	API_REQ_LIMIT_GET_ERROR("6201", "get接口请求次数超限!"),
+    API_REQ_INVALID("6206", "无效请求，请重新获取验证码"),
 	API_REQ_LOCK_GET_ERROR("6202", "接口验证失败数过多，请稍后再试"),
-	API_REQ_LIMIT_CHECK_ERROR("6204", "check接口请求次数超限，请检查配置"),
-	API_REQ_LIMIT_VERIFY_ERROR("6205", "verify请求次数超限，请检查配置"),
+	API_REQ_LIMIT_CHECK_ERROR("6204", "check接口请求次数超限!"),
+	API_REQ_LIMIT_VERIFY_ERROR("6205", "verify请求次数超限!"),
     ;
     private String code;
     private String desc;

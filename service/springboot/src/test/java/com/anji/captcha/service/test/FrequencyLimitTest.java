@@ -21,7 +21,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 针对同一个客户端的请求，做如下限制:
+ * 针对同一个客户端组件的请求，做如下限制:
  * get
  * 1分钟内失败5次，锁定5分钟
  * 1分钟内不能超过120次。
@@ -41,11 +41,13 @@ public class FrequencyLimitTest {
     private CaptchaService captchaService;
     private CaptchaVO req = new CaptchaVO();
     private Logger logger = LoggerFactory.getLogger(getClass());
+    int cnt = 100;
+    private String clientUid = "login-"+UUID.randomUUID().toString();
 
     @Before
     public void init() {
         req.setCaptchaType(CaptchaTypeEnum.BLOCKPUZZLE.getCodeValue());
-        req.setClientUid(UUID.randomUUID().toString());
+        req.setClientUid(clientUid);
         req.setTs(System.currentTimeMillis());
         /*Properties config = new Properties();
         try {
@@ -67,31 +69,31 @@ public class FrequencyLimitTest {
     @Test
     public void testGet() throws Exception {
         int i = 0;
-        while (i++ < 150) {
+        while (i++ < cnt) {
             ResponseModel res = captchaService.get(req);
             logger.info(i + "=" + res.getRepCode() + "," + res.getRepMsg());
-            //TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(1);
         }
 
-        testCheck();
-        testVerify();
+        //testCheck();
+        //testVerify();
     }
 
-    //@Test
+    @Test
     public void testCheck() throws Exception {
         int i = 0;
-        while (i++ < 150) {
+        while (i++ < cnt) {
             req.setToken("xddfdf"+i);
             ResponseModel res = captchaService.check(req);
             logger.info(i + "=" + res.getRepCode() + "," + res.getRepMsg());
-            //TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(1);
         }
     }
 
-    //@Test
+    @Test
     public void testVerify() throws Exception {
         int i = 0;
-        while (i++ < 150) {
+        while (i++ < cnt) {
             req.setToken("xddfdf"+i);
             req.setCaptchaVerification("sdfddfdd");
             ResponseModel res = captchaService.verification(req);
