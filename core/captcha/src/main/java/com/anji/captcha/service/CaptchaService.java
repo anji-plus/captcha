@@ -19,7 +19,6 @@ import java.util.Properties;
 public interface CaptchaService {
     /**
      * 配置初始化
-     * @throws Exception
      */
     void init(Properties config);
 
@@ -54,7 +53,6 @@ public interface CaptchaService {
 	/**
 	 * 历史资源清除(过期的图片文件，生成的临时图片...)
 	 * @param config 配置项 控制资源清理的粒度
-	 * @throws Exception
 	 */
 	void destroy(Properties config);
 }

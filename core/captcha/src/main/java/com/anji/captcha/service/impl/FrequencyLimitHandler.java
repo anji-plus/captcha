@@ -15,6 +15,8 @@ import java.util.Properties;
  */
 public interface FrequencyLimitHandler {
 
+    String LIMIT_KEY = "AJ.CAPTCHA.REQ.LIMIT-%s-%s";
+
     /**
      * get 接口限流
      *
@@ -46,7 +48,7 @@ public interface FrequencyLimitHandler {
      *
      * 针对同一个客户端的请求，做如下限制:
      * get
-     * 	 1分钟内失败5次，锁定5分钟
+     * 	 1分钟内check失败5次，锁定5分钟
      * 	 1分钟内不能超过120次。
      * check:
      *   1分钟内不超过600次
@@ -63,36 +65,38 @@ public interface FrequencyLimitHandler {
         }
 
         private String getClientCId(CaptchaVO input, String type) {
-            return "CAPTCHA.REQ.LIMIT-" + type + "-" + input.getClientUid();
+            return String.format(LIMIT_KEY ,type,input.getClientUid());
         }
 
         @Override
         public ResponseModel validateGet(CaptchaVO d) {
-            String key = getClientCId(d, "GET");
+            String getKey = getClientCId(d, "GET");
             String lockKey = getClientCId(d, "LOCK");
             // 失败次数过多，锁定
             if (Objects.nonNull(cacheService.get(lockKey))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LOCK_GET_ERROR);
             }
-            String v = cacheService.get(key);
-            if (Objects.isNull(v)) {
-                cacheService.set(key, "1", 60);
-                v = "1";
+            String getCnts = cacheService.get(getKey);
+            if (Objects.isNull(getCnts)) {
+                cacheService.set(getKey, "1", 60);
+                getCnts = "1";
             }
-            cacheService.increment(key, 1);
+            cacheService.increment(getKey, 1);
             // 1分钟内请求次数过多
-            if (Long.valueOf(v) > Long.valueOf(
+            if (Long.valueOf(getCnts) > Long.valueOf(
                     config.getProperty(Const.CAPTCHA_REQ_GET_MINUTE_LIMIT, "120"))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LIMIT_GET_ERROR);
             }
+
             // 失败次数验证
             String failKey = getClientCId(d, "FAIL");
-            v = cacheService.get(failKey);
-            if (Objects.isNull(v)) {
+            String failCnts = cacheService.get(failKey);
+            // 没有验证失败，通过校验
+            if (Objects.isNull(failCnts)) {
                 return null;
             }
             // 1分钟内失败5次
-            if (Long.valueOf(v) > Long.valueOf(
+            if (Long.valueOf(failCnts) > Long.valueOf(
                     config.getProperty(Const.CAPTCHA_REQ_GET_LOCK_LIMIT, "5"))) {
                 // get接口锁定5分钟
                 cacheService.set(lockKey, "1", Long.valueOf(

@@ -79,7 +79,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
             ImageUtils.cacheImage(config.getProperty(Const.ORIGINAL_PATH_JIGSAW),
                     config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK));
         }
-        logger.info("--->>>初始化验证码底图<<<---"+captchaType());
+        logger.info("--->>>初始化验证码底图<<<---" + captchaType());
         waterMark = config.getProperty(Const.CAPTCHA_WATER_MARK, "我的水印");
         slipOffset = config.getProperty(Const.CAPTCHA_SLIP_OFFSET, "5");
         waterMarkFontStr = config.getProperty(Const.CAPTCHA_WATER_FONT, "SourceHanSansCN-Normal.otf");
@@ -87,7 +87,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         clickWordFontStr = config.getProperty(Const.CAPTCHA_FONT_TYPE, "SourceHanSansCN-Normal.otf");
         cacheType = config.getProperty(Const.CAPTCHA_CACHETYPE, "local");
         captchaInterferenceOptions = Integer.parseInt(
-        		config.getProperty(Const.CAPTCHA_INTERFERENCE_OPTIONS, "0"));
+                config.getProperty(Const.CAPTCHA_INTERFERENCE_OPTIONS, "0"));
 
         //部署在linux中，如果没有安装中文字段，水印和点选文字，中文无法显示，通过加载resources下的font字体解决，无需在linux中安装字体
         loadWaterMarkFont();
@@ -95,92 +95,99 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         if (cacheType.equals("local")) {
             logger.info("初始化local缓存...");
             CacheUtil.init(Integer.parseInt(
-            		config.getProperty(Const.CAPTCHA_CACAHE_MAX_NUMBER, "1000")),
+                    config.getProperty(Const.CAPTCHA_CACAHE_MAX_NUMBER, "1000")),
                     Long.parseLong(config.getProperty(Const.CAPTCHA_TIMING_CLEAR_SECOND, "180")));
         }
-        if(config.getProperty(Const.CAPTCHA_HISTORY_DATA_CLEAR,"0").equals("1")){
-			logger.info("历史资源清除开关=1，开启...");
-        	Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-				@Override
-				public void run() {
-					destroy(config);
-				}
-			}));
-		}
-		if(config.getProperty(Const.CAPTCHA_REQ_FREQUENCY_LIMIT,"0").equals("1")){
-        	if(limitHandler == null) {
-				logger.info("开启接口限流开关..");
-				limitHandler = new FrequencyLimitHandler.DefaultLimitHandler(config, getCacheService(cacheType));
-			}
-		}
+        if (config.getProperty(Const.CAPTCHA_HISTORY_DATA_CLEAR, "0").equals("1")) {
+            logger.info("历史资源清除开关=1，开启...");
+            Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    destroy(config);
+                }
+            }));
+        }
+        if (config.getProperty(Const.CAPTCHA_REQ_FREQUENCY_LIMIT, "0").equals("1")) {
+            if (limitHandler == null) {
+                logger.info("开启接口限流开关..");
+                limitHandler = new FrequencyLimitHandler.DefaultLimitHandler(config, getCacheService(cacheType));
+            }
+        }
     }
 
-    protected CaptchaCacheService getCacheService(String cacheType){
-    	return CaptchaServiceFactory.getCache(cacheType);
-	}
+    protected CaptchaCacheService getCacheService(String cacheType) {
+        return CaptchaServiceFactory.getCache(cacheType);
+    }
 
-	@Override
-	public void destroy(Properties config) {
+    @Override
+    public void destroy(Properties config) {
 
-	}
+    }
 
-	private static FrequencyLimitHandler limitHandler;
+    private static FrequencyLimitHandler limitHandler;
 
-	@Override
-	public ResponseModel get(CaptchaVO captchaVO) {
-		if(limitHandler!=null){
-			return limitHandler.validateGet(captchaVO);
-		}
-		return null;
-	}
+    @Override
+    public ResponseModel get(CaptchaVO captchaVO) {
+        if (limitHandler != null) {
+            return limitHandler.validateGet(captchaVO);
+        }
+        return null;
+    }
 
-	@Override
-	public ResponseModel check(CaptchaVO captchaVO) {
-		if(limitHandler!=null){
-			return limitHandler.validateCheck(captchaVO);
-		}
-    	return null;
-	}
+    @Override
+    public ResponseModel check(CaptchaVO captchaVO) {
+        if (limitHandler != null) {
+            return limitHandler.validateCheck(captchaVO);
+        }
+        return null;
+    }
 
-	@Override
-	public ResponseModel verification(CaptchaVO captchaVO) {
-		if (captchaVO == null) {
-			return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
-		}
-		if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
-			return RepCodeEnum.NULL_ERROR.parseError("captchaVerification");
-		}
-		if(limitHandler!=null){
-			return limitHandler.validateVerify(captchaVO);
-		}
-    	return null;
-	}
+    @Override
+    public ResponseModel verification(CaptchaVO captchaVO) {
+        if (captchaVO == null) {
+            return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
+        }
+        if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
+            return RepCodeEnum.NULL_ERROR.parseError("captchaVerification");
+        }
+        if (limitHandler != null) {
+            return limitHandler.validateVerify(captchaVO);
+        }
+        return null;
+    }
 
-	protected boolean validatedReq(ResponseModel resp){
-    	return resp == null || resp.isSuccess();
-	}
+    protected boolean validatedReq(ResponseModel resp) {
+        return resp == null || resp.isSuccess();
+    }
+
+    protected void afterValidate(CaptchaVO data, ResponseModel ret) {
+        if (ret != null && !ret.isSuccess() && limitHandler != null) {
+            String lockKey = String.format(FrequencyLimitHandler.LIMIT_KEY, "LOCK", data.getClientUid());
+            getCacheService(captchaType()).increment(lockKey, 1);
+        }
+    }
 
     /**
      * 加载resources下的font字体，add by lide1202@hotmail.com
      * 部署在linux中，如果没有安装中文字段，水印和点选文字，中文无法显示，
      * 通过加载resources下的font字体解决，无需在linux中安装字体
      */
-	private void loadWaterMarkFont(){
+    private void loadWaterMarkFont() {
 
-        try{
-            if(waterMarkFontStr.toLowerCase().endsWith(".ttf") || waterMarkFontStr.toLowerCase().endsWith(".ttc") || waterMarkFontStr.toLowerCase().endsWith(".otf")){
+        try {
+            if (waterMarkFontStr.toLowerCase().endsWith(".ttf") || waterMarkFontStr.toLowerCase().endsWith(".ttc") || waterMarkFontStr.toLowerCase().endsWith(".otf")) {
                 this.waterMarkFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/" + waterMarkFontStr))
                         .deriveFont(Font.BOLD, HAN_ZI_SIZE / 2);
-            }else{
+            } else {
                 this.waterMarkFont = new Font(waterMarkFontStr, Font.BOLD, HAN_ZI_SIZE / 2);
             }
-            if(clickWordFontStr.toLowerCase().endsWith(".ttf") || clickWordFontStr.toLowerCase().endsWith(".ttc") || clickWordFontStr.toLowerCase().endsWith(".otf")){
+            if (clickWordFontStr.toLowerCase().endsWith(".ttf") || clickWordFontStr.toLowerCase().endsWith(".ttc") || clickWordFontStr.toLowerCase().endsWith(".otf")) {
                 this.clickWordFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/fonts/" + clickWordFontStr))
                         .deriveFont(Font.BOLD, HAN_ZI_SIZE);
-            }else {
+            } else {
                 this.clickWordFont = new Font(clickWordFontStr, Font.BOLD, HAN_ZI_SIZE);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("load font error:{}", e);
         }
     }
