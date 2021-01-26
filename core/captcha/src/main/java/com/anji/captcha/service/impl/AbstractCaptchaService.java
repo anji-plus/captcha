@@ -32,7 +32,7 @@ import java.util.Properties;
  */
 public abstract class AbstractCaptchaService implements CaptchaService {
 
-    private static Logger logger = LoggerFactory.getLogger(AbstractCaptchaService.class);
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
     protected static final String IMAGE_TYPE_PNG = "png";
 

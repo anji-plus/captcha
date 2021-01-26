@@ -12,8 +12,6 @@ import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.model.vo.PointVO;
 import com.anji.captcha.util.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -30,9 +28,6 @@ import java.util.Random;
  * Created by raodeming on 2019/12/25.
  */
 public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
-
-    private static Logger logger = LoggerFactory.getLogger(BlockPuzzleCaptchaServiceImpl.class);
-
 
     @Override
     public void init(Properties config) {
@@ -103,10 +98,10 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
         PointVO point1 = null;
         String pointJson = null;
         try {
-            point = JSONObject.parseObject(s, PointVO.class);
+            point = JsonUtil.parseObject(s, PointVO.class);
             //aes解密
             pointJson = decrypt(captchaVO.getPointJson(), point.getSecretKey());
-            point1 = JSONObject.parseObject(pointJson, PointVO.class);
+            point1 = JsonUtil.parseObject(pointJson, PointVO.class);
         } catch (Exception e) {
             logger.error("验证码坐标解析失败", e);
             afterValidateFail(captchaVO);
@@ -237,8 +232,8 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
 
             //将坐标信息存入redis中
             String codeKey = String.format(REDIS_CAPTCHA_KEY, dataVO.getToken());
-            CaptchaServiceFactory.getCache(cacheType).set(codeKey, JSONObject.toJSONString(point), EXPIRESIN_SECONDS);
-            logger.debug("token：{},point:{}", dataVO.getToken(), JSONObject.toJSONString(point));
+            CaptchaServiceFactory.getCache(cacheType).set(codeKey, JsonUtil.toJSONString(point), EXPIRESIN_SECONDS);
+            logger.debug("token：{},point:{}", dataVO.getToken(), JsonUtil.toJSONString(point));
             return dataVO;
         } catch (Exception e) {
             e.printStackTrace();

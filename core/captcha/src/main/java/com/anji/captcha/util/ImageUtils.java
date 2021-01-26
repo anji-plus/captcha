@@ -45,7 +45,7 @@ public class ImageUtils {
         fileNameMap.put(CaptchaBaseMapEnum.ORIGINAL.getCodeValue(), originalCacheMap.keySet().toArray(new String[0]));
         fileNameMap.put(CaptchaBaseMapEnum.SLIDING_BLOCK.getCodeValue(), slidingBlockCacheMap.keySet().toArray(new String[0]));
         fileNameMap.put(CaptchaBaseMapEnum.PIC_CLICK.getCodeValue(), picClickCacheMap.keySet().toArray(new String[0]));
-        logger.info("初始化底图:{}", JSONObject.toJSONString(fileNameMap));
+        logger.info("初始化底图:{}", JsonUtil.toJSONString(fileNameMap));
     }
 
     public static void cacheBootImage(Map<String, String> originalMap, Map<String, String> slidingBlockMap, Map<String, String> picClickMap) {
@@ -55,7 +55,7 @@ public class ImageUtils {
         fileNameMap.put(CaptchaBaseMapEnum.ORIGINAL.getCodeValue(), originalCacheMap.keySet().toArray(new String[0]));
         fileNameMap.put(CaptchaBaseMapEnum.SLIDING_BLOCK.getCodeValue(), slidingBlockCacheMap.keySet().toArray(new String[0]));
         fileNameMap.put(CaptchaBaseMapEnum.PIC_CLICK.getCodeValue(), picClickCacheMap.keySet().toArray(new String[0]));
-        logger.info("自定义resource底图:{}", JSONObject.toJSONString(fileNameMap));
+        logger.info("自定义resource底图:{}", JsonUtil.toJSONString(fileNameMap));
     }
 
 
