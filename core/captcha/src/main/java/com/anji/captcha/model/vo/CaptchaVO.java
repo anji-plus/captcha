@@ -86,7 +86,12 @@ public class CaptchaVO implements Serializable {
 	/***
 	 * 客户端的请求时间，预留字段
 	 */
-	private long ts;
+	private Long ts;
+
+    /***
+     * 客户端ip+userAgent
+     */
+    private String clientId;
 
     public String getCaptchaId() {
         return captchaId;
@@ -224,11 +229,19 @@ public class CaptchaVO implements Serializable {
 		this.clientUid = clientUid;
 	}
 
-	public long getTs() {
+	public Long getTs() {
 		return ts;
 	}
 
-	public void setTs(long ts) {
+	public void setTs(Long ts) {
 		this.ts = ts;
 	}
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
 }

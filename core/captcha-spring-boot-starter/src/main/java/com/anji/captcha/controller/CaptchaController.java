@@ -9,11 +9,14 @@ package com.anji.captcha.controller;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
+import com.anji.captcha.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -24,18 +27,43 @@ public class CaptchaController {
     private CaptchaService captchaService;
 
     @PostMapping("/get")
-    public ResponseModel get(@RequestBody CaptchaVO captchaVO) {
-        return captchaService.get(captchaVO);
+    public ResponseModel get(@RequestBody CaptchaVO data, HttpServletRequest request) {
+        assert request.getRemoteHost()!=null;
+        data.setClientId(getRemoteId(request));
+        return captchaService.get(data);
     }
 
     @PostMapping("/check")
-    public ResponseModel check(@RequestBody CaptchaVO captchaVO) {
-        return captchaService.check(captchaVO);
+    public ResponseModel check(@RequestBody CaptchaVO data, HttpServletRequest request) {
+        data.setClientId(getRemoteId(request));
+        return captchaService.check(data);
     }
 
-    @PostMapping("/verify")
-    public ResponseModel verify(@RequestBody CaptchaVO captchaVO) {
-        return captchaService.verification(captchaVO);
+    //@PostMapping("/verify")
+    public ResponseModel verify(@RequestBody CaptchaVO data, HttpServletRequest request) {
+        return captchaService.verification(data);
+    }
+
+    public static final String getRemoteId(HttpServletRequest request) {
+        String xfwd = request.getHeader("X-Forwarded-For");
+        String ip = getRemoteIpFromXfwd(xfwd);
+        String ua = request.getHeader("user-agent");
+        if (StringUtils.isNotBlank(ip)) {
+            return ip + ua;
+        }
+        return request.getRemoteAddr() + ua;
+    }
+
+    private static String getRemoteIpFromXfwd(String xfwd) {
+        if (StringUtils.isNotBlank(xfwd)) {
+            String[] ipList = xfwd.split(",");
+            for (int i = ipList.length - 1; i >= 0; i--) {
+                String ip = ipList[i];
+                ip = StringUtils.trim(ip);
+                return ip;
+            }
+        }
+        return null;
     }
 
 }

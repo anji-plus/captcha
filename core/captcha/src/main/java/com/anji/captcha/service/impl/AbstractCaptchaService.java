@@ -18,6 +18,7 @@ import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.security.provider.MD5;
 
 import java.awt.*;
 import java.io.File;
@@ -122,6 +123,11 @@ public abstract class AbstractCaptchaService implements CaptchaService {
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
         if (limitHandler != null) {
+            ResponseModel ret = limitHandler.validateGet(captchaVO);
+            if(!validatedReq(ret)){
+                return ret;
+            }
+            captchaVO.setClientUid(captchaVO.getClientId());
             return limitHandler.validateGet(captchaVO);
         }
         return null;
@@ -130,6 +136,13 @@ public abstract class AbstractCaptchaService implements CaptchaService {
     @Override
     public ResponseModel check(CaptchaVO captchaVO) {
         if (limitHandler != null) {
+            // 验证客户端
+            ResponseModel ret = limitHandler.validateCheck(captchaVO);
+            if(!validatedReq(ret)){
+                return ret;
+            }
+            // 服务端参数验证
+            captchaVO.setClientUid(captchaVO.getClientId());
             return limitHandler.validateCheck(captchaVO);
         }
         return null;
