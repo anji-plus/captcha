@@ -234,7 +234,8 @@
 								this.tipWords = `${((this.endMovetime-this.startMoveTime)/1000).toFixed(2)}s验证成功`
 								setTimeout(()=>{
 									this.tipWords = ""
-									this.$parent.$emit('success', {captchaVerification})
+									this.$emit('success', {captchaVerification})
+									// this.$parent.$emit('success', {captchaVerification})
 								},1000)
 							}else{
 								this.moveBlockBackgroundColor = '#d9534f'

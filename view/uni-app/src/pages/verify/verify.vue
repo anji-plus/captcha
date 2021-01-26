@@ -12,6 +12,7 @@
             <!-- 滑动 -->
             <view v-if="componentType=='VerifySlide'">
                 <VerifySlide 
+				    @success="success"
                     :captchaType="captchaType"
                     :type="verifyType"
                     :figure="figure"
@@ -111,6 +112,9 @@
             }
         },
         methods: {
+			success(e) {
+				this.$emit('success', e)
+			},
             /**
              * refresh
              * @description 刷新

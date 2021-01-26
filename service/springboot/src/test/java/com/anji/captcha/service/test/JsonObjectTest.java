@@ -3,6 +3,7 @@ package com.anji.captcha.service.test;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.model.vo.PointVO;
+import com.anji.captcha.util.JsonUtil;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -25,7 +26,7 @@ public class JsonObjectTest {
 
 		String src = JSONObject.toJSONString(data);
 		System.out.println(src);
-		String c = com.anji.captcha.util.JSONObject.toJSONString(data);
+		String c = JsonUtil.toJSONString(data);
 		System.out.println(c);
 		assert src.equals(c);
 	}
@@ -43,7 +44,7 @@ public class JsonObjectTest {
 		List data = Arrays.asList(d1,d2);
 		String src = JSONObject.toJSONString(data);
 		System.out.println(src);
-		String c = com.anji.captcha.util.JSONObject.toJSONString(data);
+		String c = JsonUtil.toJSONString(data);
 		System.out.println(c);
 		assert src.equals(c);
 	}
@@ -52,7 +53,7 @@ public class JsonObjectTest {
 	public void testParseArray(){
 		String data = "[{\"secretKey\":\"xxdfd\",\"x\":123,\"y\":1234},{\"secretKey\":\"xxdfd2\",\"x\":1232,\"y\":12342}]";
 		List<PointVO> ret1 = JSONObject.parseArray(data,PointVO.class);
-		List<PointVO> d2 = com.anji.captcha.util.JSONObject.parseArray(data,PointVO.class);
+		List<PointVO> d2 = JsonUtil.parseArray(data,PointVO.class);
 		assert JSON.toJSONString(ret1).equals(JSON.toJSONString(d2));
 	}
 
@@ -61,7 +62,7 @@ public class JsonObjectTest {
 	public void testParseObject(){
 		String data = "{\"secretKey\":\"xxdfd\",\"x\":123,\"y\":1234}";
 		PointVO ret1 = JSONObject.parseObject(data,PointVO.class);
-		PointVO d2 = com.anji.captcha.util.JSONObject.parseObject(data,PointVO.class);
+		PointVO d2 = JsonUtil.parseObject(data,PointVO.class);
 		assert ret1.equals(d2);
 	}
 }

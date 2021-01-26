@@ -6,7 +6,6 @@
  */
 package com.anji.captcha.model.common;
 
-import com.anji.captcha.util.JSONObject;
 import com.anji.captcha.util.StringUtils;
 
 import java.io.Serializable;

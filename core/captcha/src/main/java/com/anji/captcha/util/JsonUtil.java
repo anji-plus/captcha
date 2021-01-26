@@ -15,8 +15,8 @@ import java.util.Map;
  *@author WongBin
  *@date 2021/1/8
  */
-public class JSONObject {
-	private static Logger logger = LoggerFactory.getLogger(JSONObject.class);
+public class JsonUtil {
+	private static Logger logger = LoggerFactory.getLogger(JsonUtil.class);
 	public static List<PointVO> parseArray(String text, Class<PointVO> clazz) {
 		if (text == null) {
 			return null;

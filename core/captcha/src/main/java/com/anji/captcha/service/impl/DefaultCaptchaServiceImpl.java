@@ -6,13 +6,9 @@
  */
 package com.anji.captcha.service.impl;
 
-import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
-import com.anji.captcha.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
@@ -20,8 +16,6 @@ import java.util.Properties;
  * Created by raodeming on 2019/12/25.
  */
 public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
-
-    private static Logger logger = LoggerFactory.getLogger(DefaultCaptchaServiceImpl.class);
 
     @Override
     public String captchaType() {
