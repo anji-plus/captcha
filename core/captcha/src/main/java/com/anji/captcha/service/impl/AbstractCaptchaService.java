@@ -174,7 +174,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         if (limitHandler != null) {
             // 验证失败 分钟内计数
             String fails = String.format(FrequencyLimitHandler.LIMIT_KEY, "FAIL", data.getClientUid());
-            CaptchaCacheService cs = getCacheService(captchaType());
+            CaptchaCacheService cs = getCacheService(cacheType);
             if (!cs.exists(fails)) {
                 cs.set(fails, "1", 60);
             }
