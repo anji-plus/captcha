@@ -91,7 +91,7 @@ public class CaptchaVO implements Serializable {
     /***
      * 客户端ip+userAgent
      */
-    private String clientId;
+    private String browserInfo;
 
     public String getCaptchaId() {
         return captchaId;
@@ -237,11 +237,11 @@ public class CaptchaVO implements Serializable {
 		this.ts = ts;
 	}
 
-    public String getClientId() {
-        return clientId;
+    public String getBrowserInfo() {
+        return browserInfo;
     }
 
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setBrowserInfo(String browserInfo) {
+        this.browserInfo = browserInfo;
     }
 }

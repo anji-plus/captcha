@@ -5,6 +5,7 @@ import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaCacheService;
+import com.anji.captcha.util.StringUtils;
 
 import java.util.Objects;
 import java.util.Properties;
@@ -70,6 +71,10 @@ public interface FrequencyLimitHandler {
 
         @Override
         public ResponseModel validateGet(CaptchaVO d) {
+        	// 无客户端身份标识，不限制
+        	if(StringUtils.isEmpty(d.getClientUid())){
+        		return null;
+			}
             String getKey = getClientCId(d, "GET");
             String lockKey = getClientCId(d, "LOCK");
             // 失败次数过多，锁定
@@ -105,6 +110,10 @@ public interface FrequencyLimitHandler {
 
         @Override
         public ResponseModel validateCheck(CaptchaVO d) {
+			// 无客户端身份标识，不限制
+			if(StringUtils.isEmpty(d.getClientUid())){
+				return null;
+			}
             /*String getKey = getClientCId(d, "GET");
             if(Objects.isNull(cacheService.get(getKey))){
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_INVALID);

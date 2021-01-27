@@ -12,13 +12,9 @@ import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
-import com.anji.captcha.util.AESUtil;
-import com.anji.captcha.util.CacheUtil;
-import com.anji.captcha.util.ImageUtils;
-import com.anji.captcha.util.StringUtils;
+import com.anji.captcha.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.security.provider.MD5;
 
 import java.awt.*;
 import java.io.File;
@@ -123,11 +119,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
         if (limitHandler != null) {
-            ResponseModel ret = limitHandler.validateGet(captchaVO);
-            if(!validatedReq(ret)){
-                return ret;
-            }
-            captchaVO.setClientUid(captchaVO.getClientId());
+            captchaVO.setClientUid(getValidateClientId(captchaVO));
             return limitHandler.validateGet(captchaVO);
         }
         return null;
@@ -137,12 +129,12 @@ public abstract class AbstractCaptchaService implements CaptchaService {
     public ResponseModel check(CaptchaVO captchaVO) {
         if (limitHandler != null) {
             // 验证客户端
-            ResponseModel ret = limitHandler.validateCheck(captchaVO);
+           /* ResponseModel ret = limitHandler.validateCheck(captchaVO);
             if(!validatedReq(ret)){
                 return ret;
             }
-            // 服务端参数验证
-            captchaVO.setClientUid(captchaVO.getClientId());
+            // 服务端参数验证*/
+            captchaVO.setClientUid(getValidateClientId(captchaVO));
             return limitHandler.validateCheck(captchaVO);
         }
         return null;
@@ -165,6 +157,18 @@ public abstract class AbstractCaptchaService implements CaptchaService {
     protected boolean validatedReq(ResponseModel resp) {
         return resp == null || resp.isSuccess();
     }
+
+	protected String getValidateClientId(CaptchaVO req){
+    	// 以服务端获取的客户端标识 做识别标志
+		if(StringUtils.isNotEmpty(req.getBrowserInfo())){
+			return Base64Utils.encodeToString(req.getBrowserInfo().getBytes());
+		}
+		// 以客户端Ui组件id做识别标志
+		if(StringUtils.isNotEmpty(req.getClientUid())){
+			return req.getClientUid();
+		}
+    	return null;
+	}
 
     protected void afterValidateFail(CaptchaVO data) {
         if (limitHandler != null) {

@@ -29,13 +29,13 @@ public class CaptchaController {
     @PostMapping("/get")
     public ResponseModel get(@RequestBody CaptchaVO data, HttpServletRequest request) {
         assert request.getRemoteHost()!=null;
-        data.setClientId(getRemoteId(request));
+        data.setBrowserInfo(getRemoteId(request));
         return captchaService.get(data);
     }
 
     @PostMapping("/check")
     public ResponseModel check(@RequestBody CaptchaVO data, HttpServletRequest request) {
-        data.setClientId(getRemoteId(request));
+        data.setBrowserInfo(getRemoteId(request));
         return captchaService.check(data);
     }
 
