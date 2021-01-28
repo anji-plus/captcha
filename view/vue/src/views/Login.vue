@@ -60,9 +60,15 @@
                           </li>
                           <li class="keep-password">
                             <label>
-                              <a href='https://github.com/anji-plus/captcha' target="_blank" style="color:#222"><img src="https://github.githubassets.com/favicons/favicon.png" style="vertical-align:middle;margin-right:5px" width="24px"/> github</a>
+                              <a href='https://github.com/anji-plus/captcha' target="_blank" style="color:#222">
+                                <img src="https://github.githubassets.com/favicons/favicon.png"
+                                     style="vertical-align:middle;margin-right:5px" width="24px"/> github</a>
                             </label>
-
+                            <label class="ml20">
+                              <a href='https://github.com/anji-plus/captcha/stargazers' target="_blank">
+                                <img src='https://img.shields.io/github/stars/anji-plus/captcha?style=social'
+                                     style="vertical-align:middle;" alt='star' /></a>
+                            </label>
                           </li>
                           <li class="mt50">
 
