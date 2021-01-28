@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { getPicture, reqCheck} from '../api/base.js'
 import { CSSTransition } from 'react-transition-group';
 import '../assets/index.css';
+import defaultImg from './../assets/images/default.jpg'
 import {aesEncrypt} from "../api/ase.js";
 
 class VerifySlide extends Component{
@@ -44,8 +45,31 @@ class VerifySlide extends Component{
   }
   
   componentDidMount() {
+    this.uuid()
     this.getData()
     this.init()
+  }
+  // 初始话 uuid 
+    uuid() {
+    var s = [];
+    var hexDigits = "0123456789abcdef";
+    for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+    s[8] = s[13] = s[18] = s[23] = "-";
+
+    var slider = 'slider'+ '-'+s.join("");
+    var point = 'point'+ '-'+s.join("");
+    // 判断下是否存在 slider
+    console.log(localStorage.getItem('slider'))
+    if(!localStorage.getItem('slider')) {
+      localStorage.setItem('slider', slider)
+    }
+    if(!localStorage.getItem('point')) {
+      localStorage.setItem("point",point);
+    }
   }
   init () {
     var _this = this
@@ -81,8 +105,7 @@ class VerifySlide extends Component{
     });
   }
   getData() {
-    getPicture({captchaType: this.state.captchaType}).then(res => {
-      console.log(res)
+    getPicture({captchaType: this.state.captchaType,clientUid: localStorage.getItem('slider'),ts: Date.now()}).then(res => {
       if(res.repCode === '0000') {
         this.setState({
           backImgBase: res.repData.originalImageBase64,
@@ -90,6 +113,23 @@ class VerifySlide extends Component{
           backToken: res.repData.token,
           secretKey: res.repData.secretKey
         })
+      }
+      // 请求次数超限
+      if(res.repCode == '6201') {
+        this.setState({
+          backImgBase: null,
+          blockBackImgBase: null,
+          leftBarBorderColor: '#d9534f',
+          iconColor: '#fff',
+          iconClass: 'icon-close',
+          passFlag: false,
+          tipWords: res.repMsg
+        })
+        setTimeout(() => {
+          this.setState({
+            tipWords: ''
+          })
+        }, 1000);
       }
     })
   }
@@ -173,7 +213,9 @@ class VerifySlide extends Component{
         let data = {
             captchaType:this.state.captchaType,
             "pointJson":this.state.secretKey ? aesEncrypt(JSON.stringify({x:moveLeftDistance,y:5.0}),this.state.secretKey):JSON.stringify({x:moveLeftDistance,y:5.0}),
-            "token":this.state.backToken
+            "token":this.state.backToken,
+            clientUid: localStorage.getItem('slider'),
+            ts: Date.now()
         }
         reqCheck(data).then(res=>{
           if (res.repCode == "0000") {
@@ -195,7 +237,7 @@ class VerifySlide extends Component{
               iconColor: '#fff',
               iconClass: 'icon-close',
               passFlag: false,
-              tipWords: '验证失败'
+              tipWords: res.repMsg || '验证失败'
             })
             setTimeout(() => {
               this.refresh();
@@ -221,11 +263,15 @@ class VerifySlide extends Component{
             className='verify-img-panel'
             style={{ width: this.state.setSize.imgWidth, height: this.state.setSize.imgHeight }}
           >
-            <img
+            {this.state.backImgBase? <img
               src={'data:image/png;base64,' + this.state.backImgBase}
               alt=""
               style={{ width: '100%', height: '100%', display: 'block' }}
-            />
+              />: <img
+              src={defaultImg}
+              alt=""
+              style={{ width: '100%', height: '100%', display: 'block' }}
+              />}
             <div
               className='verify-refresh'
               onClick={() => this.refresh()}

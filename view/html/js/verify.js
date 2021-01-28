@@ -3,6 +3,30 @@
 
 ;(function($, window, document,undefined) {
 
+	  // 初始话 uuid 
+		uuid()
+		function uuid() {
+			var s = [];
+			var hexDigits = "0123456789abcdef";
+			for (var i = 0; i < 36; i++) {
+					s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+			}
+			s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+			s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+			s[8] = s[13] = s[18] = s[23] = "-";
+	
+			var slider = 'slider'+ '-'+s.join("");
+			var point = 'point'+ '-'+s.join("");
+			// 判断下是否存在 slider
+			console.log(localStorage.getItem('slider'))
+			if(!localStorage.getItem('slider')) {
+				localStorage.setItem('slider', slider)
+			}
+			if(!localStorage.getItem('point')) {
+				localStorage.setItem("point",point);
+			}
+		}
+
 	var startX,startY;
  
 		document.addEventListener("touchstart",function(e){
@@ -298,7 +322,9 @@
 				var data = {
 					captchaType:this.options.captchaType,
 					"pointJson": this.secretKey ? aesEncrypt(JSON.stringify({x:this.moveLeftDistance,y:5.0}),this.secretKey):JSON.stringify({x:this.moveLeftDistance,y:5.0}),
-					"token":this.backToken
+					"token":this.backToken,
+					clientUid: localStorage.getItem('slider'), 
+					ts: Date.now()
 				}
 				var captchaVerification = this.secretKey ? aesEncrypt(this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0}),this.secretKey):this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0})
 				checkPictrue(data,this.options.baseUrl,function(res){
@@ -419,13 +445,22 @@
 			this.htmlDoms.icon.addClass('icon-right');
 			this.$element.find('.verify-msg:eq(0)').text(this.options.explain);
 			this.isEnd = false;
-			getPictrue({captchaType:"blockPuzzle"},this.options.baseUrl,function (res) {
+			getPictrue({captchaType:"blockPuzzle", clientUid: localStorage.getItem('slider'), ts: Date.now()},this.options.baseUrl,function (res) {
 				if (res.repCode=="0000") {
 					_this.$element.find(".backImg")[0].src = 'data:image/png;base64,'+res.repData.originalImageBase64
 					_this.$element.find(".bock-backImg")[0].src = 'data:image/png;base64,'+res.repData.jigsawImageBase64
 					_this.secretKey = res.repData.secretKey
 					_this.backToken = res.repData.token
-				}
+				} else {
+					_this.$element.find(".backImg")[0].src = 'images/default.jpg'
+					_this.$element.find(".bock-backImg")[0].src = ''
+					_this.htmlDoms.tips.addClass('err-bg').removeClass('suc-bg')
+					_this.htmlDoms.tips.animate({"bottom":"0px"});
+					_this.htmlDoms.tips.text(res.repMsg)
+					setTimeout(function () { 
+							_this.htmlDoms.tips.animate({"bottom":"-35px"});
+						}, 1000);
+					}
 			});
 			this.htmlDoms.sub_block.css('left', "0px");
         },
@@ -501,7 +536,9 @@
 						var data = {
 							captchaType:_this.options.captchaType,
 							"pointJson":_this.secretKey ? aesEncrypt(JSON.stringify(_this.checkPosArr),_this.secretKey):JSON.stringify(_this.checkPosArr),
-							"token":_this.backToken
+							"token":_this.backToken,
+							clientUid: localStorage.getItem('point'), 
+							ts: Date.now()
 						}
 						var captchaVerification = _this.secretKey ? aesEncrypt(_this.backToken+'---'+JSON.stringify(_this.checkPosArr),_this.secretKey):_this.backToken+'---'+JSON.stringify(_this.checkPosArr)
 						checkPictrue(data, _this.options.baseUrl,function(res){
@@ -628,13 +665,16 @@
         	this.fontPos = [];
         	this.checkPosArr = [];
         	this.num = 1;
-			getPictrue({captchaType:"clickWord"},_this.options.baseUrl,function(res){
+			getPictrue({captchaType:"clickWord", clientUid: localStorage.getItem('point'), ts: Date.now()},_this.options.baseUrl,function(res){
 				if (res.repCode=="0000") {
 					_this.htmlDoms.back_img[0].src ='data:image/png;base64,'+ res.repData.originalImageBase64;
 					_this.backToken = res.repData.token;
 					_this.secretKey = res.repData.secretKey;
 					var text = '请依次点击【' + res.repData.wordList.join(",") + '】';
 					_this.$element.find('.verify-msg').text(text);
+				} else {
+					_this.htmlDoms.back_img[0].src = 'images/default.jpg';
+					_this.$element.find('.verify-msg').text(res.repMsg);
 				}
 			})
         

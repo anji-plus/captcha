@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { getPicture, reqCheck} from '../api/base.js'
 import '../assets/index.css';
+import defaultImg from './../assets/images/default.jpg'
 import {aesEncrypt} from "../api/ase.js";
 
 class VerifyPoints extends Component {
@@ -31,6 +32,7 @@ class VerifyPoints extends Component {
     };
   }
   componentDidMount() {
+    this.uuid()
     this.getData()
   }
   // 刷新
@@ -44,15 +46,53 @@ class VerifyPoints extends Component {
       barAreaBorderColor: 'rgb(221, 221, 221)',
     })
   }
+ 	// 初始话 uuid 
+  uuid() {
+    var s = [];
+    var hexDigits = "0123456789abcdef";
+    for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+    s[8] = s[13] = s[18] = s[23] = "-";
+
+    var slider = 'slider'+ '-'+s.join("");
+    var point = 'point'+ '-'+s.join("");
+    // 判断下是否存在 slider
+    console.log(localStorage.getItem('slider'))
+    if(!localStorage.getItem('slider')) {
+      localStorage.setItem('slider', slider)
+    }
+    if(!localStorage.getItem('point')) {
+      localStorage.setItem("point",point);
+    }
+  }
   // 初始化数据
   getData() {
-    getPicture({captchaType: this.state.captchaType}).then(res => {
+    getPicture({captchaType: this.state.captchaType, 	clientUid: localStorage.getItem('point'), ts: Date.now()}).then(res => {
       if(res.repCode === '0000') {
         this.setState({
           pointBackImgBase: res.repData.originalImageBase64,
           backToken: res.repData.token,
           secretKey: res.repData.secretKey,
           text: '请依次点击【' + res.repData.wordList + '】'
+        })
+      } else {
+        this.setState({
+          text: res.repMsg,
+          barAreaColor: '#d9534f',
+          barAreaBorderColor: '#d9534f'
+        })
+      }
+
+      // 请求次数超限
+      if(res.repCode == '6201') {
+        this.setState({
+          pointBackImgBase: null,
+          text: res.repMsg,
+          barAreaColor: '#d9534f',
+          barAreaBorderColor: '#d9534f'
         })
       }
     })
@@ -71,7 +111,9 @@ class VerifyPoints extends Component {
         let data = {
           captchaType:this.state.captchaType,
           "pointJson":this.state.secretKey? aesEncrypt(JSON.stringify(this.state.tempPoints),this.state.secretKey):JSON.stringify(this.state.tempPoints),
-          "token":this.state.backToken
+          "token":this.state.backToken,
+          clientUid: localStorage.getItem('point'),
+          ts: Date.now()
         }
         reqCheck(data).then(res => {
           if(res.repCode === '0000') {
@@ -146,7 +188,8 @@ class VerifyPoints extends Component {
             <div className='verify-refresh' style={{ zIndex: 3 }} onClick={this.refresh}>
               <i className='iconfont icon-refresh'></i>
             </div>
-            <img src={'data:image/png;base64,' + this.state.pointBackImgBase} alt="" style={{width:'100%',height:'100%',display:'block'}} onClick={($event) => this.canvasClick($event)}/>
+            {this.state.pointBackImgBase?
+            <img src={'data:image/png;base64,' + this.state.pointBackImgBase} alt="" style={{width:'100%',height:'100%',display:'block'}} onClick={($event) => this.canvasClick($event)}/>:<img src={defaultImg} alt="" style={{width:'100%',height:'100%',display:'block'}}/>}
 
             {tempPoints.map((tempPoint, index) => {
               return (

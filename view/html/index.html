@@ -29,7 +29,6 @@
 			}
 		</style>
     </head>
- 
     <body>
 		<div class="box">
 			<h1>verify---anji</h1>
@@ -78,7 +77,6 @@
 		        success : function(params) { //成功的回调
 					// 返回的二次验证参数 合并到验证通过之后的逻辑 参数中回传服务器
 					console.log(params,"params");
-					
 		        },
 		        error : function() {        //失败的回调
 		        }
@@ -130,6 +128,7 @@
 		    });
 			// // 初始化验证码  弹出式
 		    $('#mpanel4').pointsVerify({
+					// baseUrl: 'http://10.108.12.4:8088',
 				baseUrl:'https://captcha.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
 				containerId:'btn2', // pop模式 必填 被点击之后出现行为验证码的元素id
 				mode:'pop',
