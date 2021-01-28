@@ -22,8 +22,8 @@ b.修改application.properties，自定义底图和水印，启动后前端就�
 #点选验证，底图路径，不配置将使用默认图片
 #captcha.captchaOriginalPath.pic-click=/app/product/dist/captchabg
 
-#汉字统一使用Unicode,保证程序通过@value读取到是中文，可通过这个在线转换 https://tool.chinaz.com/tools/unicode.aspx 中文转Unicode
-#右下角水印文字(我的水印)
+#如果配置文件是propertyes，汉字统一使用Unicode,保证程序通过@value读取到是中文，可通过这个在线转换 https://tool.chinaz.com/tools/unicode.aspx 中文转Unicode
+#右下角水印文字(我的水印)，yml配置文件可不用转码
 captcha.water.mark=\u6211\u7684\u6c34\u5370
 #右下角水印字体(文泉驿正黑)
 #captcha.water.font=WenQuanZhengHei.ttf
