@@ -50,7 +50,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
 
     protected static String waterMark = "我的水印";
 
-    protected static String waterMarkFontStr = "NotoSerif-Light.ttf";
+    protected static String waterMarkFontStr = "WenQuanZhengHei.ttf";
 
     protected Font waterMarkFont;//水印字体
 
@@ -58,7 +58,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
 
     protected static Boolean captchaAesStatus = true;
 
-    protected static String clickWordFontStr = "NotoSerif-Light.ttf";
+    protected static String clickWordFontStr = "WenQuanZhengHei.ttf";
 
     protected Font clickWordFont;//点选文字字体
 
@@ -78,9 +78,9 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         logger.info("--->>>初始化验证码底图<<<---");
         waterMark = config.getProperty(Const.CAPTCHA_WATER_MARK, "我的水印");
         slipOffset = config.getProperty(Const.CAPTCHA_SLIP_OFFSET, "5");
-        waterMarkFontStr = config.getProperty(Const.CAPTCHA_WATER_FONT, "SourceHanSansCN-Normal.otf");
+        waterMarkFontStr = config.getProperty(Const.CAPTCHA_WATER_FONT, "WenQuanZhengHei.ttf");
         captchaAesStatus = Boolean.parseBoolean(config.getProperty(Const.CAPTCHA_AES_STATUS, "true"));
-        clickWordFontStr = config.getProperty(Const.CAPTCHA_FONT_TYPE, "SourceHanSansCN-Normal.otf");
+        clickWordFontStr = config.getProperty(Const.CAPTCHA_FONT_TYPE, "WenQuanZhengHei.ttf");
         cacheType = config.getProperty(Const.CAPTCHA_CACHETYPE, "local");
         captchaInterferenceOptions = Integer.parseInt(
         		config.getProperty(Const.CAPTCHA_INTERFERENCE_OPTIONS, "0"));

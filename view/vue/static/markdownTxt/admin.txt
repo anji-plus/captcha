@@ -25,10 +25,10 @@ b.修改application.properties，自定义底图和水印，启动后前端就�
 #汉字统一使用Unicode,保证程序通过@value读取到是中文，可通过这个在线转换 https://tool.chinaz.com/tools/unicode.aspx 中文转Unicode
 #右下角水印文字(我的水印)
 captcha.water.mark=\u6211\u7684\u6c34\u5370
-#右下角水印字体(思源黑体)
-#captcha.water.font=SourceHanSansCN-Normal.otf
-#点选文字验证码的文字字体(思源黑体)
-#captcha.font.type=SourceHanSansCN-Normal.otf
+#右下角水印字体(文泉驿正黑)
+#captcha.water.font=WenQuanZhengHei.ttf
+#点选文字验证码的文字字体(文泉驿正黑)
+#captcha.font.type=WenQuanZhengHei.ttf
 #校验滑动拼图允许误差偏移量(默认5像素)
 captcha.slip.offset=5
 #aes.key(16位，和前端加密保持一致)
@@ -122,19 +122,19 @@ public ResponseModel get(@RequestBody CaptchaVO captchaVO) {
 # 2  Q & A
 ## 2.1 linux部署注意事项点选文字
 ### 2.1.1 字体乱码问题
-点选文字中所用字体默认为思源黑体，Windows\Linux服务器均正常显示中文。需指定自己特殊字体，linux不支持的，可能会出现以下图中情况，如图3-1所示。
+点选文字中所用字体默认为文泉驿正黑，Windows\Linux服务器均正常显示中文。需指定自己特殊字体，linux不支持的，可能会出现以下图中情况，如图3-1所示。
 
 ![字体错误](https://captcha.anji-plus.com/static/font-error.png "字体错误")
  
 图2-1  点选文字字体乱码
 ### 2.1.2 乱码解决方案
-从1.2.6+开始，我们在核心包中内置了开源中文字体[思源黑体]，无需安装配置就可正常显示。支持两种自定义字体方式：
+从1.2.6+开始，我们在核心包中内置了开源中文字体[文泉驿正黑]，无需安装配置就可正常显示。支持两种自定义字体方式：
 ##### 方式一：自定义特定字体，请将字体放到工程resources下fonts文件夹，支持ttf\ttc\otf字体，通过配置项water-font和font-type激活。
 ```
 # 水印字体
-aj.captcha.water-font=SourceHanSansCN-Normal.otf
-# 点选文字验证码的文字字体(思源黑体)
-aj.captcha.font-type=SourceHanSansCN-Normal.otf
+aj.captcha.water-font=WenQuanZhengHei.ttf
+# 点选文字验证码的文字字体(文泉驿正黑)
+aj.captcha.font-type=WenQuanZhengHei.ttf
 ```
 ##### 方式二：直接配置OS层的现有的字体名称，比如：宋体，因宋体等商业使用需要授权，请开发人员在取得授权后使用，Linux安装字体步骤如下：
 ```
