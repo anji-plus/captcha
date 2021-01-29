@@ -10,7 +10,7 @@
                 <div class="verify-refresh" style="z-index:3" @click="refresh" v-show="showRefresh">
                     <i class="iconfont icon-refresh"></i>
                 </div>
-                <img :src="'data:image/png;base64,'+pointBackImgBase" 
+                <img :src="pointBackImgBase?('data:image/png;base64,'+pointBackImgBase):defaultImg" 
                 ref="canvas"
                 alt=""  style="width:100%;height:100%;display:block"
                 @click="bindingClick?canvasClick($event):undefined">
@@ -85,6 +85,10 @@
                         height: '40px'
                     }
                 }
+            },
+            defaultImg: {
+                type: String,
+                default: ''
             }
         },
         data() {
@@ -201,7 +205,9 @@
             // 请求背景图片和验证图片
             getPictrue(){
                 let data = {
-                    captchaType:this.captchaType
+                    captchaType:this.captchaType,
+                    clientUid: localStorage.getItem('point'), 
+                    ts: Date.now(), // 现在的时间戳
                 }
                 reqGet(data).then(res=>{
                     if (res.repCode == "0000") {
@@ -212,6 +218,11 @@
                         this.text = '请依次点击【' + this.poinTextList.join(",") + '】'
                     }else{
                         this.text = res.repMsg;
+                    }
+
+                    // 判断接口请求次数是否失效
+                    if(res.repCode == '6201') {
+                        this.pointBackImgBase = null
                     }
                 })
             },

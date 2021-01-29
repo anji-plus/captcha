@@ -5,7 +5,7 @@
             >
             <div class="verify-img-panel" :style="{width: setSize.imgWidth,
                                                    height: setSize.imgHeight,}">
-                <img :src="'data:image/png;base64,'+backImgBase" alt="" style="width:100%;height:100%;display:block">
+                <img :src="backImgBase?('data:image/png;base64,'+backImgBase):defaultImg" alt="" style="width:100%;height:100%;display:block">
                 <div class="verify-refresh" @click="refresh" v-show="showRefresh"><i class="iconfont icon-refresh"></i>
                 </div>
                 <transition name="tips">
@@ -99,6 +99,10 @@
                         height: '40px'
                     }
                 }
+            },
+            defaultImg: {
+                type: String,
+                default: ''
             }
         },
         data() {
@@ -313,7 +317,9 @@
             // 请求背景图片和验证图片
             getPictrue(){
                 let data = {
-                    captchaType:this.captchaType
+                    captchaType:this.captchaType,
+                    clientUid: localStorage.getItem('slider'), 
+                    ts: Date.now(), // 现在的时间戳
                 }
                 reqGet(data).then(res=>{
                     if (res.repCode == "0000") {
@@ -323,6 +329,12 @@
                         this.secretKey = res.repData.secretKey
                     }else{
                         this.tipWords = res.repMsg;
+                    }
+
+                    // 判断接口请求次数是否失效
+                    if(res.repCode == '6201') {
+                        this.backImgBase = null
+                        this.blockBackImgBase = null
                     }
                 })
             },
@@ -341,6 +353,7 @@
             this.$el.onselectstart = function () {
                 return false
             }
+            console.log(this.defaultImg)
         },
     }
 </script>
