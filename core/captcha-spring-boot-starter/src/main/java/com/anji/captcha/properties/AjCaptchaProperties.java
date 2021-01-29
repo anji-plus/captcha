@@ -32,14 +32,14 @@ public class AjCaptchaProperties {
     private String waterMark = "我的水印";
 
     /**
-     * 右下角水印字体(思源黑体).
+     * 右下角水印字体(文泉驿正黑).
      */
-    private String waterFont = "SourceHanSansCN-Normal.otf";
+    private String waterFont = "WenQuanZhengHei.ttf";
 
     /**
-     * 点选文字验证码的文字字体(思源黑体).
+     * 点选文字验证码的文字字体(文泉驿正黑).
      */
-    private String fontType = "SourceHanSansCN-Normal.otf";
+    private String fontType = "WenQuanZhengHei.ttf";
 
     /**
      * 校验滑动拼图允许误差偏移量(默认5像素).
