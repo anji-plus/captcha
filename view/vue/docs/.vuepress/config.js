@@ -1,7 +1,7 @@
 module.exports = {
   title: 'AJ-Captcha',
   description: 'anji-plus',
-  base: '',
+  base: '/captcha-doc/',
   themeConfig: {
     nav: [
       {
