@@ -10,7 +10,9 @@
     "build": "cross-env NODE_ENV=production node build/build.js",
     "build:dev": "cross-env NODE_ENV=development node build/build.js",
     "build:test": "cross-env NODE_ENV=testing node build/build.js",
-    "build:prod": "cross-env NODE_ENV=production node build/build.js"
+    "build:prod": "cross-env NODE_ENV=production node build/build.js",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "dependencies": {
     "axios": "^0.19.2",
