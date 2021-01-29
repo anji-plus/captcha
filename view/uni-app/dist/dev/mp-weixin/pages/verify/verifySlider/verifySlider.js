@@ -213,6 +213,7 @@ var _request = __webpack_require__(/*! ../utils/request.js */ 234);
 //
 //
 //
+//
 
 /**
  * VerifySlide
@@ -267,6 +268,10 @@ var _default2 = {
           height: '40px'
         };
       }
+    },
+    defaultImg: {
+      type: String,
+      default: ''
     }
   },
   data: function data() {
@@ -501,7 +506,10 @@ var _default2 = {
       var _this6 = this;
 
       var data = {
-        captchaType: this.captchaType
+        captchaType: this.captchaType,
+        clientUid: uni.getStorageSync('slider'),
+        ts: Date.now() // 现在的时间戳
+
       };
       (0, _request.myRequest)({
         url: '/captcha/get',
@@ -516,6 +524,12 @@ var _default2 = {
           _this6.blockBackImgBase = res.repData.jigsawImageBase64;
           _this6.backToken = res.repData.token;
           _this6.secretKey = res.repData.secretKey;
+        } // 判断接口请求次数是否失效
+
+
+        if (res.repCode == '6201') {
+          _this6.backImgBase = null;
+          _this6.blockBackImgBase = null;
         }
       });
     }

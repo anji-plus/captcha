@@ -234,6 +234,10 @@ var _default2 = {
           height: '40px'
         };
       }
+    },
+    defaultImg: {
+      type: String,
+      default: ''
     }
   },
   data: function data() {
@@ -382,7 +386,10 @@ var _default2 = {
       var _this3 = this;
 
       var data = {
-        captchaType: this.captchaType
+        captchaType: this.captchaType,
+        clientUid: uni.getStorageSync('point'),
+        ts: Date.now() // 现在的时间戳
+
       };
       (0, _request.myRequest)({
         url: "/captcha/get",
@@ -398,6 +405,11 @@ var _default2 = {
           _this3.secretKey = res.repData.secretKey;
           _this3.poinTextList = res.repData.wordList;
           _this3.text = '请依次点击【' + _this3.poinTextList.join(",") + '】';
+        } // 判断接口请求次数是否失效
+
+
+        if (res.repCode == '6201') {
+          _this3.pointBackImgBase = null;
         }
       });
     },
@@ -423,6 +435,9 @@ var _default2 = {
         this.init();
       }
     }
+  },
+  mounted: function mounted() {
+    console.log(this.defaultImg);
   }
 };
 exports.default = _default2;

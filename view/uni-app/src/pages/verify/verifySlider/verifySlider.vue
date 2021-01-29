@@ -5,7 +5,8 @@
             >
             <view class="verify-img-panel" :style="{width: imgSize.width,
                                                    height: imgSize.height,}">
-                <image :src="'data:image/png;base64,'+backImgBase" alt="" style="width:100%;height:100%;display:block"></image>
+												   
+               <image :src="backImgBase?('data:image/png;base64,'+backImgBase):defaultImg" alt="" style="width:100%;height:100%;display:block"></image>
                 <view class="verify-refresh" @click="refresh" v-show="showRefresh">
                     <text class="iconfont icon-refresh"></text>
                 </view>
@@ -100,7 +101,11 @@
                         height: '40px'
                     }
                 }
-            }
+            },
+			defaultImg: {
+				type: String,
+				default: ''
+			}
         },
         data() {
             return {
@@ -291,7 +296,9 @@
             // 请求背景图片和验证图片
             getPictrue(){
                 let data = {
-                    captchaType:this.captchaType
+                    captchaType:this.captchaType,
+					clientUid: uni.getStorageSync('slider'), 
+					ts: Date.now(), // 现在的时间戳
                 }
                 myRequest({
                     url: '/captcha/get', //仅为示例，并非真实接口地址。
@@ -305,6 +312,11 @@
                             this.backToken = res.repData.token
                             this.secretKey = res.repData.secretKey
                         }
+						// 判断接口请求次数是否失效
+						if(res.repCode == '6201') {
+							this.backImgBase = null
+							this.blockBackImgBase = null
+						}
                     })
             },
         },

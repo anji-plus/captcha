@@ -23,6 +23,7 @@
                     :imgSize="imgSize"
                     :blockSize="blockSize"
                     :barSize="barSize"
+					:defaultImg = "defaultImg"
                     ref="instance"
                 ></VerifySlide>
             </view>
@@ -39,6 +40,7 @@
                     :imgSize="imgSize"
                     :blockSize="blockSize"
                     :barSize="barSize"
+					:defaultImg = "defaultImg"
                     ref="instance"
                 ></VerifyPoint>
             </view>
@@ -108,10 +110,35 @@
                 // 内部类型
                 verifyType: undefined,
                 // 所用组件类型
-                componentType: undefined
+                componentType: undefined,
+				defaultImg: require('@/static/default.jpg')
             }
         },
+		mounted() {
+			this.uuid()
+		},
         methods: {
+			// 生成 uuid
+			uuid() {
+				var s = [];
+				var hexDigits = "0123456789abcdef";
+				for (var i = 0; i < 36; i++) {
+						s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+				}
+				s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+				s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+				s[8] = s[13] = s[18] = s[23] = "-";
+		
+				var slider = 'slider'+ '-'+s.join("");
+				var point = 'point'+ '-'+s.join("");
+				// 判断下是否存在 slider
+				if(!uni.getStorageSync('slider')) {
+					uni.setStorageSync('slider', slider)
+				}
+				if(!uni.getStorageSync('point')) {
+					uni.setStorageSync("point",point);
+				}
+			},
 			success(e) {
 				this.$emit('success', e)
 			},

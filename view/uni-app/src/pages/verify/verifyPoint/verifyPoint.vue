@@ -11,7 +11,7 @@
                 <view class="verify-refresh" style="z-index:3" @click="refresh" v-show="showRefresh">
                     <text class="iconfont icon-refresh"></text>
                 </view>
-                <image :src="'data:image/png;base64,'+pointBackImgBase" 
+                <image :src="pointBackImgBase?('data:image/png;base64,'+pointBackImgBase):defaultImg" 
                 id="image"
                 ref="canvas"
                 style="width:100%;height:100%;display:block"
@@ -85,7 +85,11 @@
                         height: '40px'
                     }
                 }
-            }
+            },
+			defaultImg: {
+				type: String,
+				default: ''
+			}
         },
         data() {
             return {
@@ -211,7 +215,9 @@
             // 请求背景图片和验证图片
             getPictrue(){
                 let data = {
-                    captchaType:this.captchaType
+                    captchaType:this.captchaType,
+					clientUid: uni.getStorageSync('point'),
+					ts: Date.now(), // 现在的时间戳
                 }
                 myRequest({
                     url: "/captcha/get", //仅为示例，并非真实接口地址。
@@ -226,6 +232,10 @@
                             this.poinTextList = res.repData.wordList
                             this.text = '请依次点击【' + this.poinTextList.join(",") + '】'
                         }
+						// 判断接口请求次数是否失效
+						if(res.repCode == '6201') {
+							this.pointBackImgBase = null
+						}
                     })
             },
             //坐标转换函数
@@ -248,6 +258,9 @@
                 }
             }
         },
+		mounted() {
+			console.log(this.defaultImg)
+		}
     }
 </script>
 

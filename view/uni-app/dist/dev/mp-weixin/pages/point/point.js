@@ -164,7 +164,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var Verify = function Verify() {
-  __webpack_require__.e(/*! require.ensure | pages/verify/verify */ "pages/verify/verify").then((function () {
+  Promise.all(/*! require.ensure | pages/verify/verify */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/verify/verify")]).then((function () {
     return resolve(__webpack_require__(/*! ./../verify/verify */ 31));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
