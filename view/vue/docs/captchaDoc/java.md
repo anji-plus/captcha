@@ -7,7 +7,7 @@ a.引入jar，已上传至maven中央仓库。
 <dependency>
    <groupId>com.github.anji-plus</groupId>
    <artifactId>captcha-spring-boot-starter</artifactId>
-   <version>1.2.5</version>
+   <version>1.2.7</version>
 </dependency>
 ```
 b.修改application.properties，自定义底图和水印，启动后前端就可以请求接口了。[社区底图库](https://gitee.com/anji-plus/AJ-Captcha-Images)<br>
@@ -42,7 +42,7 @@ aj.captcha.cache-type=local
 
 # 验证码类型default两种都实例化。
 aj.captcha.type=default
-# 汉字统一使用Unicode,保证程序通过@value读取到是中文，可通过这个在线转换
+# 汉字统一使用Unicode,保证程序通过@value读取到是中文，可通过这个在线转换;yml格式不需要转换
 # https://tool.chinaz.com/tools/unicode.aspx 中文转Unicode
 # 右下角水印文字(我的水印)
 aj.captcha.water-mark=\u6211\u7684\u6c34\u5370
@@ -89,6 +89,7 @@ private CaptchaService captchaService;
 
 @PostMapping("/login")
 public ResponseModel get(@RequestBody CaptchaVO captchaVO) {
+    //必传参数：captchaVO.captchaVerification
     ResponseModel response = captchaService.verification(captchaVO);
     if(response.isSuccess() == false){
         //验证码校验失败，返回信息告诉前端
@@ -98,6 +99,11 @@ public ResponseModel get(@RequestBody CaptchaVO captchaVO) {
         //repCode  6110  验证码已失效，请重新获取
         //repCode  6111  验证失败
         //repCode  6112  获取验证码失败,请联系管理员
+        //repCode  6113  底图未初始化成功，请检查路径
+        //repCode  6201  get接口请求次数超限，请稍后再试!
+        //repCode  6206  无效请求，请重新获取验证码
+        //repCode  6202  接口验证失败数过多，请稍后再试
+        //repCode  6204  check接口请求次数超限，请稍后再试!
     }
     return response;
 }
@@ -107,7 +113,8 @@ public ResponseModel get(@RequestBody CaptchaVO captchaVO) {
 ##### 请求参数：
 ```json
 {
-	"captchaType": "blockPuzzle"  //验证码类型 clickWord
+	"captchaType": "blockPuzzle",  //验证码类型 clickWord
+	"clientUid": "唯一标识"  //客户端UI组件id,组件初始化时设置一次，UUID（非必传参数）
 }
 ```
 ##### 响应参数：
@@ -176,7 +183,7 @@ a.引入jar，已上传至maven中央仓库。
 <dependency>
    <groupId>com.github.anji-plus</groupId>
    <artifactId>captcha</artifactId>
-   <version>1.2.5</version>
+   <version>1.2.7</version>
 </dependency>
 ```
 b.引入CaptchaConfig.java配置文件，需自行配置参数，

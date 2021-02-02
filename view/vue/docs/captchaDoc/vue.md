@@ -75,7 +75,8 @@ export default {
 ##### 请求参数：
 ```json
 {
-	"captchaType": "blockPuzzle"  //验证码类型 clickWord
+	"captchaType": "blockPuzzle",  //验证码类型 clickWord
+  "clientUid": "唯一标识"  //客户端UI组件id,组件初始化时设置一次，UUID（非必传参数）
 }
 ```
 ##### 响应参数：

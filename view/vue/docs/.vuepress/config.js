@@ -22,7 +22,7 @@ module.exports = {
       collapsable: false,
       sidebarDepth: 3,
       children: [
-        '/README'
+        '/'
       ]
     },{
       title: '文档',
@@ -31,7 +31,7 @@ module.exports = {
         '/captchaDoc/java',
         '/captchaDoc/html',
         '/captchaDoc/vue',
-        '/captchaDoc/flutter',
+        '/captchaDoc/flutterDoc',
         '/captchaDoc/uni-app',
         '/captchaDoc/reactNative',
         '/captchaDoc/android',
@@ -43,7 +43,7 @@ module.exports = {
         title: '其他',
         collapsable: false,
         children: [
-          '/captchaDoc/help',
+          '/captchaDoc/help'
         ]
       }]
   }
