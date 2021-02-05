@@ -6,9 +6,11 @@
  */
 package com.anji.captcha.service.impl;
 
+import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
+import com.anji.captcha.util.StringUtils;
 
 import java.util.Properties;
 
@@ -48,18 +50,18 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
 
     @Override
     public ResponseModel get(CaptchaVO captchaVO) {
-        /*if (captchaVO == null) {
+        if (captchaVO == null) {
             return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaType())) {
             return RepCodeEnum.NULL_ERROR.parseError("类型");
-        }*/
+        }
         return getService(captchaVO.getCaptchaType()).get(captchaVO);
     }
 
     @Override
     public ResponseModel check(CaptchaVO captchaVO) {
-        /*if (captchaVO == null) {
+        if (captchaVO == null) {
             return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaType())) {
@@ -67,13 +69,13 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
         }
         if (StringUtils.isEmpty(captchaVO.getToken())) {
             return RepCodeEnum.NULL_ERROR.parseError("token");
-        }*/
+        }
         return getService(captchaVO.getCaptchaType()).check(captchaVO);
     }
 
     @Override
     public ResponseModel verification(CaptchaVO captchaVO) {
-        /*if (captchaVO == null) {
+        if (captchaVO == null) {
             return RepCodeEnum.NULL_ERROR.parseError("captchaVO");
         }
         if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
@@ -90,8 +92,7 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
             logger.error("验证码坐标解析失败", e);
             return ResponseModel.errorMsg(e.getMessage());
         }
-        return ResponseModel.success();*/
-        return getService(captchaVO.getCaptchaType()).verification(captchaVO);
+        return ResponseModel.success();
     }
 
 }
