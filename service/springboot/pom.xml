@@ -27,9 +27,9 @@
     <!-- Add typical dependencies for a web application -->
     <dependencies>
         <dependency>
-            <groupId>com.github.anji-plus</groupId>
-            <artifactId>captcha-spring-boot-starter</artifactId>
-            <version>1.2.7</version>
+            <groupId>com.anji-plus</groupId>
+            <artifactId>spring-boot-starter-captcha</artifactId>
+            <version>1.2.8</version>
         </dependency>
 
         <dependency>
