@@ -24,15 +24,9 @@ export default new Router({
       ]
     },
     {
-      path: '/helpCenter',
-      name: 'helpCenter',
-      component: ()=> import("./../views/helpCenter/HelpCenter.vue"),
-      redirect:'/helpCenter/admin/1',
-      children:[
-        {path:'admin/:id',name:"admin",component:()=>import("./../views/helpCenter/HelpAdmin.vue")},
-        {path:'desc',name:"helpDesc",component:()=>import("./../views/helpCenter/HelpDesc.vue")},
-        {path:'question',name:"question",component:()=>import("./../views/helpCenter/Question.vue")},
-      ]
+      path: '/doc',
+      name: 'doc',
+      component: ()=> import("./../views/doc/doc.vue")
     },
     {
       path: '/apply',

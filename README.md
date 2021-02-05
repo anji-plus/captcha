@@ -1,6 +1,7 @@
 # 1 在线体验
 #### &emsp; 1.1 电脑在线体验:[https://captcha.anji-plus.com/](https://captcha.anji-plus.com/ "链接")
-#### &emsp; 1.2 微信小程序和H5在线体验（基于uni-app实现）
+#### &emsp; 1.2 在线文档:[https://captcha.anji-plus.com/#/doc](https://captcha.anji-plus.com/#/doc "doc")<br>
+#### &emsp; 1.3 微信小程序和H5在线体验（基于uni-app实现）
  &emsp;&emsp; 如果图片未能正常展示，可查看码云，和github同步 [码云]( https://gitee.com/anji-plus/captcha "码云")<br>
  ![微信小程序](https://captcha.anji-plus.com/static/8cm.jpg  "微信小程序")&emsp;&emsp;![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")<br>
  &emsp;&emsp;&emsp;&emsp;微信小程序Demo&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;uni-app H5 demo
@@ -63,8 +64,7 @@ DONE  Compiled successfully in 29587ms                       12:06:38
 I  Your application is running here: http://localhost:8081
 ``` 
 &emsp;详细的前后端接入文档，后端示例代码service目录下，前端示例代码view目录下。
-#### &emsp; 5.2 [码云wiki接入文档（国内较快）](https://gitee.com/anji-plus/captcha/wikis/Home "码云")<br>
-#### &emsp; 5.3 [github wiki接入文档](https://github.com/anji-plus/captcha/wiki "github")<br>
+
 
 # 6 近期计划
 #### &emsp; 6.1 增加weex示例

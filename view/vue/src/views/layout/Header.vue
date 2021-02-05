@@ -22,9 +22,7 @@
 <!--
 -->
 <script>
-import { MessageBox } from "element-ui";
 import { setItem, getItem } from '@/utils/storage';
-import { LogOut } from "@/api/basic"
 export default {
   data () {
     return {
@@ -32,7 +30,7 @@ export default {
       userManageCode:[],
       navList:[
         { name: "/apply", navItem: "谁在使用",manage:"applyManage"},
-        { name: "/helpCenter", navItem: "帮助中心",manage:"platformManage"},
+        { name: "/doc", navItem: "在线文档",manage:"docManage"},
         { name: "/useOnline", navItem: "在线体验",manage:"chartManage"},
       ]
     };
