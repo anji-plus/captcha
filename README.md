@@ -55,24 +55,8 @@ Ajplus Captcha , an open source toolset for users,its main Features are as follo
 ![Sequence Diagram](https://captcha.anji-plus.com/static/shixu.png "时序图")
 
 # 4. SourceCode Structure
-├─core
-│&emsp;├─captcha   &emsp;&emsp;    captcha core libary 
-│&emsp;└─captcha-spring-boot-starter    &emsp;&emsp;    springboot starter
-├─images    &emsp;&emsp;&emsp;&emsp;&emsp;    images
-├─service
-│&emsp;├─springboot   &emsp;&emsp;    demo service for springboot
-│&emsp;└─springmvc    &emsp;&emsp;    demo service springmvc
-└─view    &emsp;&emsp;&emsp;&emsp;&emsp;    client componets
-&emsp;├─android    &emsp;&emsp;    android demo
-&emsp;├─angular    &emsp;&emsp;    angular demo
-&emsp;├─flutter    &emsp;&emsp;    flutter demo
-&emsp;├─html    &emsp;&emsp;    html demo
-&emsp;├─ios    &emsp;&emsp;    ios demo
-&emsp;├─php    &emsp;&emsp;    php demo
-&emsp;├─react-native    &emsp;&emsp;    react-native demo
-&emsp;├─uni-app    &emsp;&emsp;    uni-app
-&emsp;└─vue    &emsp;&emsp;    vue demo
-&emsp;
+
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0207/112335_bd789fff_1600789.png "屏幕截图.png")
 
 # 5. Dev & Run 
 #### &emsp; 
