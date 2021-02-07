@@ -1,5 +1,5 @@
 
-[AjPlus captcha Official Website](https://captcha.anji-plus.com/)
+[AjPlus Captcha Official Website](https://captcha.anji-plus.com/)
 ============
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)[![Total Lines](https://tokei.rs/b1/github/anji-plus/captcha?category=lines)](https://github.com/anji-plus/captcha)
 
@@ -33,10 +33,10 @@ uni-app H5 demo
 | concept  | desc  |
 | ------------ | ------------ |
 | Captcha Type | blockPuzzle, clickWord|
-| Check  |  user action: drag block or click workds,then check if it is a human did|
+| Check  |  user action: drag block or click workds,then check if it was human did|
 | Verify  | bind user action with backend service. call captchaService.verification in backend service to prevent invalid access ,for example,directly call it |
 
-### &emsp; 2.3 Main Feature 
+### &emsp; 2.3 Main Features 
 CAPTCHA stands for Completely Automated Public Turing test to tell Computers and Humans Apart. CAPTCHA determines whether the user is real or a spam robot. CAPTCHAs stretch or manipulate letters and numbers, and rely on human ability to determine which symbols they are.
  
 Ajplus Captcha , an open source toolset for users,its main Features are as follows:
@@ -74,7 +74,7 @@ Ajplus Captcha , an open source toolset for users,its main Features are as follo
 ``` 
 
 # 6. Work Plan
-  [wiki](/)
+  [wiki](/issues)
 
 # 7. Connect Us
 
