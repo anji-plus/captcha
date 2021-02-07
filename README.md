@@ -1,80 +1,101 @@
-# 1 在线体验
-#### &emsp; 1.1 电脑在线体验:[https://captcha.anji-plus.com/](https://captcha.anji-plus.com/ "链接")
-#### &emsp; 1.2 在线文档:[https://captcha.anji-plus.com/#/doc](https://captcha.anji-plus.com/#/doc "doc")<br>
-#### &emsp; 1.3 微信小程序和H5在线体验（基于uni-app实现）
- &emsp;&emsp; 如果图片未能正常展示，可查看码云，和github同步 [码云]( https://gitee.com/anji-plus/captcha "码云")<br>
- ![微信小程序](https://captcha.anji-plus.com/static/8cm.jpg  "微信小程序")&emsp;&emsp;![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")<br>
- &emsp;&emsp;&emsp;&emsp;微信小程序Demo&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;uni-app H5 demo
 
-# 2 功能概述
-#### &emsp; 2.1 组件介绍
- &emsp;&emsp; 行为验证码采用嵌入式集成方式，接入方便，安全，高效。抛弃了传统字符型验证码展示-填写字符-比对答案的流程，采用验证码展示-采集用户行为-分析用户行为流程，用户只需要产生指定的行为轨迹，不需要键盘手动输入，极大优化了传统验证码用户体验不佳的问题；同时，快速、准确的返回人机判定结果。目前对外提供两种类型的验证码，其中包含滑动拼图、文字点选。如图1-1、1-2所示。若希望不影响原UI布局，可采用弹出式交互。<br>
- &emsp;&emsp; 后端基于Java实现，提供纯Java.jar和SpringBoot Starter。前端提供了Android、iOS、Futter、Uni-App、ReactNative、Vue、Angular、Html、Php等多端示例。<br>
+[AjPlus captcha Official Website](https://captcha.anji-plus.com/)
+============
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)[![Total Lines](https://tokei.rs/b1/github/anji-plus/captcha?category=lines)](https://github.com/anji-plus/captcha)
+
+> AjPlus Captcha 
+
+[![Stargazers over time](https://starchart.cc/anji-plus/captcha.svg)](https://starchart.cc/anji-plus/captcha)
+
+[![EN doc](https://img.shields.io/badge/document-English-blue.svg)](README.md)[![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](README_CN.md)
+
+
+# 1. Online Demo
+### &emsp; 1.1 [Have a try](https://captcha.anji-plus.com/ "链接")
+### &emsp; 1.2 [Document](https://captcha.anji-plus.com/#/doc "doc")
+### &emsp; 1.3 Wechat/H5 demo（depends on uni-app)
+ &emsp;&emsp; see also [gitee]( https://gitee.com/anji-plus/captcha "码云")
+ ![Wechat](https://captcha.anji-plus.com/static/8cm.jpg  "")&emsp;&emsp;![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")
+ &emsp;&emsp;&emsp;&emsp;Wechat Demo&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;uni-app H5 demo
+
+# 2. Design Details
+### &emsp; 2.1 UI Component
+ &emsp;&emsp; 行为验证码采用嵌入式集成方式，接入方便，安全，高效。抛弃了传统字符型验证码展示-填写字符-比对答案的流程，采用验证码展示-采集用户行为-分析用户行为流程，用户只需要产生指定的行为轨迹，不需要键盘手动输入，极大优化了传统验证码用户体验不佳的问题；同时，快速、准确的返回人机判定结果。目前对外提供两种类型的验证码，其中包含滑动拼图、文字点选。如图1-1、1-2所示。若希望不影响原UI布局，可采用弹出式交互。
+ &emsp;&emsp; 后端基于Java实现，提供纯Java.jar和SpringBoot Starter。前端提供了Android、iOS、Futter、Uni-App、ReactNative、Vue、Angular、Html、Php等多端示例。
  
-| 滑动拼图 | 文字点选 |
+| blockPuzzle | clickWord |
 | --- | --- |
-|![滑动拼图](https://captcha.anji-plus.com/static/blockPuzzle.png "滑动拼图")&emsp;|![点选文字](https://captcha.anji-plus.com/static/clickWord.png "点选文字")|
-| 图1-1 | 图1-2 |
- <br>
+|![blockPuzzle](https://captcha.anji-plus.com/static/blockPuzzle.png "滑动拼图")&emsp;|![clickWord](https://captcha.anji-plus.com/static/clickWord.png "点选文字")|
+| 1-1 | 1-2 |
+ 
 
-#### &emsp; 2.2 概念术语描述
-| 术语  | 描述  |
+### &emsp; 2.2 Concept Related
+| concept  | desc  |
 | ------------ | ------------ |
-| 验证码类型 | 1）滑动拼图 blockPuzzle  2）文字点选 clickWord|
-| 验证  |  用户拖动/点击一次验证码拼图即视为一次“验证”，不论拼图/点击是否正确 |
-| 二次校验  | 验证数据随表单提交到后台后，后台需要调用captchaService.verification做二次校验。目的是核实验证数据的有效性。  |
+| Captcha Type | blockPuzzle, clickWord|
+| Check  |  user action: drag block or click workds,then check if it is a human did|
+| Verify  | bind user action with backend service. call captchaService.verification in backend service to prevent invalid access ,for example,directly call it |
 
-# 3 交互流程
-①	用户访问应用页面，请求显示行为验证码<br>
-②	用户按照提示要求完成验证码拼图/点击<br>
-③	用户提交表单，前端将第二步的输出一同提交到后台<br>
-④	验证数据随表单提交到后台后，后台需要调用captchaService.verification做二次校验。<br>
+### &emsp; 2.3 Main Feature 
+CAPTCHA stands for Completely Automated Public Turing test to tell Computers and Humans Apart. CAPTCHA determines whether the user is real or a spam robot. CAPTCHAs stretch or manipulate letters and numbers, and rely on human ability to determine which symbols they are.
+ 
+Ajplus Captcha , an open source toolset for users,its main Features are as follows:
+- Easy to integrate ui Component in your apps,support varies frontend UI,
+- Support Integrate with Android、iOS、Futter、Uni-App、ReactNative、Vue、Angular、Html、Php
+- No dependencies lib in core source,Easy to include in your backend service
+- Core api is simple and Open to Extend,all instance initialized by JAVA SPI,Easy to add your custom Implement to form a new Captcha type。
+- Support security feature
+
+# 3. How to Integrate
+①	用户访问应用页面，请求显示行为验证码
+②	用户按照提示要求完成验证码拼图/点击
+③	用户提交表单，前端将第二步的输出一同提交到后台
+④	验证数据随表单提交到后台后，后台需要调用captchaService.verification做二次校验。
 ⑤	第4步返回校验通过/失败到产品应用后端，再返回到前端。如下图所示。
-![时序图](https://captcha.anji-plus.com/static/shixu.png "时序图")
+![Sequence Diagram](https://captcha.anji-plus.com/static/shixu.png "时序图")
 
-# 4 目录结构
-├─core<br>
-│&emsp;├─captcha   &emsp;&emsp;    java核心源码<br>
-│&emsp;└─captcha-spring-boot-starter    &emsp;&emsp;    springboot快速启动<br>
-├─images    &emsp;&emsp;&emsp;&emsp;&emsp;    效果图<br>
-├─service<br>
-│&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
-│&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例<br>
-└─view    &emsp;&emsp;&emsp;&emsp;&emsp;    多语言客户端示例<br>
-&emsp;├─android    &emsp;&emsp;    原生android实现示例<br>
-&emsp;├─angular    &emsp;&emsp;    angular实现示例<br>
-&emsp;├─flutter    &emsp;&emsp;    flutter实现示例<br>
-&emsp;├─html    &emsp;&emsp;    原生html实现示例<br>
-&emsp;├─ios    &emsp;&emsp;    原生ios实现示例<br>
-&emsp;├─php    &emsp;&emsp;    php实现示例<br>
-&emsp;├─react-native    &emsp;&emsp;    react-native实现示例<br>
-&emsp;├─uni-app    &emsp;&emsp;    uni-app实现示例<br>
-&emsp;└─vue    &emsp;&emsp;    vue实现示例<br>
+# 4. SourceCode Structure
+├─core
+│&emsp;├─captcha   &emsp;&emsp;    captcha core libary 
+│&emsp;└─captcha-spring-boot-starter    &emsp;&emsp;    springboot starter
+├─images    &emsp;&emsp;&emsp;&emsp;&emsp;    images
+├─service
+│&emsp;├─springboot   &emsp;&emsp;    demo service for springboot
+│&emsp;└─springmvc    &emsp;&emsp;    demo service springmvc
+└─view    &emsp;&emsp;&emsp;&emsp;&emsp;    client componets
+&emsp;├─android    &emsp;&emsp;    android demo
+&emsp;├─angular    &emsp;&emsp;    angular demo
+&emsp;├─flutter    &emsp;&emsp;    flutter demo
+&emsp;├─html    &emsp;&emsp;    html demo
+&emsp;├─ios    &emsp;&emsp;    ios demo
+&emsp;├─php    &emsp;&emsp;    php demo
+&emsp;├─react-native    &emsp;&emsp;    react-native demo
+&emsp;├─uni-app    &emsp;&emsp;    uni-app
+&emsp;└─vue    &emsp;&emsp;    vue demo
 &emsp;
 
-# 5 接入文档
-#### &emsp; 5.1 本地启动
-&emsp; 第一步，启动后端，导入Eclipse或者Intellij,启动service/springboot的StartApplication。[社区底图库](https://gitee.com/anji-plus/AJ-Captcha-Images)<br>
-&emsp; 第二步，启动前端，使用visual code打开文件夹view/vue，npm install后npm run dev，浏览器登录<br>
+# 5. Dev & Run 
+#### &emsp; 
+- start backend service
+  import source code into Eclipse or Intellij,
+  start StartApplication class in package service/springboot。[online images](https://gitee.com/anji-plus/AJ-Captcha-Images)
+- start frontend ui
+  open source files in view/vue with your IDE like Visual Code，
 ```js
-npm install
-npm run dev
+    npm install
+    npm run dev
 
-DONE  Compiled successfully in 29587ms                       12:06:38
-I  Your application is running here: http://localhost:8081
+    DONE  Compiled successfully in 29587ms                       12:06:38
+    I  Your application is running here: http://localhost:8081
 ``` 
-&emsp;详细的前后端接入文档，后端示例代码service目录下，前端示例代码view目录下。
 
+# 6. Work Plan
+  [wiki](/)
 
-# 6 近期计划
-#### &emsp; 6.1 增加weex示例
-#### &emsp; 6.2 增加ReactNative示例(已添加)
+# 7. Connect Us
 
-# 7 技术支持微信群
-微信一群已满，现开放二群。github可能有缓存，不会自动更新。
-<br>微信群地址：https://captcha.anji-plus.com/static/weixin.png
+[Wechat group] (https://captcha.anji-plus.com/static/weixin.png)
 <img src="https://captcha.anji-plus.com/static/weixin.png" width = "200" height = "200" div align=left />
 
- #### 开源不易，劳烦各位star ☺
-
+ ### Have a try & enjoy it !!!  ☺
 
