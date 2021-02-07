@@ -15,13 +15,13 @@
 ### &emsp; 1.2 [Document](https://captcha.anji-plus.com/#/doc "doc")
 ### &emsp; 1.3 Wechat/H5 demo（depends on uni-app)
  &emsp;&emsp; see also [gitee]( https://gitee.com/anji-plus/captcha "码云")
+
  ![Wechat](https://captcha.anji-plus.com/static/8cm.jpg  "")&emsp;&emsp;![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")
  &emsp;&emsp;&emsp;&emsp;Wechat Demo&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-uni-app H5 demo
 
 # 2. Design Details
 ### &emsp; 2.1 UI Component
- &emsp;&emsp; 前端提供了Android、iOS、Futter、Uni-App、ReactNative、Vue、Angular、Html、Php等多端示例。
+ &emsp;&emsp; support Android、iOS、Futter、Uni-App、ReactNative、Vue、Angular、Html、Php。
  
 | blockPuzzle | clickWord |
 | --- | --- |
