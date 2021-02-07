@@ -16,7 +16,8 @@
 ### &emsp; 1.3 Wechat/H5 demo（depends on uni-app)
  &emsp;&emsp; see also [gitee]( https://gitee.com/anji-plus/captcha "码云")
  ![Wechat](https://captcha.anji-plus.com/static/8cm.jpg  "")&emsp;&emsp;![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")
- &emsp;&emsp;&emsp;&emsp;Wechat Demo&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;uni-app H5 demo
+ &emsp;&emsp;&emsp;&emsp;Wechat Demo&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+uni-app H5 demo
 
 # 2. Design Details
 ### &emsp; 2.1 UI Component
@@ -46,11 +47,11 @@ Ajplus Captcha , an open source toolset for users,its main Features are as follo
 - Support security feature
 
 # 3. How to Integrate
-①	用户访问应用页面，请求显示行为验证码
-②	用户按照提示要求完成验证码拼图/点击
-③	用户提交表单，前端将第二步的输出一同提交到后台
-④	验证数据随表单提交到后台后，后台需要调用captchaService.verification做二次校验。
-⑤	第4步返回校验通过/失败到产品应用后端，再返回到前端。如下图所示。
+①用户访问应用页面，请求显示行为验证码
+②用户按照提示要求完成验证码拼图/点击
+③用户提交表单，前端将第二步的输出一同提交到后台
+④验证数据随表单提交到后台后，后台需要调用captchaService.verification做二次校验。
+⑤第4步返回校验通过/失败到产品应用后端，再返回到前端。如下图所示。
 ![Sequence Diagram](https://captcha.anji-plus.com/static/shixu.png "时序图")
 
 # 4. SourceCode Structure
