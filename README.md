@@ -74,7 +74,7 @@ Ajplus Captcha , an open source toolset for users,its main Features are as follo
 ``` 
 
 # 6. Work Plan
-  [wiki](/issues)
+  [issues](issues)
 
 # 7. Connect Us
 
