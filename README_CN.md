@@ -80,6 +80,7 @@ I  Your application is running here: http://localhost:8081
 <img src="https://captcha.anji-plus.com/static/weixin.png" width = "200" height = "200" div align=left />
 
  #### 开源不易，劳烦各位star ☺
+<br>
 
 # Stargazers over time
 [![Stargazers over time](https://whnb.wang/img/anji-plus/captcha?e=604800)](https://whnb.wang/anji-plus/captcha?e=604800)
