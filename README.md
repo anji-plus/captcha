@@ -1,3 +1,13 @@
+[AjPlus Captcha Official Website](https://captcha.anji-plus.com/)
+============
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)[![Total Lines](https://tokei.rs/b1/github/anji-plus/captcha?category=lines)](https://github.com/anji-plus/captcha)
+
+> AjPlus Captcha 
+
+[![Stargazers over time](https://starchart.cc/anji-plus/captcha.svg)](https://starchart.cc/anji-plus/captcha)
+
+[![EN doc](https://img.shields.io/badge/document-English-blue.svg)](README_en.md)[![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](README.md)
+
 # 1 在线体验
 #### &emsp; 1.1 电脑在线体验:[https://captcha.anji-plus.com/](https://captcha.anji-plus.com/ "链接")
 #### &emsp; 1.2 在线文档:[https://captcha.anji-plus.com/#/doc](https://captcha.anji-plus.com/#/doc "doc")<br>
