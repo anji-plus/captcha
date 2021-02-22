@@ -199,6 +199,10 @@
 }
 
 -(void)requestDataPointJson:(NSString*)pointJson Token:(NSString*)token PointStr:(NSString*)pointStr{
+    if (token==nil || pointJson==nil || pointStr == nil) {
+        [self showResultWithSuccess:NO SuccessStr:@""];
+        return;
+    }
     [CaptchaRequest captchaCheck:self.currentType PointJson:pointJson Token:token FinishedBlock:^(BOOL result, CaptchaRepModel * captchaRepModel) {
         if (result) {
             NSString *successStr = [NSString stringWithFormat:@"%@---%@",token, pointStr];
@@ -544,6 +548,7 @@
 
 
 - (UIImage *)base64ConvertImageWithImgStr:(NSString *)base64Str {
+    if (base64Str==nil) return nil;
     NSData *imageData = [[NSData alloc] initWithBase64EncodedString:base64Str options:NSDataBase64DecodingIgnoreUnknownCharacters];
     //base64字符串有图片前缀（前缀类似：data:image/jpeg;base64,xxxxxxx）转image：
     //NSURL *baseImageUrl = [NSURL URLWithString:base64Str];
