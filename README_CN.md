@@ -51,7 +51,7 @@
 &emsp;├─html    &emsp;&emsp;    原生html实现示例<br>
 &emsp;├─ios    &emsp;&emsp;    原生ios实现示例<br>
 &emsp;├─php    &emsp;&emsp;    php实现示例<br>
-&emsp;├─react-native    &emsp;&emsp;    react-native实现示例<br>
+&emsp;├─react    &emsp;&emsp;    react实现示例<br>
 &emsp;├─uni-app    &emsp;&emsp;    uni-app实现示例<br>
 &emsp;└─vue    &emsp;&emsp;    vue实现示例<br>
 &emsp;
