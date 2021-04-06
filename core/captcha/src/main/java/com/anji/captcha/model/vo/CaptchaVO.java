@@ -92,6 +92,10 @@ public class CaptchaVO implements Serializable {
      * 客户端ip+userAgent
      */
     private String browserInfo;
+    public void resetClientFlag(){
+        this.browserInfo = null;
+        this.clientUid = null;
+    }
 
     public String getCaptchaId() {
         return captchaId;

@@ -166,7 +166,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
 	protected String getValidateClientId(CaptchaVO req){
     	// 以服务端获取的客户端标识 做识别标志
 		if(StringUtils.isNotEmpty(req.getBrowserInfo())){
-			return Base64Utils.encodeToString(req.getBrowserInfo().getBytes());
+			return MD5Util.md5(req.getBrowserInfo());
 		}
 		// 以客户端Ui组件id做识别标志
 		if(StringUtils.isNotEmpty(req.getClientUid())){

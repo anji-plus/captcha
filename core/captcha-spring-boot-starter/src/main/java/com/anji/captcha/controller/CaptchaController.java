@@ -57,11 +57,7 @@ public class CaptchaController {
     private static String getRemoteIpFromXfwd(String xfwd) {
         if (StringUtils.isNotBlank(xfwd)) {
             String[] ipList = xfwd.split(",");
-            for (int i = ipList.length - 1; i >= 0; i--) {
-                String ip = ipList[i];
-                ip = StringUtils.trim(ip);
-                return ip;
-            }
+            return StringUtils.trim(ipList[0]);
         }
         return null;
     }

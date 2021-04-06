@@ -47,7 +47,8 @@ public class FrequencyLimitTest {
     @Before
     public void init() {
         req.setCaptchaType(CaptchaTypeEnum.BLOCKPUZZLE.getCodeValue());
-        req.setClientUid(clientUid);
+        //req.setClientUid(clientUid);
+        req.setBrowserInfo("sssssssssssssssssss");
         req.setTs(System.currentTimeMillis());
         /*Properties config = new Properties();
         try {
