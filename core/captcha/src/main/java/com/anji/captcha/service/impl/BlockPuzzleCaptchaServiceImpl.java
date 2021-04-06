@@ -126,6 +126,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
         String secondKey = String.format(REDIS_SECOND_CAPTCHA_KEY, value);
         CaptchaServiceFactory.getCache(cacheType).set(secondKey, captchaVO.getToken(), EXPIRESIN_THREE);
         captchaVO.setResult(true);
+        captchaVO.resetClientFlag();
         return ResponseModel.successData(captchaVO);
     }
 
