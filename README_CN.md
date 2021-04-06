@@ -75,11 +75,17 @@ I  Your application is running here: http://localhost:8081
 #### &emsp; 6.2 增加ReactNative示例(已添加)
 
 # 7 技术支持微信群
-微信一群已满，现开放二群。github可能有缓存，不会自动更新。
+微信一二群已满，现开放三群。微信群码会不定期更新。
 <br>微信群地址：https://captcha.anji-plus.com/static/weixin.png
-<img src="https://captcha.anji-plus.com/static/weixin.png" width = "200" height = "200" div align=left />
+
+| 微信 | qq |
+| --- | --- |
+|<img src="https://captcha.anji-plus.com/static/weixin.png" width = "300" height = "300" div align=left />|<img src="https://captcha.anji-plus.com/static/qq.png" width = "300" height = "300" div align=left />|
+
+<br>
 
  #### 开源不易，劳烦各位star ☺
+<br>
 
 # Stargazers over time
 [![Stargazers over time](https://whnb.wang/img/anji-plus/captcha?e=604800)](https://whnb.wang/anji-plus/captcha?e=604800)

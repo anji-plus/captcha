@@ -75,7 +75,11 @@ Ajplus Captcha , an open source toolset for users,its main Features are as follo
 # 7. Connect Us
 
 [Wechat group] (https://captcha.anji-plus.com/static/weixin.png)
-<img src="https://captcha.anji-plus.com/static/weixin.png" width = "200" height = "200" div align=left />
 
+| Wechat | qq |
+| --- | --- |
+|<img src="https://captcha.anji-plus.com/static/weixin.png" width = "300" height = "300" div align=left />|<img src="https://captcha.anji-plus.com/static/qq.png" width = "300" height = "300" div align=left />|
+
+<br>
  ### Have a try & enjoy it !!!  ☺
 
