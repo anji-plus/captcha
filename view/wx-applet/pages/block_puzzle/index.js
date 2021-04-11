@@ -57,45 +57,8 @@ Page({
   openDemo(){
     var demo2 = this.selectComponent('.demo2').show();
   },
-  change1(){
-    let opt = this.data.captchaOpt1;
-    opt.captchaType = 'blockPuzzle';
-    opt.mode = "fixed";
-    this.setData({
-      captchaOpt1: opt
-    },function(){
-      var demo1 = this.selectComponent('.demo1').reload();
-    })
+  onLoad() {
+    console.log('代码片段是一种迷你、可分享的小程序或小游戏项目，可用于分享小程序和小游戏的开发经验、展示组件和 API 的使用、复现开发问题和 Bug 等。可点击以下链接查看代码片段的详细文档：')
+    console.log('https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/devtools.html')
   },
-  change2(){
-    let opt = this.data.captchaOpt1;
-    opt.captchaType = 'blockPuzzle';
-    opt.mode = "pop";
-    this.setData({
-      captchaOpt1: opt
-    },function(){
-      var demo1 = this.selectComponent('.demo1').reload();
-    })
-  },
-  change3(){
-    let opt = this.data.captchaOpt1;
-    opt.captchaType = 'clickWord';
-    opt.mode = "fixed";
-    this.setData({
-      captchaOpt1: opt
-    },function(){
-      var demo1 = this.selectComponent('.demo1').reload();
-    })
-  },
-  change4(){
-    let opt = this.data.captchaOpt1;
-    opt.captchaType = 'clickWord';
-    opt.mode = "pop";
-    this.setData({
-      captchaOpt1: opt
-    },function(){
-      var demo1 = this.selectComponent('.demo1').reload();
-    })
-  }
-
 })
