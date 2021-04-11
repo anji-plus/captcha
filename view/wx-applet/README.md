@@ -11,6 +11,7 @@
           }
 
 #### 基础示例
+#####小程序代码片段：https://developers.weixin.qq.com/s/s9JdutmD73p0
 ```javascript
 1)对应页面index.js
 
@@ -71,7 +72,6 @@
           this.selectComponent('.demo1').reload();
         })
 ```
-
 ### 3.回调事件
 
 |  参数 | 类型 |  说明 |
