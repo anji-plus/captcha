@@ -83,7 +83,7 @@ Ajplus Captcha , an open source toolset for users,its main Features are as follo
 #### Thank you, JetBrains, for your support
 <img src="https://captcha.anji-plus.com/static/jetbrains.png" width = "100" height = "100"/>
 
-#####JetBrains:[https://www.jetbrains.com/?from=AJ-Captcha](https://www.jetbrains.com/?from=AJ-Captcha "链接")
+##### JetBrains:[https://www.jetbrains.com/?from=AJ-Captcha](https://www.jetbrains.com/?from=AJ-Captcha "链接")
 
 <br>
  ### Have a try & enjoy it !!!  ☺

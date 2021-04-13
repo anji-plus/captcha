@@ -83,7 +83,7 @@ I  Your application is running here: http://localhost:8081
 #### 感谢JetBrains 的支持
 <img src="https://captcha.anji-plus.com/static/jetbrains.png" width = "100" height = "100"/>
 
-#####JetBrains:[https://www.jetbrains.com/?from=AJ-Captcha](https://www.jetbrains.com/?from=AJ-Captcha "链接")
+##### JetBrains:[https://www.jetbrains.com/?from=AJ-Captcha](https://www.jetbrains.com/?from=AJ-Captcha "链接")
 
 <br>
 
