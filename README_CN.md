@@ -70,11 +70,7 @@ I  Your application is running here: http://localhost:8081
 &emsp;详细的前后端接入文档，后端示例代码service目录下，前端示例代码view目录下。
 
 
-# 6 近期计划
-#### &emsp; 6.1 增加weex示例
-#### &emsp; 6.2 增加ReactNative示例(已添加)
-
-# 7 技术支持，如有问题，请提交Issue
+# 6 技术支持，如有问题，请提交Issue
 微信一二群已满，现开放三群。微信群码会不定期更新。
 <br>微信群地址：https://captcha.anji-plus.com/static/weixin.png
 
@@ -82,9 +78,13 @@ I  Your application is running here: http://localhost:8081
 | --- | --- |
 |<img src="https://captcha.anji-plus.com/static/weixin.png" width = "300" height = "300" div align=left />|<img src="https://captcha.anji-plus.com/static/qq.png" width = "300" height = "300" div align=left />|
 
-<br>
-
  #### 开源不易，劳烦各位star ☺
+
+#### 感谢JetBrains 的支持
+<img src="https://captcha.anji-plus.com/static/jetbrains.png" width = "100" height = "100"/>
+
+#####JetBrains:[https://www.jetbrains.com/?from=AJ-Captcha](https://www.jetbrains.com/?from=AJ-Captcha "链接")
+
 <br>
 
 # Stargazers over time
