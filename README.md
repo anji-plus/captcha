@@ -80,6 +80,11 @@ Ajplus Captcha , an open source toolset for users,its main Features are as follo
 | --- | --- |
 |<img src="https://captcha.anji-plus.com/static/weixin.png" width = "300" height = "300" div align=left />|<img src="https://captcha.anji-plus.com/static/qq.png" width = "300" height = "300" div align=left />|
 
+#### Thank you, JetBrains, for your support
+<img src="https://captcha.anji-plus.com/static/jetbrains.png" width = "100" height = "100"/>
+
+#####JetBrains:[https://www.jetbrains.com/?from=AJ-Captcha](https://www.jetbrains.com/?from=AJ-Captcha "链接")
+
 <br>
  ### Have a try & enjoy it !!!  ☺
 
