@@ -33,6 +33,7 @@ module.exports = {
         '/captchaDoc/vue',
         '/captchaDoc/flutterDoc',
         '/captchaDoc/uni-app',
+        '/captchaDoc/wx-applet',
         '/captchaDoc/reactNative',
         '/captchaDoc/android',
         '/captchaDoc/ios',

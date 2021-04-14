@@ -53,6 +53,7 @@
 &emsp;├─php    &emsp;&emsp;    php实现示例<br>
 &emsp;├─react    &emsp;&emsp;    react实现示例<br>
 &emsp;├─uni-app    &emsp;&emsp;    uni-app实现示例<br>
+&emsp;├─wx-applet    &emsp;&emsp;    微信小程序实现示例<br>
 &emsp;└─vue    &emsp;&emsp;    vue实现示例<br>
 &emsp;
 
