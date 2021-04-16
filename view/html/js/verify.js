@@ -153,7 +153,11 @@
         	this.htmlDoms.move_block.on('mousedown', function(e) {
         		_this.start(e);
         	});
-        	
+
+            this.htmlDoms.sub_block.on('mousedown', function(e) {
+                e.stopPropagation()
+            });
+
         	//拖动
             window.addEventListener("touchmove", function(e) {
             	_this.move(e);
