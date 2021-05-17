@@ -89,7 +89,7 @@
         },
         setup(props,context){
             const {mode,captchaType,vSpace,imgSize,barSize} = toRefs(props)
-            const { ctx } = getCurrentInstance();
+            const { proxy } = getCurrentInstance();
             let secretKey = ref(''),           //后端返回的ase加密秘钥
                 checkNum = ref(3),             //默认需要点击的字数
                 fontPos = reactive([]),            //选中的坐标信息
@@ -121,18 +121,18 @@
                     num.value = 1
                     getPictrue();
                     nextTick(() => {
-                        let {imgHeight,imgWidth,barHeight,barWidth} = resetSize(ctx)
+                        let {imgHeight,imgWidth,barHeight,barWidth} = resetSize(proxy)
                         setSize.imgHeight = imgHeight
                         setSize.imgWidth = imgWidth
                         setSize.barHeight = barHeight
                         setSize.barWidth = barWidth
-                        ctx.$parent.$emit('ready', ctx)
+                        proxy.$parent.$emit('ready', proxy)
                     })
                 }
                  onMounted(()=>{
                     // 禁止拖拽
                     init()
-                    ctx.$el.onselectstart = function () {
+                    proxy.$el.onselectstart = function () {
                         return false
                     }
                 })
@@ -163,13 +163,13 @@
                                     bindingClick.value = false
                                     if (mode.value=='pop') {
                                         setTimeout(()=>{
-                                            ctx.$parent.clickShow = false;
+                                            proxy.$parent.clickShow = false;
                                             refresh();
                                         },1500)
                                     }
-                                    ctx.$parent.$emit('success', {captchaVerification})
+                                    proxy.$parent.$emit('success', {captchaVerification})
                                 }else{
-                                    ctx.$parent.$emit('error', ctx)
+                                    proxy.$parent.$emit('error', proxy)
                                     barAreaColor.value = '#d9534f'
                                     barAreaBorderColor.value = '#d9534f'
                                     text.value = '验证失败'

@@ -103,7 +103,7 @@
         },
         setup(props,context){
             const {mode,captchaType,vSpace,imgSize,barSize,type,blockSize,explain} = toRefs(props)
-            const { ctx } = getCurrentInstance();
+            const { proxy } = getCurrentInstance();
             let secretKey = ref(''),           //后端返回的ase加密秘钥
                 passFlag = ref(''),         //是否通过的标识
                 backImgBase = ref(''),      //验证码背景图片
@@ -138,18 +138,18 @@
                 startLeft = ref(0) 
 
                 const barArea = computed(()=>{
-                    return ctx.$el.querySelector('.verify-bar-area')
+                    return proxy.$el.querySelector('.verify-bar-area')
                 })
                 function init() {
                     text.value = explain.value
                     getPictrue();
                     nextTick(() => {
-                        let {imgHeight,imgWidth,barHeight,barWidth} = resetSize(ctx)
+                        let {imgHeight,imgWidth,barHeight,barWidth} = resetSize(proxy)
                         setSize.imgHeight = imgHeight
                         setSize.imgWidth = imgWidth
                         setSize.barHeight = barHeight
                         setSize.barWidth = barWidth
-                        ctx.$parent.$emit('ready', ctx)
+                        proxy.$parent.$emit('ready', proxy)
                     })
 
                     window.removeEventListener("touchmove", function (e) {
@@ -188,7 +188,7 @@
                 onMounted(()=>{
                     // 禁止拖拽
                     init()
-                    ctx.$el.onselectstart = function () {
+                    proxy.$el.onselectstart = function () {
                         return false
                     }
                 })
@@ -257,7 +257,7 @@
                                 isEnd.value = true;   
                                 if (mode.value=='pop') {
                                     setTimeout(()=>{
-                                        ctx.$parent.clickShow = false;
+                                        proxy.$parent.clickShow = false;
                                         refresh();
                                     },1500)
                                 }
@@ -266,8 +266,8 @@
                                 var captchaVerification = secretKey.value ? aesEncrypt(backToken.value+'---'+JSON.stringify({x:moveLeftDistance,y:5.0}),secretKey.value):backToken.value+'---'+JSON.stringify({x:moveLeftDistance,y:5.0})
                                 setTimeout(()=>{
                                     tipWords.value = ""
-                                    ctx.$parent.closeBox();
-                                    ctx.$parent.$emit('success', {captchaVerification})
+                                    proxy.$parent.closeBox();
+                                    proxy.$parent.$emit('success', {captchaVerification})
                                 },1000)
                             }else{
                                 moveBlockBackgroundColor.value = '#d9534f'
@@ -278,7 +278,7 @@
                                 setTimeout(function () {
                                     refresh();
                                 }, 1000);
-                                ctx.$parent.$emit('error',ctx)
+                                proxy.$parent.$emit('error',proxy)
                                 tipWords.value = "验证失败"
                                 setTimeout(()=>{
                                         tipWords.value = ""
