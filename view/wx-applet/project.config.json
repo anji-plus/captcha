@@ -42,7 +42,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.16.0",
 	"appid": "wxdb2c7ac2f09808bd",
-	"projectname": "wx-applet",
+	"projectname": "wx-applet-AJ-Captcha",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},

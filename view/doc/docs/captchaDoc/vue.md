@@ -12,9 +12,9 @@
 ```javascript
 <template>
     <Verify
-	@success="'success'" //验证成功的回调函数
-	:mode="'pop'"     //调用的模式
-	:captchaType="'blockPuzzle'"    //调用的类型 点选或者滑动
+	@success="success" //验证成功的回调函数
+	:mode="pop"     //调用的模式
+	:captchaType="blockPuzzle"    //调用的类型 点选或者滑动
         :imgSize="{ width: '330px', height: '155px' }" //图片的大小对象
         ref="verify"
     ></Verify>
