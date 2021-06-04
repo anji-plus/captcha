@@ -1,64 +1,64 @@
 <template>
-    <div>
-        <el-container style="width: 100%;height: 100%;">
-            <el-header style="height: auto; padding: 0;">
-                <myHeader></myHeader>
-            </el-header>
-        </el-container>
-        <el-main>
-            <div class="search-pop clearfix">
-                <el-row>
-                    <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-                    <div class="grid-content">
-                        <el-row type="flex" justify="center">
-                        <el-col :xs="22" :sm="22" :md="22" :lg="22" :xl="24">
-                            <div class="grid-content pd-main pt20 pb20">
-                            <el-row class="row-bg">
-                                <el-col type="flex" :xs="24" :sm="24" :md="6" :lg="4" :xl="4">
-                                <div class="grid-content">
-                                    <div class="left-box">
-                                    <div class="project-list">
-                                        <MenuItem></MenuItem>
-                                    </div>
-                                    </div>
-                                </div>
-                                </el-col>
-                                <el-col type="flex" :xs="24" :sm="24" :md="18" :lg="20" :xl="20">
-                                <div class="grid-content">
-                                    <div class="right-box">
-                                    <div class="log-list">
-                                        <router-view></router-view>
-                                    </div>
-                                    </div>
-                                </div>
-                                </el-col>
-                            </el-row>
+  <div>
+    <el-container style="width: 100%;height: 100%;">
+      <el-header style="height: auto; padding: 0;">
+        <myHeader />
+      </el-header>
+    </el-container>
+    <el-main>
+      <div class="search-pop clearfix">
+        <el-row>
+          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+            <div class="grid-content">
+              <el-row type="flex" justify="center">
+                <el-col :xs="22" :sm="22" :md="22" :lg="22" :xl="24">
+                  <div class="grid-content pd-main pt20 pb20">
+                    <el-row class="row-bg">
+                      <el-col type="flex" :xs="24" :sm="24" :md="6" :lg="4" :xl="4">
+                        <div class="grid-content">
+                          <div class="left-box">
+                            <div class="project-list">
+                              <MenuItem />
                             </div>
-                        </el-col>
-                        </el-row>
-                    </div>
-                    </el-col>
-                </el-row>
+                          </div>
+                        </div>
+                      </el-col>
+                      <el-col type="flex" :xs="24" :sm="24" :md="18" :lg="20" :xl="20">
+                        <div class="grid-content">
+                          <div class="right-box">
+                            <div class="log-list">
+                              <router-view />
+                            </div>
+                          </div>
+                        </div>
+                      </el-col>
+                    </el-row>
+                  </div>
+                </el-col>
+              </el-row>
             </div>
-        </el-main>
-    </div>
+          </el-col>
+        </el-row>
+      </div>
+    </el-main>
+  </div>
 </template>
 
 <script>
-import myHeader from "./../layout/Header"
-import MenuItem from "./../layout/UseMenuItem"
+import myHeader from './../layout/Header'
+import MenuItem from './../layout/UseMenuItem'
 
 export default {
-    name:'userOnline',
-    data() {
-        return {
-            
-        }
-    },
-    components:{
-       myHeader,
-       MenuItem 
+  name: 'UserOnline',
+  components: {
+    myHeader,
+    MenuItem
+  },
+  data() {
+    return {
+
     }
+  }
 }
 </script>
 

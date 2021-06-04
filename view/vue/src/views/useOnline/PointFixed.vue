@@ -13,23 +13,23 @@
             type="text"
             value="用户名"
             disabled="disabled"
-          />
+          >
           <input
             class="result_input"
             type="password"
             value="123456"
             disabled="disabled"
-          />
+          >
           <!-- @success="login"  -->
           <Verify
             :mode="'fixed'"
-            :captchaType="'clickWord'"
-            :captchaId="'936c8254-abf6-446e-ba34-0b02ed15f6e2'"
-            :containerId="'#pointFixed_btn'"
-            :imgSize="{ width: '330px', height: '155px' }"
-          ></Verify>
+            :captcha-type="'clickWord'"
+            :captcha-id="'936c8254-abf6-446e-ba34-0b02ed15f6e2'"
+            :container-id="'#pointFixed_btn'"
+            :img-size="{ width: '330px', height: '155px' }"
+          />
           <!-- 组件 -->
-          <button class="result_btn" id="pointFixed_btn">登录</button>
+          <button id="pointFixed_btn" class="result_btn">登录</button>
         </form>
       </el-col>
       <el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11" class="demo-code">
@@ -38,12 +38,12 @@
           <!-- <button class="code_copy">复制</button> -->
         </div>
         <div class="code-container">
-           <pre >
+          <pre>
 <i>&lt;</i>template<i>></i>
 <i>&lt;</i>Verify
      @success<i>=</i>"'success'"                                            //验证成功的回调函数
      :mode<i>=</i>"'fixed'"                                                     //调用的模式
-      :captchaType="'clickWord'"                                    //调用的类型 点选或者滑动  
+      :captchaType="'clickWord'"                                    //调用的类型 点选或者滑动
      :imgSize<i>=</i>"{ width: '330px', height: '155px' }"       //图片的大小对象
   <i>></i><i>&lt;</i>/Verify
 <i>&lt;</i>/template<i>></i>
@@ -73,13 +73,13 @@
 </template>
 
 <script>
-import Verify from "./../../components/verifition/Verify";
+import Verify from './../../components/verifition/Verify'
 export default {
-  name: "sliderFixed",
+  name: 'SliderFixed',
   components: {
     Verify
   }
-};
+}
 </script>
 
 <style scoped lang="less">

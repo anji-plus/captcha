@@ -3,7 +3,11 @@
     <el-row class="tac">
       <el-col :span="24">
         <el-menu
-          :default-active="activeNav" class="el-menu-vertical-demo" @select="handleSelect2" router>
+          :default-active="activeNav"
+          class="el-menu-vertical-demo"
+          router
+          @select="handleSelect2"
+        >
           <el-submenu index="/useOnline">
             <template slot="title">
               <span>滑动验证</span>
@@ -28,28 +32,28 @@
   </div>
 </template>
 <script>
-  export default {
-    name: "MenuItem",
-    data(){
-      return{
-        // activeNav:'/projectDetails'
-      }
-    },
-    computed:{
-      activeNav(){
-        return this.$route.path
-      }
-    },
-    mounted(){
-      // this.activeNav=window.location.href.lastIndexOf("\\");
-      // console.log(this.activeNav)
-    },
-    methods:{
-      handleSelect2(key, keyPath) {
-        // this.activeNav=key
-      },
+export default {
+  name: 'MenuItem',
+  data() {
+    return {
+      // activeNav:'/projectDetails'
     }
+  },
+  computed: {
+    activeNav() {
+      return this.$route.path
+    }
+  },
+  mounted() {
+    // this.activeNav=window.location.href.lastIndexOf("\\");
+    // console.log(this.activeNav)
+  },
+  methods: {
+    handleSelect2(key, keyPath) {
+      // this.activeNav=key
+    },
   }
+}
 </script>
 
 <style scoped lang="less">
@@ -86,9 +90,9 @@
   .is-active > .el-submenu__title{
     color: #f4f4f5!important;
   }
-  
+
   }
-  
+
   .el-submenu__title .el-icon-arrow-down{
     line-height: 13px!important;
   }

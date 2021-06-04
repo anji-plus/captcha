@@ -1,43 +1,43 @@
 <template>
-    <div class="markdown">
-        <mavon-editor v-model="value"></mavon-editor>
-    </div>
+  <div class="markdown">
+    <mavon-editor v-model="value" />
+  </div>
 </template>
 
 <script>
 
-import {readFile} from './../utils/readFile'
+import { readFile } from './../utils/readFile'
 
 export default {
-    props:{
-        filePath:{
-            type:String,
-            require:true,
-            default:' '
-        }
-    },
-    data() {
-        return {
-            value:'',
-            newFilePath:'',
-        }
-    },
-    watch: {
-        'filePath':{
-            handler(){
-                this.newFilePath = 'https://captcha.anji-plus.com/' + this.filePath
-                this.loadFile();
-            },
-            immediate:true
-        }
-    },
-    methods: {
-        loadFile(){
-            readFile(this.newFilePath).then(res=>{
-                this.value = res.data ? res.data: res
-            })
-        }
-    },
+  props: {
+    filePath: {
+      type: String,
+      require: true,
+      default: ' '
+    }
+  },
+  data() {
+    return {
+      value: '',
+      newFilePath: '',
+    }
+  },
+  watch: {
+    'filePath': {
+      handler() {
+        this.newFilePath = 'https://captcha.anji-plus.com/' + this.filePath
+        this.loadFile()
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    loadFile() {
+      readFile(this.newFilePath).then(res => {
+        this.value = res.data ? res.data : res
+      })
+    }
+  },
 }
 </script>
 
@@ -54,5 +54,5 @@ export default {
         width: 100%!important;
         flex: 0 0 100%!important;
     }
-} 
+}
 </style>

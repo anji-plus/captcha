@@ -1,24 +1,19 @@
 <template>
   <div class="login-bg">
     <div class="login-bg_pattern">
-      <div class="login-bg_left-top-circle">
-      </div>
-      <div class="login-bg_left100-top-circle">
-      </div>
-      <div class="login-bg_right-top-circle">
-      </div>
-      <div class="login-bg_right-bottom-circle">
-      </div>
-      <div class="login-bg_left-bottom-circle">
-      </div>
+      <div class="login-bg_left-top-circle" />
+      <div class="login-bg_left100-top-circle" />
+      <div class="login-bg_right-top-circle" />
+      <div class="login-bg_right-bottom-circle" />
+      <div class="login-bg_left-bottom-circle" />
     </div>
 
     <Verify
-      @success="login"
-      :captchaType="'blockPuzzle'"
-      :imgSize="{width:'400px',height:'200px'}"
       ref="verify"
-    ></Verify>
+      :captcha-type="'blockPuzzle'"
+      :img-size="{width:'400px',height:'200px'}"
+      @success="login"
+    />
 
     <div class="login-login_wrap">
       <div class="login-login_box">
@@ -27,7 +22,7 @@
             <div class="grid-content">
               <!--登录-->
               <div class="key">
-                <div class="bottom-img"></div>
+                <div class="bottom-img" />
                 <div class="form-info mt14vh pb50" style="margin-left:5vw">
                   <el-row :gutter="20">
                     <el-col :xs="22" :sm="14" :md="10" :lg="8" :xl="7">
@@ -35,11 +30,11 @@
                       <form onsubmit="return false">
                         <ul class="user-info mt60">
                           <li class="user-input">
-                            <input class="effect" placeholder="请输入用户名" id="usernameIput" type="text" v-model.trim="loginName" required autocomplete='username' />
+                            <input id="usernameIput" v-model.trim="loginName" class="effect" placeholder="请输入用户名" type="text" required autocomplete="username">
                             <label>用户名</label>
                           </li>
                           <li class="user-input">
-                            <input class="effect" placeholder="请输入密码" id="passwordIput" type="password" v-model.trim="loginPassword" required autocomplete='current-password' />
+                            <input id="passwordIput" v-model.trim="loginPassword" class="effect" placeholder="请输入密码" type="password" required autocomplete="current-password">
                             <label>密码</label>
                           </li>
                           <li class="keep-password">
@@ -48,26 +43,32 @@
                             </label>
 
                           </li>
-                           <li class="keep-password">
+                          <li class="keep-password">
                             <label>
-                              <a href='https://gitee.com/anji-plus/captcha/' target="_blank" style="color:#222"><img src="https://gitee.com/static/images/logo-en.svg" style="vertical-align:middle;margin-right:5px" width="24px"/> gitee</a>
+                              <a href="https://gitee.com/anji-plus/captcha/" target="_blank" style="color:#222"><img src="https://gitee.com/static/images/logo-en.svg" style="vertical-align:middle;margin-right:5px" width="24px"> gitee</a>
                             </label>
 
                             <label class="ml20">
-                             <a href='https://gitee.com/anji-plus/captcha/stargazers' target="_blank"><img src='https://gitee.com/anji-plus/captcha/badge/star.svg?theme=gvp' style="vertical-align:middle;" alt='star' /></a>
+                              <a href="https://gitee.com/anji-plus/captcha/stargazers" target="_blank"><img src="https://gitee.com/anji-plus/captcha/badge/star.svg?theme=gvp" style="vertical-align:middle;" alt="star"></a>
                             </label>
 
                           </li>
                           <li class="keep-password">
                             <label>
-                              <a href='https://github.com/anji-plus/captcha' target="_blank" style="color:#222">
-                                <img src="https://github.githubassets.com/favicons/favicon.png"
-                                     style="vertical-align:middle;margin-right:5px" width="24px"/> github</a>
+                              <a href="https://github.com/anji-plus/captcha" target="_blank" style="color:#222">
+                                <img
+                                  src="https://github.githubassets.com/favicons/favicon.png"
+                                  style="vertical-align:middle;margin-right:5px"
+                                  width="24px"
+                                > github</a>
                             </label>
                             <label class="ml20">
-                              <a href='https://github.com/anji-plus/captcha/stargazers' target="_blank">
-                                <img src='https://img.shields.io/github/stars/anji-plus/captcha?style=social'
-                                     style="vertical-align:middle;" alt='star' /></a>
+                              <a href="https://github.com/anji-plus/captcha/stargazers" target="_blank">
+                                <img
+                                  src="https://img.shields.io/github/stars/anji-plus/captcha?style=social"
+                                  style="vertical-align:middle;"
+                                  alt="star"
+                                ></a>
                             </label>
                           </li>
                           <li class="mt50">
@@ -91,14 +92,17 @@
 </template>
 
 <script>
-import { reqLogin, getMenu, queryForCodeSelect } from "@/api/basic";
-import { aesEncrypt ,aesDecrypt} from '@/utils/aes'
-import { setItem, getItem } from '@/utils/storage';
+import { reqLogin, getMenu, queryForCodeSelect } from '@/api/basic'
+import { aesEncrypt, aesDecrypt } from '@/utils/aes'
+import { setItem, getItem } from '@/utils/storage'
 
 import Verify from './../components/verifition/Verify'
 
 export default {
-  data () {
+  components: {
+    Verify
+  },
+  data() {
     return {
       loginName: 'admin',
       loginPassword: '123456',
@@ -107,45 +111,41 @@ export default {
       dialogFormVisible: false
     }
   },
-  components: {
-    Verify
+  beforeDestroy() {
+    document.removeEventListener('keyup', this.handerKeyup)
   },
-  beforeDestroy () {
-    document.removeEventListener('keyup',this.handerKeyup)
-  },
-  created(){
-    document.addEventListener("keyup",this.handerKeyup)
-
+  created() {
+    document.addEventListener('keyup', this.handerKeyup)
   },
   methods: {
-    handerKeyup(e){
-      var keycode = document.all ? event.keyCode : e.which;
-        if (keycode == 13) {
-          this.checkPrama();
+    handerKeyup(e) {
+      var keycode = document.all ? event.keyCode : e.which
+      if (keycode == 13) {
+        this.checkPrama()
       }
     },
-    goRegister () {
-      this.$router.push("/register");
+    goRegister() {
+      this.$router.push('/register')
     },
 
-    checkPrama(){
+    checkPrama() {
       if (!this.loginName || !this.loginPassword) {
         this.$message({
-          message: "请输入完整的用户名密码",
+          message: '请输入完整的用户名密码',
           type: 'error'
-        });
+        })
         return false
       }
-      this.$refs.verify.show();
+      this.$refs.verify.show()
     },
-    login (params) {
-      if (this.loginName == "admin" && this.loginPassword=='123456') {
-        this.$router.push("/useOnline/sliderFixed");
-      }else{
+    login(params) {
+      if (this.loginName == 'admin' && this.loginPassword == '123456') {
+        this.$router.push('/useOnline/sliderFixed')
+      } else {
         this.$message({
-          message: "输入测试账号密码",
+          message: '输入测试账号密码',
           type: 'warning'
-        });
+        })
       }
     },
   },

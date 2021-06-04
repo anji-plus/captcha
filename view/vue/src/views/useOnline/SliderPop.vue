@@ -13,20 +13,20 @@
             type="text"
             value="用户名"
             disabled="disabled"
-          />
+          >
           <input
             class="result_input"
             type="password"
             value="123456"
             disabled="disabled"
-          />
+          >
           <!-- @success="login"  -->
           <Verify
+            ref="verify"
             :mode="'pop'"
-            :captchaType="'blockPuzzle'"
-            :imgSize="{ width: '330px', height: '155px' }"
-             ref="verify"
-          ></Verify>
+            :captcha-type="'blockPuzzle'"
+            :img-size="{ width: '330px', height: '155px' }"
+          />
           <!-- 组件 -->
           <button class="result_btn" @click.prevent="showBox">登录</button>
         </form>
@@ -37,11 +37,11 @@
           <!-- <button class="code_copy">复制</button> -->
         </div>
         <div class="code-container">
-            <i>&lt;</i>template<i>></i>
-           <pre >  <i>&lt;</i>Verify
+          <i>&lt;</i>template<i>></i>
+          <pre>  <i>&lt;</i>Verify
      @success<i>=</i>"success"          //验证成功的回调函数
      :mode<i>=</i>"'pop'"               //调用的模式
-     :captchaType="'blockPuzzle'"       //调用的类型 点选或者滑动  
+     :captchaType="'blockPuzzle'"       //调用的类型 点选或者滑动
      :imgSize<i>=</i>"{ width: '330px', height: '155px' }" //图片的大小
      ref<i>=</i>"verify"
   <i>></i><i>&lt;</i>/Verify
@@ -59,7 +59,7 @@
           },
           showVerify(){
             //当mode="pop"时,调用组件实例的show方法显示组件
-            this.$refs.verify.show();   
+            this.$refs.verify.show();
           }
         },
         components<i>:</i> {
@@ -76,18 +76,18 @@
 </template>
 
 <script>
-import Verify from "./../../components/verifition/Verify";
+import Verify from './../../components/verifition/Verify'
 export default {
-  name: "sliderFixed",
+  name: 'SliderFixed',
   components: {
     Verify
   },
   methods: {
-    showBox(){
-      this.$refs.verify.show();
+    showBox() {
+      this.$refs.verify.show()
     }
   },
-};
+}
 </script>
 
 <style scoped lang="less">

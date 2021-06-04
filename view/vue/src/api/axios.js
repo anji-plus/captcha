@@ -1,5 +1,5 @@
-import axios from 'axios';
-axios.defaults.baseURL = process.env.BASE_API;
+import axios from 'axios'
+axios.defaults.baseURL = process.env.BASE_API
 
 const service = axios.create({
   withCredentials: true,
@@ -24,9 +24,8 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
   response => {
-    const res = response.data;
-    return res;
-    
+    const res = response.data
+    return res
   },
 )
 

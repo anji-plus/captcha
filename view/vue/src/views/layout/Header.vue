@@ -1,12 +1,12 @@
 <template>
   <div class="nav-menu">
-    <el-menu :default-active="onRoutes" :default-openeds="[$route.path]" class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#203160" text-color="rgba(255,255,255,0.4)" active-text-color="#7AB1F9" router>
+    <el-menu :default-active="onRoutes" :default-openeds="[$route.path]" class="el-menu-demo" mode="horizontal" background-color="#203160" text-color="rgba(255,255,255,0.4)" active-text-color="#7AB1F9" router @select="handleSelect">
       <el-row type="flex" justify="center">
         <el-col :xs="22" :sm="22" :md="22" :lg="22" :xl="23">
           <div class="grid-content pd-main">
             <div class="userBox fr" @click="dropOut">
               <!-- {{getAccessUser.userName}} -->
-              <el-button class="goOut"><i class="icon iconfont icon-zhuxiao"></i>退出</el-button>
+              <el-button class="goOut"><i class="icon iconfont icon-zhuxiao" />退出</el-button>
             </div>
             <a @click="goHome"><img class="logo" src="./../../assets/image/logo2.png" alt=""></a>
             <div class="nav-md fr">
@@ -22,44 +22,44 @@
 <!--
 -->
 <script>
-import { setItem, getItem } from '@/utils/storage';
+import { setItem, getItem } from '@/utils/storage'
 export default {
-  data () {
+  data() {
     return {
-      activeIndex: "1",
-      userManageCode:[],
-      navList:[
-        { name: "/apply", navItem: "谁在使用",manage:"applyManage"},
-        { name: "/doc", navItem: "在线文档",manage:"docManage"},
-        { name: "/useOnline", navItem: "在线体验",manage:"chartManage"},
+      activeIndex: '1',
+      userManageCode: [],
+      navList: [
+        { name: '/apply', navItem: '谁在使用', manage: 'applyManage' },
+        { name: '/doc', navItem: '在线文档', manage: 'docManage' },
+        { name: '/useOnline', navItem: '在线体验', manage: 'chartManage' },
       ]
-    };
+    }
   },
   computed: {
-    getAccessUser(){
-        return getItem("accessUser");
+    getAccessUser() {
+      return getItem('accessUser')
     },
-    onRoutes () {
+    onRoutes() {
       if (this.$route.path.includes('/helpCenter')) {
-        return '/helpCenter';
-      }else if(this.$route.path.includes('/useOnline')){
+        return '/helpCenter'
+      } else if (this.$route.path.includes('/useOnline')) {
         return '/useOnline'
-      }else {
-        return this.$route.path;
+      } else {
+        return this.$route.path
       }
     },
 
   },
-  mounted () {
+  mounted() {
   },
   methods: {
-    dropOut () {
-      var self = this;
+    dropOut() {
+      var self = this
       this.$confirm('您确定要退出吗?', '退出平台', {
         confirmButtonText: '确定',
         cancelButtonText: '取消'
       }).then(() => {
-        this.$router.push("/login");
+        this.$router.push('/login')
         // const info = {
         //   userName: this.getAccessUser.userName
         // }
@@ -71,19 +71,18 @@ export default {
         //   }
         // }).catch(error => {
         // })
-
       }).catch(() => {
 
       })
     },
-    handleSelect (key, keyPath) {
+    handleSelect(key, keyPath) {
     },
-    //go home
-    goHome(){
-      this.$router.push("/index");
+    // go home
+    goHome() {
+      this.$router.push('/index')
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
