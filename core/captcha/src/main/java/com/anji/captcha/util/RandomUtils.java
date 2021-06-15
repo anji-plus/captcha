@@ -9,6 +9,7 @@ package com.anji.captcha.util;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class RandomUtils {
@@ -32,6 +33,10 @@ public class RandomUtils {
     public static String getRandomHan(String hanZi) {
         String ch = hanZi.charAt(new Random().nextInt(hanZi.length())) + "";
         return ch;
+    }
+
+    public static int getRandomInt(int bound){
+        return ThreadLocalRandom.current().nextInt(bound);
     }
 
     /**
@@ -68,7 +73,7 @@ public class RandomUtils {
      * @return
      */
     public static Integer getRandomInt(int startNum, int endNum) {
-        return new Random().nextInt(endNum-startNum) + startNum;
+        return ThreadLocalRandom.current().nextInt(endNum-startNum) + startNum;
     }
 
     /**
