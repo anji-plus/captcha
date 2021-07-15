@@ -1,0 +1,6 @@
+nginx.htaccess
+vendor/*
+runtime/*
+.htaccess
+.idea/*
+composer.lock
