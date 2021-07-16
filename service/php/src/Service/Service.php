@@ -16,4 +16,8 @@ abstract class Service
         $this->config = $config;
     }
 
+    abstract public function get();
+
+    abstract public function check($token, $pointJson);
+
 }
