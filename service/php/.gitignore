@@ -1,6 +1,12 @@
+.env
+.git
+.svn
+.idea
+.vscode
+.htaccess
+*.log
 nginx.htaccess
 vendor/*
 runtime/*
-.htaccess
-.idea/*
 composer.lock
+

@@ -1,6 +1,9 @@
 ### 范例
+
 详情请查看test目录的PHP源码
+
 #### 配置说明
+
 ```php
 return [
     'font_file' => '', //自定义字体包路径， 不填使用默认值
@@ -32,7 +35,9 @@ return [
     ]
 ];
 ```
+
 ##### 缓存配置
+
     config.cache.constructor类型为string|array|function  使用以访问回调的方式获得缓存实例;
             laravel 配置：
                 'constructor' => [Illuminate\Support\Facades\Cache::class, 'getFacadeRoot'] 或者 [Illuminate\Cache\CacheManager::class, 'store']
@@ -43,10 +48,12 @@ return [
         自定义：
             'constructor' => function(){
                 //在构造函数中传入自已的配置
-                return think\Cache::store('redis');
+                return think\Facade\Cache::store('redis');
             }
         */
+
 缓存类遵守psr-16规范，生成缓存源码如下：
+
 ```php
     public function getDriver($callback)
     {
@@ -77,6 +84,7 @@ return [
 ```
 
 #### 获取滑动验证码
+
 ```php
 public function get(){
         $config = require '../src/config.php';
@@ -89,10 +97,16 @@ public function get(){
             'repMsg' => null,
             'success' => true,
         ]);
+}
 ```
+
 #### 滑动验证
+
 ```php
- $service = new BlockPuzzleCaptchaService($config);
+     public function check()
+    {
+        $config = require '../src/config.php';
+        $service = new BlockPuzzleCaptchaService($config);
         $data = $_REQUEST;
         $msg = null;
         $error = false;
@@ -111,8 +125,11 @@ public function get(){
             'repMsg' => $msg,
             'success' => ! $error,
         ]);
+    }
 ```
+
 #### 获取文字验证码
+
 ```php
     public function get()
     {
@@ -128,7 +145,9 @@ public function get(){
         ]);
     }
 ```
+
 #### 文字验证
+
 ```php
     public function check()
     {
@@ -155,4 +174,30 @@ public function get(){
     }
 ```
 
-本包后续更新 ThinkPHP、Hyperf 等框架，请持续关注 https://gitee.com/fastknife/aj-cachapt
+#### 前端请示头修改示例
+```javascript
+import axios from 'axios';
+import qs from 'qs';
+
+axios.defaults.baseURL = 'https://captcha.anji-plus.com/captcha-api';
+
+const service = axios.create({
+  timeout: 40000,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  },
+})
+service.interceptors.request.use(
+  config => {
+    if (config.hasOwnProperty('data')) {
+      config.data = qs.stringify(config.data)
+    }
+    return config
+  },
+  error => {
+    Promise.reject(error)
+  }
+)
+```
+
+本软件包持续更新，请关注 https://gitee.com/fastknife/aj-cachapt
