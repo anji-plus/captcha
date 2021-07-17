@@ -3,20 +3,26 @@ AJ-Captcha · php
 
 #### 介绍
 
-这是一个使用PHP实现行为验证码的类库。
+这个类库使用 PHP实现了行为验证码。基于gd扩展生成滑动验证码和文字验证码。允许 phper定制验证码规则，并且不再使用 curl来请求第三方验证。
+
+官方地址： https://gitee.com/anji-plus/captcha
 
  [范例演示](./demo.md)
 
-#### 注意事项
+##### 官方预览效果
 
-* 您需要开启gd、openssl拓展
-* 您的PHP版本至少需要7.1
-* 本包自带缓存在，如有需要请自行替换
+![Wechat](https://captcha.anji-plus.com/static/8cm.jpg  "")&emsp;&emsp;![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")
+
+#### 注意事项
+* 你需要打开 gd、 openssl扩展
+* PHP版本至少需要7.1
+* 此软件包自带缓存，如有需要请自行更换
+* anji-plus/captcha前端默认请求头是 application/json请将自己替换为 application/x-www-form-urlencode
 
 #### 如何使用
-* 方式一，如果您没有使用composer工具，可以使用git下载本包。然后使用apache/nginx，将最外层目录做为根站点。然后您手动引入对应service层文件进行相应操作。
-* 方式二，composer安装，输入命令 `composer require fastknife/ajcaptcha`; 
-* 方式三，自定义重写本包。使用git下载到本地，自建目录 xxx。然后安装本包的依赖 `intervention/image、 ext-openssl、ext-gd、psr/simple-cache`。然后修改composer.json 在autoload项中配置psr4自动加载。示例：
+* 方法一：如果你没有使用 composer工具，你可以用 git下载这个软件包。为 apache/nginx配置的 Web站点使用最外层的目录作为根目录。接着手动引入对应的 service层文件以执行相应的操作。
+* 方式二， composer安装，输入命令` require fastknife/ajcaptcha dev-master`，建议使用`https://mirrors.aliyun.com/composer`；
+* 方式三，自定义覆盖了这个包。用 git下载到本地自建目录 xxx。接下来，安装这个包的依赖项` intervention/image,ext-openssl,ext-gd, psr/simple-cache`。接着修改 composer. json配置 autoload条目中的psr4自动装入。示例：
     ```
      "autoload": {
         "psr-4": {
@@ -24,6 +30,9 @@ AJ-Captcha · php
         }
       }
     ```
+  最后 composer update
+
+* test 目录下示例了三种使用方式，phper可以参考使用。
 #### 项目结构
 
 ```
@@ -47,13 +56,14 @@ AJ-Captcha for php
 │
 ├─test 测试实例
 │	│
-│	├─pear.config.yml 配置文件
+│	├─thinkphp thinkphp框架测试示例
 │	│
-│	└─pear.config.json 配置文件
+│	├─laravel laravel框架测试示例
+│	│
+│	└─*.php 原生测试文件 配置文件
 └─config.php 配置参考
 
 ```
 
 
-
-如果对您有帮助，您可以点右上角 💘Star💘支持
+这个软件如果对您有帮助，您可以点右上角 💘Star💘支持
