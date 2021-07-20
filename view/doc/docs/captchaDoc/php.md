@@ -17,7 +17,7 @@ AJ-Captcha · php
 * 你需要打开 gd、 openssl扩展
 * PHP版本至少需要7.1
 * 此软件包自带缓存，如有需要请自行更换
-* anji-plus/captcha前端默认请求头是 application/json请将自己替换为 application/x-www-form-urlencode
+* anji-plus/captcha前端默认请求头是 application/json请您替换为 application/x-www-form-urlencode
 
 #### 如何使用
 * 方法一：如果你没有使用 composer工具，你可以用 git下载这个软件包。为 apache/nginx配置的 Web站点使用最外层的目录作为根目录。接着手动引入对应的 service层文件以执行相应的操作。
