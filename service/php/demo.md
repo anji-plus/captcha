@@ -1,6 +1,6 @@
 ### 范例
 
-详情请查看test目录的PHP源码
+详情请查看service/php/test目录的PHP源码
 
 #### 配置说明
 
