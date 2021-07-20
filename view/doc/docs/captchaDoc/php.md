@@ -9,7 +9,6 @@ AJ-Captcha · php
 
 这个类库使用 PHP实现了行为验证码。基于gd扩展生成滑动验证码和文字验证码。允许 phper定制验证码规则，并且不再使用 curl来请求第三方验证。
 
-官方地址： https://gitee.com/anji-plus/captcha
 
 [范例演示](../../../../service/php/demo.md)
 
