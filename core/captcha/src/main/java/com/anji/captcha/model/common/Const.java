@@ -29,6 +29,8 @@ public interface Const {
      * 点选文字验证码的文字字体(宋体)
      */
     String CAPTCHA_FONT_TYPE = "captcha.font.type";
+	String CAPTCHA_FONT_STYLE = "captcha.font.style";
+	String CAPTCHA_FONT_SIZE = "captcha.font.size";
 
     /**
      * 验证码类型default两种都实例化。
@@ -103,4 +105,8 @@ public interface Const {
 	 */
 	String REQ_CHECK_MINUTE_LIMIT = "captcha.req.check.minute.limit";
 
+	/***
+	 * 点选文字个数
+	 */
+	String CAPTCHA_WORD_COUNT = "captcha.word.count";
 }

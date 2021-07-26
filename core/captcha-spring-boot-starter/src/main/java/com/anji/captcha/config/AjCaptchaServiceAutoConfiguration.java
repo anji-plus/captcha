@@ -45,14 +45,18 @@ public class AjCaptchaServiceAutoConfiguration {
         config.put(Const.CAPTCHA_CACAHE_MAX_NUMBER, prop.getCacheNumber());
         config.put(Const.CAPTCHA_TIMING_CLEAR_SECOND, prop.getTimingClear());
 
-        config.put(Const.HISTORY_DATA_CLEAR_ENABLE,prop.isHistoryDataClearEnable()?"1":"0");
+        config.put(Const.HISTORY_DATA_CLEAR_ENABLE, prop.isHistoryDataClearEnable() ? "1" : "0");
 
-        config.put(Const.REQ_FREQUENCY_LIMIT_ENABLE,prop.getReqFrequencyLimitEnable()?"1":"0");
-        config.put(Const.REQ_GET_LOCK_LIMIT,prop.getReqGetLockLimit()+"");
-        config.put(Const.REQ_GET_LOCK_SECONDS,prop.getReqGetLockSeconds()+"");
-        config.put(Const.REQ_GET_MINUTE_LIMIT,prop.getReqGetMinuteLimit()+"");
-        config.put(Const.REQ_CHECK_MINUTE_LIMIT,prop.getReqCheckMinuteLimit()+"");
-        config.put(Const.REQ_VALIDATE_MINUTE_LIMIT,prop.getReqVerifyMinuteLimit()+"");
+        config.put(Const.REQ_FREQUENCY_LIMIT_ENABLE, prop.getReqFrequencyLimitEnable() ? "1" : "0");
+        config.put(Const.REQ_GET_LOCK_LIMIT, prop.getReqGetLockLimit() + "");
+        config.put(Const.REQ_GET_LOCK_SECONDS, prop.getReqGetLockSeconds() + "");
+        config.put(Const.REQ_GET_MINUTE_LIMIT, prop.getReqGetMinuteLimit() + "");
+        config.put(Const.REQ_CHECK_MINUTE_LIMIT, prop.getReqCheckMinuteLimit() + "");
+        config.put(Const.REQ_VALIDATE_MINUTE_LIMIT, prop.getReqVerifyMinuteLimit() + "");
+
+        config.put(Const.CAPTCHA_FONT_SIZE, prop.getFontSize() + "");
+        config.put(Const.CAPTCHA_FONT_STYLE, prop.getFontStyle() + "");
+        config.put(Const.CAPTCHA_WORD_COUNT, prop.getClickWordCount() + "");
 
         if ((StringUtils.isNotBlank(prop.getJigsaw()) && prop.getJigsaw().startsWith("classpath:"))
                 || (StringUtils.isNotBlank(prop.getPicClick()) && prop.getPicClick().startsWith("classpath:"))) {
