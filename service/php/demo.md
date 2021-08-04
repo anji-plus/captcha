@@ -200,4 +200,5 @@ service.interceptors.request.use(
 )
 ```
 
-本包后续更新 ThinkPHP、Hyperf 等框架的demo，请持续关注 https://gitee.com/fastknife/aj-cachapt
+本包后续更新 ThinkPHP、Hyperf 等框架的demo，请持续关注 
+ https://gitee.com/fastknife/aj-captcha
