@@ -1,6 +1,6 @@
 ### 范例
 
-详情请查看service/php/test目录的PHP源码
+详情请查看test目录的PHP源码
 
 #### 配置说明
 
@@ -48,7 +48,7 @@ return [
         自定义：
             'constructor' => function(){
                 //在构造函数中传入自已的配置
-                return think\Facade\Cache::store('redis');
+                return think\Cache::store('redis');
             }
         */
 
@@ -200,4 +200,4 @@ service.interceptors.request.use(
 )
 ```
 
-本软件包持续更新，请关注 https://gitee.com/fastknife/aj-cachapt
+本包后续更新 ThinkPHP、Hyperf 等框架的demo，请持续关注 https://gitee.com/fastknife/aj-cachapt

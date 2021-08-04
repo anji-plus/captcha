@@ -42,6 +42,15 @@ class WordImage extends BaseImage
      */
     public function run(): self
     {
+        $this->inputWords();
+        $this->makeWatermark($this->background);
+        return $this;
+    }
+
+    /**
+     * 写入文字
+     */
+    protected function inputWords(){
         foreach ($this->wordList as $key => $word) {
             $point = $this->point[$key];
             $this->background->text($word, $point->x, $point->y, function (Font $font) {
@@ -52,10 +61,7 @@ class WordImage extends BaseImage
                 $font->align('center');
                 $font->valign('center');
             });
-            $this->makeWatermark($this->background);
         }
-
-        return $this;
     }
 
     /**
