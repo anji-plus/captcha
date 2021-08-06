@@ -7,8 +7,6 @@ AJ-Captcha · php
 
 官方地址： https://gitee.com/anji-plus/captcha
 
- [范例演示](./demo.md)
-
 ##### 官方预览效果
 
 ![Wechat](https://captcha.anji-plus.com/static/8cm.jpg  "")&emsp;&emsp;![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")
@@ -17,24 +15,20 @@ AJ-Captcha · php
 * 你需要打开 gd、 openssl扩展
 * PHP版本至少需要7.1
 * 此软件包自带缓存，如有需要请自行更换
-* anji-plus/captcha前端默认请求头是 application/json请将自己替换为 application/x-www-form-urlencode
+* anji-plus/captcha前端默认请求头是 application/json 需替换为 application/x-www-form-urlencode
 
 #### 如何使用
-* 方法一：如果你没有使用 composer工具，你可以用 git下载这个软件包。为 apache/nginx配置的 Web站点使用最外层的目录作为根目录。接着手动引入对应的 service层文件以执行相应的操作。
-* 方式二， composer安装，输入命令` require fastknife/ajcaptcha dev-master`，建议使用`https://mirrors.aliyun.com/composer`；
-* 方式三，自定义覆盖了这个包。用 git下载到本地自建目录 xxx。接下来，安装这个包的依赖项` intervention/image,ext-openssl,ext-gd, psr/simple-cache`。接着修改 composer. json配置 autoload条目中的psr4自动装入。示例：
-    ```
-     "autoload": {
-        "psr-4": {
-          "app\\": "app"
-        }
-      }
-    ```
-  最后 composer update
+test 目录下示例了三种使用方式，phper可以参考使用。[查看demo](./demo.md)
+> 本软件包需要配合composer一起使用
+1. 非框架使用的场景，直接使用git下载这个软件包。然后执行composer命令`composer install`安装本软件包依赖，接着手动引入对应的 service层文件即可（同test目录里的原生引用方式）。
 
-* test 目录下示例了三种使用方式，phper可以参考使用。
+2. 基本于框架使用的场景,输入安装命令` require fastknife/ajcaptcha`（稳定版） 或者` require fastknife/ajcaptcha dev-master`（最新版） ，建议使用composer阿里源（`https://mirrors.aliyun.com/composer`）
+    * 支持各种前沿框架（ThinkPHP, YII, Laravel, Hyperf，IMI,Swoft,EasySwoole）
+    * 本软件包内，未使用单例、注册树（容器）模式，不含任何全局变量，基于swoole开发的同学不用担心内存泄露。
+
 #### 项目结构
-
+> 本软件包基于整洁架构理念，设计了下文的目录结构。Domain(领域层)作为内层同心圆承担所有业务逻辑功能，Service（服务层）并向最外层Controller（需自行实现）提供粗颗粒度服务。  
+    区别于DDD(领域驱动设计),本软件包的领域层不含Entity(实体)，以Logic（逻辑层）实现单元逻辑，为了方便管理作者将逻辑层的数据处理与图形处理分隔，以达到整洁效果。
 ```
 AJ-Captcha for php
 │
@@ -65,5 +59,4 @@ AJ-Captcha for php
 
 ```
 
-
-这个软件如果对您有帮助，您可以点右上角 💘Star💘支持
+若此软件对您有所帮助，您可以点右上角 💘Star💘支持

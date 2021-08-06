@@ -157,7 +157,7 @@ class BlockImage extends BaseImage
             }
 
             [$r, $g, $b, $a] = $image->pickColor($pointX, $pointY);
-            //边框取6个点，4个角取4个点，其余取8个点
+            //边框取5个点，4个角取3个点，其余取8个点
             if ($this->isOpacity($a)) {
                 $red[] = $r;
                 $green[] = $g;
