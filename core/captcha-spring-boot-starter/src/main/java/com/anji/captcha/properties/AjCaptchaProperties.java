@@ -3,6 +3,8 @@ package com.anji.captcha.properties;
 import com.anji.captcha.model.common.CaptchaTypeEnum;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.awt.*;
+
 import static com.anji.captcha.properties.AjCaptchaProperties.PREFIX;
 import static com.anji.captcha.properties.AjCaptchaProperties.StorageType.local;
 
@@ -96,6 +98,34 @@ public class AjCaptchaProperties {
     private int reqCheckMinuteLimit = 100;
     private int reqVerifyMinuteLimit = 100;
 
+    private int fontStyle = Font.BOLD;
+    private int fontSize = 25;
+    private int clickWordCount = 4;
+
+    public int getFontStyle() {
+        return fontStyle;
+    }
+
+    public void setFontStyle(int fontStyle) {
+        this.fontStyle = fontStyle;
+    }
+
+    public int getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
+    }
+
+    public int getClickWordCount() {
+        return clickWordCount;
+    }
+
+    public void setClickWordCount(int clickWordCount) {
+        this.clickWordCount = clickWordCount;
+    }
+
     public boolean isHistoryDataClearEnable() {
         return historyDataClearEnable;
     }
@@ -171,7 +201,7 @@ public class AjCaptchaProperties {
         other,
     }
 
-    public static String getPREFIX() {
+    public static String getPrefix() {
         return PREFIX;
     }
 

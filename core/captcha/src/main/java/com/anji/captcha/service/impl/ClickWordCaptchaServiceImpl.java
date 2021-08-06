@@ -43,18 +43,22 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
         super.init(config);
         clickWordFontStr = config.getProperty(Const.CAPTCHA_FONT_TYPE, "SourceHanSansCN-Normal.otf");
         try {
+            int size = Integer.valueOf(config.getProperty(Const.CAPTCHA_FONT_SIZE,HAN_ZI_SIZE+""));
+
             if (clickWordFontStr.toLowerCase().endsWith(".ttf")
                     || clickWordFontStr.toLowerCase().endsWith(".ttc")
                     || clickWordFontStr.toLowerCase().endsWith(".otf")) {
                 this.clickWordFont = Font.createFont(Font.TRUETYPE_FONT,
                         getClass().getResourceAsStream("/fonts/" + clickWordFontStr))
-                        .deriveFont(Font.BOLD, HAN_ZI_SIZE);
+                        .deriveFont(Font.BOLD, size);
             } else {
-                this.clickWordFont = new Font(clickWordFontStr, Font.BOLD, HAN_ZI_SIZE);
+                int style = Integer.valueOf(config.getProperty(Const.CAPTCHA_FONT_STYLE,Font.BOLD+""));
+                this.clickWordFont = new Font(clickWordFontStr, style, size);
             }
         } catch (Exception ex) {
             logger.error("load font error:{}", ex);
         }
+        this.wordTotalCount = Integer.valueOf(config.getProperty(Const.CAPTCHA_WORD_COUNT,"4"));
     }
 
     @Override

@@ -30,7 +30,7 @@ class BaseImage
      * @param $point
      * @return WordImage
      */
-    public function setPoint($point)
+    public function setPoint($point):self
     {
         $this->point = $point;
         return $this;
@@ -66,7 +66,7 @@ class BaseImage
     /**
      * @param mixed $background
      */
-    public function setBackground(Image $background)
+    public function setBackground(Image $background):self
     {
         $this->background = $background;
         return $this;
