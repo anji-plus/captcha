@@ -98,8 +98,19 @@ public class AjCaptchaProperties {
     private int reqCheckMinuteLimit = 100;
     private int reqVerifyMinuteLimit = 100;
 
+    /**
+     * 点选字体样式
+     */
     private int fontStyle = Font.BOLD;
+
+    /**
+     * 点选字体大小
+     */
     private int fontSize = 25;
+
+    /**
+     * 点选文字个数，存在问题，暂不要使用
+     */
     private int clickWordCount = 4;
 
     public int getFontStyle() {

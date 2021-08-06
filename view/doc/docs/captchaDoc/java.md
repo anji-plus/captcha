@@ -7,7 +7,7 @@ a.引入jar，已上传至maven中央仓库。
 <dependency>
    <groupId>com.anji-plus</groupId>
    <artifactId>spring-boot-starter-captcha</artifactId>
-   <version>1.2.9</version>
+   <version>1.3.0</version>
 </dependency>
 ```
 b.修改application.properties，自定义底图和水印，启动后前端就可以请求接口了。[社区底图库](https://gitee.com/anji-plus/AJ-Captcha-Images)<br>
@@ -59,6 +59,13 @@ aj.captcha.slip-offset=5
 aj.captcha.aes-status=true
 # 滑动干扰项(0/1/2)
 aj.captcha.interference-options=2
+
+#点选字体样式 默认Font.BOLD
+aj.captcha.font-style=1
+#点选字体字体大小
+aj.captcha.font-size=25
+#点选文字个数,存在问题，暂不支持修改
+#aj.captcha.click-word-count=4
 
 aj.captcha.history-data-clear-enable=false
 
@@ -183,7 +190,7 @@ a.引入jar，已上传至maven中央仓库。
 <dependency>
    <groupId>com.anji-plus</groupId>
    <artifactId>captcha</artifactId>
-   <version>1.2.9</version>
+   <version>1.3.0</version>
 </dependency>
 ```
 b.引入CaptchaConfig.java配置文件，需自行配置参数，
