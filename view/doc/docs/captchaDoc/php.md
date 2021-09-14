@@ -1,8 +1,8 @@
-AJ-Captcha · php
+#  php
 ----
 
 ### 贡献者
-隔壁老李@fastknife [https://gitee.com/fastknife][https://gitee.com/fastknife]
+隔壁老李@fastknife [https://gitee.com/fastknife](https://gitee.com/fastknife)
 
 
 #### 介绍
