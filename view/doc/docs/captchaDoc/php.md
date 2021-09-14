@@ -1,4 +1,4 @@
-AJ-Captcha · php
+#  php
 ----
 
 ### 贡献者
