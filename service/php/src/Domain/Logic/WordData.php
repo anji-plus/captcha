@@ -17,10 +17,10 @@ use Intervention\Image\ImageManagerStatic;
 class WordData extends BaseData
 {
 
-    public function getBackground($backgrounds): Image
+    public function getBackground($backgrounds = null): Image
     {
-        $dir = dirname(dirname(dirname(__DIR__))) . '/resources/defaultImages/pic-click/';
-        $backgrounds = $this->getDefaultImage($dir,$backgrounds );
+        $dir = dirname(__DIR__, 3) . '/resources/defaultImages/pic-click/';
+        $backgrounds = $this->getDefaultImage($dir,$backgrounds);
         $this->getRandImage($backgrounds);
         return ImageManagerStatic::make($this->getRandImage($backgrounds));
     }
@@ -89,7 +89,7 @@ class WordData extends BaseData
      * 外部必先做长度验证
      * @param $originPointList
      * @param $targetPointList
-     * @return string
+     * @return void
      */
     public function check(array $originPointList, array $targetPointList)
     {

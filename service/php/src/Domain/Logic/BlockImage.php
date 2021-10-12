@@ -89,7 +89,8 @@ class BlockImage extends BaseImage
                 $a = $template->pickColor($x, $y)[3];
                 $targetX = $x + $target->offset->x;
                 $targetY = $y + $target->offset->y;
-                if ($isOpacity = $this->isOpacity($a)) {    //如果不透明
+                $isOpacity = $this->isOpacity($a);
+                if ($isOpacity) {    //如果不透明
                     if ($callable instanceof \Closure) {
                         $callable([$targetX, $targetY]);
                     }

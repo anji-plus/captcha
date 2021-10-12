@@ -12,6 +12,12 @@ use Fastknife\Domain\Logic\WordData;
 
 class Factory
 {
+    /**
+     * 工厂方法
+     * @param $type
+     * @param array $config
+     * @return BaseImage
+     */
     public static function make($type, array $config): BaseImage
     {
         if ($type == 'block') {
@@ -23,13 +29,19 @@ class Factory
         }
         self::setCommon($image, $data, $config);
         if ($type == 'block') {
-            self::setblock($image, $data, $config);
+            self::setBlock($image, $data, $config);
         } else {
             self::setWord($image, $data);
         }
         return $image;
     }
 
+    /**
+     * 设置公共配置
+     * @param BaseImage $image
+     * @param BaseData $data
+     * @param $config
+     */
     protected static function setCommon(BaseImage $image, BaseData $data, $config)
     {
         //设置背景
@@ -42,7 +54,13 @@ class Factory
             ->setWatermark($config['watermark']);
     }
 
-    protected static function setblock(BlockImage $image, BlockData $data, $config)
+    /**
+     * 设置滑动验证码的配置
+     * @param BlockImage $image
+     * @param BlockData $data
+     * @param $config
+     */
+    protected static function setBlock(BlockImage $image, BlockData $data, $config)
     {
         $templateVo = $data->getTemplate($image->getBackground(), $config['block_puzzle']['templates']);
         $interfereVo = $data->getInterfere($image->getBackground(), $templateVo, $config['block_puzzle']['templates']);
@@ -51,6 +69,11 @@ class Factory
             ->setInterfereVo($interfereVo);
     }
 
+    /**
+     * 设置文字验证码的配置
+     * @param WordImage $image
+     * @param WordData $data
+     */
     protected static function setWord(WordImage $image, WordData $data)
     {
         //随机文字坐标

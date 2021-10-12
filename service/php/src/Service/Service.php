@@ -20,4 +20,6 @@ abstract class Service
 
     abstract public function check($token, $pointJson);
 
+    abstract public function verification($token, $pointJson);
+
 }
