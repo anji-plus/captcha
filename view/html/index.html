@@ -40,6 +40,8 @@
 			<div id="mpanel1" >
 			</div>
 			<h3>滑动弹出式（slider-popup）</h3>
+			用户名：<input type="text"  id="name" placeholder="用户名" /> <br/><br/>
+			密&nbsp;&nbsp;&nbsp;码：<input type="text"  id="pass" placeholder="密码" /><br/><br/>
 			<button class="btn" id='btn'>点击我</button>
 			<div id="mpanel2" style="margin-top:50px;">
 			</div>
@@ -96,9 +98,19 @@
 					height: '40px',
 				},
 				beforeCheck:function(){  //检验参数合法性的函数  mode ="pop"有效
-					var flag = true;
-					//实现: 参数合法性的判断逻辑, 返回一个boolean值
-					return flag
+					// var flag = true;
+					// //实现: 参数合法性的判断逻辑, 返回一个boolean值
+					// return flag
+					var name = $("#name").val()
+					var pass = $('#pass').val()
+					console.log(name, pass);
+					if (name == '' || pass == '') {
+						alert("请完胜输入信息。")
+						return false
+					}else {
+						return true
+					}
+					
 				},
 				ready : function() {},  //加载完毕的回调
 				success : function(params) { //成功的回调

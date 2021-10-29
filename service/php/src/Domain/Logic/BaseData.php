@@ -25,7 +25,9 @@ class BaseData
      */
     public function getFontFile($file = '')
     {
-        return $file && is_file($file) ? $file : dirname(dirname(dirname(__DIR__))) . '/resources/fonts/WenQuanZhengHei.ttf';
+        return $file && is_file($file) ?
+            $file :
+            dirname(dirname(dirname(__DIR__))) . '/resources/fonts/WenQuanZhengHei.ttf';
     }
 
     /**
@@ -48,10 +50,15 @@ class BaseData
      */
     protected function getDefaultImage($dir, $images)
     {
-        if (empty($images)) {
-            $images = glob($dir . '*.png');
+        if(!empty($images)){
+            if(is_array($images)){
+                return $images;
+            }
+            if(is_string($images)) {
+                $dir = $images;
+            }
         }
-        return $images;
+        return  glob($dir . '*.png');
     }
 
 
