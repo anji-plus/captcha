@@ -37,16 +37,43 @@ class ClickWordCaptchaService extends Service
         return $data;
     }
 
+    /**
+     * 一次验证
+     * @param $token
+     * @param $pointJson
+     */
     public function check($token, $pointJson)
+    {
+        $this->validate($token, $pointJson);
+
+    }
+
+    /**
+     * 二次验证
+     * @param $token
+     * @param $pointJson
+     */
+    public function verification($token, $pointJson)
+    {
+        $this->validate($token, $pointJson, function ($cacheEntity, $token) {
+            $cacheEntity->delete($token);
+        });
+    }
+
+    /**
+     * 验证
+     * @param $token
+     * @param $pointJson
+     * @param null $callback
+     */
+    protected function validate($token, $pointJson, $callback = null)
     {
         $cacheEntity = new Cache($this->config['cache']);
         $wordData = new WordData();
         $originData = $cacheEntity->get($token);
-        $cacheEntity->delete($token);
         if (empty($originData)) {
             throw new ParamException('参数校验失败：token');
         }
-
         $originPointList = $originData['pointList'];
         $secretKey = $originData['secretKey'];
         $pointJson = AesUtils::decrypt($pointJson, $secretKey);
@@ -55,5 +82,8 @@ class ClickWordCaptchaService extends Service
         }
         $targetPointList = $wordData->array2Point(json_decode($pointJson, true));
         $wordData->check($originPointList, $targetPointList);
+        if ($callback instanceof \Closure) {
+            $callback($cacheEntity, $token);
+        }
     }
 }

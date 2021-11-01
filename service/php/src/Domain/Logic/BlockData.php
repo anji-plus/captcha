@@ -14,17 +14,17 @@ use Intervention\Image\Image;
 class BlockData extends BaseData
 {
 
-    public function getBackground($backgrounds = []): Image
+    public function getBackground($backgrounds = null): Image
     {
-        $dir = dirname(dirname(dirname(__DIR__))) . '/resources/defaultImages/jigsaw/original/';
+        $dir = dirname(__DIR__, 3) . '/resources/defaultImages/jigsaw/original/';
         $backgrounds = $this->getDefaultImage($dir, $backgrounds);
         $src = $this->getRandImage($backgrounds);
         return ImageManagerStatic::make($src);
     }
 
-    protected function getTemplateImages($templates = [])
+    protected function getTemplateImages($templates = null)
     {
-        $dir = dirname(dirname(dirname(__DIR__))) . '/resources/defaultImages/jigsaw/slidingBlock/';
+        $dir = dirname(__DIR__, 3) . '/resources/defaultImages/jigsaw/slidingBlock/';
         return $this->getDefaultImage($dir, $templates);
     }
 
@@ -68,14 +68,19 @@ class BlockData extends BaseData
         return  RandomUtils::getRandomInt(0, $diffWidth-1);
     }
 
-
+    /**
+     * @param $originPoint
+     * @param $targetPoint
+     * @param $offset
+     * @return void
+     */
     public function check($originPoint, $targetPoint, $offset)
     {
         if (
             abs($originPoint->x - $targetPoint->x) <= $offset
             && $originPoint->y == $targetPoint->y
         ) {
-            return true;
+            return ;
         }
         throw new BlockException('验证失败！');
     }

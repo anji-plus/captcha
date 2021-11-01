@@ -624,7 +624,7 @@
     //在插件中使用slideVerify对象
     $.fn.slideVerify = function(options, callbacks) {
 		var slide = new Slide(this, options);
-		if (slide.options.mode=="pop" && slide.options.beforeCheck()) {
+		if (slide.options.mode=="pop" ) {
 			slide.init();
 		}else if (slide.options.mode=="fixed") {
 			slide.init();
@@ -634,7 +634,7 @@
     //在插件中使用clickVerify对象
     $.fn.pointsVerify = function(options, callbacks) {
         var points = new Points(this, options);
-		if (points.options.mode=="pop" && points.options.beforeCheck()) {
+		if (points.options.mode=="pop" ) {
 			points.init();
 		}else if (points.options.mode=="fixed") {
 			points.init();
