@@ -77,7 +77,7 @@ class _BlockPuzzleCaptchaPageState extends State<BlockPuzzleCaptchaPage>
         });
         //回调
         if (widget.onSuccess != null) {
-          widget.onSuccess("结果回调");
+          widget.onSuccess(content);
         }
         //关闭验证码
         print(content);
