@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:steel_crypt/steel_crypt.dart';
 
 typedef VoidSuccessCallback = dynamic Function(String v);
+
 class ClickWordCaptcha extends StatefulWidget {
   final VoidSuccessCallback onSuccess; //文字点击后验证成功回调
   final VoidCallback onFail; //文字点击完成后验证失败回调
@@ -104,8 +105,9 @@ class _ClickWordCaptchaState extends State<ClickWordCaptcha> {
     var cryptedStr = pointStr;
 
     // secretKey 不为空 进行as加密
-    if(!ObjectUtils.isEmpty(_clickWordCaptchaModel.secretKey)){
-      var aesEncrypter = AesCrypt(_clickWordCaptchaModel.secretKey, 'ecb', 'pkcs7');
+    if (!ObjectUtils.isEmpty(_clickWordCaptchaModel.secretKey)) {
+      var aesEncrypter =
+          AesCrypt(_clickWordCaptchaModel.secretKey, 'ecb', 'pkcs7');
       cryptedStr = aesEncrypter.encrypt(pointStr);
       var dcrypt = aesEncrypter.decrypt(cryptedStr);
     }
@@ -124,9 +126,11 @@ class _ClickWordCaptchaState extends State<ClickWordCaptcha> {
     if (repData["result"] != null && repData["result"] == true) {
       //如果不加密  将  token  和 坐标序列化 通过  --- 链接成字符串
       var captchaVerification = "${_clickWordCaptchaModel.token}---$pointStr";
-      if(!ObjectUtils.isEmpty(_clickWordCaptchaModel.secretKey)){
+      if (!ObjectUtils.isEmpty(_clickWordCaptchaModel.secretKey)) {
         //如果加密  将  token  和 坐标序列化 通过  --- 链接成字符串 进行加密  加密密钥为 _clickWordCaptchaModel.secretKey
-        captchaVerification = EncryptUtil.aesEncode(key: _clickWordCaptchaModel.secretKey, content: captchaVerification);
+        captchaVerification = EncryptUtil.aesEncode(
+            key: _clickWordCaptchaModel.secretKey,
+            content: captchaVerification);
       }
       _checkSuccess(captchaVerification);
     } else {
@@ -171,7 +175,7 @@ class _ClickWordCaptchaState extends State<ClickWordCaptcha> {
     var data = MediaQuery.of(context);
     var dialogWidth = 0.9 * data.size.width;
     var isRatioCross = false;
-    if(dialogWidth < 320.0 ){
+    if (dialogWidth < 320.0) {
       dialogWidth = data.size.width;
       isRatioCross = true;
     }
@@ -197,6 +201,15 @@ class _ClickWordCaptchaState extends State<ClickWordCaptcha> {
   //图片验证码
   _captchaContainer() {
     List<Widget> _widgetList = [];
+    if (!ObjectUtils.isEmpty(_clickWordCaptchaModel.imgStr)) {
+      _widgetList.add(Image(
+          width: baseSize.width,
+          height: baseSize.height,
+          gaplessPlayback: true,
+          image: MemoryImage(
+              Base64Decoder().convert(_clickWordCaptchaModel.imgStr))));
+    }
+
     double _widgetW = 20;
     for (int i = 0; i < _tapOffsetList.length; i++) {
       Offset offset = _tapOffsetList[i];
@@ -248,12 +261,6 @@ class _ClickWordCaptchaState extends State<ClickWordCaptcha> {
         child: Container(
           width: baseSize.width,
           height: baseSize.height,
-          decoration: BoxDecoration(
-              image: ObjectUtils.isEmpty(_clickWordCaptchaModel.imgStr)
-                  ? null
-                  : DecorationImage(
-                      image: MemoryImage(Base64Decoder()
-                          .convert(_clickWordCaptchaModel.imgStr)))),
           child: Stack(
             children: _widgetList,
           ),
