@@ -22,9 +22,6 @@ return [
         'text' => '我的水印'
     ],
     'cache' => [
-        'constructor' => function(){
-            //在构造函数中传入自已的配置
-            return \think\facade\Cache::store();
-        }
+        'constructor' => [\think\facade\Cache::class, 'instance']
     ]
 ];

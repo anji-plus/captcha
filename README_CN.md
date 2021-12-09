@@ -2,6 +2,9 @@
 
 [![EN doc](https://img.shields.io/badge/document-English-blue.svg)](README.md)[![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](README_CN.md)
 
+## 简介
+&emsp; &emsp; AJ-Captcha行为验证码，包含滑动拼图、文字点选两种方式，UI支持弹出和嵌入两种方式。后端提供Java实现，前端提供了php、angular、html、vue、uni-app、flutter、android、ios等代码示例。
+
 # 1 在线体验
 #### &emsp; 1.1 电脑在线体验:[https://captcha.anji-plus.com/](https://captcha.anji-plus.com/ "链接")
 #### &emsp; 1.2 在线文档:[https://captcha.anji-plus.com/#/doc](https://captcha.anji-plus.com/#/doc "doc")<br>

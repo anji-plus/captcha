@@ -10,7 +10,6 @@
           
 [![EN doc](https://img.shields.io/badge/document-English-blue.svg)](README.md)[![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](README_CN.md)
 
-
 # 1. Online Demo
 ### &emsp; 1.1 [Have a try](https://captcha.anji-plus.com/ "链接")
 ### &emsp; 1.2 [Document](https://captcha.anji-plus.com/#/doc "doc")

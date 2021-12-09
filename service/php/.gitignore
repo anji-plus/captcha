@@ -9,4 +9,8 @@ nginx.htaccess
 vendor/*
 runtime/*
 composer.lock
+test/html
+test/nginx.htaccess
+test/.htaccess
+test/runtime
 

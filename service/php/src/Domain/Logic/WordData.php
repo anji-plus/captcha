@@ -6,8 +6,6 @@ namespace Fastknife\Domain\Logic;
 use Fastknife\Domain\Vo\PointVo;
 use Fastknife\Exception\WordException;
 use Fastknife\Utils\RandomUtils;
-use Intervention\Image\Image;
-use Intervention\Image\ImageManagerStatic;
 
 /**
  * 文字码数据处理
@@ -16,14 +14,7 @@ use Intervention\Image\ImageManagerStatic;
  */
 class WordData extends BaseData
 {
-
-    public function getBackground($backgrounds = null): Image
-    {
-        $dir = dirname(__DIR__, 3) . '/resources/defaultImages/pic-click/';
-        $backgrounds = $this->getDefaultImage($dir,$backgrounds);
-        $this->getRandImage($backgrounds);
-        return ImageManagerStatic::make($this->getRandImage($backgrounds));
-    }
+    protected $defaultBackgroundPath = '/resources/defaultImages/pic-click/';
 
 
     /**
@@ -31,7 +22,7 @@ class WordData extends BaseData
      * @param $height
      * @param $index
      * @param $wordCount
-     * @return \Fastknife\Domain\Vo\PointVo
+     * @return PointVo
      */
     protected function getPoint($width, $height, $index, $wordCount)
     {
@@ -79,17 +70,15 @@ class WordData extends BaseData
         return $result;
     }
 
-    public function getWordList($number)
+    public function getWordList($number): array
     {
         return RandomUtils::getRandomChar($number);
     }
 
     /**
      * 校验
-     * 外部必先做长度验证
-     * @param $originPointList
-     * @param $targetPointList
-     * @return void
+     * @param array $originPointList
+     * @param array $targetPointList
      */
     public function check(array $originPointList, array $targetPointList)
     {

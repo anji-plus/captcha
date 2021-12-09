@@ -22,7 +22,7 @@ test 目录下示例了三种使用方式，phper可以参考使用。[查看dem
 > 本软件包需要配合composer一起使用
 1. 非框架使用的场景，直接使用git下载这个软件包。然后执行composer命令`composer install`安装本软件包依赖，接着手动引入对应的 service层文件即可（同test目录里的原生引用方式）。
 
-2. 基本于框架使用的场景,输入安装命令`composer require fastknife/ajcaptcha`（稳定版） 或者`composer require fastknife/ajcaptcha dev-master`（最新版） ，建议使用composer阿里源（`https://mirrors.aliyun.com/composer`）
+2. 基于框架使用的场景,输入安装命令`composer require fastknife/ajcaptcha`（稳定版） 或者`composer require fastknife/ajcaptcha dev-master`（最新版） ，建议使用composer阿里源（`https://mirrors.aliyun.com/composer`）
     * 支持各种前沿框架（ThinkPHP, YII, Laravel, Hyperf，IMI,Swoft,EasySwoole）
     * 本软件包内，未使用单例、注册树（容器）模式，不含任何全局变量，基于swoole开发的同学不用担心内存泄露。
 
@@ -58,5 +58,7 @@ AJ-Captcha for php
 └─config.php 配置参考
 
 ```
+
+#### [更新日志](./changelog.md)
 
 若此软件对您有所帮助，您可以点右上角 💘Star💘支持

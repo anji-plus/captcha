@@ -3,28 +3,21 @@ declare(strict_types=1);
 
 namespace Fastknife\Service;
 
-
-use Fastknife\Domain\Logic\BaseData;
-use Fastknife\Domain\Logic\BlockData;
-use Fastknife\Domain\Logic\BlockImage;
-use Fastknife\Domain\Logic\Cache;
 use Fastknife\Domain\Vo\PointVo;
 use Fastknife\Exception\ParamException;
 use Fastknife\Utils\AesUtils;
 use Fastknife\Utils\RandomUtils;
-use Fastknife\Domain\Factory;
 
 class BlockPuzzleCaptchaService extends Service
 {
     /**
      * 获取验证码图片信息
      * @return array
-     * @throws \Exception
      */
-    public function get()
+    public function get(): array
     {
-        $cacheEntity = new Cache($this->config['cache']);
-        $blockImage = Factory::make('block', $this->config);
+        $cacheEntity = $this->factory->makeCacheEntity();
+        $blockImage = $this->factory->makeBlockImage();
         $blockImage->run();
         $data = [
             'originalImageBase64' => $blockImage->response(),
@@ -67,11 +60,13 @@ class BlockPuzzleCaptchaService extends Service
      * 验证
      * @param $token
      * @param $pointJson
+     * @param null $callback
      */
     public function validate($token, $pointJson, $callback = null)
     {
-        $cacheEntity = new Cache($this->config['cache']);
-        $blockData = new BlockData();
+        $cacheEntity = $this->factory->makeCacheEntity();
+        $blockData = $this->factory->makeBlockData();
+
         $originData = $cacheEntity->get($token);
         if (empty($originData)) {
             throw new ParamException('参数校验失败：token');
@@ -84,7 +79,7 @@ class BlockPuzzleCaptchaService extends Service
         }
         $targetPoint = json_decode($pointJson, true);
         $targetPoint = new PointVo($targetPoint['x'], $targetPoint['y']);
-        $blockData->check($originPoint, $targetPoint, $this->config['block_puzzle']['offset']);
+        $blockData->check($originPoint, $targetPoint);
         if($callback instanceof \Closure){
             $callback($cacheEntity, $token);
         }

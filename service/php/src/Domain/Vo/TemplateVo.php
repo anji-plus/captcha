@@ -3,25 +3,27 @@ declare(strict_types=1);
 
 namespace Fastknife\Domain\Vo;
 use Intervention\Image\Image;
-class TemplateVo
+class TemplateVo extends ImageVo
 {
     /**
-     * @var Image
+     * @var OffsetVo
      */
-    public $image;
     public $offset;
-    public $src;
 
 
     /**
-     * TemplateVo constructor.
-     * @param \Intervention\Image\Image $image
-     * @param $src
+     * @return OffsetVo
      */
-    public function __construct(Image $image, $src, $offset)
+    public function getOffset(): OffsetVo
     {
-        $this->image = $image;
-        $this->src = $src;
+        return $this->offset;
+    }
+
+    /**
+     * @param OffsetVo $offset
+     */
+    public function setOffset(OffsetVo $offset): void
+    {
         $this->offset = $offset;
     }
 

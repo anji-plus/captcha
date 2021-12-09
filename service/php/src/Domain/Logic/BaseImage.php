@@ -4,16 +4,18 @@ declare(strict_types=1);
 namespace Fastknife\Domain\Logic;
 
 
+use Fastknife\Domain\Vo\BackgroundVo;
 use Intervention\Image\AbstractFont as Font;
 use Intervention\Image\Image;
 
-class BaseImage
+abstract class BaseImage
 {
     protected $watermark;
+
     /**
-     * @var \Intervention\Image\Image
+     * @var BackgroundVo
      */
-    protected $background;
+    protected $backgroundVo;
 
     protected $fontFile;
     protected $point;
@@ -66,27 +68,34 @@ class BaseImage
         return $this;
     }
 
+
     /**
-     * @param mixed $background
+     * @param BackgroundVo $backgroundVo
+     * @return $this
      */
-    public function setBackground(Image $background):self
+    public function setBackgroundVo(BackgroundVo $backgroundVo):self
     {
-        $this->background = $background;
+        $this->backgroundVo = $backgroundVo;
         return $this;
     }
 
     /**
-     * @return \Intervention\Image\Image
+     * @return BackgroundVo
      */
-    public function getBackground()
+    public function getBackgroundVo(): BackgroundVo
     {
-        return $this->background;
+        return $this->backgroundVo;
     }
 
-    public function setFontFile($file)
+    /**
+     * @param $file
+     * @return static
+     */
+    public function setFontFile($file): self
     {
         $this->fontFile = $file;
         return $this;
     }
 
+    public abstract function run();
 }
