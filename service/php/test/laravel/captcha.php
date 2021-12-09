@@ -22,9 +22,7 @@ return [
         'text' => '我的水印'
     ],
     'cache' => [
-        'constructor' => function(){
-            return \Illuminate\Support\Facades\Cache::store();
-        },
+        'constructor' => [\Illuminate\Support\Facades\Cache::class, 'store'],
         'method' => [
             'get' => 'get', //获取
             'set' => 'set', //设置

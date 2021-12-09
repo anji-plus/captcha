@@ -3,11 +3,6 @@ declare(strict_types=1);
 
 namespace Fastknife\Service;
 
-
-use Fastknife\Domain\Factory;
-use Fastknife\Domain\Logic\Cache;
-use Fastknife\Domain\Logic\WordData;
-use Fastknife\Domain\Logic\WordImage;
 use Fastknife\Exception\ParamException;
 use Fastknife\Utils\AesUtils;
 use Fastknife\Utils\RandomUtils;
@@ -17,10 +12,10 @@ class ClickWordCaptchaService extends Service
     /**
      * 获取文字验证码
      */
-    public function get()
+    public function get(): array
     {
-        $cacheEntity = new Cache($this->config['cache']);
-        $wordImage = Factory::make('word', $this->config);
+        $cacheEntity = $this->factory->makeCacheEntity();
+        $wordImage = $this->factory->makeWordImage();
         //执行创建
         $wordImage->run();
         $data = [
@@ -45,7 +40,6 @@ class ClickWordCaptchaService extends Service
     public function check($token, $pointJson)
     {
         $this->validate($token, $pointJson);
-
     }
 
     /**
@@ -68,8 +62,9 @@ class ClickWordCaptchaService extends Service
      */
     protected function validate($token, $pointJson, $callback = null)
     {
-        $cacheEntity = new Cache($this->config['cache']);
-        $wordData = new WordData();
+
+        $cacheEntity = $this->factory->makeCacheEntity();
+        $wordData = $this->factory->makeWordData();
         $originData = $cacheEntity->get($token);
         if (empty($originData)) {
             throw new ParamException('参数校验失败：token');
