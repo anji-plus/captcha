@@ -121,6 +121,10 @@
                                       src="../../../static/14.png"
                                       width="100%"
                                     ></li>
+                                    <li><img
+                                      src="../../../static/16.png"
+                                      width="100%"
+                                    ></li>
                                   </el-col>
                                 </el-row>
                               </div>

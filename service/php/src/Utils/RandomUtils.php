@@ -11,19 +11,23 @@ class RandomUtils
      * @param $min
      * @param $max
      * @return int
-     * @throws \Exception
      */
-    public static function getRandomInt($min, $max){
-        return random_int(intval($min), intval($max));
+    public static function getRandomInt($min, $max): int
+    {
+        try {
+            return random_int(intval($min), intval($max));
+        }catch (\Exception $e){
+            return mt_rand($min, $max);
+        }
     }
 
     /**
      * 随机获取眼色值
      * @return array
-     * @throws \Exception
      */
-    public static function getRandomColor(){
-         return [random_int(1, 255), random_int(1, 255), random_int(1, 255)];
+    public static function getRandomColor(): array
+    {
+         return [self::getRandomInt(1, 255), self::getRandomInt(1, 255), self::getRandomInt(1, 255)];
     }
 
     /**
@@ -31,24 +35,23 @@ class RandomUtils
      * @param int $start
      * @param int $end
      * @return int
-     * @throws \Exception
      */
-    public static function getRandomAngle($start = -45, $end = 45){
-         return random_int($start, $end);
+    public static function getRandomAngle(int $start = -45, int $end = 45): int
+    {
+         return self::getRandomInt($start, $end);
     }
 
     /**
      * 随机获取汉字
      * @param $num int 生成汉字的数量
      * @return array
-     * @throws \Exception
      */
-    public static function getRandomChar($num)
+    public static function getRandomChar(int $num): array
     {
         $b = [];
         for ($i=0; $i<$num; $i++) {
             // 使用chr()函数拼接双字节汉字，前一个chr()为高位字节，后一个为低位字节
-            $a = chr(random_int(0xB0,0xD0)).chr(random_int(0xA1, 0xF0));
+            $a = chr(self::getRandomInt(0xB0,0xD0)).chr(self::getRandomInt(0xA1, 0xF0));
             // 转码
             $h = iconv('GB2312', 'UTF-8', $a);
             if(!in_array($h, $b)){
@@ -60,12 +63,15 @@ class RandomUtils
         return $b;
     }
 
+
     /**
-     * @throws \Exception
+     * 类似java一样的uuid
+     * @param string $prefix
+     * @return string
      */
-    public static function getUUID($prefix = '')
+    public static function getUUID(string $prefix = ''): string
     {
-        $chars = md5(uniqid((string) random_int(1, 100), true));
+        $chars = md5(uniqid((string) self::getRandomInt(1, 100), true));
         $uuid  = substr($chars,0,8) . '-';
         $uuid .= substr($chars,8,4) . '-';
         $uuid .= substr($chars,12,4) . '-';
@@ -79,18 +85,24 @@ class RandomUtils
      * @param integer $length 字符串长度
      * @param integer $type 字符串类型(1纯数字,2纯字母,3数字字母)
      * @return string
-     * @throws \Exception
      */
-    public static function getRandomCode($length = 10, $type = 1)
+    public static function getRandomCode(int $length = 10, int $type = 1): string
     {
         $numbs = '0123456789';
-        $chars = 'abcdefghijklmnopqrstuvwxyz';
-        if (intval($type) === 1) $chars = $numbs;
-        if (intval($type) === 2) $chars = "a{$chars}";
-        if (intval($type) === 3) $chars = "{$numbs}{$chars}";
-        $string = $chars[random_int(1, strlen($chars) - 1)];
-        if (isset($chars)) while (strlen($string) < $length) {
-            $string .= $chars[random_int(0, strlen($chars) - 1)];
+        $chars = "abcdefghilkmnopqrstuvwxyz";
+        $maps = '';
+        if ($type === 1){
+            $maps = $numbs;
+        }
+        if ($type === 2){
+            $maps = $chars;
+        }
+        if ($type === 3){
+            $maps = "{$numbs}{$chars}";
+        }
+        $string = $maps[self::getRandomInt(1, strlen($maps) - 1)];
+        while (strlen($string) < $length) {
+            $string .= $maps[self::getRandomInt(0, strlen($maps) - 1)];
         }
         return $string;
     }

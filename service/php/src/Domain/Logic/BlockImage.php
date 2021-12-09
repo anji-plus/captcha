@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Fastknife\Domain\Logic;
 
 
-use Intervention\Image\ImageManagerStatic as ImageManager;
-use Intervention\Image\Image;
+use Fastknife\Domain\Vo\BackgroundVo;
+use Fastknife\Domain\Vo\ImageVo;
 use Fastknife\Domain\Vo\PointVo;
 use Fastknife\Domain\Vo\TemplateVo;
 
@@ -13,10 +13,6 @@ class BlockImage extends BaseImage
 {
     const WHITE = [255, 255, 255, 1];
 
-    /**
-     * @var Image
-     */
-    protected $background;
     /**
      * @var TemplateVo
      */
@@ -27,6 +23,7 @@ class BlockImage extends BaseImage
      */
     protected $interfereVo;
 
+
     /**
      * @return TemplateVo
      */
@@ -36,7 +33,7 @@ class BlockImage extends BaseImage
     }
 
     /**
-     * @param  $template
+     * @param TemplateVo $templateVo
      * @return self
      */
     public function setTemplateVo(TemplateVo $templateVo): self
@@ -46,7 +43,7 @@ class BlockImage extends BaseImage
     }
 
     /**
-     * @return \Fastknife\Domain\Vo\TemplateVo
+     * @return TemplateVo
      */
     public function getInterfereVo(): TemplateVo
     {
@@ -54,8 +51,8 @@ class BlockImage extends BaseImage
     }
 
     /**
-     * @param \Fastknife\Domain\Vo\TemplateVo $interfereVo
-     * @return BlockImage
+     * @param TemplateVo $interfereVo
+     * @return static
      */
     public function setInterfereVo(TemplateVo $interfereVo): self
     {
@@ -64,124 +61,57 @@ class BlockImage extends BaseImage
         return $this;
     }
 
-
     public function run()
     {
         $flag = false;
-        $this->cutByTemplate($this->templateVo, $this->background, function ($param) use (&$flag) {
+        $this->cutByTemplate($this->templateVo, $this->backgroundVo, function ($param) use (&$flag) {
             if (! $flag) {
                 //记录第一个点
                 $this->setPoint(new PointVo($param[0], 5));//前端已将y值写死
                 $flag = true;
             }
         });
-        $this->cutByTemplate($this->interfereVo, $this->background);
-        $this->makeWatermark($this->background);
+        $this->cutByTemplate($this->interfereVo, $this->backgroundVo);
+        $this->makeWatermark($this->backgroundVo->image);
     }
 
-    public function cutByTemplate(TemplateVo $target, Image $background, $callable = null)
-    {
-        $template = $target->image;
+
+    public function cutByTemplate(TemplateVo $templateVo,BackgroundVo  $backgroundVo, $callable = null){
+        $template = $templateVo->image;
         $width = $template->getWidth();
         $height = $template->getHeight();
         for ($x = 0; $x < $width; $x++) {
             for ($y = 0; $y < $height; $y++) {
-                $a = $template->pickColor($x, $y)[3];
-                $targetX = $x + $target->offset->x;
-                $targetY = $y + $target->offset->y;
-                $isOpacity = $this->isOpacity($a);
+                //背景图对应的坐标
+                $bgX = $x + $templateVo->offset->x;
+                $bgY = $y + $templateVo->offset->y;
+                //是否不透明
+                $isOpacity = $templateVo->isOpacity($x, $y);
                 if ($isOpacity) {    //如果不透明
                     if ($callable instanceof \Closure) {
-                        $callable([$targetX, $targetY]);
+                        $callable([$bgX, $bgY]);
                     }
-                    $bgRgba = $background->pickColor($targetX, $targetY);
-                    $template->pixel($bgRgba, $x, $y); //复制背景图片给模板
-                    $blur = $this->getBlurValue($background, $targetX, $targetY); //模糊背景图选区
-                    $this->background->pixel($blur, $targetX, $targetY);
+                    $backgroundVo->vagueImage($bgX, $bgY);//模糊背景图选区
+
+                    $this->copyPickColor($backgroundVo,$bgX,$bgY, $templateVo, $x, $y);
                 }
-                if ($this->isBoundary($template, $isOpacity, $x, $y)) {
-                    $background->pixel(self::WHITE, $targetX, $targetY);
-                    $template->pixel(self::WHITE, $x, $y);
+                if ($templateVo->isBoundary($isOpacity, $x, $y)) {
+                    $backgroundVo->setPixel(self::WHITE, $bgX, $bgY);
+                    $templateVo->setPixel(self::WHITE, $x, $y);
                 }
             }
         }
-
     }
 
     /**
-     * 是否为边框
-     * @param Image $image
-     * @param int $x
-     * @param int $y
-     * @param bool $isOpacity
+     * 把$source的颜色复制到$target上
+     * @param ImageVo $source
+     * @param ImageVo $target
      */
-    public function isBoundary(Image $image, $isOpacity, int $x, int $y)
-    {
-        if ($x >= $image->width() - 1 || $y >= $image->height() - 1) {
-            return false;
-        }
-        $right = $image->pickColor($x + 1, $y)[3];
-        $down = $image->pickColor($x, $y + 1)[3];
-        if (
-            $isOpacity && ! $this->isOpacity($right)
-            || ! $isOpacity && $this->isOpacity($right)
-            || $isOpacity && ! $this->isOpacity($down)
-            || ! $isOpacity && $this->isOpacity($down)
-        ) {
-            return true;
-        }
-        return false;
-    }
 
-    /**
-     * @param Image $image
-     * @param int $x
-     * @param int $y
-     */
-    public function getBlurValue($image, $x, $y): array
-    {
-        $red = [];
-        $green = [];
-        $blue = [];
-        $alpha = [];
-        foreach ([
-                     [0, 1], [0, -1],
-                     [1, 0], [-1, 0],
-                     [1, 1], [1, -1],
-                     [-1, 1], [-1, -1],
-                 ] as $distance) //周围八个点
-        {
-            $pointX = $x + $distance[0];
-            $pointY = $y + $distance[1];
-            if ($pointX < 0 || $pointX >= $image->getWidth() || $pointY < 0 || $pointY >= $image->height()) {
-                continue;
-            }
-
-            [$r, $g, $b, $a] = $image->pickColor($pointX, $pointY);
-            //边框取5个点，4个角取3个点，其余取8个点
-            if ($this->isOpacity($a)) {
-                $red[] = $r;
-                $green[] = $g;
-                $blue[] = $b;
-                $alpha[] = $a;
-            }
-        }
-        return [$this->avg($red), $this->avg($green), $this->avg($blue), $this->avg($alpha)];
-    }
-
-    protected function avg($array)
-    {
-        return intval(array_sum($array) / count($array));
-    }
-
-    /**
-     * 是否不透明
-     * @param $value
-     * @return bool
-     */
-    public function isOpacity($value): bool
-    {
-        return $value > 0.5;
+    protected function copyPickColor(ImageVo $source, $sourceX, $sourceY,ImageVo $target, $targetX, $targetY){
+        $bgRgba = $source->getPickColor($sourceX, $sourceY);
+        $target->setPixel($bgRgba, $targetX, $targetY);//复制背景图片给模板
     }
 
     /**
@@ -190,7 +120,7 @@ class BlockImage extends BaseImage
      */
     public function response($type = 'background')
     {
-        $image = $type == 'background' ? $this->background : $this->templateVo->image;
+        $image = $type == 'background' ? $this->backgroundVo->image : $this->templateVo->image;
         $result = $image->encode('data-url')->getEncoded();
         //返回图片base64的第二部分
         return explode(',', $result)[1];
@@ -201,7 +131,7 @@ class BlockImage extends BaseImage
      */
     public function echo($type = 'background')
     {
-        $image = $type == 'background' ? $this->background : $this->templateVo->image;
+        $image = $type == 'background' ? $this->backgroundVo->image : $this->templateVo->image;
         die($image->response());
     }
 }

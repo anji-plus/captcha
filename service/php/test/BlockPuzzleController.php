@@ -70,4 +70,5 @@ class BlockPuzzleController
             'success' => ! $error,
         ]);
     }
+
 }

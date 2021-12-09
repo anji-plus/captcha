@@ -37,14 +37,11 @@ class WordImage extends BaseImage
     }
 
 
-    /**
-     * @return self
-     */
-    public function run(): self
+
+    public function run()
     {
         $this->inputWords();
-        $this->makeWatermark($this->background);
-        return $this;
+        $this->makeWatermark($this->backgroundVo->image);
     }
 
     /**
@@ -53,9 +50,9 @@ class WordImage extends BaseImage
     protected function inputWords(){
         foreach ($this->wordList as $key => $word) {
             $point = $this->point[$key];
-            $this->background->text($word, $point->x, $point->y, function (Font $font) {
+            $this->backgroundVo->image->text($word, $point->x, $point->y, function (Font $font) {
                 $font->file($this->fontFile);
-                $font->size(WordData::FONTSIZE);
+                $font->size(BaseData::FONTSIZE);
                 $font->color(RandomUtils::getRandomColor());
                 $font->angle(RandomUtils::getRandomAngle());
                 $font->align('center');
@@ -70,7 +67,7 @@ class WordImage extends BaseImage
      */
     public function response()
     {
-        $result = $this->getBackground()->encode('data-url')->getEncoded();
+        $result = $this->getBackgroundVo()->image->encode('data-url')->getEncoded();
         //返回图片base64的第二部分
         return explode(',', $result)[1];
     }
@@ -80,7 +77,7 @@ class WordImage extends BaseImage
      */
     public function echo()
     {
-        die($this->getBackground()->response());
+        die($this->getBackgroundVo()->image->response());
     }
 
 }

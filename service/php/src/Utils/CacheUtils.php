@@ -46,7 +46,7 @@ class CacheUtils
         }
 
         if (empty($this->options['path'])) {
-            $root = $_SERVER['DOCUMENT_ROOT'] ?? getcwd();
+            $root = isset($_SERVER['DOCUMENT_ROOT']) && !empty($_SERVER['DOCUMENT_ROOT']) ?$_SERVER['DOCUMENT_ROOT'] : getcwd();
             $this->options['path'] = $root. '/runtime/cache';
         }
 

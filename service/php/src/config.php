@@ -16,6 +16,8 @@ return [
         'templates' => [],
 
         'offset' => 10, //容错偏移量
+
+        'is_cache_pixel' => true, //是否开启缓存图片像素值，开启后能提升服务端响应性能（但要注意更换图片时，需要清除缓存）
     ],
     //水印
     'watermark' => [
@@ -24,20 +26,9 @@ return [
         'text' => '我的水印'
     ],
     'cache' => [
-        /*类型string|array|function, 以call_user_fun方式获得缓存实例;
-            自定义：
-                'constructor' => function(){
-                    //在构造函数中传入自已的配置
-                    return think\Cache::store('redis');
-                }
-        */
-        'constructor' => \Fastknife\Utils\CacheUtils::class,//若您使用了框架，不推荐使用该配置
-        'method' => [
-            //遵守PSR-16规范不需要设置此项目（tp6, laravel,hyperf）。如tp5就不支持（delete => rm）,
-            'get' => 'get', //获取
-            'set' => 'set', //设置
-            'delete' => 'delete',//删除
-            'has' => 'has' //key是否存在
-        ]
+        'constructor' => \Fastknife\Utils\CacheUtils::class,//建议使用您自己项目框架的缓存驱动
+        'options' => [
+            // Fastknife\Utils\CacheUtils::class 中的配置
+        ],
     ]
 ];
