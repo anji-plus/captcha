@@ -15,7 +15,10 @@ return [
     'block_puzzle' => [
         'backgrounds' => [], //背景图片路径， 不填使用默认值
         'templates' => [], //模板图
+        
         'offset' => 10, //容错偏移量
+
+        'is_cache_pixel' => true, //是否开启缓存图片像素值，开启后能提升服务端响应性能（但要注意更换图片时，需要清除缓存）
     ],
     //水印
     'watermark' => [
@@ -205,7 +208,7 @@ public function get(){
     }
 ```
 
-#### 前端请示头修改示例
+#### 前端请求头修改示例
 
 ```javascript
 import axios from 'axios';

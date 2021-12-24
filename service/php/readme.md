@@ -7,6 +7,8 @@ AJ-Captcha · php
 
 官方地址： https://gitee.com/anji-plus/captcha
 
+PHP实现： https://gitee.com/fastknife/aj-captcha
+
 ##### 官方预览效果
 
 ![Wechat](https://captcha.anji-plus.com/static/8cm.jpg  "")&emsp;&emsp;![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")
