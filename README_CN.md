@@ -76,7 +76,7 @@ I  Your application is running here: http://localhost:8081
 
 
 # 6 技术支持，如有问题，请提交Issue
-微信一二群已满，现开放三群。微信群码会不定期更新。
+加微信前请备注AJ-Captcha。
 <br>微信群地址：https://captcha.anji-plus.com/static/weixin.png
 
 | 微信 | qq |
