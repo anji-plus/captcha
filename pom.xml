@@ -10,7 +10,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <springboot.version>2.0.4.RELEASE</springboot.version>
+    <springboot.version>2.5.12</springboot.version>
     <captcha.core.version>1.2.0</captcha.core.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
