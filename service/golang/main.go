@@ -1,7 +1,7 @@
 package main
 
 import (
-	"anjiplus/captcha/constant"
+	"anjiplus/captcha/const"
 	"anjiplus/captcha/model"
 	service "anjiplus/captcha/service"
 	"encoding/json"

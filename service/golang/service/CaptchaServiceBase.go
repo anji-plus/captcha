@@ -7,11 +7,12 @@ package service
  *All rights reserved.
  */
 import (
-	"anjiplus/captcha/constant"
+	"anjiplus/captcha/const"
 	"anjiplus/captcha/model"
 	"anjiplus/captcha/util"
 	"fmt"
 	"os"
+	"strconv"
 	"unicode/utf8"
 )
 
@@ -71,46 +72,45 @@ func (t *CaptchaServiceBase) InitDefault() {
 func (t *CaptchaServiceBase) Init(config model.Properties) {
 	fmt.Printf("init %s\n", t)
 	//初始化底图
-	//aBoolean := config[constant.CAPTCHA_INIT_ORIGINAL]
-	/*if !aBoolean {
-	      ImageUtils.cacheImage(config.getProperty(Const.ORIGINAL_PATH_JIGSAW),
-	              config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK))
-	  }
-	  logger.info("--->>>初始化验证码底图<<<---" + captchaType())
-	  waterMark = config.getProperty(Const.CAPTCHA_WATER_MARK, "我的水印")
-	  slipOffset = config.getProperty(Const.CAPTCHA_SLIP_OFFSET, "5")
-	  waterMarkFontStr = config.getProperty(Const.CAPTCHA_WATER_FONT, "WenQuanZhengHei.ttf")
-	  captchaAesStatus = Boolean.parseBoolean(config.getProperty(Const.CAPTCHA_AES_STATUS, "true"))
-	  clickWordFontStr = config.getProperty(Const.CAPTCHA_FONT_TYPE, "WenQuanZhengHei.ttf")
-	  //clickWordFontStr = config.getProperty(Const.CAPTCHA_FONT_TYPE, "SourceHanSansCN-Normal.otf")
-	  cacheType = config.getProperty(Const.CAPTCHA_CACHETYPE, "local")
-	  captchaInterferenceOptions = Integer.parseInt(
-	          config.getProperty(Const.CAPTCHA_INTERFERENCE_OPTIONS, "0"))
+	b := config.GetProperty(constant.CAPTCHA_INIT_ORIGINAL)
+	if b == "true" {
+		util.ImageUtils{}.CacheImage(config.GetProperty(constant.ORIGINAL_PATH_JIGSAW),
+			config.GetProperty(constant.ORIGINAL_PATH_PIC_CLICK))
+	}
+	//logger.info("--->>>初始化验证码底图<<<---" + captchaType())
+	t.waterMark = config.GetPropertyDef(constant.CAPTCHA_WATER_MARK, "我的水印")
+	t.slipOffset = config.GetPropertyDef(constant.CAPTCHA_SLIP_OFFSET, "5")
+	t.waterMarkFontStr = config.GetPropertyDef(constant.CAPTCHA_WATER_FONT, "WenQuanZhengHei.ttf")
+	//t.captchaAesStatus = bool(config.GetProperty(constant.CAPTCHA_AES_STATUS, "true"))
+	t.clickWordFontStr = config.GetPropertyDef(constant.CAPTCHA_FONT_TYPE, "WenQuanZhengHei.ttf")
+	t.clickWordFontStr = config.GetPropertyDef(constant.CAPTCHA_FONT_TYPE, "SourceHanSansCN-Normal.otf")
+	t.cacheType = config.GetPropertyDef(constant.CAPTCHA_CACHETYPE, "local")
+	t.captchaInterferenceOptions, _ = strconv.Atoi(config.GetPropertyDef(constant.CAPTCHA_INTERFERENCE_OPTIONS, "0"))
 
-	  // 部署在linux中，如果没有安装中文字段，水印和点选文字，中文无法显示，
-	  // 通过加载resources下的font字体解决，无需在linux中安装字体
-	  loadWaterMarkFont()
+	// 部署在linux中，如果没有安装中文字段，水印和点选文字，中文无法显示，
+	// 通过加载resources下的font字体解决，无需在linux中安装字体
+	t.loadWaterMarkFont()
 
-	  if (cacheType.equals("local")) {
-	      logger.info("初始化local缓存...")
-	      CacheUtil.init(Integer.parseInt(config.getProperty(Const.CAPTCHA_CACAHE_MAX_NUMBER, "1000")),
-	              Long.parseLong(config.getProperty(Const.CAPTCHA_TIMING_CLEAR_SECOND, "180")))
-	  }
-	  if (config.getProperty(Const.HISTORY_DATA_CLEAR_ENABLE, "0").equals("1")) {
-	      logger.info("历史资源清除开关...开启..." + captchaType())
-	      Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-	          @Override
-	          public void run() {
-	              destroy(config)
-	          }
-	      }))
-	  }
-	  if (config.getProperty(Const.REQ_FREQUENCY_LIMIT_ENABLE, "0").equals("1")) {
-	      if (limitHandler == null) {
-	          logger.info("接口分钟内限流开关...开启...")
-	          limitHandler = new FrequencyLimitHandler.DefaultLimitHandler(config, getCacheService(cacheType))
-	      }
-	  }*/
+	if t.cacheType == "local" {
+		//logger.info("初始化local缓存...")
+		util.CacheUtil{}.Init(config.GetPropertyDef(constant.CAPTCHA_CACAHE_MAX_NUMBER, "1000"),
+			config.GetPropertyDef(constant.CAPTCHA_TIMING_CLEAR_SECOND, "180"))
+	}
+	if config.GetPropertyDef(constant.HISTORY_DATA_CLEAR_ENABLE, "0") == "1" {
+		//logger.info("历史资源清除开关...开启..." + captchaType())
+		/*Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+		    @Override
+		    public void run() {
+		        destroy(config)
+		    }
+		}))*/
+	}
+	if config.GetPropertyDef(constant.REQ_FREQUENCY_LIMIT_ENABLE, "0") == "1" {
+		if limitHandler == nil {
+			//logger.info("接口分钟内限流开关...开启...")
+			//limitHandler = DefaultFreLimitHandler{}(config, t.getCacheService(t.cacheType))
+		}
+	}
 }
 
 func (t *CaptchaServiceBase) getCacheService(cacheType string) CaptchaCacheService {

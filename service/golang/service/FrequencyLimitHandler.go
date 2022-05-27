@@ -1,7 +1,7 @@
 package service
 
 import (
-	"anjiplus/captcha/constant"
+	"anjiplus/captcha/const"
 	"anjiplus/captcha/model"
 )
 
