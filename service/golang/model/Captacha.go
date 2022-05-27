@@ -1,7 +1,7 @@
 package model
 
 import (
-	"fmt"
+	"encoding/json"
 	"math/big"
 )
 
@@ -84,5 +84,8 @@ type Captcha struct {
 }
 
 func (t *Captcha) String() string {
-	return fmt.Sprintf("%s", t)
+	if val, err := json.Marshal(t); err == nil {
+		return string(val)
+	}
+	return ""
 }

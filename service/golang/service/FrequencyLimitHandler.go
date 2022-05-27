@@ -1,28 +1,28 @@
 package service
 
 import (
-	"captcha/constant"
-	"captcha/model"
+	"anjiplus/captcha/constant"
+	"anjiplus/captcha/model"
 )
 
 type FrequencyLimitHandler interface {
-	validateGet(captcha model.Captcha) model.ResponseModel
+	ValidateGet(captcha model.Captcha) model.ResponseModel
 
-	validateCheck(captcha model.Captcha) model.ResponseModel
+	ValidateCheck(captcha model.Captcha) model.ResponseModel
 
-	validateVerification(captcha model.Captcha) model.ResponseModel
+	ValidateVerification(captcha model.Captcha) model.ResponseModel
 }
 type DefaultFreLimitHandler struct {
 }
 
-func (t *DefaultFreLimitHandler) validateGet(captcha model.Captcha) model.ResponseModel {
+func (t *DefaultFreLimitHandler) ValidateGet(captcha model.Captcha) model.ResponseModel {
 	return model.ResponseModel{RepCode: constant.SuccessFlag}
 }
 
-func (t *DefaultFreLimitHandler) validateCheck(captcha model.Captcha) model.ResponseModel {
+func (t *DefaultFreLimitHandler) ValidateCheck(captcha model.Captcha) model.ResponseModel {
 	return model.ResponseModel{RepCode: constant.SuccessFlag}
 }
 
-func (t *DefaultFreLimitHandler) validateVerification(captcha model.Captcha) model.ResponseModel {
+func (t *DefaultFreLimitHandler) ValidateVerification(captcha model.Captcha) model.ResponseModel {
 	return model.ResponseModel{RepCode: constant.SuccessFlag}
 }

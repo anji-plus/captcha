@@ -1,15 +1,18 @@
 package service
 
 /*
- *Copyright © 2018 anji-plus
+ *Copyright © 2018 anjiplus
  *安吉加加信息技术有限公司
- *http://www.anji-plus.com
+ *http://www.anjiplus.com
  *All rights reserved.
  */
 import (
-	"captcha/model"
-	"captcha/util"
+	"anjiplus/captcha/constant"
+	"anjiplus/captcha/model"
+	"anjiplus/captcha/util"
 	"fmt"
+	"os"
+	"unicode/utf8"
 )
 
 type CaptchaServiceBase struct {
@@ -65,11 +68,11 @@ func (t *CaptchaServiceBase) InitDefault() {
 }
 
 // Init 判断应用是否实现了自定义缓存，没有就使用内存
-func (t *CaptchaServiceBase) Init(config map[string]string) {
-	fmt.Println("init %s", t)
+func (t *CaptchaServiceBase) Init(config model.Properties) {
+	fmt.Printf("init %s\n", t)
 	//初始化底图
-	/*boolean aBoolean = Boolean.parseBoolean(config.getProperty(Const.CAPTCHA_INIT_ORIGINAL))
-	  if (!aBoolean) {
+	//aBoolean := config[constant.CAPTCHA_INIT_ORIGINAL]
+	/*if !aBoolean {
 	      ImageUtils.cacheImage(config.getProperty(Const.ORIGINAL_PATH_JIGSAW),
 	              config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK))
 	  }
@@ -110,12 +113,12 @@ func (t *CaptchaServiceBase) Init(config map[string]string) {
 	  }*/
 }
 
-func (t *CaptchaServiceBase) getCacheService(cacheType string) CacheService {
+func (t *CaptchaServiceBase) getCacheService(cacheType string) CaptchaCacheService {
 	fmt.Printf("getCacheService %s\n", cacheType)
 	return serviceFactory.GetCache(cacheType)
 }
 
-func (t *CaptchaServiceBase) Destroy(config map[string]string) {
+func (t *CaptchaServiceBase) Destroy(config model.Properties) {
 	fmt.Printf("destroy %s\n", config)
 }
 
@@ -127,40 +130,38 @@ func (t *CaptchaServiceBase) Get(data model.Captcha) model.ResponseModel {
 	fmt.Printf("get %s\n", data)
 	if limitHandler != nil {
 		data.ClientUid = t.getValidateClientId(data)
-		return limitHandler.validateGet(data)
+		return limitHandler.ValidateGet(data)
 	}
 	return model.ResponseModel{}
 }
 
 func (t *CaptchaServiceBase) Check(data model.Captcha) model.ResponseModel {
 	fmt.Printf("check %s\n", data)
-	/*if (limitHandler != null) {
-	      // 验证客户端
-	     /* ResponseModel ret = limitHandler.validateCheck(captchaVO)
-	      if(!validatedReq(ret)){
-	          return ret
-	      }
-	      // 服务端参数验证
-	      captchaVO.setClientUid(getValidateClientId(captchaVO))
-	      return limitHandler.validateCheck(captchaVO)
-	  }
-	  return null*/
-	return model.ResponseModel{}
+	if limitHandler != nil {
+		// 验证客户端
+		ret := limitHandler.ValidateCheck(data)
+		if !t.ValidatedReq(ret) {
+			return ret
+		}
+		// 服务端参数验证
+		data.ClientUid = t.getValidateClientId(data)
+		return limitHandler.ValidateCheck(data)
+	}
+	return model.ResponseModel{RepCode: constant.SuccessFlag}
 }
 
 func (t *CaptchaServiceBase) Verification(data model.Captcha) model.ResponseModel {
 	fmt.Printf("verification %s\n", data)
-	/*if (captchaVO == null) {
+	/*if data == nil {
 	      return RepCodeEnum.NULL_ERROR.parseError("captchaVO")
-	  }
-	  if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
+	}
+	if StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
 	      return RepCodeEnum.NULL_ERROR.parseError("captchaVerification")
-	  }
-	  if (limitHandler != null) {
-	      return limitHandler.validateVerify(captchaVO)
-	  }
-	  return null*/
-	return model.ResponseModel{}
+	}*/
+	if limitHandler != nil {
+		return limitHandler.ValidateVerification(data)
+	}
+	return model.ResponseModel{RepCode: constant.SuccessFlag}
 }
 
 func (t *CaptchaServiceBase) ValidatedReq(resp model.ResponseModel) bool {
@@ -179,17 +180,16 @@ func (t *CaptchaServiceBase) getValidateClientId(req model.Captcha) string {
 	return ""
 }
 
-func (t *CaptchaServiceBase) afterValidateFail(data model.ResponseModel) {
-	/*if (limitHandler != null) {
-	    // 验证失败 分钟内计数
-	    String fails = String.format(FrequencyLimitHandler.LIMIT_KEY, "FAIL", data.getClientUid())
-	    CaptchaCacheService cs = getCacheService(cacheType)
-	    if (!cs.exists(fails)) {
-	        cs.set(fails, "1", 60)
-	    }
-	    cs.increment(fails, 1)
-	}*/
-
+func (t *CaptchaServiceBase) afterValidateFail(data model.Captcha) {
+	if limitHandler != nil {
+		// 验证失败 分钟内计数
+		fails := fmt.Sprintf(constant.LIMIT_KEY, "FAIL", data.ClientUid)
+		var cs CaptchaCacheService = t.getCacheService(data.CaptchaType)
+		if !cs.exists(fails) {
+			cs.set(fails, "1", 60)
+		}
+		cs.increment(fails, 1)
+	}
 }
 
 /**
@@ -210,33 +210,24 @@ func (t CaptchaServiceBase) loadWaterMarkFont() {
 }
 
 func (t CaptchaServiceBase) base64StrToImage(imgStr string, path string) bool {
-	/*if (imgStr == null) {
-	      return false
-	  }
-	  Base64.Decoder decoder = Base64.getDecoder()
-	  try {
-	      // 解密
-	      byte[] b = decoder.decode(imgStr)
-	      // 处理数据
-	      for (int i = 0 i < b.length ++i) {
-	          if (b[i] < 0) {
-	              b[i] += 256
-	          }
-	      }
-	      //文件夹不存在则自动创建
-	      File tempFile = new File(path)
-	      if (!tempFile.getParentFile().exists()) {
-	          tempFile.getParentFile().mkdirs()
-	      }
-	      OutputStream out = new FileOutputStream(tempFile)
-	      out.write(b)
-	      out.flush()
-	      out.close()
-	      return true
-	  } catch (Exception e) {
-	      return false
-	  }*/
-	return false
+	if len(imgStr) == 0 {
+		return false
+	}
+	var decoder = util.Base64Util{}
+	// 解密
+	b, _ := decoder.Decode(imgStr)
+	// 处理数据
+	for i := 0; i < len(b); i++ {
+		/*if b[i] < 0 {
+			b[i] += uint8(256)
+		}*/
+	}
+	//文件夹不存在则自动创建
+	fs, _ := os.Create(path)
+	defer fs.Close()
+	fs.Write(b)
+
+	return true
 }
 
 /**
@@ -244,7 +235,6 @@ func (t CaptchaServiceBase) base64StrToImage(imgStr string, path string) bool {
  *
  * @param point
  * @return
- * @throws Exception
  */
 func (t CaptchaServiceBase) decrypt(point string, key string) string {
 	// return AESUtil.aesDecrypt(point, key)
@@ -252,18 +242,5 @@ func (t CaptchaServiceBase) decrypt(point string, key string) string {
 }
 
 func (t CaptchaServiceBase) GetEnOrChLength(s string) int {
-	/*enCount = 0
-	  chCount = 0
-	  for (i = 0 ; i < len(s) ;i++) {
-	      int length = String.valueOf(s.charAt(i)).getBytes(StandardCharsets.UTF_8).length
-	      if (length > 1) {
-	          chCount++
-	      } else {
-	          enCount++
-	      }
-	  }
-	  int chOffset = (HAN_ZI_SIZE / 2) * chCount + 5
-	  int enOffset = enCount * 8
-	  return chOffset + enOffset*/
-	return 0
+	return utf8.RuneCountInString(s)
 }

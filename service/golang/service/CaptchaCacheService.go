@@ -1,9 +1,9 @@
 package service
 
-type CacheService interface {
+type CaptchaCacheService interface {
 	set(key string, value string, expiresInSeconds int)
 
-	exists(key string)
+	exists(key string) bool
 
 	delete(key string)
 

@@ -8,14 +8,14 @@ const (
 	BlockPuzzle string = "blockPuzzle"
 	DefaultType string = "default"
 	SuccessFlag string = "0000"
+	LIMIT_KEY   string = "%s:%s"
+
 	/**
 	 *滑块底图路径
 	 */
 	ORIGINAL_PATH_JIGSAW string = "captcha.captchaOriginalPath.jigsaw"
 
-	/***
-	 *点选底图路径
-	 */
+	// ORIGINAL_PATH_PIC_CLICK /***
 	ORIGINAL_PATH_PIC_CLICK string = "captcha.captchaOriginalPath.pic-click"
 
 	/**

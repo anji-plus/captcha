@@ -1,8 +1,8 @@
 package service
 
 import (
-	"captcha/constant"
-	"captcha/model"
+	"anjiplus/captcha/constant"
+	"anjiplus/captcha/model"
 )
 
 type ClickWordCaptchaService struct {
@@ -30,18 +30,18 @@ func (t *ClickWordCaptchaService) initDefault() {
 	t.fontColorRandom = true
 }
 
-func (t *ClickWordCaptchaService) Init(config map[string]string) {
+func (t *ClickWordCaptchaService) Init(config model.Properties) {
 	t.Base.Init(config)
 }
 
-func (t *ClickWordCaptchaService) Destroy(config map[string]string) {
+func (t *ClickWordCaptchaService) Destroy(config model.Properties) {
 	t.Base.Destroy(config)
 }
 
 func (t *ClickWordCaptchaService) Get(data model.Captcha) model.ResponseModel {
 	if limitHandler != nil {
 		data.ClientUid = t.Base.getValidateClientId(data)
-		return limitHandler.validateGet(data)
+		return limitHandler.ValidateGet(data)
 	}
 	t.Base.Get(data)
 	return model.ResponseModel{}

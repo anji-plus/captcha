@@ -5,11 +5,11 @@ import (
 )
 
 type ResponseModel struct {
-	RepCode string
+	RepCode string `json:"repCode"`
 
-	RepMsg string
+	RepMsg string `json:"repMsg"`
 
-	RepData interface{}
+	RepData interface{} `json:"repData"`
 }
 
 func (d *ResponseModel) IsSuccess() bool {

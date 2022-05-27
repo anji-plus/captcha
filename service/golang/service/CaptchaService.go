@@ -1,12 +1,12 @@
 package service
 
-import "captcha/model"
+import "anjiplus/captcha/model"
 
 type CaptchaService interface {
 	/**
 	 * 配置初始化
 	 */
-	Init(config map[string]string)
+	Init(config model.Properties)
 
 	/**
 	 * 获取验证码
@@ -40,5 +40,5 @@ type CaptchaService interface {
 	 * 历史资源清除(过期的图片文件，生成的临时图片...)
 	 * @param config 配置项 控制资源清理的粒度
 	 */
-	Destroy(config map[string]string)
+	Destroy(config model.Properties)
 }
