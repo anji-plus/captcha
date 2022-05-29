@@ -2,6 +2,8 @@ package service
 
 import "anjiplus/captcha/model"
 
+// CaptchaService
+// 验证码服务接口定义
 type CaptchaService interface {
 	/**
 	 * 配置初始化

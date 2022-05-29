@@ -9,6 +9,8 @@ const (
 	DefaultType string = "default"
 	SuccessFlag string = "0000"
 	LIMIT_KEY   string = "%s:%s"
+	CACHE_LOCAL string = "local"
+	CACHE_REDIS string = "redis"
 
 	/**
 	 *滑块底图路径

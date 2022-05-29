@@ -60,7 +60,7 @@ func (t *CaptchaServiceBase) InitDefault() {
 	t.HanZiSizeHalf = t.HanZiSize / 2
 	t.ExpiredInSeconds = 120
 	t.ImageTypePng = "png"
-	t.waterMark = ""
+	t.waterMark = "go-waterMark"
 	t.waterMarkFontStr = "WenQuanZhengHei.ttf"
 	t.captchaAesStatus = true
 	t.slipOffset = "5"
@@ -132,7 +132,7 @@ func (t *CaptchaServiceBase) Get(data model.Captcha) model.ResponseModel {
 		data.ClientUid = t.getValidateClientId(data)
 		return limitHandler.ValidateGet(data)
 	}
-	return model.ResponseModel{}
+	return model.ResponseModel{RepCode: constant.SuccessFlag}
 }
 
 func (t *CaptchaServiceBase) Check(data model.Captcha) model.ResponseModel {
@@ -185,10 +185,10 @@ func (t *CaptchaServiceBase) afterValidateFail(data model.Captcha) {
 		// 验证失败 分钟内计数
 		fails := fmt.Sprintf(constant.LIMIT_KEY, "FAIL", data.ClientUid)
 		var cs CaptchaCacheService = t.getCacheService(data.CaptchaType)
-		if !cs.exists(fails) {
-			cs.set(fails, "1", 60)
+		if !cs.Exists(fails) {
+			cs.Set(fails, "1", 60)
 		}
-		cs.increment(fails, 1)
+		cs.Increment(fails, 1)
 	}
 }
 

@@ -12,6 +12,7 @@ type FrequencyLimitHandler interface {
 
 	ValidateVerification(captcha model.Captcha) model.ResponseModel
 }
+
 type DefaultFreLimitHandler struct {
 }
 

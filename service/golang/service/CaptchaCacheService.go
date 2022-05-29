@@ -1,19 +1,21 @@
 package service
 
+// CaptchaCacheService
+// 缓存服务接口
 type CaptchaCacheService interface {
-	set(key string, value string, expiresInSeconds int)
+	Set(key string, value string, expiresInSeconds int)
 
-	exists(key string) bool
+	Exists(key string) bool
 
-	delete(key string)
+	Delete(key string)
 
-	get(key string)
+	Get(key string) string
 
 	/**
 	 * 缓存类型-local/redis/memcache/..
 	 * @return
 	 */
-	cacheType() string
+	CacheType() string
 
 	/***
 	 *
@@ -21,5 +23,5 @@ type CaptchaCacheService interface {
 	 * @param val
 	 * @return
 	 */
-	increment(key string, val int)
+	Increment(key string, val int) int
 }

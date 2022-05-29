@@ -43,8 +43,8 @@ func (t *ClickWordCaptchaService) Get(data model.Captcha) model.ResponseModel {
 		data.ClientUid = t.Base.getValidateClientId(data)
 		return limitHandler.ValidateGet(data)
 	}
-	t.Base.Get(data)
-	return model.ResponseModel{}
+	ret := t.Base.Get(data)
+	return ret
 }
 
 func (t *ClickWordCaptchaService) Check(captchaVO model.Captcha) model.ResponseModel {
