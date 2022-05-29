@@ -1,6 +1,7 @@
 package model
 
 import (
+	"encoding/json"
 	"strings"
 )
 
@@ -28,5 +29,9 @@ func (d ResponseModel) ErrorWith(data interface{}) ResponseModel {
 	return ResponseModel{"1001", "ok", data}
 }
 func (d *ResponseModel) String() string {
-	return strings.Join([]string{d.RepCode, d.RepMsg}, ",")
+	//return strings.Join([]string{d.RepCode, d.RepMsg}, ",")
+	if val, err := json.Marshal(&d); err == nil {
+		return string(val)
+	}
+	return ""
 }

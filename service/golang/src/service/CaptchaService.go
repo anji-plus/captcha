@@ -1,6 +1,8 @@
 package service
 
-import "anjiplus/captcha/model"
+import (
+	model "anjiplus/captcha/model"
+)
 
 // CaptchaService
 // 验证码服务接口定义

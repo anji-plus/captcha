@@ -1,8 +1,9 @@
 package main
 
 import (
-	"anjiplus/captcha/const"
-	"anjiplus/captcha/model"
+	"anjiplus/captcha/api"
+	constant "anjiplus/captcha/const"
+	model "anjiplus/captcha/model"
 	service "anjiplus/captcha/service"
 	"encoding/json"
 	"fmt"
@@ -11,12 +12,9 @@ import (
 func main() {
 	fmt.Println("Hello world")
 	var s service.CaptchaService
-	base := service.CaptchaServiceBase{}
-	base.InitDefault()
-
-	var clickService = service.ClickWordCaptchaService{Base: base}
-	s = &clickService
-	s.Init(model.Properties{Dict: map[string]string{"cacheType": "local"}})
+	var api = api.Api{}
+	api.Init()
+	s = api.CaptchaService()
 
 	getRet := s.Get(model.Captcha{CaptchaId: "123"})
 	getJson, _ := json.Marshal(getRet)

@@ -1,8 +1,8 @@
 package service
 
 import (
-	"anjiplus/captcha/const"
-	"anjiplus/captcha/model"
+	constant "anjiplus/captcha/const"
+	model "anjiplus/captcha/model"
 )
 
 type FrequencyLimitHandler interface {

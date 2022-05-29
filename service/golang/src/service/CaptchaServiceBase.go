@@ -7,8 +7,8 @@ package service
  *All rights reserved.
  */
 import (
-	"anjiplus/captcha/const"
-	"anjiplus/captcha/model"
+	constant "anjiplus/captcha/const"
+	model "anjiplus/captcha/model"
 	"anjiplus/captcha/util"
 	"fmt"
 	"os"

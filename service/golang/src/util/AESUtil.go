@@ -1,6 +1,8 @@
 package util
 
-import "anjiplus/captcha/model"
+import (
+	"anjiplus/captcha/model"
+)
 
 type AESUtil struct {
 }
