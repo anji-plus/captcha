@@ -25,6 +25,12 @@ test 目录下示例了三种使用方式，phper可以参考使用。[查看dem
 2. 基于框架使用的场景,输入安装命令`composer require fastknife/ajcaptcha`（稳定版） 或者`composer require fastknife/ajcaptcha dev-master`（最新版） ，建议使用composer阿里源（`https://mirrors.aliyun.com/composer`）
     * 支持各种前沿框架（ThinkPHP, YII, Laravel, Hyperf，IMI,Swoft,EasySwoole）
     * 本软件包内，未使用单例、注册树（容器）模式，不含任何全局变量，基于swoole开发的同学不用担心内存泄露。
+    
+3. 以thinkphp框架后端和vue框架前端为例，在本地开发环境运行起示例项目说明：  
+3.1 开启命令行窗口，进入 captcha\service\php\test\thinkphp 目录，执行 `composer install` 命令安装依赖，执行 `php think run` 命令启动接口服务。
+3.2 修改 captcha\view\vue\config\dev.env.js 中 BASE_API: '"http://localhost:8000"' ,取值与 3.1中启动的接口服务地址一致。
+3.3 开启命令行窗口，进入 captcha\view\vue 目录，执行  `npm install` 命令安装依赖，执行 `npm run dev` 命令启动前端项目。
+
 
 #### 项目结构
 > 本软件包基于整洁架构理念，设计了下文的目录结构。Domain(领域层)作为内层同心圆承担所有业务逻辑功能，Service（服务层）并向最外层Controller（需自行实现）提供粗颗粒度服务。  
