@@ -36,6 +36,7 @@
 ③	用户提交表单，前端将第二步的输出一同提交到后台<br>
 ④	验证数据随表单提交到后台后，后台需要调用captchaService.verification做二次校验。<br>
 ⑤	第4步返回校验通过/失败到产品应用后端，再返回到前端。如下图所示。
+![时序图](view/vue/static/shixu.png "时序图")
 
 # 4 目录结构
 ├─core<br>
@@ -84,12 +85,10 @@ I  Your application is running here: http://localhost:8081
  #### 开源不易，劳烦各位star ☺
 
 #### 感谢JetBrains 的支持
-<img src="https://captcha.anji-plus.com/static/jetbrains.png" width = "100" height = "100"/>
 
 ##### JetBrains:[https://www.jetbrains.com/?from=AJ-Captcha](https://www.jetbrains.com/?from=AJ-Captcha "链接")
 
 <br>
 
 # Stargazers over time
-[![Stargazers over time](https://whnb.wang/img/anji-plus/captcha?e=604800)](https://whnb.wang/anji-plus/captcha?e=604800)
 [![Stargazers over time](https://starchart.cc/anji-plus/captcha.svg)](https://starchart.cc/anji-plus/captcha)
