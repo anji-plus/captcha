@@ -1,0 +1,176 @@
+package service
+
+import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"golang.org/x/image/colornames"
+	"golang/model/vo"
+	"golang/util"
+	"log"
+	"math"
+)
+
+const DefaultBackgroundImageFile = "/resources/defaultImages/jigsaw/original/1.png"
+const DefaultTemplateImageFile = "/resources/defaultImages/jigsaw/slidingBlock/1.png"
+
+type BlockPuzzleCaptchaService struct {
+	point   vo.PointVO
+	factory *CaptchaServiceFactory
+}
+
+func NewBlockPuzzleCaptchaService(factory *CaptchaServiceFactory) *BlockPuzzleCaptchaService {
+	return &BlockPuzzleCaptchaService{
+		factory: factory,
+	}
+}
+
+// Get 获取验证码图片信息
+func (b *BlockPuzzleCaptchaService) Get() map[string]any {
+
+	// 初始化背景图片
+	backgroundImage := util.NewImageUtil(DefaultBackgroundImageFile)
+
+	// 为背景图片设置水印
+	backgroundImage.SetText("我的水印AAAAA")
+
+	// 初始化模板图片
+	templateImage := util.NewImageUtil(DefaultTemplateImageFile)
+
+	// 构造前端所需图片
+	b.pictureTemplatesCut(backgroundImage, templateImage)
+
+	//templateImage.DecodeImageToFile()
+	data := make(map[string]any)
+	data["originalImageBase64"] = backgroundImage.Base64()
+	data["jigsawImageBase64"] = templateImage.Base64()
+	data["secretKey"] = b.point.SecretKey
+	data["token"] = util.GetUuid()
+
+	codeKey := fmt.Sprintf("RUNNING:CAPTCHA:%s", data["token"])
+	jsonPoint, err := json.Marshal(b.point)
+	if err != nil {
+		log.Fatalln("point json err:", err)
+	}
+
+	b.factory.GetCache().Set(codeKey, string(jsonPoint), 1000)
+
+	return data
+}
+
+func (b *BlockPuzzleCaptchaService) pictureTemplatesCut(backgroundImage *util.ImageUtil, templateImage *util.ImageUtil) {
+	// 生成拼图坐标点
+	point := generateJigsawPoint(backgroundImage, templateImage)
+	b.point = point
+	// 裁剪模板图
+	cutByTemplate(backgroundImage, templateImage, point)
+}
+
+func cutByTemplate(backgroundImage *util.ImageUtil, templateImage *util.ImageUtil, point vo.PointVO) {
+	xLength := templateImage.Width
+	yLength := templateImage.Height
+
+	for x := 0; x < xLength; x++ {
+		for y := 0; y < yLength; y++ {
+			// 如果模板图像当前像素点不是透明色 copy源文件信息到目标图片中
+			isOpacity := templateImage.IsOpacity(x, y)
+
+			// 当前模板像素在背景图中的位置
+			backgroundX := x + point.X
+			backgroundY := y + point.Y
+
+			// 当不为透明时
+			if !isOpacity {
+				// 获取原图像素
+				backgroundRgba := backgroundImage.RgbaImage.RGBAAt(backgroundX, backgroundY)
+				// 将原图的像素扣到模板图上
+				templateImage.SetPixel(backgroundRgba, x, y)
+
+				// 背景图区域模糊
+				backgroundImage.VagueImage(backgroundX, backgroundY)
+			}
+
+			//防止数组越界判断
+			if x == (xLength-1) || y == (yLength-1) {
+				continue
+			}
+
+			rightOpacity := templateImage.IsOpacity(x+1, y)
+			downOpacity := templateImage.IsOpacity(x, y+1)
+
+			//描边处理，,取带像素和无像素的界点，判断该点是不是临界轮廓点,如果是设置该坐标像素是白色
+			if (isOpacity && !rightOpacity) || (!isOpacity && rightOpacity) || (isOpacity && !downOpacity) || (!isOpacity && downOpacity) {
+				templateImage.RgbaImage.SetRGBA(x, y, colornames.White)
+				backgroundImage.RgbaImage.SetRGBA(backgroundX, backgroundY, colornames.White)
+			}
+		}
+	}
+}
+
+// 生成模板图在背景图中的随机坐标点
+func generateJigsawPoint(backgroundImage *util.ImageUtil, templateImage *util.ImageUtil) vo.PointVO {
+	widthDifference := backgroundImage.Width - templateImage.Width
+	heightDifference := backgroundImage.Height - templateImage.Height
+
+	x, y := 0, 0
+
+	if widthDifference <= 0 {
+		x = 5
+	} else {
+		x = util.RandomInt(100, widthDifference-100)
+	}
+	if heightDifference <= 0 {
+		y = 5
+	} else {
+		y = util.RandomInt(5, heightDifference)
+	}
+	point := vo.PointVO{X: x, Y: y}
+	point.SetSecretKey(util.RandString(16))
+	return point
+}
+
+func (b *BlockPuzzleCaptchaService) Check(token string, pointJson string) error {
+	cache := b.factory.GetCache()
+
+	codeKey := fmt.Sprintf("RUNNING:CAPTCHA:%s", token)
+
+	cachePointInfo := cache.Get(codeKey)
+
+	if cachePointInfo == "" {
+		return errors.New("验证码已失效")
+	}
+
+	// 解析结构体
+	cachePoint := &vo.PointVO{}
+	userPoint := &vo.PointVO{}
+	err := json.Unmarshal([]byte(cachePointInfo), cachePoint)
+
+	if err != nil {
+		return err
+	}
+
+	// 解密前端传递过来的数据
+	userPointJson := util.AesDecrypt(pointJson, cachePoint.SecretKey)
+
+	err = json.Unmarshal([]byte(userPointJson), userPoint)
+
+	if err != nil {
+		fmt.Println("decode失败:", err)
+		return err
+	}
+
+	// 校验两个点是否符合
+	if math.Abs(float64(cachePoint.X-userPoint.X)) <= 10 && cachePoint.Y == userPoint.Y {
+		return nil
+	}
+
+	return errors.New("验证失败")
+}
+
+func (b *BlockPuzzleCaptchaService) Verification(token string, pointJson string) {
+	err := b.Check(token, pointJson)
+	if err != nil {
+		return
+	}
+	b.factory.GetCache().Delete(token)
+}
