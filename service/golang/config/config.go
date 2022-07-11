@@ -8,6 +8,7 @@ const (
 	ClickWordCaptcha   = "clickWord"
 )
 
+// WatermarkConfig 水印设置
 type WatermarkConfig struct {
 	FontSize int
 	Color    color.RGBA
@@ -15,7 +16,7 @@ type WatermarkConfig struct {
 }
 
 type BlockPuzzleConfig struct {
-	Offset int
+	Offset int // 校验时 容错偏移量
 }
 
 type ClickWordConfig struct {
@@ -44,6 +45,6 @@ func NewConfig() *Config {
 			FontNum:  5,
 		},
 		BlockPuzzle:    &BlockPuzzleConfig{Offset: 10},
-		CacheExpireSec: 2 * 60,
+		CacheExpireSec: 2 * 60, // 缓存有效时间
 	}
 }

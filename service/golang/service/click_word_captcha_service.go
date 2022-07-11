@@ -148,7 +148,7 @@ func (c *ClickWordCaptchaService) getRandomWords(count int) []string {
 func (c *ClickWordCaptchaService) randomWordPoint(width int, height int, i int, count int) vo.PointVO {
 	avgWidth := width / (count + 1)
 	fontSizeHalf := c.factory.config.ClickWord.FontSize / 2
-	//77 12
+
 	var x, y int
 	if avgWidth < fontSizeHalf {
 		x = util.RandomInt(1+fontSizeHalf, width)
