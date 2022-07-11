@@ -97,12 +97,17 @@ func (c *ClickWordCaptchaService) Verification(token string, pointJson string) {
 
 func (c *ClickWordCaptchaService) getImageData(image *util.ImageUtil) ([]vo.PointVO, []string) {
 	wordCount := c.factory.config.ClickWord.FontNum
+
+	// 某个字不参与校验
 	num := util.RandomInt(1, wordCount)
-	var pointList []vo.PointVO
-	var wordList []string
 	currentWord := c.getRandomWords(wordCount)
 
+	var pointList []vo.PointVO
+	var wordList []string
+
 	i := 0
+
+	// 构建本次的 secret
 	key := util.RandString(16)
 
 	for _, s := range currentWord {
@@ -119,6 +124,7 @@ func (c *ClickWordCaptchaService) getImageData(image *util.ImageUtil) ([]vo.Poin
 	return pointList, wordList
 }
 
+// getRandomWords 获取随机文件
 func (c *ClickWordCaptchaService) getRandomWords(count int) []string {
 	runesArray := []rune(TEXT)
 	size := len(runesArray)
@@ -127,7 +133,7 @@ func (c *ClickWordCaptchaService) getRandomWords(count int) []string {
 	var wordList []string
 
 	for {
-		word := runesArray[util.RandomInt(0, size)]
+		word := runesArray[util.RandomInt(0, size-1)]
 		set[string(word)] = true
 		if len(set) >= count {
 			for str, _ := range set {
@@ -141,18 +147,18 @@ func (c *ClickWordCaptchaService) getRandomWords(count int) []string {
 
 func (c *ClickWordCaptchaService) randomWordPoint(width int, height int, i int, count int) vo.PointVO {
 	avgWidth := width / (count + 1)
-	fontSize := c.factory.config.ClickWord.FontSize
+	fontSizeHalf := c.factory.config.ClickWord.FontSize / 2
+	//77 12
 	var x, y int
-	if avgWidth < fontSize {
-		x = util.RandomInt(1+fontSize, width)
+	if avgWidth < fontSizeHalf {
+		x = util.RandomInt(1+fontSizeHalf, width)
 	} else {
 		if i == 0 {
-			x = util.RandomInt(1+fontSize, avgWidth*(i+1)-fontSize)
+			x = util.RandomInt(1+fontSizeHalf, avgWidth*(i+1)-fontSizeHalf)
 		} else {
-			x = util.RandomInt(avgWidth*i+fontSize, avgWidth*(i+1)-fontSize)
+			x = util.RandomInt(avgWidth*i+fontSizeHalf, avgWidth*(i+1)-fontSizeHalf)
 		}
 	}
-	y = util.RandomInt(fontSize, height-fontSize)
-
+	y = util.RandomInt(c.factory.config.ClickWord.FontSize, height-fontSizeHalf)
 	return vo.PointVO{X: x, Y: y}
 }

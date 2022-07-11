@@ -109,7 +109,7 @@ func (i *ImageUtil) SetArtText(text string, fontsize int, point vo.PointVO) {
 	// 设置目标图像
 	fc.SetDst(i.RgbaImage)
 	// 设置绘制操作的源图像，通常为 image.Uniform
-	fc.SetSrc(image.NewUniform(color.RGBA{R: uint8(RandomInt(1, 255)), G: uint8(RandomInt(1, 255)), B: uint8(RandomInt(1, 255)), A: 255}))
+	fc.SetSrc(image.NewUniform(color.RGBA{R: uint8(RandomInt(1, 200)), G: uint8(RandomInt(1, 200)), B: uint8(RandomInt(1, 200)), A: 255}))
 	// 设置水印地址
 	pt := freetype.Pt(point.X, point.Y)
 	// 根据 Pt 的坐标值绘制给定的文本内容
