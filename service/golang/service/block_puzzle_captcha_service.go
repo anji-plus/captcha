@@ -44,7 +44,7 @@ func (b *BlockPuzzleCaptchaService) Get() map[string]any {
 	data["secretKey"] = b.point.SecretKey
 	data["token"] = util.GetUuid()
 
-	codeKey := fmt.Sprintf(CODE_KEY_PREFIX, data["token"])
+	codeKey := fmt.Sprintf(CodeKeyPrefix, data["token"])
 	jsonPoint, err := json.Marshal(b.point)
 	if err != nil {
 		log.Fatalln("point json err:", err)
@@ -60,6 +60,54 @@ func (b *BlockPuzzleCaptchaService) pictureTemplatesCut(backgroundImage *util.Im
 	b.generateJigsawPoint(backgroundImage, templateImage)
 	// 裁剪模板图
 	b.cutByTemplate(backgroundImage, templateImage, b.point)
+
+	// 插入干扰图
+	for {
+		newTemplateImage := img.GetTemplateImage()
+		if newTemplateImage.Src != templateImage.Src {
+			offsetX := util.RandomInt(0, backgroundImage.Width-newTemplateImage.Width-5)
+			if math.Abs(float64(newTemplateImage.Width-offsetX)) > float64(newTemplateImage.Width/2) {
+				b.interferenceByTemplate(backgroundImage, newTemplateImage, offsetX, b.point.Y)
+				break
+			}
+		}
+	}
+}
+
+// 插入干扰图
+func (b *BlockPuzzleCaptchaService) interferenceByTemplate(backgroundImage *util.ImageUtil, templateImage *util.ImageUtil, x1 int, y1 int) {
+	xLength := templateImage.Width
+	yLength := templateImage.Height
+
+	for x := 0; x < xLength; x++ {
+		for y := 0; y < yLength; y++ {
+			// 如果模板图像当前像素点不是透明色 copy源文件信息到目标图片中
+			isOpacity := templateImage.IsOpacity(x, y)
+
+			// 当前模板像素在背景图中的位置
+			backgroundX := x + x1
+			backgroundY := y + y1
+
+			// 当不为透明时
+			if !isOpacity {
+				// 背景图区域模糊
+				backgroundImage.VagueImage(backgroundX, backgroundY)
+			}
+
+			//防止数组越界判断
+			if x == (xLength-1) || y == (yLength-1) {
+				continue
+			}
+
+			rightOpacity := templateImage.IsOpacity(x+1, y)
+			downOpacity := templateImage.IsOpacity(x, y+1)
+
+			//描边处理，,取带像素和无像素的界点，判断该点是不是临界轮廓点,如果是设置该坐标像素是白色
+			if (isOpacity && !rightOpacity) || (!isOpacity && rightOpacity) || (isOpacity && !downOpacity) || (!isOpacity && downOpacity) {
+				backgroundImage.RgbaImage.SetRGBA(backgroundX, backgroundY, colornames.White)
+			}
+		}
+	}
 }
 
 func (b *BlockPuzzleCaptchaService) cutByTemplate(backgroundImage *util.ImageUtil, templateImage *util.ImageUtil, point vo.PointVO) {
@@ -81,7 +129,6 @@ func (b *BlockPuzzleCaptchaService) cutByTemplate(backgroundImage *util.ImageUti
 				backgroundRgba := backgroundImage.RgbaImage.RGBAAt(backgroundX, backgroundY)
 				// 将原图的像素扣到模板图上
 				templateImage.SetPixel(backgroundRgba, x, y)
-
 				// 背景图区域模糊
 				backgroundImage.VagueImage(backgroundX, backgroundY)
 			}
@@ -128,7 +175,7 @@ func (b *BlockPuzzleCaptchaService) generateJigsawPoint(backgroundImage *util.Im
 func (b *BlockPuzzleCaptchaService) Check(token string, pointJson string) error {
 	cache := b.factory.GetCache()
 
-	codeKey := fmt.Sprintf(CODE_KEY_PREFIX, token)
+	codeKey := fmt.Sprintf(CodeKeyPrefix, token)
 
 	cachePointInfo := cache.Get(codeKey)
 

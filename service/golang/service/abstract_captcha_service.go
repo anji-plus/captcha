@@ -1,7 +1,7 @@
 package service
 
 const (
-	CODE_KEY_PREFIX = "RUNNING:CAPTCHA:%s"
+	CodeKeyPrefix = "RUNNING:CAPTCHA:%s"
 )
 
 type AbstractCaptchaService struct {

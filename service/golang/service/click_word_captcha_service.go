@@ -34,7 +34,7 @@ func (c *ClickWordCaptchaService) Get() map[string]any {
 	data["secretKey"] = pointList[0].SecretKey
 	data["token"] = util.GetUuid()
 
-	codeKey := fmt.Sprintf(CODE_KEY_PREFIX, data["token"])
+	codeKey := fmt.Sprintf(CodeKeyPrefix, data["token"])
 	jsonPoint, err := json.Marshal(pointList)
 	if err != nil {
 		log.Fatalln("point json err:", err)
@@ -47,7 +47,7 @@ func (c *ClickWordCaptchaService) Get() map[string]any {
 
 func (c *ClickWordCaptchaService) Check(token string, pointJson string) error {
 	cache := c.factory.GetCache()
-	codeKey := fmt.Sprintf(CODE_KEY_PREFIX, token)
+	codeKey := fmt.Sprintf(CodeKeyPrefix, token)
 
 	cachePointInfo := cache.Get(codeKey)
 
