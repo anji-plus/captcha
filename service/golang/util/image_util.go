@@ -8,7 +8,6 @@ import (
 	"image"
 	"image/color"
 	"image/draw"
-	"image/jpeg"
 	"image/png"
 	"log"
 	"os"
@@ -41,7 +40,7 @@ func NewImageUtil(src string) *ImageUtil {
 func (i *ImageUtil) IsOpacity(x, y int) bool {
 	A := i.RgbaImage.RGBAAt(x, y).A
 
-	if float32(A) <= 0.5 {
+	if float32(A) <= 125 {
 		return true
 	}
 	return false
@@ -127,18 +126,18 @@ func (i *ImageUtil) SetPixel(rgba color.RGBA, x, y int) {
 // Base64 为像素设置颜色
 func (i *ImageUtil) Base64() string {
 	// 开辟一个新的空buff
-	emptyBuff := bytes.NewBuffer(nil)
+	var buf bytes.Buffer
 	// img写入到buff
-	err := jpeg.Encode(emptyBuff, i.RgbaImage, nil)
+	err := png.Encode(&buf, i.RgbaImage)
 
 	if err != nil {
 		log.Fatalln("img写入buf失败")
 	}
 
 	//开辟存储空间
-	dist := make([]byte, 50000)
+	dist := make([]byte, buf.Cap()+buf.Len())
 	// buff转成base64
-	base64.StdEncoding.Encode(dist, emptyBuff.Bytes())
+	base64.StdEncoding.Encode(dist, buf.Bytes())
 	return string(dist)
 }
 
@@ -177,8 +176,6 @@ func (i *ImageUtil) VagueImage(x int, y int) {
 
 // OpenPngImage 打开png图片
 func OpenPngImage(src string) image.Image {
-	//root := filepath.Dir(CurrentAbPath())
-	//ff, err := os.Open(root + src)
 	ff, err := os.Open(src)
 	if err != nil {
 		log.Printf("打开 %s 图片失败: %v", src, err)

@@ -1,7 +1,6 @@
 package util
 
 import (
-	"fmt"
 	"log"
 	"strconv"
 	"sync"
@@ -24,8 +23,6 @@ func NewCacheUtil(captchaCacheMaxNumber int) *CacheUtil {
 func (l *CacheUtil) Exists(key string) bool {
 	l.DataRWLock.RLock()
 	timeVal := l.Data[key+"_HoldTime"]
-	fmt.Println("timeVal ==", timeVal)
-	fmt.Println("timeVal key ==", key+"_HoldTime")
 	cacheHoldTime, err := strconv.ParseInt(timeVal, 10, 64)
 	l.DataRWLock.RUnlock()
 
@@ -45,9 +42,6 @@ func (l *CacheUtil) Exists(key string) bool {
 }
 
 func (l *CacheUtil) Get(key string) string {
-	fmt.Println(l.Data)
-	fmt.Println("获取的key", key)
-	fmt.Println("是否存在", l.Exists(key))
 
 	if l.Exists(key) {
 		l.DataRWLock.RLock()

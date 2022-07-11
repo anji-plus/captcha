@@ -41,7 +41,6 @@ func (c *ClickWordCaptchaService) Get() map[string]any {
 	}
 
 	c.factory.GetCache().Set(codeKey, string(jsonPoint), c.factory.config.CacheExpireSec)
-
 	return data
 }
 
@@ -72,7 +71,6 @@ func (c *ClickWordCaptchaService) Check(token string, pointJson string) error {
 	err = json.Unmarshal([]byte(userPointJson), &userPoint)
 
 	if err != nil {
-		fmt.Println("decode失败:", err)
 		return err
 	}
 
@@ -87,12 +85,14 @@ func (c *ClickWordCaptchaService) Check(token string, pointJson string) error {
 	return nil
 }
 
-func (c *ClickWordCaptchaService) Verification(token string, pointJson string) {
+func (c *ClickWordCaptchaService) Verification(token string, pointJson string) error {
 	err := c.Check(token, pointJson)
 	if err != nil {
-		return
+		return err
 	}
-	c.factory.GetCache().Delete(token)
+	codeKey := fmt.Sprintf(CodeKeyPrefix, token)
+	c.factory.GetCache().Delete(codeKey)
+	return nil
 }
 
 func (c *ClickWordCaptchaService) getImageData(image *util.ImageUtil) ([]vo.PointVO, []string) {

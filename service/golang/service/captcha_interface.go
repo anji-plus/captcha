@@ -9,5 +9,5 @@ type CaptchaInterface interface {
 	Check(token string, pointJson string) error
 
 	// Verification 二次校验验证码(后端)
-	Verification(token string, pointJson string)
+	Verification(token string, pointJson string) error
 }

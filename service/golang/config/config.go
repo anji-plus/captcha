@@ -35,13 +35,13 @@ func NewConfig() *Config {
 	return &Config{
 		CacheType: MemCacheKey,
 		Watermark: &WatermarkConfig{
-			FontSize: 20,
+			FontSize: 12,
 			Color:    color.RGBA{R: 255, G: 255, B: 255, A: 255},
-			Text:     "水印",
+			Text:     "我的水印",
 		},
 		ClickWord: &ClickWordConfig{
 			FontSize: 25,
-			FontNum:  4,
+			FontNum:  5,
 		},
 		BlockPuzzle:    &BlockPuzzleConfig{Offset: 10},
 		CacheExpireSec: 2 * 60,

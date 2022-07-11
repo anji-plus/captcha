@@ -59,7 +59,7 @@ func (b *BlockPuzzleCaptchaService) pictureTemplatesCut(backgroundImage *util.Im
 	// 生成拼图坐标点
 	b.generateJigsawPoint(backgroundImage, templateImage)
 	// 裁剪模板图
-	b.cutByTemplate(backgroundImage, templateImage, b.point)
+	b.cutByTemplate(backgroundImage, templateImage, b.point.X, 0)
 
 	// 插入干扰图
 	for {
@@ -110,7 +110,7 @@ func (b *BlockPuzzleCaptchaService) interferenceByTemplate(backgroundImage *util
 	}
 }
 
-func (b *BlockPuzzleCaptchaService) cutByTemplate(backgroundImage *util.ImageUtil, templateImage *util.ImageUtil, point vo.PointVO) {
+func (b *BlockPuzzleCaptchaService) cutByTemplate(backgroundImage *util.ImageUtil, templateImage *util.ImageUtil, x1, y1 int) {
 	xLength := templateImage.Width
 	yLength := templateImage.Height
 
@@ -120,8 +120,8 @@ func (b *BlockPuzzleCaptchaService) cutByTemplate(backgroundImage *util.ImageUti
 			isOpacity := templateImage.IsOpacity(x, y)
 
 			// 当前模板像素在背景图中的位置
-			backgroundX := x + point.X
-			backgroundY := y + point.Y
+			backgroundX := x + x1
+			backgroundY := y + y1
 
 			// 当不为透明时
 			if !isOpacity {
@@ -209,10 +209,12 @@ func (b *BlockPuzzleCaptchaService) Check(token string, pointJson string) error 
 	return errors.New("验证失败")
 }
 
-func (b *BlockPuzzleCaptchaService) Verification(token string, pointJson string) {
+func (b *BlockPuzzleCaptchaService) Verification(token string, pointJson string) error {
 	err := b.Check(token, pointJson)
 	if err != nil {
-		return
+		return err
 	}
-	b.factory.GetCache().Delete(token)
+	codeKey := fmt.Sprintf(CodeKeyPrefix, token)
+	b.factory.GetCache().Delete(codeKey)
+	return nil
 }

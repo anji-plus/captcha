@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	config2 "golang/config"
 	"golang/service"
 	"io/ioutil"
@@ -52,9 +51,7 @@ func getCaptcha(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	fmt.Println(params.CaptchaType)
 	ser := factory.GetService(params.CaptchaType)
-	fmt.Println(ser)
 
 	data := ser.Get()
 
@@ -127,7 +124,6 @@ func getParams(request *http.Request) (*clientParams, error) {
 
 	err := json.Unmarshal(all, params)
 	if err != nil {
-		fmt.Println(err)
 		return nil, err
 	}
 
