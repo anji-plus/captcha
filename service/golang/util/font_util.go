@@ -21,7 +21,7 @@ func NewFontUtil(src string) *FontUtil {
 
 // GetFont 获取一个字体对象
 func (f *FontUtil) GetFont() *truetype.Font {
-	root := filepath.Dir(currentAbPath())
+	root := filepath.Dir(CurrentAbPath())
 	fontSourceBytes, err := ioutil.ReadFile(root + f.Src)
 	if err != nil {
 		log.Println("读取字体失败:", err)

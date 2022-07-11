@@ -63,9 +63,7 @@ func (i *ImageUtil) DecodeImageToFile() {
 }
 
 // SetText 为图片设置文字
-func (i *ImageUtil) SetText(text string) {
-
-	fontsize := 12.0
+func (i *ImageUtil) SetText(text string, fontsize int, color color.RGBA) {
 
 	x := float64(i.Width) - float64(GetEnOrChLength(text))
 	y := float64(i.Height) - (25 / 2) + 7
@@ -78,13 +76,13 @@ func (i *ImageUtil) SetText(text string) {
 	// 设置用于绘制文本的字体
 	fc.SetFont(font.GetFont())
 	// 以磅为单位设置字体大小
-	fc.SetFontSize(fontsize)
+	fc.SetFontSize(float64(fontsize))
 	// 设置剪裁矩形以进行绘制
 	fc.SetClip(i.RgbaImage.Bounds())
 	// 设置目标图像
 	fc.SetDst(i.RgbaImage)
 	// 设置绘制操作的源图像，通常为 image.Uniform
-	fc.SetSrc(image.NewUniform(color.RGBA{R: 255, G: 255, B: 255, A: 255}))
+	fc.SetSrc(image.NewUniform(color))
 	// 设置水印地址
 	pt := freetype.Pt(int(x), int(y))
 	// 根据 Pt 的坐标值绘制给定的文本内容
@@ -95,9 +93,7 @@ func (i *ImageUtil) SetText(text string) {
 }
 
 // SetArtText 为图片设置文字
-func (i *ImageUtil) SetArtText(text string, point vo.PointVO) {
-
-	fontsize := 25.0
+func (i *ImageUtil) SetArtText(text string, fontsize int, point vo.PointVO) {
 
 	font := NewFontUtil(DefaultFont)
 
@@ -107,7 +103,7 @@ func (i *ImageUtil) SetArtText(text string, point vo.PointVO) {
 	// 设置用于绘制文本的字体
 	fc.SetFont(font.GetFont())
 	// 以磅为单位设置字体大小
-	fc.SetFontSize(fontsize)
+	fc.SetFontSize(float64(fontsize))
 	// 设置剪裁矩形以进行绘制
 	fc.SetClip(i.RgbaImage.Bounds())
 	// 设置目标图像
@@ -119,7 +115,7 @@ func (i *ImageUtil) SetArtText(text string, point vo.PointVO) {
 	// 根据 Pt 的坐标值绘制给定的文本内容
 	_, err := fc.DrawString(text, pt)
 	if err != nil {
-		log.Println("构造水印失败:", err)
+		log.Fatalln("构造水印失败:", err)
 	}
 }
 
@@ -177,16 +173,13 @@ func (i *ImageUtil) VagueImage(x int, y int) {
 	rgba := color.RGBA{R: uint8(red / avg), G: uint8(green / avg), B: uint8(blue / avg), A: uint8(alpha / avg)}
 
 	i.RgbaImage.SetRGBA(x, y, rgba)
-
-	//return color.RGBA{R: uint8(red / 8), G: uint8(green / 6), B: uint8(blue / 8), A: uint8(alpha / 8)}.RGBA()
 }
 
 // OpenPngImage 打开png图片
 func OpenPngImage(src string) image.Image {
-
-	root := filepath.Dir(currentAbPath())
-
-	ff, err := os.Open(root + src)
+	//root := filepath.Dir(CurrentAbPath())
+	//ff, err := os.Open(root + src)
+	ff, err := os.Open(src)
 	if err != nil {
 		log.Printf("打开 %s 图片失败: %v", src, err)
 	}
@@ -214,7 +207,7 @@ func ImageToRGBA(img image.Image) *image.RGBA {
 	return dst
 }
 
-func currentAbPath() (dir string) {
+func CurrentAbPath() (dir string) {
 	exePath, err := os.Executable()
 	if err != nil {
 		log.Fatal(err)

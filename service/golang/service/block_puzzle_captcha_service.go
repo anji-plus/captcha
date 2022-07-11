@@ -7,12 +7,10 @@ import (
 	"golang.org/x/image/colornames"
 	"golang/model/vo"
 	"golang/util"
+	img "golang/util/image"
 	"log"
 	"math"
 )
-
-const DefaultBackgroundImageFile = "/resources/defaultImages/jigsaw/original/1.png"
-const DefaultTemplateImageFile = "/resources/defaultImages/jigsaw/slidingBlock/1.png"
 
 type BlockPuzzleCaptchaService struct {
 	point   vo.PointVO
@@ -29,44 +27,42 @@ func NewBlockPuzzleCaptchaService(factory *CaptchaServiceFactory) *BlockPuzzleCa
 func (b *BlockPuzzleCaptchaService) Get() map[string]any {
 
 	// 初始化背景图片
-	backgroundImage := util.NewImageUtil(DefaultBackgroundImageFile)
+	backgroundImage := img.GetBackgroundImage()
 
 	// 为背景图片设置水印
-	backgroundImage.SetText("我的水印AAAAA")
+	backgroundImage.SetText(b.factory.config.Watermark.Text, b.factory.config.Watermark.FontSize, b.factory.config.Watermark.Color)
 
 	// 初始化模板图片
-	templateImage := util.NewImageUtil(DefaultTemplateImageFile)
+	templateImage := img.GetTemplateImage()
 
 	// 构造前端所需图片
 	b.pictureTemplatesCut(backgroundImage, templateImage)
 
-	//templateImage.DecodeImageToFile()
 	data := make(map[string]any)
 	data["originalImageBase64"] = backgroundImage.Base64()
 	data["jigsawImageBase64"] = templateImage.Base64()
 	data["secretKey"] = b.point.SecretKey
 	data["token"] = util.GetUuid()
 
-	codeKey := fmt.Sprintf("RUNNING:CAPTCHA:%s", data["token"])
+	codeKey := fmt.Sprintf(CODE_KEY_PREFIX, data["token"])
 	jsonPoint, err := json.Marshal(b.point)
 	if err != nil {
 		log.Fatalln("point json err:", err)
 	}
 
-	b.factory.GetCache().Set(codeKey, string(jsonPoint), 1000)
+	b.factory.GetCache().Set(codeKey, string(jsonPoint), b.factory.config.CacheExpireSec)
 
 	return data
 }
 
 func (b *BlockPuzzleCaptchaService) pictureTemplatesCut(backgroundImage *util.ImageUtil, templateImage *util.ImageUtil) {
 	// 生成拼图坐标点
-	point := generateJigsawPoint(backgroundImage, templateImage)
-	b.point = point
+	b.generateJigsawPoint(backgroundImage, templateImage)
 	// 裁剪模板图
-	cutByTemplate(backgroundImage, templateImage, point)
+	b.cutByTemplate(backgroundImage, templateImage, b.point)
 }
 
-func cutByTemplate(backgroundImage *util.ImageUtil, templateImage *util.ImageUtil, point vo.PointVO) {
+func (b *BlockPuzzleCaptchaService) cutByTemplate(backgroundImage *util.ImageUtil, templateImage *util.ImageUtil, point vo.PointVO) {
 	xLength := templateImage.Width
 	yLength := templateImage.Height
 
@@ -108,7 +104,7 @@ func cutByTemplate(backgroundImage *util.ImageUtil, templateImage *util.ImageUti
 }
 
 // 生成模板图在背景图中的随机坐标点
-func generateJigsawPoint(backgroundImage *util.ImageUtil, templateImage *util.ImageUtil) vo.PointVO {
+func (b *BlockPuzzleCaptchaService) generateJigsawPoint(backgroundImage *util.ImageUtil, templateImage *util.ImageUtil) {
 	widthDifference := backgroundImage.Width - templateImage.Width
 	heightDifference := backgroundImage.Height - templateImage.Height
 
@@ -126,13 +122,13 @@ func generateJigsawPoint(backgroundImage *util.ImageUtil, templateImage *util.Im
 	}
 	point := vo.PointVO{X: x, Y: y}
 	point.SetSecretKey(util.RandString(16))
-	return point
+	b.point = point
 }
 
 func (b *BlockPuzzleCaptchaService) Check(token string, pointJson string) error {
 	cache := b.factory.GetCache()
 
-	codeKey := fmt.Sprintf("RUNNING:CAPTCHA:%s", token)
+	codeKey := fmt.Sprintf(CODE_KEY_PREFIX, token)
 
 	cachePointInfo := cache.Get(codeKey)
 
@@ -155,12 +151,11 @@ func (b *BlockPuzzleCaptchaService) Check(token string, pointJson string) error 
 	err = json.Unmarshal([]byte(userPointJson), userPoint)
 
 	if err != nil {
-		fmt.Println("decode失败:", err)
 		return err
 	}
 
 	// 校验两个点是否符合
-	if math.Abs(float64(cachePoint.X-userPoint.X)) <= 10 && cachePoint.Y == userPoint.Y {
+	if math.Abs(float64(cachePoint.X-userPoint.X)) <= float64(b.factory.config.BlockPuzzle.Offset) && cachePoint.Y == userPoint.Y {
 		return nil
 	}
 

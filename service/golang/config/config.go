@@ -1,15 +1,49 @@
 package config
 
+import "image/color"
+
 const (
-	MEM_CACHE_KEY        = "mem"
-	BLOCK_PUZZLE_CAPTCHA = "blockPuzzle"
-	CLICK_WORD_CAPTCHA   = "clickWord"
+	MemCacheKey        = "mem"
+	BlockPuzzleCaptcha = "blockPuzzle"
+	ClickWordCaptcha   = "clickWord"
 )
 
-type Config struct {
-	CacheType string // 验证码使用的缓存类型
+type WatermarkConfig struct {
+	FontSize int
+	Color    color.RGBA
+	Text     string
 }
 
-func NewConfig(cacheType string) *Config {
-	return &Config{CacheType: MEM_CACHE_KEY}
+type BlockPuzzleConfig struct {
+	Offset int
+}
+
+type ClickWordConfig struct {
+	FontSize int
+	FontNum  int
+}
+
+type Config struct {
+	Watermark      *WatermarkConfig
+	ClickWord      *ClickWordConfig
+	BlockPuzzle    *BlockPuzzleConfig
+	CacheType      string // 验证码使用的缓存类型
+	CacheExpireSec int
+}
+
+func NewConfig() *Config {
+	return &Config{
+		CacheType: MemCacheKey,
+		Watermark: &WatermarkConfig{
+			FontSize: 20,
+			Color:    color.RGBA{R: 255, G: 255, B: 255, A: 255},
+			Text:     "水印",
+		},
+		ClickWord: &ClickWordConfig{
+			FontSize: 25,
+			FontNum:  4,
+		},
+		BlockPuzzle:    &BlockPuzzleConfig{Offset: 10},
+		CacheExpireSec: 2 * 60,
+	}
 }

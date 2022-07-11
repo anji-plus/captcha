@@ -29,7 +29,6 @@ func (l *CacheUtil) Exists(key string) bool {
 	cacheHoldTime, err := strconv.ParseInt(timeVal, 10, 64)
 	l.DataRWLock.RUnlock()
 
-	fmt.Println("cacheHoldTime ==", cacheHoldTime)
 	if err != nil {
 		return false
 	}
@@ -37,7 +36,6 @@ func (l *CacheUtil) Exists(key string) bool {
 	if cacheHoldTime == 0 {
 		return true
 	}
-	fmt.Println("cacheHoldTime ==", cacheHoldTime < time.Now().Unix())
 
 	if cacheHoldTime < time.Now().Unix() {
 		l.Delete(key)
@@ -81,9 +79,6 @@ func (l *CacheUtil) Set(key string, val string, expiresInSeconds int) {
 	}
 
 	l.DataRWLock.Unlock()
-
-	fmt.Println("key+\"_HoldTime\"", key+"_HoldTime")
-	fmt.Println(l.Data)
 }
 
 func (l *CacheUtil) Delete(key string) {
