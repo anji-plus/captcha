@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/TestsLing/aj-captcha-go/model/vo"
+	"github.com/TestsLing/aj-captcha-go/util"
+	img "github.com/TestsLing/aj-captcha-go/util/image"
 	"golang.org/x/image/colornames"
-	"golang/model/vo"
-	"golang/util"
-	img "golang/util/image"
 	"log"
 	"math"
 )

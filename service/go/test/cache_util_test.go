@@ -1,7 +1,7 @@
 package test
 
 import (
-	"golang/util"
+	"github.com/TestsLing/aj-captcha-go/util"
 	"testing"
 	"time"
 )

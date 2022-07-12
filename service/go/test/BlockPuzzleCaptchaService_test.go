@@ -2,8 +2,8 @@ package test
 
 import (
 	"fmt"
-	"golang/service"
-	"golang/util"
+	"github.com/TestsLing/aj-captcha-go/service"
+	"github.com/TestsLing/aj-captcha-go/util"
 	"image/color"
 	"path/filepath"
 	"testing"

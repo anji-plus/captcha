@@ -3,8 +3,8 @@ package util
 import (
 	"bytes"
 	"encoding/base64"
+	"github.com/TestsLing/aj-captcha-go/model/vo"
 	"github.com/golang/freetype"
-	"golang/model/vo"
 	"image"
 	"image/color"
 	"image/draw"

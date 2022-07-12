@@ -1,7 +1,7 @@
 package image
 
 import (
-	"golang/util"
+	"github.com/TestsLing/aj-captcha-go/util"
 	"log"
 	"os"
 	"path/filepath"

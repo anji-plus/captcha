@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	config2 "golang/config"
-	"golang/service"
+	config2 "github.com/TestsLing/aj-captcha-go/config"
+	"github.com/TestsLing/aj-captcha-go/service"
 	"io/ioutil"
 	"log"
 	"net/http"

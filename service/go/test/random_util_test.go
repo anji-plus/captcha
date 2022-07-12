@@ -2,7 +2,7 @@ package test
 
 import (
 	"fmt"
-	"golang/util"
+	"github.com/TestsLing/aj-captcha-go/util"
 	"testing"
 )
 
