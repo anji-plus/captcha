@@ -24,10 +24,10 @@ class AesUtils
     /**
      * 解密
      * @param $str
-     * @param string $iv
+     * @param $secretKey
      * @return string
      */
-    public static function decrypt($str, $secretKey)
+    public static function decrypt($str, $secretKey): string
     {
         return openssl_decrypt(base64_decode($str), 'AES-128-ECB', $secretKey,OPENSSL_RAW_DATA);
     }

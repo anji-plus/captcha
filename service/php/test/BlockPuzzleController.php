@@ -55,8 +55,15 @@ class BlockPuzzleController
         $msg = null;
         $error = false;
         $repCode = '0000';
+
         try {
-            $service->verification($data['token'], $data['pointJson']);
+            if(isset($data['captchaVerification'])){
+                $service->verificationByEncryptCode($data['captchaVerification']);
+            }else if (isset($data['token']) && isset($data['pointJson'])){
+                $service->verification($data['token'], $data['pointJson']);
+            } else {
+                throw new \Exception('参数错误！');
+            }
         } catch (\Exception $e) {
             $msg = $e->getMessage();
             $error = true;
@@ -70,5 +77,6 @@ class BlockPuzzleController
             'success' => ! $error,
         ]);
     }
+
 
 }

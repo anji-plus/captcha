@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace Fastknife\Service;
 
 use Fastknife\Domain\Vo\PointVo;
-use Fastknife\Exception\ParamException;
-use Fastknife\Utils\AesUtils;
 use Fastknife\Utils\RandomUtils;
 
 class BlockPuzzleCaptchaService extends Service
@@ -16,7 +14,7 @@ class BlockPuzzleCaptchaService extends Service
      */
     public function get(): array
     {
-        $cacheEntity = $this->factory->makeCacheEntity();
+        $cacheEntity = $this->factory->getCacheInstance();
         $blockImage = $this->factory->makeBlockImage();
         $blockImage->run();
         $data = [
@@ -29,59 +27,35 @@ class BlockPuzzleCaptchaService extends Service
         $cacheEntity->set($data['token'], [
             'secretKey' => $data['secretKey'],
             'point' => $blockImage->getPoint()
-        ]);
+        ], 7200);
         return $data;
     }
 
-    /**
-     * 一次验证
-     * @param $token
-     * @param $pointJson
-     */
-    public function check($token, $pointJson)
-    {
-        $this->validate($token, $pointJson);
-    }
 
-    /**
-     * 二次验证
-     * @param $token
-     * @param $pointJson
-     */
-    public function verification($token, $pointJson)
-    {
-        $this->validate($token, $pointJson, function($cacheEntity, $token){
-            $cacheEntity->delete($token);
-        });
-    }
 
 
     /**
      * 验证
-     * @param $token
-     * @param $pointJson
+     * @param string $token
+     * @param string $pointJson
      * @param null $callback
      */
-    public function validate($token, $pointJson, $callback = null)
+    public function validate( $token,  $pointJson, $callback = null)
     {
-        $cacheEntity = $this->factory->makeCacheEntity();
+        //获取并设置 $this->originData
+        $this->setOriginData($token);
+
+        //数据处理类
         $blockData = $this->factory->makeBlockData();
 
-        $originData = $cacheEntity->get($token);
-        if (empty($originData)) {
-            throw new ParamException('参数校验失败：token');
-        }
-        $originPoint = $originData['point'];
-        $secretKey = $originData['secretKey'];
-        $pointJson = AesUtils::decrypt($pointJson, $secretKey);
-        if ($pointJson === false) {
-            throw new ParamException('aes验签失败！');
-        }
-        $targetPoint = json_decode($pointJson, true);
+        //解码出来的前端坐标
+        $targetPoint = $this->encodePoint($this->originData['secretKey'], $pointJson);;
         $targetPoint = new PointVo($targetPoint['x'], $targetPoint['y']);
-        $blockData->check($originPoint, $targetPoint);
+
+        //检查
+        $blockData->check($this->originData['point'], $targetPoint);
         if($callback instanceof \Closure){
-            $callback($cacheEntity, $token);
+            $callback();
         }
     }
 }

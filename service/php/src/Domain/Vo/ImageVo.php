@@ -135,9 +135,6 @@ abstract class ImageVo
         $this->setPixel($blur, $targetX, $targetY);
     }
 
-    public function openCache()
-    {
-    }
 
     /**
      * @return array

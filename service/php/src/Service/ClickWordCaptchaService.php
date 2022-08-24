@@ -9,12 +9,14 @@ use Fastknife\Utils\RandomUtils;
 
 class ClickWordCaptchaService extends Service
 {
+
+
     /**
      * 获取文字验证码
      */
     public function get(): array
     {
-        $cacheEntity = $this->factory->makeCacheEntity();
+        $cacheEntity = $this->factory->getCacheInstance();
         $wordImage = $this->factory->makeWordImage();
         //执行创建
         $wordImage->run();
@@ -27,32 +29,11 @@ class ClickWordCaptchaService extends Service
         //缓存
         $cacheEntity->set($data['token'], [
             'secretKey' => $data['secretKey'],
-            'pointList' => $wordImage->getPoint()
-        ]);
+            'point' => $wordImage->getPoint()
+        ],7200);
         return $data;
     }
 
-    /**
-     * 一次验证
-     * @param $token
-     * @param $pointJson
-     */
-    public function check($token, $pointJson)
-    {
-        $this->validate($token, $pointJson);
-    }
-
-    /**
-     * 二次验证
-     * @param $token
-     * @param $pointJson
-     */
-    public function verification($token, $pointJson)
-    {
-        $this->validate($token, $pointJson, function ($cacheEntity, $token) {
-            $cacheEntity->delete($token);
-        });
-    }
 
     /**
      * 验证
@@ -60,25 +41,24 @@ class ClickWordCaptchaService extends Service
      * @param $pointJson
      * @param null $callback
      */
-    protected function validate($token, $pointJson, $callback = null)
+    public function validate($token, $pointJson, $callback = null)
     {
+        //获取并设置 $this->originData
+        $this->setOriginData($token);
 
-        $cacheEntity = $this->factory->makeCacheEntity();
+        //数据实例
         $wordData = $this->factory->makeWordData();
-        $originData = $cacheEntity->get($token);
-        if (empty($originData)) {
-            throw new ParamException('参数校验失败：token');
-        }
-        $originPointList = $originData['pointList'];
-        $secretKey = $originData['secretKey'];
-        $pointJson = AesUtils::decrypt($pointJson, $secretKey);
-        if ($pointJson === false) {
-            throw new ParamException('aes验签失败！');
-        }
-        $targetPointList = $wordData->array2Point(json_decode($pointJson, true));
-        $wordData->check($originPointList, $targetPointList);
+        //解码出来的前端坐标
+        $pointJson = $this->encodePoint($this->originData['secretKey'], $pointJson);
+        $targetPointList = $wordData->array2Point($pointJson);
+
+        //检查
+        $wordData->check($this->originData['point'], $targetPointList);
         if ($callback instanceof \Closure) {
-            $callback($cacheEntity, $token);
+            $callback();
         }
     }
+
+
+
 }
