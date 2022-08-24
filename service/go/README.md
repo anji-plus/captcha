@@ -150,7 +150,3 @@ func main() {
 - 微信: hack_mess
 
 ## Authors and acknowledgment
-
-## License
-
-- MIT

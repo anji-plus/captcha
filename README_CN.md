@@ -13,8 +13,8 @@
 
 # 2 功能概述
 #### &emsp; 2.1 组件介绍
- &emsp;&emsp; 行为验证码采用嵌入式集成方式，接入方便，安全，高效。抛弃了传统字符型验证码展示-填写字符-比对答案的流程，采用验证码展示-采集用户行为-分析用户行为流程，用户只需要产生指定的行为轨迹，不需要键盘手动输入，极大优化了传统验证码用户体验不佳的问题；同时，快速、准确的返回人机判定结果。目前对外提供两种类型的验证码，其中包含滑动拼图、文字点选。如图1-1、1-2所示。若希望不影响原UI布局，可采用弹出式交互。<br>
- &emsp;&emsp; 后端基于Java实现，提供纯Java.jar和SpringBoot Starter。前端提供了Android、iOS、Futter、Uni-App、ReactNative、Vue、Angular、Html、Php等多端示例。<br>
+&emsp;&emsp; 行为验证码采用嵌入式集成方式，接入方便，安全，高效。抛弃了传统字符型验证码展示-填写字符-比对答案的流程，采用验证码展示-采集用户行为-分析用户行为流程，用户只需要产生指定的行为轨迹，不需要键盘手动输入，极大优化了传统验证码用户体验不佳的问题；同时，快速、准确的返回人机判定结果。目前对外提供两种类型的验证码，其中包含滑动拼图、文字点选。如图1-1、1-2所示。若希望不影响原UI布局，可采用弹出式交互。<br>
+&emsp;&emsp; 后端基于Java实现，提供纯Java.jar和SpringBoot Starter。前端提供了Android、iOS、Futter、Uni-App、ReactNative、Vue、Angular、Html、Php等多端示例。<br>
 
 
 | 滑动拼图 | 文字点选 |
@@ -22,7 +22,7 @@
 |![滑动拼图](images/%E6%BB%91%E5%8A%A8%E6%8B%BC%E5%9B%BE.gif "滑动拼图")&emsp;|![点选文字](images/%E7%82%B9%E9%80%89%E6%96%87%E5%AD%97.gif "点选文字")|
 | 图1-1 | 图1-2 |
  <br>
- 
+
 
 #### &emsp; 2.2 概念术语描述
 | 术语  | 描述  |
@@ -45,6 +45,7 @@
 │&emsp;└─captcha-spring-boot-starter    &emsp;&emsp;    springboot快速启动<br>
 ├─images    &emsp;&emsp;&emsp;&emsp;&emsp;    效果图<br>
 ├─service<br>
+│&emsp;├─go   &emsp;&emsp;    后端为go项目示例<br>
 │&emsp;├─php   &emsp;&emsp;    后端为php项目示例<br>
 │&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
 │&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例<br>
@@ -83,7 +84,7 @@ I  Your application is running here: http://localhost:8081
 | --- | --- |
 |<img src="https://captcha.anji-plus.com/static/weixin.png" width = "300" height = "300" div align=left />|<img src="https://captcha.anji-plus.com/static/qq.png" width = "300" height = "300" div align=left />|
 
- #### 开源不易，劳烦各位star ☺
+#### 开源不易，劳烦各位star ☺
 
 #### 感谢JetBrains 的支持
 
