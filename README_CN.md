@@ -89,5 +89,8 @@ I  Your application is running here: http://localhost:8081
 
 <br>
 
-# Stargazers over time
+
+
+## Stargazers over time
+
 [![Stargazers over time](https://starchart.cc/anji-plus/captcha.svg)](https://starchart.cc/anji-plus/captcha)
