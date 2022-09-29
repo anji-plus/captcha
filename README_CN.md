@@ -3,7 +3,7 @@
 [![EN doc](https://img.shields.io/badge/document-English-blue.svg)](README.md)[![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](README_CN.md)
 
 ## 简介
-&emsp; &emsp; AJ-Captcha行为验证码，包含滑动拼图、文字点选两种方式，UI支持弹出和嵌入两种方式。后端提供Java实现，前端提供了php、angular、html、vue、uni-app、flutter、android、ios等代码示例。
+&emsp; &emsp; AJ-Captcha行为验证码，包含滑动拼图、文字点选两种方式，UI支持弹出和嵌入两种方式。后端提供Java、Golang实现，前端提供了php、angular、html、vue、uni-app、flutter、android、ios等代码示例。
 
 # 1 在线体验
 #### &emsp; 1.1 电脑在线体验:[https://captcha.anji-plus.com/](https://captcha.anji-plus.com/ "链接")
@@ -46,6 +46,7 @@
 ├─images    &emsp;&emsp;&emsp;&emsp;&emsp;    效果图<br>
 ├─service<br>
 │&emsp;├─php   &emsp;&emsp;    后端为php项目示例<br>
+│&emsp;├─go   &emsp;&emsp;    后端为go项目示例<br>
 │&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
 │&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例<br>
 └─view    &emsp;&emsp;&emsp;&emsp;&emsp;    多语言客户端示例<br>
