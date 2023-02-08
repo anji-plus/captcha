@@ -9,13 +9,15 @@ import 'dart:collection';
 class HttpManager {
   static const CONTENT_TYPE_JSON = "application/json";
   static const CONTENT_TYPE_FORM = "application/x-www-form-urlencoded";
-  static Map<String, String> optionParams = {
+  static Map<String, String?> optionParams = {
     "mirrorToken": null,
     "content-Type": CONTENT_TYPE_JSON
   };
+
   //请求base url
+  //todo 请求host配置
  static String baseUrl = "http://127.0.0.1:8080";
-//   static String baseUrl = "https://captcha.anji-plus.com/captcha-api";
+//   static late String baseUrl;
 
   ///发起网络请求
   ///[ url] 请求url
@@ -26,34 +28,31 @@ class HttpManager {
   ///[ noTip] 是否需要返回错误信息 默认不需要
   ///[ needSign] 是否需要Sign校验  默认需要
   ///[ needError] 是否需要错误提示
-  static requestData(url, param, Map<String, String> header,
+  static requestData(url, param, Map<String, String>? header,
       {bool isNeedToken = true,
         String optionMetod = "post",
         noTip = false,
         needSign = true,
         needError = true}) async {
     ///初始化请求类
-    Dio dio = new Dio();
+    Dio dio = Dio();
 
     ///头部
-    Map<String, String> headers = new HashMap();
+    Map<String, String> headers = HashMap();
     if (header != null) {
       headers.addAll(header);
     }
 
     //请求协议 post 、get
-    Options option = new Options(method: optionMetod);
+    Options option = Options(method: optionMetod);
 
     ///设置头部
-    if (option != null) {
-      option.headers = headers;
-    }
+    option.headers = headers;
 
     option.sendTimeout = 15000;
 
     //获取token
-    var mirrorToken = "";
-
+    // var mirrorToken = "";
 
     var params = param;
 //    if (needSign) {
@@ -61,19 +60,14 @@ class HttpManager {
 //      params = await SignConfig.signData(param, mirrorToken);
 //    }
 
-    Response response;
-    print("$baseUrl$url");
-    print(params);
-
+    late Response response;
     try {
       ///开始请求
-      response = await dio.request("$baseUrl$url", data: params, options: option);
+      response =
+      await dio.request("$baseUrl$url", data: params, options: option);
     } on DioError catch (e) {
-      Response errorResponse;
       if (e.response != null) {
-        errorResponse = e.response;
       } else {
-        errorResponse = new Response(statusCode: 666);
       }
 
       ///请求失败处理
@@ -82,11 +76,8 @@ class HttpManager {
       }
     }
 
-
     try {
       var responseJson = response.data;
-      print(responseJson);
-
       if (response.statusCode == 200) {
         ///请求链接成功
         return responseJson;
@@ -96,5 +87,4 @@ class HttpManager {
       throw e;
     }
   }
-
 }
