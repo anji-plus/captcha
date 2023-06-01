@@ -23,7 +23,10 @@ public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
         return "redis";
     }
 
-    @Autowired
+    public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
+        this.stringRedisTemplate = stringRedisTemplate;
+    }
+
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
