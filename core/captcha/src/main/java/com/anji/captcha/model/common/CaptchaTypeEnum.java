@@ -2,7 +2,11 @@ package com.anji.captcha.model.common;
 
 public enum CaptchaTypeEnum {
     /**
-     * 滑块拼图.
+     * 旋转拼图.
+     */
+    ROTATEPUZZLE("rotatePuzzle","旋转拼图"),
+    /**
+     * 滑块拼图
      */
     BLOCKPUZZLE("blockPuzzle","滑块拼图"),
     /**

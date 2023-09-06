@@ -12,7 +12,11 @@ import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
-import com.anji.captcha.util.*;
+import com.anji.captcha.util.AESUtil;
+import com.anji.captcha.util.CacheUtil;
+import com.anji.captcha.util.ImageUtils;
+import com.anji.captcha.util.MD5Util;
+import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,7 +75,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         boolean aBoolean = Boolean.parseBoolean(config.getProperty(Const.CAPTCHA_INIT_ORIGINAL));
         if (!aBoolean) {
             ImageUtils.cacheImage(config.getProperty(Const.ORIGINAL_PATH_JIGSAW),
-                    config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK));
+                    config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK), config.getProperty(Const.ORIGINAL_PATH_ROTATE));
         }
         logger.info("--->>>初始化验证码底图<<<---" + captchaType());
         waterMark = config.getProperty(Const.CAPTCHA_WATER_MARK, "我的水印");
