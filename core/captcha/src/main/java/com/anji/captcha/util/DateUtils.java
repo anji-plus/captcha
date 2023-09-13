@@ -31,7 +31,7 @@ public class DateUtils {
     public static List<String> getMonthBetweenDate(String startTime, String endTime,String format){
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         // 声明保存日期集合
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         try {
             // 转化成日期类型
             Date startDate = sdf.parse(startTime);
@@ -125,8 +125,8 @@ public class DateUtils {
      * @return
      */
     public static Date getStartDatetime(Date date) {
-        String thisdate = convert(date, DATE_FORMAT);
-        return convert(thisdate + " " + DAYTIME_START);
+        String thisDate = convert(date, DATE_FORMAT);
+        return convert(thisDate + " " + DAYTIME_START);
 
     }
 
@@ -137,8 +137,8 @@ public class DateUtils {
      * @return
      */
     public static Date getEndDatetime(Date date) {
-        String thisdate = convert(date, DATE_FORMAT);
-        return convert(thisdate + " " + DAYTIME_END);
+        String thisDate = convert(date, DATE_FORMAT);
+        return convert(thisDate + " " + DAYTIME_END);
 
     }
 
