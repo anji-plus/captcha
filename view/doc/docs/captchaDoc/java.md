@@ -3,7 +3,7 @@
 ## springboot
 ### SpringBoot项目，参考示例：service/springboot
 a.引入jar，已上传至maven中央仓库。
-```java
+```xml
 <dependency>
    <groupId>com.anji-plus</groupId>
    <artifactId>spring-boot-starter-captcha</artifactId>
