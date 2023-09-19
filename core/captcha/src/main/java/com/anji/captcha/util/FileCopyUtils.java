@@ -118,5 +118,25 @@ public abstract class FileCopyUtils {
         }
     }
 
+    /**
+     * 删除文件
+     *
+     * @param fileUrl 文件路径
+     * @return
+     */
+    public static boolean deleteFile(String fileUrl) {
+        try {
+            File file = new File(fileUrl);
+            // 路径为文件且不为空则进行删除
+            if (file.isFile() && file.exists()) {
+                file.delete();
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
 
