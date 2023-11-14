@@ -1,4 +1,7 @@
-# **在线体验暂时下线 ！！！**
+# 企微可添加人数已满上限，目前正在申请扩充，现有问题可直接提Issue
+
+# **在线体验暂时下线**
+
 #### &emsp; 在线文档:[https://ajcaptcha.beliefteam.cn/captcha-doc/](https://ajcaptcha.beliefteam.cn/captcha-doc/ "doc")<br>
 
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)[![Total Lines](https://tokei.rs/b1/github/anji-plus/captcha?category=lines)](https://github.com/anji-plus/captcha)
