@@ -8,7 +8,7 @@ package com.anji.captcha.service;
 
 /**
  * 验证码缓存接口
- * @author lide1202@hotmail.com
+ * @author Raod
  * @date 2018-08-21
  */
 public interface CaptchaCacheService {

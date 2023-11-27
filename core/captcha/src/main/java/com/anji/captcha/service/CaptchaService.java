@@ -13,7 +13,7 @@ import java.util.Properties;
 
 /**
  * 验证码服务接口
- * @author lide1202@hotmail.com
+ * @author Raod
  * @date 2020-05-12
  */
 public interface CaptchaService {
