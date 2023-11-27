@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * 如果应用是单点的，也没有使用redis，那默认使用内存。
  * 内存缓存只适合单节点部署的应用，否则验证码生产与验证在节点之间信息不同步，导致失败。
  * @Title: 使用redis缓存
- * @author lide1202@hotmail.com
+ * @author Raod
  * @date 2020-05-12
  */
 public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {

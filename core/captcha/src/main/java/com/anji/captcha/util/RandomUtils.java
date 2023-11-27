@@ -31,8 +31,7 @@ public class RandomUtils {
      * @return
      */
     public static String getRandomHan(String hanZi) {
-        String ch = hanZi.charAt(new Random().nextInt(hanZi.length())) + "";
-        return ch;
+        return String.valueOf(hanZi.charAt(new Random().nextInt(hanZi.length())));
     }
 
     public static int getRandomInt(int bound){

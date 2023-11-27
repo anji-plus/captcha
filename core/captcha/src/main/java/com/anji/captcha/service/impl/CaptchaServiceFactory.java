@@ -19,7 +19,7 @@ public class CaptchaServiceFactory {
     private static Logger logger = LoggerFactory.getLogger(CaptchaServiceFactory.class);
 
     public static CaptchaService getInstance(Properties config) {
-        //先把所有CaptchaService初始化，通过init方法，实例字体等，add by lide1202@hotmail.com
+        //先把所有CaptchaService初始化，通过init方法，实例字体等，add by Devli
         /*try{
             for(CaptchaService item: instances.values()){
                 item.init(config);
