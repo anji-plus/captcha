@@ -84,7 +84,7 @@ AJ-Captcha技术支持三群 <br>
 <img src="https://ajreport.beliefteam.cn/file/download/717a1664-be79-48ff-9979-e48d8ca7e0e1" width = "300" height = "450" align=left/> <br>
 
 
-个人微信：个人微信，不闲聊，加群/咨询请备注 **AJ-Captcha**、**Captcha**、*验证码*，**一定要加备注 ！！！没有备注一律忽略！！！**<br>
+个人微信：个人微信，不闲聊，加群/咨询请备注 **AJ-Captcha**/**Captcha**/**验证码**，**一定要加备注 ！！！没有备注一律忽略！！！**<br>
 <img src="https://ajreport.beliefteam.cn/file/download/a3440fb7-e20c-42fa-b7af-805f5523c746" width = "300" height = "450" align=left/>
 
 
