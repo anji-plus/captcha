@@ -80,11 +80,16 @@ I  Your application is running here: http://localhost:8081
 
 # 6 技术支持，如有问题，请提交[Issue](https://gitee.com/anji-plus/captcha/issues) 
 
-AJ-Captcha技术支持三群 <br>
+AJ-Captcha技术支持三群，有问题都可以在群里问<br>
+如果不能直接加进去或者群二维码过期了，请添加下面个人微信<br>
 <img src="https://ajreport.beliefteam.cn/file/download/717a1664-be79-48ff-9979-e48d8ca7e0e1" width = "300" height = "450" align=left/> <br>
 
 
-个人微信：个人微信，不闲聊，加群/咨询请备注 **AJ-Captcha**/**Captcha**/**验证码**，**一定要加备注 ！！！没有备注一律忽略！！！**<br>
+个人微信：个人微信，不闲聊，加群、咨询请备注，备注格式不限但最好是：“项目名 问题”, 项目名可以是**AJ-Captcha**、**Captcha**、**验证码**，只要能一眼分辨就行 <br>
+例1：验证码 加群 <nr>
+例2：captche 有个问题xxxx <br>
+有问题，不管是技术问题还是使用问题，都尽量在群里问，没啥特殊问题尽量别加个人微信。加个人微信记得**一定要加备注 ！！！**<br>
+
 <img src="https://ajreport.beliefteam.cn/file/download/a3440fb7-e20c-42fa-b7af-805f5523c746" width = "300" height = "450" align=left/>
 
 
