@@ -12,6 +12,7 @@ import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.StringUtils;
 
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -26,22 +27,22 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
 
     @Override
     public void init(Properties config) {
-        for (String s : CaptchaServiceFactory.instances.keySet()) {
-            if(captchaType().equals(s)){
+        for (Map.Entry<String, CaptchaService> entry : CaptchaServiceFactory.instances.entrySet()) {
+            if(captchaType().equals(entry.getKey())){
                 continue;
             }
-            getService(s).init(config);
+            entry.getValue().init(config);
         }
     }
 
 	@Override
 	public void destroy(Properties config) {
-		for (String s : CaptchaServiceFactory.instances.keySet()) {
-			if(captchaType().equals(s)){
-				continue;
-			}
-			getService(s).destroy(config);
-		}
+        for (Map.Entry<String, CaptchaService> entry : CaptchaServiceFactory.instances.entrySet()) {
+            if(captchaType().equals(entry.getKey())){
+                continue;
+            }
+            entry.getValue().destroy(config);
+        }
 	}
 
 	private CaptchaService getService(String captchaType){

@@ -208,7 +208,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
             }
 
         } catch (Exception e) {
-            logger.error("load font error:{}", e);
+            logger.error("load font error:", e);
         }
     }
 

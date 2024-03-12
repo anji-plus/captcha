@@ -4,7 +4,6 @@ import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
-import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.util.ImageUtils;
 
 import java.awt.image.BufferedImage;
@@ -29,13 +28,8 @@ public class RotatePuzzleCaptchaServiceImpl extends AbstractCaptchaService {
     }
 
     @Override
-    protected CaptchaCacheService getCacheService(String cacheType) {
-        return super.getCacheService(cacheType);
-    }
-
-    @Override
     public void destroy(Properties config) {
-        logger.info("start-clear-history-data-", captchaType());
+        logger.info("start-clear-history-data:{}", captchaType());
     }
 
     @Override

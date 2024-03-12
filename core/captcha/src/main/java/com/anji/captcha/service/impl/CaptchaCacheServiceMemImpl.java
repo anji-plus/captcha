@@ -14,7 +14,6 @@ import com.anji.captcha.util.CacheUtil;
 public class CaptchaCacheServiceMemImpl implements CaptchaCacheService {
     @Override
     public void set(String key, String value, long expiresInSeconds) {
-
         CacheUtil.set(key, value, expiresInSeconds);
     }
 

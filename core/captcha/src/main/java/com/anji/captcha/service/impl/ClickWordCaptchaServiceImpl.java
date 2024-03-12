@@ -56,14 +56,14 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
                 this.clickWordFont = new Font(clickWordFontStr, style, size);
             }
         } catch (Exception ex) {
-            logger.error("load font error:{}", ex);
+            logger.error("load font error:", ex);
         }
         this.wordTotalCount = Integer.valueOf(config.getProperty(Const.CAPTCHA_WORD_COUNT,"4"));
     }
 
     @Override
     public void destroy(Properties config) {
-        logger.info("start-clear-history-data-", captchaType());
+        logger.info("start-clear-history-data:{}", captchaType());
     }
 
     @Override
