@@ -5,25 +5,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.demo.StartApplication;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.service.impl.ClickWordCaptchaServiceImpl;
-import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.RandomUtils;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Created by raodeming on 2020/4/30.
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = StartApplication.class)
 public class CaptchaServiceImplTest {
 
