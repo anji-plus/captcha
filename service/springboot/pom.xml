@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.5.RELEASE</version>
+        <version>3.1.0</version>
     </parent>
 
     <groupId>com.anji.captcha</groupId>
@@ -21,7 +21,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-boot-version>2.3.5.RELEASE</spring-boot-version>
+        <spring-boot-version>3.1.0</spring-boot-version>
         <skipTests>true</skipTests>
     </properties>
 
@@ -49,6 +49,12 @@
             <version>1.2.70</version>
         </dependency>
 
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>5.0.0</version>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

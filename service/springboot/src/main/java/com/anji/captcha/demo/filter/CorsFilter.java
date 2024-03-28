@@ -10,12 +10,13 @@ package com.anji.captcha.demo.filter;
  *  打包发布请注释该类，可能会造成一定的影响，解决本地启动跨域问题
  * Created by raodeming on 2020/3/17.
  */
+
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 @WebFilter(filterName = "CorsFilter ")
