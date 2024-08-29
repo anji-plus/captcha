@@ -81,14 +81,13 @@ public interface FrequencyLimitHandler {
             if (Objects.nonNull(cacheService.get(lockKey))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LOCK_GET_ERROR);
             }
-            String getCnts = cacheService.get(getKey);
-            if (Objects.isNull(getCnts)) {
-                cacheService.set(getKey, "1", 60L);
-                getCnts = "1";
+            boolean getCntsKeyExists = cacheService.exists(getKey);
+            Long getCnts = cacheService.increment(getKey, 1L);
+            if (!getCntsKeyExists) {
+                cacheService.setExpire(getKey, 60L);
             }
-            cacheService.increment(getKey, 1L);
             // 1分钟内请求次数过多
-            if (Long.parseLong(getCnts) > Long.parseLong(config.getProperty(Const.REQ_GET_MINUTE_LIMIT, "120"))) {
+            if (getCnts > Long.parseLong(config.getProperty(Const.REQ_GET_MINUTE_LIMIT, "120"))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LIMIT_GET_ERROR);
             }
 

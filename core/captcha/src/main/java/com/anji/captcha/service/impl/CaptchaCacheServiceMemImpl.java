@@ -39,7 +39,12 @@ public class CaptchaCacheServiceMemImpl implements CaptchaCacheService {
 		return ret;
 	}
 
-	@Override
+    @Override
+    public void setExpire(String key, long l) {
+        CacheUtil.setExpire(key, l);
+    }
+
+    @Override
     public String type() {
         return "local";
     }

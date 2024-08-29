@@ -52,4 +52,9 @@ public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
 	public Long increment(String key, long val) {
 		return stringRedisTemplate.opsForValue().increment(key,val);
 	}
+
+    @Override
+    public void setExpire(String key, long l) {
+        stringRedisTemplate.expire(key, l, TimeUnit.SECONDS);
+    }
 }
