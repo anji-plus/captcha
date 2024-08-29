@@ -82,7 +82,7 @@ I  Your application is running here: http://localhost:8081
 
 AJ-Captcha技术支持三群，有问题都可以在群里问<br>
 如果不能直接加进去或者群二维码过期了，请添加下面个人微信<br>
-<img src="https://ajreport.beliefteam.cn/file/download/717a1664-be79-48ff-9979-e48d8ca7e0e1" width = "300" height = "450" align=left/> <br>
+<img src="https://foruda.gitee.com/images/1724817510954363329/305a6044_7492051.jpeg" width = "300" height = "450" align=left/> <br>
 
 
 个人微信：个人微信，不闲聊，加群、咨询请备注，备注格式不限但最好是：“项目名 + 问题”, 项目名可以是**AJ-Captcha**、**Captcha**、**验证码**，只要能一眼分辨就行 <br>
