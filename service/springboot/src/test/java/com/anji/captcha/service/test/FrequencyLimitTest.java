@@ -1,24 +1,21 @@
 package com.anji.captcha.service.test;
 
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import com.anji.captcha.demo.StartApplication;
 import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 针对同一个客户端组件的请求，做如下限制:
@@ -33,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * @author WongBin
  * @date 2021/1/21
  */
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @SpringBootTest(classes = StartApplication.class)
 public class FrequencyLimitTest {
 
@@ -44,7 +41,8 @@ public class FrequencyLimitTest {
     int cnt = 100;
     private String clientUid = "login-"+UUID.randomUUID().toString();
 
-    @Before
+//    @Before
+    @BeforeEach
     public void init() {
         req.setCaptchaType(CaptchaTypeEnum.BLOCKPUZZLE.getCodeValue());
         //req.setClientUid(clientUid);
