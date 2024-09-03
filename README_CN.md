@@ -1,6 +1,4 @@
-
-# **在线体验暂时下线**
-
+# **在线体验暂时下线 ！！！**
 #### &emsp; 在线文档:[https://ajcaptcha.beliefteam.cn/captcha-doc/](https://ajcaptcha.beliefteam.cn/captcha-doc/ "doc")<br>
 
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)[![Total Lines](https://tokei.rs/b1/github/anji-plus/captcha?category=lines)](https://github.com/anji-plus/captcha)
@@ -78,31 +76,15 @@ I  Your application is running here: http://localhost:8081
 &emsp;详细的前后端接入文档，后端示例代码service目录下，前端示例代码view目录下。
 
 
-# 6 技术支持，如有问题，请提交[Issue](https://gitee.com/anji-plus/captcha/issues) 
+# 6 技术支持，如有问题，请提交Issue
+加微信前请备注AJ-Captcha。
+<br>微信群地址
 
-AJ-Captcha技术支持三群，有问题都可以在群里问<br>
-如果不能直接加进去或者群二维码过期了，请添加下面个人微信<br>
-<img src="https://foruda.gitee.com/images/1724817510954363329/305a6044_7492051.jpeg" width = "300" height = "450" align=left/> <br>
-
-
-个人微信：个人微信，不闲聊，加群、咨询请备注，备注格式不限但最好是：“项目名 + 问题”, 项目名可以是**AJ-Captcha**、**Captcha**、**验证码**，只要能一眼分辨就行 <br>
-例1：验证码 加群 <br>
-例2：captche 有个问题xxxx <br>
-有问题，不管是技术问题还是使用问题，都尽量在群里问，没啥特殊问题尽量别加个人微信。加个人微信记得**一定要加备注 ！！！**<br>
-
-<img src="https://ajreport.beliefteam.cn/file/download/a3440fb7-e20c-42fa-b7af-805f5523c746" width = "300" height = "450" align=left/>
-
+<img src="https://foruda.gitee.com/images/1724817510954363329/305a6044_7492051.jpeg" width = "200" height = auto />
 
 #### 开源不易，劳烦各位star ☺
 
-#### 感谢JetBrains 的支持
-
-##### JetBrains:[https://www.jetbrains.com/?from=AJ-Captcha](https://www.jetbrains.com/?from=AJ-Captcha "链接")
-
 <br>
 
-
-
-## Stargazers over time
-
+# Stargazers over time
 [![Stargazers over time](https://starchart.cc/anji-plus/captcha.svg)](https://starchart.cc/anji-plus/captcha)

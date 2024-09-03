@@ -11,22 +11,24 @@
 [![EN doc](https://img.shields.io/badge/document-English-blue.svg)](README.md)[![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](README_CN.md)
 
 # 1. Online Demo
-### &emsp; 1.1 [Have a try](https://captcha.anji-plus.com/ "链接")
-### &emsp; 1.2 [Document](https://captcha.anji-plus.com/#/doc "doc")
+### &emsp; 1.1 [Have a try](https://ajcaptcha.beliefteam.cn/captcha-doc/ "链接")
+### &emsp; 1.2 [Document](https://ajcaptcha.beliefteam.cn/captcha-doc/ "doc")
 ### &emsp; 1.3 Wechat/H5 demo（based on uni-app)
  &emsp;&emsp; see also [gitee]( https://gitee.com/anji-plus/captcha "码云")
 
  ![Wechat](https://captcha.anji-plus.com/static/8cm.jpg  "")&emsp;&emsp;![h5](https://images.gitee.com/uploads/images/2020/0429/174246_c33e3fa3_1728982.png "h5.png")
  &emsp;&emsp;&emsp;&emsp;Wechat Demo&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 
+
 # 2. Design Details
 ### &emsp; 2.1 UI Component
  &emsp;&emsp; support Android、iOS、Futter、Uni-App、ReactNative、Vue、Angular、Html、Php。
- 
+
 | blockPuzzle | clickWord |
 | --- | --- |
-|![blockPuzzle](https://captcha.anji-plus.com/static/blockPuzzle.png "滑动拼图")&emsp;|![clickWord](https://captcha.anji-plus.com/static/clickWord.png "点选文字")|
+|![blockPuzzle](images/%E6%BB%91%E5%8A%A8%E6%8B%BC%E5%9B%BE.gif "blockPuzzle")&emsp;|![clickWord](images/%E7%82%B9%E9%80%89%E6%96%87%E5%AD%97.gif "clickWord")|
 | 1-1 | 1-2 |
+ <br>
  
 
 ### &emsp; 2.2 Concept Related
@@ -73,16 +75,7 @@ Ajplus Captcha , an open source toolset for users,its main Features are as follo
 
 # 7. Connect Us
 
-[Wechat group] (https://captcha.anji-plus.com/static/weixin.png)
-
-| Wechat | qq |
-| --- | --- |
-|<img src="https://captcha.anji-plus.com/static/weixin.png" width = "300" height = "300" div align=left />|<img src="https://captcha.anji-plus.com/static/qq.png" width = "300" height = "300" div align=left />|
-
-#### Thank you, JetBrains, for your support
-<img src="https://captcha.anji-plus.com/static/jetbrains.png" width = "100" height = "100"/>
-
-##### JetBrains:[https://www.jetbrains.com/?from=AJ-Captcha](https://www.jetbrains.com/?from=AJ-Captcha "链接")
+<img src="https://foruda.gitee.com/images/1724817510954363329/305a6044_7492051.jpeg" width = "200" height = auto />
 
 <br>
  ### Have a try & enjoy it !!!  ☺

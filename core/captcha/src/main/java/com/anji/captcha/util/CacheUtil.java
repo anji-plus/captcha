@@ -120,4 +120,11 @@ public final class CacheUtil {
         logger.debug("have clean all key !");
         CACHE_MAP.clear();
     }
+
+    /**
+     * 设置过期时间
+     */
+    public static void setExpire(String key, long expiresInSeconds) {
+        CACHE_MAP.put(key + "_HoldTime", System.currentTimeMillis() + expiresInSeconds * 1000);//缓存失效时间
+    }
 }

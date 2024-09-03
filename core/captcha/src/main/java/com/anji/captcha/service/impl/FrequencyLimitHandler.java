@@ -81,14 +81,13 @@ public interface FrequencyLimitHandler {
             if (Objects.nonNull(cacheService.get(lockKey))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LOCK_GET_ERROR);
             }
-            String getCnts = cacheService.get(getKey);
-            if (Objects.isNull(getCnts)) {
-                cacheService.set(getKey, "1", 60L);
-                getCnts = "1";
+            boolean getCountsKeyExists = cacheService.exists(getKey);
+            Long getCounts = cacheService.increment(getKey, 1L);
+            if (!getCountsKeyExists) {
+                cacheService.setExpire(getKey, 60L);
             }
-            cacheService.increment(getKey, 1L);
             // 1分钟内请求次数过多
-            if (Long.parseLong(getCnts) > Long.parseLong(config.getProperty(Const.REQ_GET_MINUTE_LIMIT, "120"))) {
+            if (getCounts > Long.parseLong(config.getProperty(Const.REQ_GET_MINUTE_LIMIT, "120"))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LIMIT_GET_ERROR);
             }
 
@@ -119,13 +118,14 @@ public interface FrequencyLimitHandler {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_INVALID);
             }*/
             String key = getClientCId(d, "CHECK");
-            String v = cacheService.get(key);
-            if (Objects.isNull(v)) {
-                cacheService.set(key, "1", 60);
-                v = "1";
+
+            boolean getCountsKeyExists = cacheService.exists(key);
+            Long getCounts = cacheService.increment(key, 1L);
+            if (!getCountsKeyExists) {
+                cacheService.setExpire(key, 60L);
             }
-            cacheService.increment(key, 1);
-            if (Long.parseLong(v) > Long.parseLong(config.getProperty(Const.REQ_CHECK_MINUTE_LIMIT, "600"))) {
+
+            if (getCounts > Long.parseLong(config.getProperty(Const.REQ_CHECK_MINUTE_LIMIT, "600"))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LIMIT_CHECK_ERROR);
             }
             return null;
@@ -138,13 +138,12 @@ public interface FrequencyLimitHandler {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_INVALID);
             }*/
             String key = getClientCId(d, "VERIFY");
-            String v = cacheService.get(key);
-            if (Objects.isNull(v)) {
-                cacheService.set(key, "1", 60);
-                v = "1";
+            boolean getCountsKeyExists = cacheService.exists(key);
+            Long getCounts = cacheService.increment(key, 1L);
+            if (!getCountsKeyExists) {
+                cacheService.setExpire(key, 60L);
             }
-            cacheService.increment(key, 1);
-            if (Long.parseLong(v) > Long.parseLong(config.getProperty(Const.REQ_VALIDATE_MINUTE_LIMIT, "600"))) {
+            if (getCounts > Long.parseLong(config.getProperty(Const.REQ_VALIDATE_MINUTE_LIMIT, "600"))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LIMIT_VERIFY_ERROR);
             }
             return null;

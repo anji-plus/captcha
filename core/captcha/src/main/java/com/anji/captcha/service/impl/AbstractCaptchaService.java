@@ -184,10 +184,11 @@ public abstract class AbstractCaptchaService implements CaptchaService {
             // 验证失败 分钟内计数
             String fails = String.format(FrequencyLimitHandler.LIMIT_KEY, "FAIL", data.getClientUid());
             CaptchaCacheService cs = getCacheService(cacheType);
-            if (!cs.exists(fails)) {
-                cs.set(fails, "1", 60);
+            boolean getCountsKeyExists = cs.exists(fails);
+            cs.increment(fails, 1L);
+            if (!getCountsKeyExists) {
+                cs.setExpire(fails, 60L);
             }
-            cs.increment(fails, 1);
         }
     }
 
@@ -208,7 +209,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
             }
 
         } catch (Exception e) {
-            logger.error("load font error:{}", e);
+            logger.error("load font error:", e);
         }
     }
 
