@@ -80,15 +80,9 @@ I  Your application is running here: http://localhost:8081
 加微信前请备注AJ-Captcha。
 <br>微信群地址
 
-| 微信 | qq |
-| --- | --- |
-|<img src="https://captcha.anji-plus.com/static/weixin.png" width = "300" height = "300" div align=left />|<img src="https://captcha.anji-plus.com/static/qq.png" width = "300" height = "300" div align=left />|
+<img src="https://foruda.gitee.com/images/1724817510954363329/305a6044_7492051.jpeg" width = "200" height = auto />
 
 #### 开源不易，劳烦各位star ☺
-
-#### 感谢JetBrains 的支持
-
-##### JetBrains:[https://www.jetbrains.com/?from=AJ-Captcha](https://www.jetbrains.com/?from=AJ-Captcha "链接")
 
 <br>
 
