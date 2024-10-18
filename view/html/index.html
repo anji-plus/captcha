@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
         <title>verify插件demo</title>
 		<link rel="stylesheet" type="text/css" href="css/verify.css">
-		
+
 		<script>
 			(function () {
 			  if (!window.Promise) {
@@ -33,9 +33,9 @@
 		<div class="box">
 			<h1>verify---anji</h1>
 			<p>前后端联合交互的验证码插件</p>
-			
+
 			<br><br>
-	
+
 			<h3>滑动嵌入式（slider-embed）</h3>
 			<div id="mpanel1" >
 			</div>
@@ -45,7 +45,7 @@
 			<button class="btn" id='btn'>点击我</button>
 			<div id="mpanel2" style="margin-top:50px;">
 			</div>
-			
+
 			<h3>点选嵌入式（point-embed）</h3>
 			<div id="mpanel3" style="margin-top:50px;">
 			</div>
@@ -58,13 +58,13 @@
 		<script src="./js/crypto-js.js"></script>
 		<script src="./js/ase.js"></script>
         <script src="js/verify.js" ></script>
-        
+
         <script>
 			// 初始化验证码  嵌入式
         	$('#mpanel1').slideVerify({
-				baseUrl:'https://captcha.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
+				// baseUrl:'https://captcha.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
 				// baseUrl:'http://localhost:8080/captcha_springmvc_war_exploded',  //local-spring-mvc;
-				// baseUrl:'http://localhost:8080',  //local-spring-boot;
+				baseUrl:'http://localhost:8080',  //local-spring-boot;
 				mode:'fixed',
 				imgSize : {       //图片的大小对象
 		        	width: '400px',
@@ -83,7 +83,7 @@
 		        error : function() {        //失败的回调
 		        }
 			});
-			
+
 			// // 初始化验证码  弹出式
 			$('#mpanel2').slideVerify({
 				baseUrl:'https://captcha.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
@@ -110,20 +110,20 @@
 					}else {
 						return true
 					}
-					
+
 				},
 				ready : function() {},  //加载完毕的回调
 				success : function(params) { //成功的回调
 					// params为返回的二次验证参数 需要在接下来的实现逻辑回传服务器
-					// 例如: login($.extend({}, params))  
+					// 例如: login($.extend({}, params))
 				},
 				error : function() {}        //失败的回调
 			});
-			
+
 			// 初始化验证码  嵌入式
 			$('#mpanel3').pointsVerify({
-				baseUrl:'https://captcha.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
-				// baseUrl:'http://10.108.12.12:8080',  //服务器请求地址, 默认地址为安吉服务器;
+				// baseUrl:'https://captcha.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
+				baseUrl:'http://127.0.0.1:8080',  //服务器请求地址, 默认地址为安吉服务器;
 				mode:'fixed',
 		    	imgSize : {
 		        	width: '500px',
@@ -136,7 +136,7 @@
 		        },
 		        error : function() {
 		        }
-		        
+
 		    });
 			// // 初始化验证码  弹出式
 		    $('#mpanel4').pointsVerify({
@@ -158,5 +158,5 @@
 		    });
         </script>
     </body>
- 
+
 </html>
