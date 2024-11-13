@@ -2,7 +2,12 @@ package com.anji.captcha.demo.service;
 
 import com.anji.captcha.service.CaptchaCacheService;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.core.script.RedisScript;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,6 +27,14 @@ public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
         return "redis";
     }
 
+
+    private static final String LUA_SCRIPT = "local key = KEYS[1] " +
+            "local incrementValue = tonumber(ARGV[1]) " +
+            "if redis.call('EXISTS', key) == 1 then " +
+            "    return redis.call('INCRBY', key, incrementValue) " +
+            "else " +
+            "    return 0 " +
+            "end";
     public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
@@ -50,7 +63,14 @@ public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
 
 	@Override
 	public Long increment(String key, long val) {
-		return stringRedisTemplate.opsForValue().increment(key,val);
+        // 执行 Lua 脚本
+        RedisScript<Long> script = new DefaultRedisScript<>(LUA_SCRIPT, Long.class);
+        // 执行 Lua 脚本
+        return stringRedisTemplate.execute(
+                script,
+                Collections.singletonList(key),
+                String.valueOf(val)
+        );
 	}
 
     @Override
