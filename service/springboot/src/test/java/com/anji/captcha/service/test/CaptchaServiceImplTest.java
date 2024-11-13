@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.demo.StartApplication;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.service.impl.ClickWordCaptchaServiceImpl;
 import com.anji.captcha.util.AESUtil;
@@ -29,7 +30,8 @@ public class CaptchaServiceImplTest {
 
     @Autowired
     private CaptchaService captchaService;
-
+    @Autowired
+    private CaptchaCacheService cacheService;
     @Test
     public void get() {
         CaptchaVO captchaVO = new CaptchaVO();
@@ -85,5 +87,11 @@ public class CaptchaServiceImplTest {
             }
         }
         return words;
+    }
+
+    @Test
+    public void test(){
+        Long increment = cacheService.increment("11", 2);
+
     }
 }
