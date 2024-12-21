@@ -21,6 +21,16 @@ class Index
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
+       /*  如果开发框架开启了debug、trace，导致前端项目无法正确获取到后台接口的返回数据，可以修改为本注释内的接口返回方式
+        $response = [
+            'error' => false,
+            'repCode' => '0000',
+            'repData' => $data,
+            'repMsg' => null,
+            'success' => true,
+        ];
+        return json($response);*/
+
         $this->success($data);
     }
 
@@ -34,6 +44,15 @@ class Index
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
+        /*  如果开发框架开启了debug、trace，导致前端项目无法正确获取到后台接口的返回数据，可以修改为本注释内的接口返回方式
+        $response = [
+            'error' => false,
+            'repCode' => '0000',
+            'repData' => [],
+            'repMsg' => null,
+            'success' => true,
+        ];
+        return json($response);*/
         $this->success([]);
     }
 

@@ -3,8 +3,10 @@ package com.anji.captcha.demo.service;
 import com.anji.captcha.service.CaptchaCacheService;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.core.script.RedisScript;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -31,9 +33,8 @@ public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
             "if redis.call('EXISTS', key) == 1 then " +
             "    return redis.call('INCRBY', key, incrementValue) " +
             "else " +
-            "    return nil " +
+            "    return 0 " +
             "end";
-
     public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
@@ -62,13 +63,14 @@ public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
 
 	@Override
 	public Long increment(String key, long val) {
-        DefaultRedisScript<Long> script = new DefaultRedisScript<>();
-        script.setScriptText(LUA_SCRIPT);
-        script.setResultType(Long.class);
-        List<String> keys = Arrays.asList(key);
-        List<String> args = Arrays.asList(String.valueOf(val));
-        // 执行Lua脚本
-        return stringRedisTemplate.execute(script, keys, args); // 如果键不存在，将返回null
+        // 执行 Lua 脚本
+        RedisScript<Long> script = new DefaultRedisScript<>(LUA_SCRIPT, Long.class);
+        // 执行 Lua 脚本
+        return stringRedisTemplate.execute(
+                script,
+                Collections.singletonList(key),
+                String.valueOf(val)
+        );
 	}
 
     @Override
