@@ -17,5 +17,6 @@
     <module>core/captcha-spring-boot-starter</module>
     <module>service/springmvc</module>
     <module>service/springboot</module>
+    <module>service/springboot3</module>
   </modules>
 </project>
