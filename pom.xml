@@ -6,43 +6,12 @@
 
   <groupId>com.anji.captcha</groupId>
   <artifactId>aj-captcha-parent</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
-    <springboot.version>2.0.4.RELEASE</springboot.version>
-    <captcha.core.version>1.2.0</captcha.core.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <encoding>UTF-8</encoding>
   </properties>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-        <version>${springboot.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-test</artifactId>
-        <version>${springboot.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-data-redis</artifactId>
-        <version>${springboot.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.github.anji-plus</groupId>
-        <artifactId>captcha</artifactId>
-        <version>${captcha.core.version}</version>
-      </dependency>
 
-    </dependencies>
-
-  </dependencyManagement>
   <modules>
     <module>core/captcha</module>
     <module>core/captcha-spring-boot-starter</module>
