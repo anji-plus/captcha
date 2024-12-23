@@ -42,7 +42,6 @@ public interface FrequencyLimitHandler {
      */
     ResponseModel validateVerify(CaptchaVO captchaVO);
 
-
     /***
      * 验证码接口限流:
      *      客户端ClientUid 组件实例化时设置一次，如：场景码+UUID，客户端可以本地缓存,保证一个组件只有一个值
@@ -81,10 +80,10 @@ public interface FrequencyLimitHandler {
             if (Objects.nonNull(cacheService.get(lockKey))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LOCK_GET_ERROR);
             }
-            boolean getCountsKeyExists = cacheService.exists(getKey);
+
             Long getCounts = cacheService.increment(getKey, 1L);
-            if (!getCountsKeyExists) {
-                cacheService.setExpire(getKey, 60L);
+            if (getCounts <= 1) {
+                cacheService.set(getKey,"1", 60L);
             }
             // 1分钟内请求次数过多
             if (getCounts > Long.parseLong(config.getProperty(Const.REQ_GET_MINUTE_LIMIT, "120"))) {
@@ -118,11 +117,9 @@ public interface FrequencyLimitHandler {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_INVALID);
             }*/
             String key = getClientCId(d, "CHECK");
-
-            boolean getCountsKeyExists = cacheService.exists(key);
             Long getCounts = cacheService.increment(key, 1L);
-            if (!getCountsKeyExists) {
-                cacheService.setExpire(key, 60L);
+            if (getCounts <= 1) {
+                cacheService.set(key,"1" ,60L);
             }
 
             if (getCounts > Long.parseLong(config.getProperty(Const.REQ_CHECK_MINUTE_LIMIT, "600"))) {
@@ -138,10 +135,9 @@ public interface FrequencyLimitHandler {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_INVALID);
             }*/
             String key = getClientCId(d, "VERIFY");
-            boolean getCountsKeyExists = cacheService.exists(key);
             Long getCounts = cacheService.increment(key, 1L);
-            if (!getCountsKeyExists) {
-                cacheService.setExpire(key, 60L);
+            if (getCounts <= 1) {
+                cacheService.set(key,"1", 60L);
             }
             if (getCounts > Long.parseLong(config.getProperty(Const.REQ_VALIDATE_MINUTE_LIMIT, "600"))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LIMIT_VERIFY_ERROR);

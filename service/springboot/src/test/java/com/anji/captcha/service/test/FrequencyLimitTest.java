@@ -6,7 +6,6 @@ import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -15,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.InputStream;
-import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -47,7 +44,7 @@ public class FrequencyLimitTest {
     @Before
     public void init() {
         req.setCaptchaType(CaptchaTypeEnum.BLOCKPUZZLE.getCodeValue());
-        //req.setClientUid(clientUid);
+        req.setClientUid(clientUid);
         req.setBrowserInfo("sssssssssssssssssss");
         req.setTs(System.currentTimeMillis());
         /*Properties config = new Properties();
@@ -73,7 +70,7 @@ public class FrequencyLimitTest {
         while (i++ < cnt) {
             ResponseModel res = captchaService.get(req);
             logger.info(i + "=" + res.getRepCode() + "," + res.getRepMsg());
-            TimeUnit.SECONDS.sleep(1);
+            //TimeUnit.SECONDS.sleep(1);
         }
 
         //testCheck();
@@ -87,7 +84,7 @@ public class FrequencyLimitTest {
             req.setToken("xddfdf"+i);
             ResponseModel res = captchaService.check(req);
             logger.info(i + "=" + res.getRepCode() + "," + res.getRepMsg());
-            TimeUnit.SECONDS.sleep(1);
+            //TimeUnit.SECONDS.sleep(1);
         }
     }
 

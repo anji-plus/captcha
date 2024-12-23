@@ -82,7 +82,9 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
         if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
             return RepCodeEnum.NULL_ERROR.parseError("二次校验参数");
         }
-        try {
+        ResponseModel ret = getService(captchaVO.getCaptchaType()).verification(captchaVO);
+        return ret;
+        /*try {
             String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getCaptchaVerification());
             if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
@@ -93,7 +95,7 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
             logger.error("验证码坐标解析失败", e);
             return ResponseModel.errorMsg(e.getMessage());
         }
-        return ResponseModel.success();
+        return ResponseModel.success();*/
     }
 
 }

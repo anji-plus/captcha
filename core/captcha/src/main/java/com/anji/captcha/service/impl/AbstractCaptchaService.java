@@ -185,10 +185,10 @@ public abstract class AbstractCaptchaService implements CaptchaService {
             String fails = String.format(FrequencyLimitHandler.LIMIT_KEY, "FAIL", data.getClientUid());
             CaptchaCacheService cs = getCacheService(cacheType);
             boolean getCountsKeyExists = cs.exists(fails);
-            cs.increment(fails, 1L);
             if (!getCountsKeyExists) {
-                cs.setExpire(fails, 60L);
+                cs.set(fails,"1", 60L);
             }
+            cs.increment(fails, 1L);
         }
     }
 

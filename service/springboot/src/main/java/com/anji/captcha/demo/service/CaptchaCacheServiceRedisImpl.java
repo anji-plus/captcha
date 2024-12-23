@@ -27,14 +27,14 @@ public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
         return "redis";
     }
 
-
     private static final String LUA_SCRIPT = "local key = KEYS[1] " +
             "local incrementValue = tonumber(ARGV[1]) " +
             "if redis.call('EXISTS', key) == 1 then " +
             "    return redis.call('INCRBY', key, incrementValue) " +
             "else " +
-            "    return 0 " +
+            "    return incrementValue " +
             "end";
+
     public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
