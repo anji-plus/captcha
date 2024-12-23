@@ -39,6 +39,7 @@ public class FrequencyLimitTest {
     private CaptchaVO req = new CaptchaVO();
     private Logger logger = LoggerFactory.getLogger(getClass());
     int cnt = 100;
+    boolean enableInterval = true;
     private String clientUid = "login-"+UUID.randomUUID().toString();
 
     @Before
@@ -63,6 +64,11 @@ public class FrequencyLimitTest {
         //config.setProperty("captcha.cacheType","redis");
         captchaService.init(config);*/
     }
+    private void waitFor()throws Exception{
+        if(enableInterval){
+            TimeUnit.SECONDS.sleep(1);
+        }
+    }
 
     @Test
     public void testGet() throws Exception {
@@ -71,6 +77,7 @@ public class FrequencyLimitTest {
             ResponseModel res = captchaService.get(req);
             logger.info(i + "=" + res.getRepCode() + "," + res.getRepMsg());
             //TimeUnit.SECONDS.sleep(1);
+            waitFor();
         }
 
         //testCheck();
@@ -84,7 +91,7 @@ public class FrequencyLimitTest {
             req.setToken("xddfdf"+i);
             ResponseModel res = captchaService.check(req);
             logger.info(i + "=" + res.getRepCode() + "," + res.getRepMsg());
-            //TimeUnit.SECONDS.sleep(1);
+            waitFor();
         }
     }
 
@@ -96,7 +103,7 @@ public class FrequencyLimitTest {
             req.setCaptchaVerification("sdfddfdd");
             ResponseModel res = captchaService.verification(req);
             logger.info(i + "=" + res.getRepCode() + "," + res.getRepMsg());
-            //TimeUnit.SECONDS.sleep(1);
+            waitFor();
         }
     }
 

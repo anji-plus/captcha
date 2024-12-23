@@ -47,7 +47,8 @@
 ├─service<br>
 │&emsp;├─go   &emsp;&emsp;    后端为go项目示例<br>
 │&emsp;├─php   &emsp;&emsp;    后端为php项目示例<br>
-│&emsp;├─springboot   &emsp;&emsp;    后端为springboot项目示例<br>
+│&emsp;├─springboot   &emsp;&emsp;    后端为springboot-2.x项目示例<br>
+│&emsp;├─springboot3   &emsp;&emsp;    后端为springboot-3.x项目示例<br>
 │&emsp;└─springmvc    &emsp;&emsp;    后端为springmvc非springboot项目示例<br>
 └─view    &emsp;&emsp;&emsp;&emsp;&emsp;    多语言客户端示例<br>
 &emsp;├─android    &emsp;&emsp;    原生android实现示例<br>
@@ -75,8 +76,10 @@ I  Your application is running here: http://localhost:8081
 ``` 
 &emsp;详细的前后端接入文档，后端示例代码service目录下，前端示例代码view目录下。
 
-
 # 6 技术支持，如有问题，请提交Issue
+提交Issue前请查阅已有Issue.
+如有兴趣提交PR,请参考[提交PR规范](./CONTRIBUTING.md),切忌不要直接提交大PR，否则会影响合并流程和审核时效，也不要提交到master分支。
+
 加微信前请备注AJ-Captcha。
 <br>微信群地址
 
