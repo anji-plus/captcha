@@ -5,6 +5,7 @@ import com.anji.captcha.model.common.Const;
 import com.anji.captcha.properties.AjCaptchaProperties;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.service.impl.CaptchaServiceFactory;
+import com.anji.captcha.util.Base64Utils;
 import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
@@ -15,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.util.Base64Utils;
 import org.springframework.util.FileCopyUtils;
 
 import java.util.HashMap;
