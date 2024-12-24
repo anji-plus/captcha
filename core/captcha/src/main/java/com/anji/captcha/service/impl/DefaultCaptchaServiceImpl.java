@@ -6,12 +6,15 @@
  */
 package com.anji.captcha.service.impl;
 
+import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.common.RepCodeEnum;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.util.StringUtils;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -26,22 +29,22 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
 
     @Override
     public void init(Properties config) {
-        for (String s : CaptchaServiceFactory.instances.keySet()) {
-            if(captchaType().equals(s)){
+        for (Map.Entry<String, CaptchaService> entry : CaptchaServiceFactory.instances.entrySet()) {
+            if(captchaType().equals(entry.getKey())){
                 continue;
             }
-            getService(s).init(config);
+            entry.getValue().init(config);
         }
     }
 
 	@Override
 	public void destroy(Properties config) {
-		for (String s : CaptchaServiceFactory.instances.keySet()) {
-			if(captchaType().equals(s)){
-				continue;
-			}
-			getService(s).destroy(config);
-		}
+        for (Map.Entry<String, CaptchaService> entry : CaptchaServiceFactory.instances.entrySet()) {
+            if(captchaType().equals(entry.getKey())){
+                continue;
+            }
+            entry.getValue().destroy(config);
+        }
 	}
 
 	private CaptchaService getService(String captchaType){
@@ -81,7 +84,12 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
         if (StringUtils.isEmpty(captchaVO.getCaptchaVerification())) {
             return RepCodeEnum.NULL_ERROR.parseError("二次校验参数");
         }
-        try {
+        if(Objects.isNull(captchaVO.getCaptchaType())) {
+            captchaVO.setCaptchaType(CaptchaTypeEnum.BLOCKPUZZLE.getCodeValue());
+        }
+        ResponseModel ret = getService(captchaVO.getCaptchaType()).verification(captchaVO);
+        return ret;
+        /*try {
             String codeKey = String.format(REDIS_SECOND_CAPTCHA_KEY, captchaVO.getCaptchaVerification());
             if (!CaptchaServiceFactory.getCache(cacheType).exists(codeKey)) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_CAPTCHA_INVALID);
@@ -92,7 +100,7 @@ public class DefaultCaptchaServiceImpl extends AbstractCaptchaService{
             logger.error("验证码坐标解析失败", e);
             return ResponseModel.errorMsg(e.getMessage());
         }
-        return ResponseModel.success();
+        return ResponseModel.success();*/
     }
 
 }

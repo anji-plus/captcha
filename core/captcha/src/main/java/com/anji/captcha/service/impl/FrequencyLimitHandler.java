@@ -42,7 +42,6 @@ public interface FrequencyLimitHandler {
      */
     ResponseModel validateVerify(CaptchaVO captchaVO);
 
-
     /***
      * 验证码接口限流:
      *      客户端ClientUid 组件实例化时设置一次，如：场景码+UUID，客户端可以本地缓存,保证一个组件只有一个值
@@ -81,14 +80,13 @@ public interface FrequencyLimitHandler {
             if (Objects.nonNull(cacheService.get(lockKey))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LOCK_GET_ERROR);
             }
-            String getCnts = cacheService.get(getKey);
-            if (Objects.isNull(getCnts)) {
-                cacheService.set(getKey, "1", 60);
-                getCnts = "1";
+
+            Long getCounts = cacheService.increment(getKey, 1L);
+            if (getCounts <= 1) {
+                cacheService.set(getKey,"1", 60L);
             }
-            cacheService.increment(getKey, 1);
             // 1分钟内请求次数过多
-            if (Long.valueOf(getCnts) > Long.parseLong(config.getProperty(Const.REQ_GET_MINUTE_LIMIT, "120"))) {
+            if (getCounts > Long.parseLong(config.getProperty(Const.REQ_GET_MINUTE_LIMIT, "120"))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LIMIT_GET_ERROR);
             }
 
@@ -100,9 +98,9 @@ public interface FrequencyLimitHandler {
                 return null;
             }
             // 1分钟内失败5次
-            if (Long.valueOf(failCnts) > Long.parseLong(config.getProperty(Const.REQ_GET_LOCK_LIMIT, "5"))) {
+            if (Long.parseLong(failCnts) > Long.parseLong(config.getProperty(Const.REQ_GET_LOCK_LIMIT, "5"))) {
                 // get接口锁定5分钟
-                cacheService.set(lockKey, "1", Long.valueOf(config.getProperty(Const.REQ_GET_LOCK_SECONDS, "300")));
+                cacheService.set(lockKey, "1", Long.parseLong(config.getProperty(Const.REQ_GET_LOCK_SECONDS, "300")));
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LOCK_GET_ERROR);
             }
             return null;
@@ -119,13 +117,12 @@ public interface FrequencyLimitHandler {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_INVALID);
             }*/
             String key = getClientCId(d, "CHECK");
-            String v = cacheService.get(key);
-            if (Objects.isNull(v)) {
-                cacheService.set(key, "1", 60);
-                v = "1";
+            Long getCounts = cacheService.increment(key, 1L);
+            if (getCounts <= 1) {
+                cacheService.set(key,"1" ,60L);
             }
-            cacheService.increment(key, 1);
-            if (Long.valueOf(v) > Long.valueOf(config.getProperty(Const.REQ_CHECK_MINUTE_LIMIT, "600"))) {
+
+            if (getCounts > Long.parseLong(config.getProperty(Const.REQ_CHECK_MINUTE_LIMIT, "600"))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LIMIT_CHECK_ERROR);
             }
             return null;
@@ -138,13 +135,11 @@ public interface FrequencyLimitHandler {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_INVALID);
             }*/
             String key = getClientCId(d, "VERIFY");
-            String v = cacheService.get(key);
-            if (Objects.isNull(v)) {
-                cacheService.set(key, "1", 60);
-                v = "1";
+            Long getCounts = cacheService.increment(key, 1L);
+            if (getCounts <= 1) {
+                cacheService.set(key,"1", 60L);
             }
-            cacheService.increment(key, 1);
-            if (Long.valueOf(v) > Long.valueOf(config.getProperty(Const.REQ_VALIDATE_MINUTE_LIMIT, "600"))) {
+            if (getCounts > Long.parseLong(config.getProperty(Const.REQ_VALIDATE_MINUTE_LIMIT, "600"))) {
                 return ResponseModel.errorMsg(RepCodeEnum.API_REQ_LIMIT_VERIFY_ERROR);
             }
             return null;

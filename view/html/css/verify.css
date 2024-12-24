@@ -101,6 +101,7 @@ html{
 }
 
 .verify-tips{
+    text-indent: 10px;
     position: absolute;
     /* display: none; */
     left: 0px;

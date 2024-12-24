@@ -6,7 +6,6 @@ import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -15,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.InputStream;
-import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -42,12 +39,13 @@ public class FrequencyLimitTest {
     private CaptchaVO req = new CaptchaVO();
     private Logger logger = LoggerFactory.getLogger(getClass());
     int cnt = 100;
+    boolean enableInterval = true;
     private String clientUid = "login-"+UUID.randomUUID().toString();
 
     @Before
     public void init() {
         req.setCaptchaType(CaptchaTypeEnum.BLOCKPUZZLE.getCodeValue());
-        //req.setClientUid(clientUid);
+        req.setClientUid(clientUid);
         req.setBrowserInfo("sssssssssssssssssss");
         req.setTs(System.currentTimeMillis());
         /*Properties config = new Properties();
@@ -66,6 +64,11 @@ public class FrequencyLimitTest {
         //config.setProperty("captcha.cacheType","redis");
         captchaService.init(config);*/
     }
+    private void waitFor()throws Exception{
+        if(enableInterval){
+            TimeUnit.SECONDS.sleep(1);
+        }
+    }
 
     @Test
     public void testGet() throws Exception {
@@ -73,7 +76,8 @@ public class FrequencyLimitTest {
         while (i++ < cnt) {
             ResponseModel res = captchaService.get(req);
             logger.info(i + "=" + res.getRepCode() + "," + res.getRepMsg());
-            TimeUnit.SECONDS.sleep(1);
+            //TimeUnit.SECONDS.sleep(1);
+            waitFor();
         }
 
         //testCheck();
@@ -87,7 +91,7 @@ public class FrequencyLimitTest {
             req.setToken("xddfdf"+i);
             ResponseModel res = captchaService.check(req);
             logger.info(i + "=" + res.getRepCode() + "," + res.getRepMsg());
-            TimeUnit.SECONDS.sleep(1);
+            waitFor();
         }
     }
 
@@ -99,7 +103,7 @@ public class FrequencyLimitTest {
             req.setCaptchaVerification("sdfddfdd");
             ResponseModel res = captchaService.verification(req);
             logger.info(i + "=" + res.getRepCode() + "," + res.getRepMsg());
-            //TimeUnit.SECONDS.sleep(1);
+            waitFor();
         }
     }
 

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.*;
 
 public final class CacheUtil {
@@ -49,6 +50,16 @@ public final class CacheUtil {
 					refresh();
 				}
 			},10,second,TimeUnit.SECONDS);
+
+            Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if(Objects.nonNull(scheduledExecutor)){
+                        clear();
+                        scheduledExecutor.shutdownNow();
+                    }
+                }
+            }));
         }
     }
 
@@ -108,5 +119,12 @@ public final class CacheUtil {
     public static void clear() {
         logger.debug("have clean all key !");
         CACHE_MAP.clear();
+    }
+
+    /**
+     * 设置过期时间
+     */
+    public static void setExpire(String key, long expiresInSeconds) {
+        CACHE_MAP.put(key + "_HoldTime", System.currentTimeMillis() + expiresInSeconds * 1000);//缓存失效时间
     }
 }

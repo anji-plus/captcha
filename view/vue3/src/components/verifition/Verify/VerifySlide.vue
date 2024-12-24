@@ -33,7 +33,7 @@
                                   'top':'-' + (parseInt(setSize.imgHeight) + vSpace) + 'px',
                                   'background-size': setSize.imgWidth + ' ' + setSize.imgHeight,
                                   }">
-                        <img :src="'data:image/png;base64,'+blockBackImgBase" alt=""  style="width:100%;height:100%;display:block">
+                        <img :src="'data:image/png;base64,'+blockBackImgBase" alt=""  style="width:100%;height:100%;display:block;-webkit-user-drag:none;">
                     </div>
                 </div>
             </div>
@@ -223,11 +223,11 @@
                         }
                         var bar_area_left = barArea.value.getBoundingClientRect().left;
                         var move_block_left = x - bar_area_left //小方块相对于父元素的left值
-                        if (move_block_left >= barArea.value.offsetWidth - parseInt(parseInt(blockSize.width) / 2) - 2) {
-                            move_block_left = barArea.value.offsetWidth - parseInt(parseInt(blockSize.width) / 2) - 2;
+                        if (move_block_left >= barArea.value.offsetWidth - parseInt(parseInt(blockSize.value.width) / 2) - 2) {
+                            move_block_left = barArea.value.offsetWidth - parseInt(parseInt(blockSize.value.width) / 2) - 2;
                         }
                         if (move_block_left <= 0) {
-                            move_block_left = parseInt(parseInt(blockSize.width) / 2);
+                            move_block_left = parseInt(parseInt(blockSize.value.width) / 2);
                         }
                         //拖动后小方块的left值
                         moveBlockLeft.value = (move_block_left - startLeft.value) + "px"

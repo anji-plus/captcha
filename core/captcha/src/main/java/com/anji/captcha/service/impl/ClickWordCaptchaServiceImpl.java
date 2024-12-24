@@ -43,27 +43,27 @@ public class ClickWordCaptchaServiceImpl extends AbstractCaptchaService {
         super.init(config);
         clickWordFontStr = config.getProperty(Const.CAPTCHA_FONT_TYPE, "SourceHanSansCN-Normal.otf");
         try {
-            int size = Integer.valueOf(config.getProperty(Const.CAPTCHA_FONT_SIZE,HAN_ZI_SIZE+""));
+            HAN_ZI_SIZE = Integer.valueOf(config.getProperty(Const.CAPTCHA_FONT_SIZE,"25"));
 
             if (clickWordFontStr.toLowerCase().endsWith(".ttf")
                     || clickWordFontStr.toLowerCase().endsWith(".ttc")
                     || clickWordFontStr.toLowerCase().endsWith(".otf")) {
                 this.clickWordFont = Font.createFont(Font.TRUETYPE_FONT,
                         getClass().getResourceAsStream("/fonts/" + clickWordFontStr))
-                        .deriveFont(Font.BOLD, size);
+                        .deriveFont(Font.BOLD, HAN_ZI_SIZE);
             } else {
                 int style = Integer.valueOf(config.getProperty(Const.CAPTCHA_FONT_STYLE,Font.BOLD+""));
-                this.clickWordFont = new Font(clickWordFontStr, style, size);
+                this.clickWordFont = new Font(clickWordFontStr, style, HAN_ZI_SIZE);
             }
         } catch (Exception ex) {
-            logger.error("load font error:{}", ex);
+            logger.error("load font error:", ex);
         }
         this.wordTotalCount = Integer.valueOf(config.getProperty(Const.CAPTCHA_WORD_COUNT,"4"));
     }
 
     @Override
     public void destroy(Properties config) {
-        logger.info("start-clear-history-data-", captchaType());
+        logger.info("start-clear-history-data:{}", captchaType());
     }
 
     @Override

@@ -36,7 +36,7 @@ public class BlockPuzzleCaptchaServiceImpl extends AbstractCaptchaService {
 
 	@Override
 	public void destroy(Properties config) {
-        logger.info("start-clear-history-data-",captchaType());
+        logger.info("start-clear-history-data:{}",captchaType());
 	}
 
     @Override

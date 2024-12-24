@@ -8,7 +8,7 @@ package com.anji.captcha.service;
 
 /**
  * 验证码缓存接口
- * @author lide1202@hotmail.com
+ * @author Raod
  * @date 2018-08-21
  */
 public interface CaptchaCacheService {
@@ -29,13 +29,15 @@ public interface CaptchaCacheService {
 	String type();
 
 	/***
-	 *
+	 * key 存在，返回存在的值+val，key不存在 返回val
 	 * @param key
 	 * @param val
 	 * @return
 	 */
 	default Long increment(String key, long val){
-		return 0L;
+		return val;
 	};
+
+	void setExpire(String key, long l);
 
 }

@@ -1,11 +1,11 @@
 <template>
-    <view style="position: relative;">
+    <view style="position: relative; touch-action: none; touch-action: pan-y">
         <view v-if="type === '2'" class="verify-img-out"
              :style="{height: (parseInt(imgSize.height) + vSpace) + 'px'}"
             >
             <view class="verify-img-panel" :style="{width: imgSize.width,
                                                    height: imgSize.height,}">
-												   
+
                <image :src="backImgBase?('data:image/png;base64,'+backImgBase):defaultImg" alt="" style="width:100%;height:100%;display:block"></image>
                 <view class="verify-refresh" @click="refresh" v-show="showRefresh">
                     <text class="iconfont icon-refresh"></text>
@@ -169,8 +169,8 @@
                 this.barArea = query.select('.verify-bar-area')
                 var bar_area_left,barArea_offsetWidth;
                 this.barArea.boundingClientRect(data => {
-                    bar_area_left = Math.ceil(data.left) 
-                    barArea_offsetWidth =Math.ceil(data.width) 
+                    bar_area_left = Math.ceil(data.left)
+                    barArea_offsetWidth =Math.ceil(data.width)
 
                 if (this.status && this.isEnd == false) {
                     if (!e.touches) {   //兼容移动端
@@ -179,13 +179,13 @@
                         var x =Math.ceil(e.touches[0].pageX) ;
                     }
                     // var bar_area_left = this.getLeft(this.barArea);
-                    
+
                     var move_block_left = x - bar_area_left //小方块相对于父元素的left值
                     if (this.type !== '1') {		//图片滑动
                         if (move_block_left >= barArea_offsetWidth - parseInt(parseInt(this.blockSize.width) / 2) - 2) {
                             move_block_left = barArea_offsetWidth - parseInt(parseInt(this.blockSize.width) / 2) - 2;
                         }
-                    } 
+                    }
 
                     if (move_block_left <= 0) {
                         move_block_left = parseInt(parseInt(this.blockSize.width) / 2);
@@ -194,20 +194,20 @@
                     //拖动后小方块的left值
                     this.moveBlockLeft = (move_block_left - parseInt(parseInt(this.blockSize.width) / 2) ) + "px"
                     this.leftBarWidth = (move_block_left - parseInt(parseInt(this.blockSize.width) / 2)) + "px"
-                    
+
                 }
                 }).exec();
             },
 
             //鼠标松开
             end: function () {
-                this.endMovetime =new Date().getTime(); 
+                this.endMovetime =new Date().getTime();
                 var _this = this;
 //                判断是否重合
                 if (this.status && this.isEnd == false) {
                     if (this.type !== '1') {		//图片滑动
                         var moveLeftDistance = parseInt((this.moveBlockLeft || '').replace('px', ''));
-                        
+
                         moveLeftDistance = moveLeftDistance * 310/ parseInt(this.imgSize.width)
 
                         var captchaVerification = this.secretKey ?aesEncrypt(this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0}),this.secretKey):this.backToken+'---'+JSON.stringify({x:moveLeftDistance,y:5.0})
@@ -228,7 +228,7 @@
 								this.iconColor = '#fff'
 								this.iconClass = 'icon-check'
 								this.showRefresh = true
-								this.isEnd = true;   
+								this.isEnd = true;
 								setTimeout(()=>{
 									if (this.mode=='pop') {
 										this.$parent.clickShow = false;
@@ -258,7 +258,7 @@
 								},1000)
 							}
 						})
-                    } 
+                    }
                     this.status = false;
                 }
             },
@@ -297,7 +297,7 @@
             getPictrue(){
                 let data = {
                     captchaType:this.captchaType,
-					clientUid: uni.getStorageSync('slider'), 
+					clientUid: uni.getStorageSync('slider'),
 					ts: Date.now(), // 现在的时间戳
                 }
                 myRequest({
@@ -390,16 +390,16 @@
         color: #fff;
     }
 	.suc-bg{
-	   background-color:rgba(92, 184, 92,.5);  
+	   background-color:rgba(92, 184, 92,.5);
 	   filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#7f5CB85C, endcolorstr=#7f5CB85C);
 	}
-	
+
 	.err-bg{
-	   background-color:rgba(217, 83, 79,.5);  
+	   background-color:rgba(217, 83, 79,.5);
 	   filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#7fD9534F, endcolorstr=#7fD9534F);
 	}
-	
-	
+
+
     .tips-enter,.tips-leave-to{
         bottom: -30px;
     }
@@ -456,8 +456,8 @@
         border: none;
         margin-top: 10px;
     }
-    
-    
+
+
     /*滑动验证码*/
     .verify-bar-area {
         position: relative;

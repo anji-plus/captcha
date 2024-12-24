@@ -7,11 +7,11 @@
 ## 2.2 后端接入
 ### 2.2.1 引入maven依赖
 目前已上传maven仓库，源码已分享
-```java
+```xml
 <dependency>
-   <groupId>com.github.anji-plus</groupId>
-   <artifactId>captcha</artifactId>
-   <version>1.2.6</version>
+    <groupId>com.anji-plus</groupId>
+    <artifactId>captcha-spring-boot-starter</artifactId>
+    <version>1.4.0</version>
 </dependency>
 ```
 ### 2.2.2 缓存实现

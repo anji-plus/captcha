@@ -12,7 +12,11 @@ import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
-import com.anji.captcha.util.*;
+import com.anji.captcha.util.AESUtil;
+import com.anji.captcha.util.CacheUtil;
+import com.anji.captcha.util.ImageUtils;
+import com.anji.captcha.util.MD5Util;
+import com.anji.captcha.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,7 +75,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
         boolean aBoolean = Boolean.parseBoolean(config.getProperty(Const.CAPTCHA_INIT_ORIGINAL));
         if (!aBoolean) {
             ImageUtils.cacheImage(config.getProperty(Const.ORIGINAL_PATH_JIGSAW),
-                    config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK));
+                    config.getProperty(Const.ORIGINAL_PATH_PIC_CLICK), config.getProperty(Const.ORIGINAL_PATH_ROTATE));
         }
         logger.info("--->>>初始化验证码底图<<<---" + captchaType());
         waterMark = config.getProperty(Const.CAPTCHA_WATER_MARK, "我的水印");
@@ -180,15 +184,16 @@ public abstract class AbstractCaptchaService implements CaptchaService {
             // 验证失败 分钟内计数
             String fails = String.format(FrequencyLimitHandler.LIMIT_KEY, "FAIL", data.getClientUid());
             CaptchaCacheService cs = getCacheService(cacheType);
-            if (!cs.exists(fails)) {
-                cs.set(fails, "1", 60);
+            boolean getCountsKeyExists = cs.exists(fails);
+            if (!getCountsKeyExists) {
+                cs.set(fails,"1", 60L);
             }
-            cs.increment(fails, 1);
+            cs.increment(fails, 1L);
         }
     }
 
     /**
-     * 加载resources下的font字体，add by lide1202@hotmail.com
+     * 加载resources下的font字体，add by Devli
      * 部署在linux中，如果没有安装中文字段，水印和点选文字，中文无法显示，
      * 通过加载resources下的font字体解决，无需在linux中安装字体
      */
@@ -204,7 +209,7 @@ public abstract class AbstractCaptchaService implements CaptchaService {
             }
 
         } catch (Exception e) {
-            logger.error("load font error:{}", e);
+            logger.error("load font error:", e);
         }
     }
 
