@@ -6,8 +6,8 @@ a.引入jar，已上传至maven中央仓库。
 ```xml
 <dependency>
    <groupId>com.anji-plus</groupId>
-   <artifactId>spring-boot-starter-captcha</artifactId>
-   <version>1.3.0</version>
+   <artifactId>captcha-spring-boot-starter</artifactId>
+   <version>1.4.0</version>
 </dependency>
 ```
 b.修改application.properties，自定义底图和水印，启动后前端就可以请求接口了。[社区底图库](https://gitee.com/anji-plus/AJ-Captcha-Images)<br>

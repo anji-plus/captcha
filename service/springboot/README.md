@@ -10,8 +10,8 @@
 ```xml
 <dependency>
     <groupId>com.anji-plus</groupId>
-    <artifactId>spring-boot-starter-captcha</artifactId>
-    <version>1.3.0</version>
+    <artifactId>captcha-spring-boot-starter</artifactId>
+    <version>1.4.0</version>
 </dependency>
 ```
 ### 2.2.2 缓存实现
