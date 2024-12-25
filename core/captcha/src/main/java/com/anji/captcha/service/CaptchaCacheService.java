@@ -38,6 +38,8 @@ public interface CaptchaCacheService {
 		return val;
 	};
 
-	void setExpire(String key, long l);
+	default void setExpire(String key, long l){
+
+	};
 
 }

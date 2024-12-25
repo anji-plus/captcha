@@ -5,14 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.alibaba.fastjson.JSONObject;
 import com.anji.captcha.demo.StartApplication;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaCacheService;
 import com.anji.captcha.service.CaptchaService;
 import com.anji.captcha.service.impl.ClickWordCaptchaServiceImpl;
-import com.anji.captcha.util.AESUtil;
 import com.anji.captcha.util.RandomUtils;
 
 import org.junit.Test;
@@ -38,7 +36,7 @@ public class CaptchaServiceImplTest {
         captchaVO.setCaptchaType("blockPuzzle");
         ResponseModel responseModel = captchaService.get(captchaVO);
         Object repData = responseModel.getRepData();
-        CaptchaVO captchaVO1 = JSONObject.parseObject(JSONObject.toJSONString(repData), CaptchaVO.class);
+        CaptchaVO captchaVO1 = (CaptchaVO)repData;
         String token = captchaVO1.getToken();
         System.out.println("token:" + token);
     }

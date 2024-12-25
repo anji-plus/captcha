@@ -31,12 +31,7 @@
     <dependency>
       <groupId>com.anji-plus</groupId>
       <artifactId>captcha</artifactId>
-      <version>1.2.9</version>
-    </dependency>
-    <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>fastjson</artifactId>
-      <version>1.2.83</version>
+      <version>1.4.0</version>
     </dependency>
 
     <!--spring 核心包-->
