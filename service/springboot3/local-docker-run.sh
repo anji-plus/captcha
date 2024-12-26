@@ -10,6 +10,11 @@ docker run -d --net host --name captcha-v3 captcha-service:v3
 
 sleep 5
 
-curl -X POST http://localhost:8080/captcha-api/captcha/get \
+curl -X POST http://localhost:8081/captcha-api/captcha/get \
    -d '{"captchaType":"clickWord"}' \
    -H "Content-Type: application/json"
+
+curl -X POST http://localhost:8081/captcha/check    \
+   -d '{"captchaType":"clickWord","token":""}'  \
+   -H "Content-Type: application/json" \
+   -H "accept-language: en-US"

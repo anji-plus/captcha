@@ -11,5 +11,5 @@ RUN apk add --no-cache tzdata \
 
 WORKDIR /app
 COPY target/captcha-*.jar /app/captcha-service.jar
-EXPOSE 8080
+EXPOSE 8082
 CMD ["java", "-Dspring.profiles.active=prod", "-jar","captcha-service.jar"]
