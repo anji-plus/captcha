@@ -34,7 +34,7 @@ public class CaptchaConfig {
     @ConditionalOnMissingBean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames("messages/messages","captcha/messages");
+        messageSource.setBasenames("captcha/messages","captcha/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }

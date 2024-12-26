@@ -2,8 +2,10 @@ package com.anji.captcha.config;
 
 import com.anji.captcha.model.common.ResponseModel;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.MethodParameter;
@@ -13,9 +15,11 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 @Aspect
 @ControllerAdvice
@@ -48,15 +52,21 @@ public class I18nAspect implements ResponseBodyAdvice<Object> {
 
     private String getMessage(String code,ResponseModel res){
         try {
+            if(Objects.isNull(messageSource)){
+                messageSource = applicationContext.getBean(MessageSource.class);
+            }
             return messageSource.getMessage(prefix + code, null, LocaleContextHolder.getLocale());
         } catch (Exception e) {
             return res.getRepMsg(); // 如果找不到对应的国际化信息，返回默认信息
         }
     }
 
-    @Resource
+    @Autowired(required = false)
     private MessageSource messageSource;
 
     @Value("${aj.captcha.i18n.prefix:aj.captcha.}")
     private String prefix;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 }
