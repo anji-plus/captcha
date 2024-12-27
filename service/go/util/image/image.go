@@ -18,7 +18,7 @@ func init() {
 	backgroundImageRoot := root + constant.DefaultBackgroundImageDirectory
 	templateImageRoot := root + constant.DefaultTemplateImageDirectory
 	clickBackgroundImageRoot := root + constant.DefaultClickBackgroundImageDirectory
-
+	log.Println("backgroundImageRoot:", backgroundImageRoot)
 	err := filepath.Walk(backgroundImageRoot, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() {
 			return nil

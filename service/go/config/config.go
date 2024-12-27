@@ -37,7 +37,7 @@ type Config struct {
 	BlockPuzzle    *BlockPuzzleConfig
 	CacheType      string // 验证码使用的缓存类型
 	CacheExpireSec int
-	Redis *RedisConfig
+	Redis          *RedisConfig
 }
 
 func NewConfig() *Config {
@@ -55,9 +55,10 @@ func NewConfig() *Config {
 		BlockPuzzle:    &BlockPuzzleConfig{Offset: 10},
 		CacheExpireSec: 2 * 60, // 缓存有效时间
 		Redis: &RedisConfig{
-        			DBAddress:     []string{"192.168.1.111:6379"},
-        			DBPassWord:    "",
-        			EnableCluster: false,
-        		},
+			DBAddress:     []string{"redis-host:6379"},
+			DBPassWord:    "",
+			EnableCluster: false,
+			DB:            1,
+		},
 	}
 }

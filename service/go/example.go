@@ -69,6 +69,7 @@ func main() {
 	http.HandleFunc("/captcha/get", cors(getCaptcha))
 	http.HandleFunc("/captcha/check", cors(checkCaptcha))
 
+	log.Printf("服务启动....")
 	err := http.ListenAndServe("localhost:8080", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
