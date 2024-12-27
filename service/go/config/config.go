@@ -28,6 +28,7 @@ type RedisConfig struct {
 	DBIdleTimeout int
 	DBPassWord    string
 	EnableCluster bool
+	DB            int
 }
 
 type Config struct {
