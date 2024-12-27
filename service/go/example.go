@@ -45,6 +45,7 @@ func getCaptcha(writer http.ResponseWriter, request *http.Request) {
 		writer.Write(res)
 		return
 	}
+	log.Printf("请求参数:%v", params)
 	if params.CaptchaType == "" {
 		res, _ := json.Marshal(errorRes(errors.New("参数传递不完整")))
 		writer.Write(res)
@@ -56,6 +57,7 @@ func getCaptcha(writer http.ResponseWriter, request *http.Request) {
 	data := ser.Get()
 
 	res, _ := json.Marshal(successRes(data))
+	log.Printf("返回参数:%v", res)
 	request.Body.Close()
 	writer.Write(res)
 }
