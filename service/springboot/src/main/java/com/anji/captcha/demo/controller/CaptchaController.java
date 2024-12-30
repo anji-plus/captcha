@@ -39,7 +39,13 @@ public class CaptchaController {
         return captchaService.check(data);
     }
 
-    //@PostMapping("/verify")
+    /***
+     * 服务端验证接口，独立部署的场景使用，集成部署的场景：服务内部调用，不需要调用此接口可注释掉
+     * @param data
+     * @param request
+     * @return
+     */
+    @PostMapping("/verify")
     public ResponseModel verify(@RequestBody CaptchaVO data, HttpServletRequest request) {
         return captchaService.verification(data);
     }
