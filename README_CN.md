@@ -81,6 +81,9 @@ I  Your application is running here: http://localhost:8081
 提交Issue前请查阅已有Issue.
 如有兴趣提交PR,请参考[提交PR规范](./CONTRIBUTING.md),切忌不要直接提交大PR，否则会影响合并流程和审核时效，也不要提交到master分支。
 
+技术交流群：新群可直接进<br>
+<img src="https://ajreport.beliefteam.cn/file/download/495faaaa-4277-45e8-979a-ffccb6b1e86f" width = "200" height = auto />
+
 加微信前请备注AJ-Captcha。
 <br>微信群地址
 
