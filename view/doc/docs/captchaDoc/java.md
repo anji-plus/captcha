@@ -198,7 +198,7 @@ a.引入jar，已上传至maven中央仓库。
 <dependency>
    <groupId>com.anji-plus</groupId>
    <artifactId>captcha</artifactId>
-   <version>1.3.0</version>
+   <version>1.4.0</version>
 </dependency>
 ```
 b.引入CaptchaConfig.java配置文件，需自行配置参数，
