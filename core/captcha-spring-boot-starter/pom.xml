@@ -124,9 +124,7 @@
                         </executions>
                         <configuration>
                             <encoding>UTF-8</encoding>
-                            <additionalparam>-Xdoclint:none</additionalparam>
                             <source>1.8</source>
-                            <target>1.8</target>
                             <failOnError>false</failOnError>
                         </configuration>
                     </plugin>
@@ -137,15 +135,12 @@
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
-                                <phase>verify</phase>
+                                <phase>site</phase>
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
                             </execution>
                         </executions>
-                        <configuration>
-
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>

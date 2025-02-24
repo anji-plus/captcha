@@ -103,9 +103,7 @@
                         </executions>
                         <configuration>
                             <encoding>UTF-8</encoding>
-                            <additionalparam>-Xdoclint:none</additionalparam>
                             <source>1.8</source>
-                            <target>1.8</target>
                             <failOnError>false</failOnError>
                         </configuration>
                     </plugin>
