@@ -1,12 +1,10 @@
 package com.anji.captcha.config;
 
 
-import com.anji.captcha.model.common.Const;
-import com.anji.captcha.properties.AjCaptchaProperties;
-import com.anji.captcha.service.CaptchaService;
-import com.anji.captcha.service.impl.CaptchaServiceFactory;
-import com.anji.captcha.util.ImageUtils;
-import com.anji.captcha.util.StringUtils;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -15,12 +13,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.util.Base64Utils;
 import org.springframework.util.FileCopyUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import com.anji.captcha.model.common.Const;
+import com.anji.captcha.properties.AjCaptchaProperties;
+import com.anji.captcha.service.CaptchaService;
+import com.anji.captcha.service.impl.CaptchaServiceFactory;
+import com.anji.captcha.util.Base64Utils;
+import com.anji.captcha.util.ImageUtils;
+import com.anji.captcha.util.StringUtils;
 
 @Configuration
 public class AjCaptchaServiceAutoConfiguration {
