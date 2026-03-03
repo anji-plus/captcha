@@ -5,6 +5,8 @@
  *All rights reserved.
  */
 package com.anji.captcha.demo.filter;
+import java.io.IOException;
+
 /**
  * 本地启动解决跨域问题
  *  打包发布请注释该类，可能会造成一定的影响，解决本地启动跨域问题
@@ -12,13 +14,17 @@ package com.anji.captcha.demo.filter;
  */
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-@WebFilter(filterName = "CorsFilter ")
+@WebFilter(filterName = "CorsFilter")
 @Configuration
 public class CorsFilter implements Filter {
     @Override

@@ -1,14 +1,14 @@
 package com.anji.captcha.demo.service;
 
-import com.anji.captcha.service.CaptchaCacheService;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import com.anji.captcha.service.CaptchaCacheService;
 
 /**
  * 对于分布式部署的应用，我们建议应用自己实现CaptchaCacheService，比如用Redis，参考service/spring-boot代码示例。
@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @author Devli
  * @date 2020-05-12
  */
+@Service
 public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
 
     @Override
