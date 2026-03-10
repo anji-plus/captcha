@@ -7,12 +7,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.5.RELEASE</version>
+        <version>4.0.0</version>
     </parent>
 
     <groupId>com.anji-plus</groupId>
     <artifactId>spring-boot-starter-captcha</artifactId>
-    <version>1.3.1</version>
+    <version>1.3.2</version>
 
     <name>captcha-spring-boot-starter</name>
     <description>anji-plus captcha captcha-spring-boot-starter</description>
@@ -20,8 +20,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>1.8</java.version>
-        <spring-boot-version>2.3.5.RELEASE</spring-boot-version>
+        <java.version>21</java.version>
+        <spring-boot-version>4.0.0</spring-boot-version>
     </properties>
 
     <!-- Add typical dependencies for a web application -->
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.anji-plus</groupId>
             <artifactId>captcha</artifactId>
-            <version>1.3.1</version>
+            <version>1.3.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -83,17 +83,16 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.3</version>
                         <configuration>
-                            <source>1.8</source>
-                            <target>1.8</target>
+                            <source>21</source>
+                            <target>21</target>
                             <encoding>UTF-8</encoding>
                         </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-resources-plugin</artifactId>
-                        <version>2.4</version>
+                        <version>3.4.0</version>
                         <configuration>
                             <encoding>UTF-8</encoding>
                         </configuration>
@@ -101,7 +100,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>2.2.1</version>
+                        <version>3.4.0</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -114,7 +113,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
+                        <version>3.12.0</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -131,7 +130,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
+                        <version>3.2.8</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>

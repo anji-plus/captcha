@@ -1,14 +1,15 @@
 package com.anji.captcha.demo.config;
 
-import com.anji.captcha.demo.service.CaptchaCacheServiceRedisImpl;
-import com.anji.captcha.properties.AjCaptchaProperties;
-import com.anji.captcha.service.CaptchaCacheService;
-import com.anji.captcha.service.impl.CaptchaServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.StringRedisTemplate;
+
+import com.anji.captcha.demo.service.CaptchaCacheServiceRedisImpl;
+import com.anji.captcha.properties.AjCaptchaProperties;
+import com.anji.captcha.service.CaptchaCacheService;
+import com.anji.captcha.service.impl.CaptchaServiceFactory;
 
 @Configuration
 public class CaptchaConfig {
